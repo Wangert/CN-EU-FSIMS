@@ -1,16 +1,89 @@
 package mysql
 
 import (
+	"CN-EU-FSIMS/cmd/bft_diagnosis_dal/model"
+	"CN-EU-FSIMS/cmd/bft_diagnosis_dal/query"
 	"CN-EU-FSIMS/internal/app/models"
+	"CN-EU-FSIMS/internal/config"
+	"context"
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"github.com/golang/glog"
+	"github.com/spf13/viper"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 	"log"
 	"strconv"
 	"strings"
+	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 )
+
+const GLOBALCONFIGPATH = "conf/config.yaml"
+
+var MysqlDB *gorm.DB
+
+func ConnectMysqlDB(dsn string) *gorm.DB {
+	db, err := gorm.Open(mysql.Open(dsn))
+	if err != nil {
+		glog.Errorln("connect mysql db error: %w", err)
+		panic("db error")
+	}
+
+	return db
+}
+
+func MysqlInit() {
+	err := config.InitConfig(GLOBALCONFIGPATH)
+	if err != nil {
+		glog.Error(err)
+		panic(err)
+	}
+
+	mysqlDsn := viper.GetString("mysql_dsn")
+
+	mysqlDB := ConnectMysqlDB(mysqlDsn)
+
+	query.SetDefault(mysqlDB)
+}
+
+func MysqlCreateTest() {
+	// test create
+	newLR := model.LatencyResult{
+		PeerID:           "test_peer_id",
+		RequestCmd:       "test_request_cmd",
+		RequestTimestamp: time.Now().Unix(),
+		Latency:          5,
+	}
+
+	err := query.LatencyResult.WithContext(context.Background()).Create(&newLR)
+	if err != nil {
+		glog.Errorln("create new latency result error: %v", err)
+	}
+
+	fmt.Println("Create LatencyResult Successful")
+
+	queryLRs, err := query.LatencyResult.WithContext(context.Background()).Find()
+	if err != nil {
+		glog.Errorln(err)
+	} else {
+		for _, r := range queryLRs {
+			fmt.Println(*r)
+		}
+	}
+}
+
+func MysqlDeleteTest() {
+	infoResult, err := query.LatencyResult.WithContext(context.Background()).Where(query.LatencyResult.ID.Gt(0)).Delete()
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println("Delete LatencyResults(ID > 0) Successful")
+		fmt.Println(infoResult)
+	}
+}
 
 var db *sql.DB
 

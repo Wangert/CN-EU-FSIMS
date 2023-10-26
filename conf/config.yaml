@@ -1,0 +1,30 @@
+runmode: debug # 开发模式, debug, release, test
+addr: 8000 # http绑定端口
+#url: 192.168.19.128:8000
+url: 127.0.0.1:8000
+
+mysql_dsn: root:root@tcp(127.0.0.1:3306)/bft_diagnosis?charset=utf8mb4&parseTime=True
+mysql_database: bft_diagnosis
+
+#admin:
+#  sec_admin_username: secadmin
+#  sys_admin_username: sysadmin
+#  auditor_username: auditor
+#
+#log:
+#  output_path: server/output/log/
+#
+#jwt:
+#  # token 密钥，生产环境时及的修改
+#  secret: sfm
+#  # token 过期时间 单位：秒
+#  timeout: 3600
+#dsfs:
+#  #dsfs1: 8.210.51.255:5001
+#  dsfs1: 192.168.1.106:5001
+#  #dsfs1: 192.168.1.119:5001
+#test:
+##  test1: 192.168.1.245:9092
+##  test2: 192.168.1.245:9092
+##  test3: 192.168.1.245:9092
+
