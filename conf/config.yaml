@@ -1,7 +1,8 @@
 runmode: debug # 开发模式, debug, release, test
-addr: 8000 # http绑定端口
-#url: 192.168.19.128:8000
-url: 127.0.0.1:8000
+
+server:
+  ip_addr: 127.0.0.1
+  port: 8000
 
 mysql:
   username: root
@@ -10,14 +11,17 @@ mysql:
   port: 3306
   database: fsims
 
+log:
+  output_path: server/output/log/
+
+
 #admin:
 #  sec_admin_username: secadmin
 #  sys_admin_username: sysadmin
 #  auditor_username: auditor
 #
-#log:
-#  output_path: server/output/log/
-#
+
+
 #jwt:
 #  # token 密钥，生产环境时及的修改
 #  secret: sfm

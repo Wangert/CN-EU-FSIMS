@@ -12,10 +12,18 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 
 	fsims := e.Group("/fsims")
 
+	fsims.GET("home", handlers.Welcome)
+
 	// user router group
 	user := fsims.Group("/user")
 	{
 		user.POST("login", handlers.Login)
+	}
+
+	// industrial chain group
+	ic := fsims.Group("/industrial")
+	{
+		ic.GET("all", handlers.AllIndustrialChains)
 	}
 
 	return e
