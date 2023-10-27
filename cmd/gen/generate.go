@@ -1,6 +1,7 @@
 package main
 
 import (
+	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/config"
 	"fmt"
 	"github.com/golang/glog"
@@ -10,7 +11,7 @@ import (
 	"gorm.io/gorm"
 )
 
-const DEFAULTDSN = "root:root@tcp(127.0.0.1:3306)/FSIMS?charset=utf8mb4&parseTime=True"
+const DEFAULTDSN = "root:root@tcp(127.0.0.1:3306)/fsims?charset=utf8mb4&parseTime=True"
 const GLOBALCONFIGPATH = "conf/config.yaml"
 
 func generateModelAndQueryWithDB(dsn string, dbName string) {
@@ -26,7 +27,9 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 
 	g.UseDB(db)
 
-	g.ApplyBasic(g.GenerateAllTable()...)
+	g.ApplyBasic(models.IndustrialChain{}, models.Procedure{})
+
+	g.ApplyBasic(models.FSIMSUser{})
 
 	g.Execute()
 }
@@ -38,19 +41,23 @@ func main() {
 		panic(err)
 	}
 
-	mysqlDsn := viper.GetString("mysql_dsn")
-	//println("MysqlDsn: ", mysqlDsn)
-	dbName := viper.GetString("mysql_database")
+	username := viper.GetString("mysql.username")
+	password := viper.GetString("mysql.password")
+	ipAddr := viper.GetString("mysql.ip_addr")
+	port := viper.GetString("mysql.port")
+	database := viper.GetString("mysql.database")
 
-	if dbName == "" {
-		dbName = "default_dal"
+	mysqlDsn := username + ":" + password + "@tcp(" + ipAddr + ":" + port + ")/" + database + "?charset=utf8mb4&parseTime=True"
+
+	if database == "" {
+		database = "default_dal"
 	} else {
-		dbName = dbName + "_dal"
+		database = database + "_dal"
 	}
 
 	if mysqlDsn != "" {
-		generateModelAndQueryWithDB(mysqlDsn, dbName)
+		generateModelAndQueryWithDB(mysqlDsn, database)
 	} else {
-		generateModelAndQueryWithDB(DEFAULTDSN, dbName)
+		generateModelAndQueryWithDB(DEFAULTDSN, database)
 	}
 }

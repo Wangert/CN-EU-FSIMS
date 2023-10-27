@@ -3,8 +3,12 @@ addr: 8000 # http绑定端口
 #url: 192.168.19.128:8000
 url: 127.0.0.1:8000
 
-mysql_dsn: root:root@tcp(127.0.0.1:3306)/bft_diagnosis?charset=utf8mb4&parseTime=True
-mysql_database: bft_diagnosis
+mysql:
+  username: root
+  password: root
+  ip_addr: 127.0.0.1
+  port: 3306
+  database: fsims
 
 #admin:
 #  sec_admin_username: secadmin

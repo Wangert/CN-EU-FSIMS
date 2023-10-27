@@ -1,14 +1,13 @@
 package mysql
 
 import (
-	"CN-EU-FSIMS/cmd/bft_diagnosis_dal/model"
-	"CN-EU-FSIMS/cmd/bft_diagnosis_dal/query"
 	"CN-EU-FSIMS/internal/app/models"
+	"CN-EU-FSIMS/internal/app/models/query"
 	"CN-EU-FSIMS/internal/config"
-	"context"
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/golang/glog"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
@@ -16,14 +15,11 @@ import (
 	"log"
 	"strconv"
 	"strings"
-	"time"
-
-	_ "github.com/go-sql-driver/mysql"
 )
 
 const GLOBALCONFIGPATH = "conf/config.yaml"
 
-var MysqlDB *gorm.DB
+var DB *gorm.DB
 
 func ConnectMysqlDB(dsn string) *gorm.DB {
 	db, err := gorm.Open(mysql.Open(dsn))
@@ -35,53 +31,30 @@ func ConnectMysqlDB(dsn string) *gorm.DB {
 	return db
 }
 
-func MysqlInit() {
-	err := config.InitConfig(GLOBALCONFIGPATH)
+func Init(cfgPath string) {
+	err := config.InitConfig(cfgPath)
 	if err != nil {
 		glog.Error(err)
 		panic(err)
 	}
 
-	mysqlDsn := viper.GetString("mysql_dsn")
+	username := viper.GetString("mysql.username")
+	password := viper.GetString("mysql.password")
+	ipAddr := viper.GetString("mysql.ip_addr")
+	port := viper.GetString("mysql.port")
+	database := viper.GetString("mysql.database")
 
-	mysqlDB := ConnectMysqlDB(mysqlDsn)
+	mysqlDsn := username + ":" + password + "@tcp(" + ipAddr + ":" + port + ")/" + database + "?charset=utf8mb4&parseTime=True"
 
-	query.SetDefault(mysqlDB)
+	DB = ConnectMysqlDB(mysqlDsn)
+
+	query.SetDefault(DB)
 }
 
-func MysqlCreateTest() {
-	// test create
-	newLR := model.LatencyResult{
-		PeerID:           "test_peer_id",
-		RequestCmd:       "test_request_cmd",
-		RequestTimestamp: time.Now().Unix(),
-		Latency:          5,
-	}
-
-	err := query.LatencyResult.WithContext(context.Background()).Create(&newLR)
-	if err != nil {
-		glog.Errorln("create new latency result error: %v", err)
-	}
-
-	fmt.Println("Create LatencyResult Successful")
-
-	queryLRs, err := query.LatencyResult.WithContext(context.Background()).Find()
-	if err != nil {
-		glog.Errorln(err)
-	} else {
-		for _, r := range queryLRs {
-			fmt.Println(*r)
-		}
-	}
-}
-
-func MysqlDeleteTest() {
-	infoResult, err := query.LatencyResult.WithContext(context.Background()).Where(query.LatencyResult.ID.Gt(0)).Delete()
+func AutoMigrate() {
+	err := DB.AutoMigrate(&models.FSIMSUser{}, &models.IndustrialChain{}, &models.Procedure{})
 	if err != nil {
 		fmt.Println(err)
-	} else {
-		fmt.Println("Delete LatencyResults(ID > 0) Successful")
-		fmt.Println(infoResult)
 	}
 }
 
