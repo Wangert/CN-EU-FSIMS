@@ -2,7 +2,7 @@ package pasture
 
 import "gorm.io/gorm"
 
-type WaterSensoryTraits struct {
+type PastureWaterSensoryTraits struct {
 	gorm.Model
 	Color          uint   `json:"color"`           // 色
 	Turbidity      uint   `json:"turbidity"`       // 浑浊度
@@ -10,5 +10,5 @@ type WaterSensoryTraits struct {
 	PH             uint   `json:"ph"`              // PH值
 	Hardness       uint   `json:"hardness"`        // 总硬度
 	DissolvedSolid uint   `json:"dissolved_solid"` // 溶解性总固形物
-	WaterID        uint   `json:"waterID"`
+	PastureWaterID uint   `json:"pasture_water_id"`
 }

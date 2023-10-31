@@ -2,6 +2,8 @@ package main
 
 import (
 	"CN-EU-FSIMS/internal/app/models"
+	"CN-EU-FSIMS/internal/app/models/fatten"
+	"CN-EU-FSIMS/internal/app/models/pasture"
 	"CN-EU-FSIMS/internal/config"
 	"fmt"
 	"github.com/golang/glog"
@@ -27,9 +29,18 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 
 	g.UseDB(db)
 
-	g.ApplyBasic(models.IndustrialChain{}, models.Procedure{})
+	g.ApplyBasic(&models.IndustrialChain{}, &models.Procedure{})
 
-	g.ApplyBasic(models.FSIMSUser{})
+	g.ApplyBasic(&models.FSIMSUser{})
+
+	g.ApplyBasic(&models.SubProcedure{},
+		&pasture.PastureProcedure{}, &pasture.PastureWater{}, &pasture.PastureFodder{}, &pasture.PastureSoil{}, &pasture.PastureFloorBedding{}, &pasture.PastureAir{},
+		&pasture.PastureWasteDischarge{}, &pasture.PastureWaterPhysicalHazard{}, &pasture.PastureWaterChemicalHazard{}, &pasture.PastureWaterSensoryTraits{}, &pasture.PastureWaterBiohazard{},
+		&pasture.PastureFodderPhysicalHazard{}, &pasture.PastureFodderBiohazard{}, &pasture.PastureSoilPhysicalHazard{}, &pasture.PastureSoilBiohazard{},
+		&pasture.PastureFloorBeddingPhysicalHazard{}, &pasture.PastureFloorBeddingBiohazard{}, &pasture.PastureSiteDisinfectionRecord{},
+		&pasture.PastureWorksuitDisinfectionRecord{}, &pasture.PastureTruckDisinfectionRecord{}, &fatten.FattenProcedure{}, &fatten.FattenWater{}, &fatten.FattenSoil{},
+		&fatten.FattenWaterPhysicalHazard{}, &fatten.FattenWaterChemicalHazard{}, &fatten.FattenWaterSensoryTraits{}, &fatten.FattenWaterBiohazard{},
+		&fatten.FattenSoilPhysicalHazard{}, &fatten.FattenSoilBiohazard{})
 
 	g.Execute()
 }

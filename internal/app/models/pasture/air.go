@@ -2,7 +2,7 @@ package pasture
 
 import "gorm.io/gorm"
 
-type Air struct {
+type PastureAir struct {
 	gorm.Model
 	TotalBacteria   uint    `json:"total_bacteria"`   // 总细菌数
 	AmmoniaGas      float32 `json:"ammonia_gas"`      // 氨气
@@ -11,5 +11,5 @@ type Air struct {
 	PM10            float32 `json:"pm_10"`            // PM10
 	TSP             float32 `json:"tsp"`              // TSP
 	Stench          uint    `json:"stench"`           // 恶臭稀释程度
-	PasPID          uint    `json:"pas_pid"`
+	PasPID          string  `json:"pas_pid"`
 }

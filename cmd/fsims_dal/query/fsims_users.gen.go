@@ -5,6 +5,7 @@
 package query
 
 import (
+	"CN-EU-FSIMS/internal/app/models"
 	"context"
 
 	"gorm.io/gorm"
@@ -15,8 +16,6 @@ import (
 	"gorm.io/gen/field"
 
 	"gorm.io/plugin/dbresolver"
-
-	"CN-EU-FSIMS/internal/app/models"
 )
 
 func newFSIMSUser(db *gorm.DB, opts ...gen.DOOption) fSIMSUser {

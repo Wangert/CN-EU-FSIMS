@@ -2,8 +2,8 @@ package pasture
 
 import "gorm.io/gorm"
 
-type WaterBiohazard struct {
+type PastureWaterBiohazard struct {
 	gorm.Model
 	ColiformBacteria uint `json:"coliform_bacteria"` // 总大肠菌群
-	WaterID          uint `json:"water_id"`
+	PastureWaterID   uint `json:"pasture_water_id"`
 }

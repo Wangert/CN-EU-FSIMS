@@ -2,9 +2,9 @@ package pasture
 
 import "gorm.io/gorm"
 
-type FloorBedding struct {
+type PastureFloorBedding struct {
 	gorm.Model
-	PhysicalHazard FloorBeddingPhysicalHazard `json:"physical_hazard"`
-	Biohazard      FloorBeddingBiohazard      `json:"biohazard"`
-	PasPID         string                     `json:"pas_pid"`
+	PhysicalHazard PastureFloorBeddingPhysicalHazard `json:"physical_hazard"`
+	Biohazard      PastureFloorBeddingBiohazard      `json:"biohazard"`
+	PasPID         string                            `gorm:"not null; type:varchar(256)" json:"pas_pid"`
 }

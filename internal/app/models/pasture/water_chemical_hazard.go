@@ -2,7 +2,7 @@ package pasture
 
 import "gorm.io/gorm"
 
-type WaterChemicalHazard struct {
+type PastureWaterChemicalHazard struct {
 	gorm.Model
 	Fluoride        float32 `json:"fluoride"`         // 氟化物
 	Cyanide         float32 `json:"cyanide"`          // 氰化物
@@ -12,5 +12,5 @@ type WaterChemicalHazard struct {
 	Sixsixsix       float32 `json:"sixsixsix"`        // 六六六
 	DDT             float32 `json:"ddt"`              // 滴滴涕
 	AmmoniaNitrogen float32 `json:"ammonia_nitrogen"` // 氨氮
-	WaterID         uint    `json:"waterID"`
+	PastureWaterID  uint    `json:"pasture_water_id"`
 }

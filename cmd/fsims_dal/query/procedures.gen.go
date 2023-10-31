@@ -5,6 +5,7 @@
 package query
 
 import (
+	"CN-EU-FSIMS/internal/app/models"
 	"context"
 
 	"gorm.io/gorm"
@@ -15,8 +16,6 @@ import (
 	"gorm.io/gen/field"
 
 	"gorm.io/plugin/dbresolver"
-
-	"CN-EU-FSIMS/internal/app/models"
 )
 
 func newProcedure(db *gorm.DB, opts ...gen.DOOption) procedure {
@@ -32,10 +31,18 @@ func newProcedure(db *gorm.DB, opts ...gen.DOOption) procedure {
 	_procedure.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_procedure.DeletedAt = field.NewField(tableName, "deleted_at")
 	_procedure.PID = field.NewString(tableName, "p_id")
+	_procedure.Type = field.NewUint(tableName, "type")
 	_procedure.Name = field.NewString(tableName, "name")
 	_procedure.SerialNumber = field.NewUint(tableName, "serial_number")
+	_procedure.StartTimestamp = field.NewTime(tableName, "start_timestamp")
+	_procedure.CompletedTimestamp = field.NewTime(tableName, "completed_timestamp")
 	_procedure.PrePID = field.NewString(tableName, "pre_p_id")
 	_procedure.ICID = field.NewString(tableName, "ic_id")
+	_procedure.SubProcedures = procedureHasManySubProcedures{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("SubProcedures", "models.SubProcedure"),
+	}
 
 	_procedure.fillFieldMap()
 
@@ -45,16 +52,20 @@ func newProcedure(db *gorm.DB, opts ...gen.DOOption) procedure {
 type procedure struct {
 	procedureDo procedureDo
 
-	ALL          field.Asterisk
-	ID           field.Uint
-	CreatedAt    field.Time
-	UpdatedAt    field.Time
-	DeletedAt    field.Field
-	PID          field.String
-	Name         field.String
-	SerialNumber field.Uint
-	PrePID       field.String
-	ICID         field.String
+	ALL                field.Asterisk
+	ID                 field.Uint
+	CreatedAt          field.Time
+	UpdatedAt          field.Time
+	DeletedAt          field.Field
+	PID                field.String
+	Type               field.Uint
+	Name               field.String
+	SerialNumber       field.Uint
+	StartTimestamp     field.Time
+	CompletedTimestamp field.Time
+	PrePID             field.String
+	ICID               field.String
+	SubProcedures      procedureHasManySubProcedures
 
 	fieldMap map[string]field.Expr
 }
@@ -76,8 +87,11 @@ func (p *procedure) updateTableName(table string) *procedure {
 	p.UpdatedAt = field.NewTime(table, "updated_at")
 	p.DeletedAt = field.NewField(table, "deleted_at")
 	p.PID = field.NewString(table, "p_id")
+	p.Type = field.NewUint(table, "type")
 	p.Name = field.NewString(table, "name")
 	p.SerialNumber = field.NewUint(table, "serial_number")
+	p.StartTimestamp = field.NewTime(table, "start_timestamp")
+	p.CompletedTimestamp = field.NewTime(table, "completed_timestamp")
 	p.PrePID = field.NewString(table, "pre_p_id")
 	p.ICID = field.NewString(table, "ic_id")
 
@@ -106,16 +120,20 @@ func (p *procedure) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (p *procedure) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 9)
+	p.fieldMap = make(map[string]field.Expr, 13)
 	p.fieldMap["id"] = p.ID
 	p.fieldMap["created_at"] = p.CreatedAt
 	p.fieldMap["updated_at"] = p.UpdatedAt
 	p.fieldMap["deleted_at"] = p.DeletedAt
 	p.fieldMap["p_id"] = p.PID
+	p.fieldMap["type"] = p.Type
 	p.fieldMap["name"] = p.Name
 	p.fieldMap["serial_number"] = p.SerialNumber
+	p.fieldMap["start_timestamp"] = p.StartTimestamp
+	p.fieldMap["completed_timestamp"] = p.CompletedTimestamp
 	p.fieldMap["pre_p_id"] = p.PrePID
 	p.fieldMap["ic_id"] = p.ICID
+
 }
 
 func (p procedure) clone(db *gorm.DB) procedure {
@@ -126,6 +144,77 @@ func (p procedure) clone(db *gorm.DB) procedure {
 func (p procedure) replaceDB(db *gorm.DB) procedure {
 	p.procedureDo.ReplaceDB(db)
 	return p
+}
+
+type procedureHasManySubProcedures struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a procedureHasManySubProcedures) Where(conds ...field.Expr) *procedureHasManySubProcedures {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a procedureHasManySubProcedures) WithContext(ctx context.Context) *procedureHasManySubProcedures {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a procedureHasManySubProcedures) Session(session *gorm.Session) *procedureHasManySubProcedures {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a procedureHasManySubProcedures) Model(m *models.Procedure) *procedureHasManySubProceduresTx {
+	return &procedureHasManySubProceduresTx{a.db.Model(m).Association(a.Name())}
+}
+
+type procedureHasManySubProceduresTx struct{ tx *gorm.Association }
+
+func (a procedureHasManySubProceduresTx) Find() (result []*models.SubProcedure, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a procedureHasManySubProceduresTx) Append(values ...*models.SubProcedure) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a procedureHasManySubProceduresTx) Replace(values ...*models.SubProcedure) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a procedureHasManySubProceduresTx) Delete(values ...*models.SubProcedure) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a procedureHasManySubProceduresTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a procedureHasManySubProceduresTx) Count() int64 {
+	return a.tx.Count()
 }
 
 type procedureDo struct{ gen.DO }

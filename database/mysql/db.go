@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"CN-EU-FSIMS/internal/app/models"
+	"CN-EU-FSIMS/internal/app/models/fatten"
 	"CN-EU-FSIMS/internal/app/models/pasture"
 	"CN-EU-FSIMS/internal/app/models/query"
 	"CN-EU-FSIMS/internal/config"
@@ -54,11 +55,13 @@ func Init(cfgPath string) {
 
 func AutoMigrate() {
 	err := DB.AutoMigrate(&models.FSIMSUser{}, &models.IndustrialChain{}, &models.Procedure{}, &models.SubProcedure{},
-		&pasture.PastureProcedure{}, &pasture.Water{}, &pasture.Fodder{}, &pasture.Soil{}, &pasture.FloorBedding{}, &pasture.Air{},
-		&pasture.WaterPhysicalHazard{}, &pasture.WaterChemicalHazard{}, &pasture.WaterSensoryTraits{}, &pasture.WaterBiohazard{},
-		&pasture.FodderPhysicalHazard{}, &pasture.FodderBiohazard{}, &pasture.SoilPhysicalHazard{}, &pasture.SoilBiohazard{},
-		&pasture.FloorBeddingPhysicalHazard{}, &pasture.FloorBeddingBiohazard{}, &pasture.SiteDisinfectionRecord{},
-		&pasture.WorksuitDisinfectionRecord{}, &pasture.TruckDisinfectionRecord{})
+		&pasture.PastureProcedure{}, &pasture.PastureWater{}, &pasture.PastureFodder{}, &pasture.PastureSoil{}, &pasture.PastureFloorBedding{}, &pasture.PastureAir{},
+		&pasture.PastureWasteDischarge{}, &pasture.PastureWaterPhysicalHazard{}, &pasture.PastureWaterChemicalHazard{}, &pasture.PastureWaterSensoryTraits{}, &pasture.PastureWaterBiohazard{},
+		&pasture.PastureFodderPhysicalHazard{}, &pasture.PastureFodderBiohazard{}, &pasture.PastureSoilPhysicalHazard{}, &pasture.PastureSoilBiohazard{},
+		&pasture.PastureFloorBeddingPhysicalHazard{}, &pasture.PastureFloorBeddingBiohazard{}, &pasture.PastureSiteDisinfectionRecord{},
+		&pasture.PastureWorksuitDisinfectionRecord{}, &pasture.PastureTruckDisinfectionRecord{}, &fatten.FattenProcedure{}, &fatten.FattenWater{}, &fatten.FattenSoil{},
+		&fatten.FattenWaterPhysicalHazard{}, &fatten.FattenWaterChemicalHazard{}, &fatten.FattenWaterSensoryTraits{}, &fatten.FattenWaterBiohazard{},
+		&fatten.FattenSoilPhysicalHazard{}, &fatten.FattenSoilBiohazard{})
 
 	if err != nil {
 		fmt.Println(err)

@@ -2,7 +2,7 @@ package pasture
 
 import "gorm.io/gorm"
 
-type FodderBiohazard struct {
+type PastureFodderBiohazard struct {
 	gorm.Model
 	AflatoxinB1       uint `json:"aflatoxin_b1"`      // 黄曲霉素B1
 	OchratoxinA       uint `json:"ochratoxin_a"`      // 赭曲霉毒素A
@@ -17,5 +17,5 @@ type FodderBiohazard struct {
 	TotalBacteria     uint `json:"total_bacteria"`    // 总细菌数
 	TotalMold         uint `json:"total_mold"`        // 总霉菌数
 	Salmonella        uint `json:"salmonella"`        // 沙门菌数
-	FodderID          uint `json:"fodder_id"`
+	PastureFodderID   uint `json:"pasture_fodder_id"`
 }

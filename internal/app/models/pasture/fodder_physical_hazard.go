@@ -2,7 +2,7 @@ package pasture
 
 import "gorm.io/gorm"
 
-type FodderPhysicalHazard struct {
+type PastureFodderPhysicalHazard struct {
 	gorm.Model
 	Mercury                  float32 `json:"mercury"`                   // 汞
 	Cadmium                  float32 `json:"cadmium"`                   // 镉
@@ -15,5 +15,5 @@ type FodderPhysicalHazard struct {
 	Sixsixsix                float32 `json:"sixsixsix"`                 // 六六六
 	DDT                      float32 `json:"ddt"`                       // 滴滴涕
 	Bexachlorobenzene        float32 `json:"bexachlorobenzene"`         // 六氯苯
-	FodderID                 uint    `json:"fodder_id"`
+	PastureFodderID          uint    `json:"pasture_fodder_id"`
 }

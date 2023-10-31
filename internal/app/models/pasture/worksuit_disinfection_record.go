@@ -2,7 +2,7 @@ package pasture
 
 import "gorm.io/gorm"
 
-type WorksuitDisinfectionRecord struct {
+type PastureWorksuitDisinfectionRecord struct {
 	gorm.Model
 	Method        string `json:"method"`
 	Concentration uint   `json:"concentration"`

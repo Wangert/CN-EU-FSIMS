@@ -4,11 +4,11 @@ import "gorm.io/gorm"
 
 type PastureProcedure struct {
 	gorm.Model
-	PasPID         string         `gorm:"not null; unique; index; type:varchar(256)" json:"pas_pid"`
-	Water          Water          `gorm:"foreignKey:PasPID; reference:PasPID"`
-	Fodder         Fodder         `gorm:"foreignKey:PasPID; reference:PasPID"`
-	Soil           Soil           `gorm:"foreignKey:PasPID; reference:PasPID"`
-	Air            Air            `gorm:"foreignKey:PasPID; reference:PasPID"`
-	FloorBedding   FloorBedding   `gorm:"foreignKey:PasPID; reference:PasPID"`
-	WasteDischarge WasteDischarge `gorm:"foreignKey:PasPID; reference:PasPID"`
+	PasPID         string                `gorm:"not null; unique; index; type:varchar(256)" json:"pas_pid"`
+	Water          PastureWater          `gorm:"foreignKey:PasPID; references:PasPID" json:"water"`
+	Fodder         PastureFodder         `gorm:"foreignKey:PasPID; references:PasPID" json:"fodder"`
+	Soil           PastureSoil           `gorm:"foreignKey:PasPID; references:PasPID" json:"soil"`
+	Air            PastureAir            `gorm:"foreignKey:PasPID; references:PasPID" json:"air"`
+	FloorBedding   PastureFloorBedding   `gorm:"foreignKey:PasPID; references:PasPID" json:"floor_bedding"`
+	WasteDischarge PastureWasteDischarge `gorm:"foreignKey:PasPID; references:PasPID" json:"waste_discharge"`
 }

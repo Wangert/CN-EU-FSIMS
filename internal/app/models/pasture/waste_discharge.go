@@ -2,7 +2,7 @@ package pasture
 
 import "gorm.io/gorm"
 
-type WasteDischarge struct {
+type PastureWasteDischarge struct {
 	gorm.Model
 	WaterFivedayBOD          float32 `json:"water_fiveday_bod"`            // 水 五日生化需氧量
 	WaterChemicalOxygen      float32 `json:"water_chemical_oxygen"`        // 水 化学需氧量
