@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"CN-EU-FSIMS/internal/app/models"
+	"CN-EU-FSIMS/internal/app/models/pasture"
 	"CN-EU-FSIMS/internal/app/models/query"
 	"CN-EU-FSIMS/internal/config"
 	"database/sql"
@@ -52,7 +53,13 @@ func Init(cfgPath string) {
 }
 
 func AutoMigrate() {
-	err := DB.AutoMigrate(&models.FSIMSUser{}, &models.IndustrialChain{}, &models.Procedure{})
+	err := DB.AutoMigrate(&models.FSIMSUser{}, &models.IndustrialChain{}, &models.Procedure{}, &models.SubProcedure{},
+		&pasture.PastureProcedure{}, &pasture.Water{}, &pasture.Fodder{}, &pasture.Soil{}, &pasture.FloorBedding{}, &pasture.Air{},
+		&pasture.WaterPhysicalHazard{}, &pasture.WaterChemicalHazard{}, &pasture.WaterSensoryTraits{}, &pasture.WaterBiohazard{},
+		&pasture.FodderPhysicalHazard{}, &pasture.FodderBiohazard{}, &pasture.SoilPhysicalHazard{}, &pasture.SoilBiohazard{},
+		&pasture.FloorBeddingPhysicalHazard{}, &pasture.FloorBeddingBiohazard{}, &pasture.SiteDisinfectionRecord{},
+		&pasture.WorksuitDisinfectionRecord{}, &pasture.TruckDisinfectionRecord{})
+
 	if err != nil {
 		fmt.Println(err)
 	}
