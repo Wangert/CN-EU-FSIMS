@@ -29,8 +29,8 @@ func TestCreateFsimsUser(t *testing.T) {
 		Name:         "Name_test",
 		Account:      "Account_test",
 		PasswordHash: "PasswordHash_test",
-		Type:         "Type_test",
-		Status:       "Status_test",
+		Type:         1,
+		Status:       1,
 		Company:      "Company_test",
 		Phone:        "Phone_test",
 	}

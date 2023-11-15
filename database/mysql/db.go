@@ -147,135 +147,135 @@ func InsertUser(username string, password string, usertype int, company string, 
 
 }
 
-func QueryUser(username string, password string, usertype int) models.User {
-	fmt.Println("***************** QueryUser *****************")
+//func QueryUser(username string, password string, usertype int) models.User {
+//	fmt.Println("***************** QueryUser *****************")
+//
+//	getmysqldb()
+//	var user models.User
+//	user.Login = false
+//	user.Username = username
+//	user.Usertype = usertype
+//	sqlstr := "select Password, Company, Telephone, WarnNum, Place from UserInfo where UserName=? and UserType=?"
+//	err := db.QueryRow(sqlstr, username, usertype).Scan(&user.Password, &user.Company, &user.Telephone, &user.WarnNum, &user.Place)
+//	if err != nil {
+//		log.Println(err)
+//	}
+//	if user.Password == password {
+//		log.Println("query check success")
+//		user.Login = true
+//		fmt.Println("user num: ", user.WarnNum)
+//		return user
+//	}
+//	defer db.Close()
+//	return user
+//}
 
-	getmysqldb()
-	var user models.User
-	user.Login = false
-	user.Username = username
-	user.Usertype = usertype
-	sqlstr := "select Password, Company, Telephone, WarnNum, Place from UserInfo where UserName=? and UserType=?"
-	err := db.QueryRow(sqlstr, username, usertype).Scan(&user.Password, &user.Company, &user.Telephone, &user.WarnNum, &user.Place)
-	if err != nil {
-		log.Println(err)
-	}
-	if user.Password == password {
-		log.Println("query check success")
-		user.Login = true
-		fmt.Println("user num: ", user.WarnNum)
-		return user
-	}
-	defer db.Close()
-	return user
-}
+//func QueryUserByPlace(place string) []int {
+//	fmt.Println("***************** QueryUserByPlace *****************")
+//	getmysqldb()
+//	result := make([]int, 1)
+//
+//	sqlStr := "select ID from UserInfo where Place=?"
+//	rows, err := db.Query(sqlStr, place)
+//	if err != nil {
+//		fmt.Printf("query failed, err:%v\n", err)
+//		return nil
+//	}
+//	defer rows.Close()
+//	for rows.Next() {
+//		var u models.User
+//		err := rows.Scan(&u.ID)
+//		if err != nil {
+//			fmt.Printf("scan failed, err:%v\n", err)
+//			return nil
+//		}
+//		result = append(result, u.ID)
+//	}
+//	return result[1:]
+//}
 
-func QueryUserByPlace(place string) []int {
-	fmt.Println("***************** QueryUserByPlace *****************")
-	getmysqldb()
-	result := make([]int, 1)
-
-	sqlStr := "select ID from UserInfo where Place=?"
-	rows, err := db.Query(sqlStr, place)
-	if err != nil {
-		fmt.Printf("query failed, err:%v\n", err)
-		return nil
-	}
-	defer rows.Close()
-	for rows.Next() {
-		var u models.User
-		err := rows.Scan(&u.ID)
-		if err != nil {
-			fmt.Printf("scan failed, err:%v\n", err)
-			return nil
-		}
-		result = append(result, u.ID)
-	}
-	return result[1:]
-}
-
-func InsertPlaceRiskNotification(result int, place string, productinfo string, riskinfo string, time string) bool {
-	fmt.Println("***************** NewNotification *****************")
-
-	getmysqldb()
-	tx, err := db.Begin()
-	if err != nil {
-		fmt.Println(err)
-		return false
-	} else {
-		log.Println("tx success")
-	}
-	stmt, err := tx.Prepare("INSERT INTO NotificationTable (`SafetyResult`,`ResultReason`,`NotificationTime`,`FoodChainID`,`Company`,`TargetUser`,`Detail`,`Type`) VALUES (?,?,?,?,?,?,?,?)")
-	if err != nil {
-		log.Fatal(err)
-		return false
-	} else {
-		log.Println("stmt prepare success")
-	}
-	res, err := stmt.Exec(result, riskinfo, time, productinfo, place, "", "", 2)
-	tx.Commit()
-	fmt.Println(res.LastInsertId())
-
-	response := false
-	notificationID, err := res.LastInsertId()
-	if err != nil {
-		fmt.Println(err)
-		response = false
-	} else {
-		fmt.Println("notificationID: ", notificationID)
-		response = true
-	}
-
-	TargetUserList := QueryUserByPlace(place)
-	fmt.Println("TargetUserList: ", TargetUserList)
-	for i := range TargetUserList {
-		targetUser := TargetUserList[i]
-		var notList string
-		sqlstr := "select Notification from UserInfo where ID=?"
-		err = db.QueryRow(sqlstr, targetUser).Scan(&notList)
-		if err != nil {
-			fmt.Println(err)
-		} else {
-			fmt.Println("notList: ", notList)
-		}
-
-		list := strings.Split(notList, ",")
-		if list[0] == "" {
-			fmt.Println("len list = 0")
-			list[0] = strconv.Itoa(int(notificationID))
-		} else {
-			list = append(list, strconv.Itoa(int(notificationID)))
-		}
-
-		fmt.Println("new list: ", list)
-
-		var listStr string
-		for i, v := range list {
-			fmt.Println("list item: ", list[i])
-			if i != 0 {
-				listStr += ","
-			}
-			listStr += v
-		}
-		fmt.Println("listStr: ", listStr)
-
-		updateSqlStr := "update UserInfo set Notification=? where ID=?"
-		ret, err := db.Exec(updateSqlStr, listStr, targetUser)
-		if err != nil {
-			fmt.Printf("更新失败, err:%v\n", err)
-			return false
-		}
-		rows, err := ret.RowsAffected()
-		if err != nil {
-			fmt.Printf("更新行失败, err:%v\n", err)
-			return false
-		}
-		fmt.Printf("更新成功, 更新的行数： %d.\n", rows)
-	}
-
-	return response
-
-}
+//func InsertPlaceRiskNotification(result int, place string, productinfo string, riskinfo string, time string) bool {
+//	fmt.Println("***************** NewNotification *****************")
+//
+//	getmysqldb()
+//	tx, err := db.Begin()
+//	if err != nil {
+//		fmt.Println(err)
+//		return false
+//	} else {
+//		log.Println("tx success")
+//	}
+//	stmt, err := tx.Prepare("INSERT INTO NotificationTable (`SafetyResult`,`ResultReason`,`NotificationTime`,`FoodChainID`,`Company`,`TargetUser`,`Detail`,`Type`) VALUES (?,?,?,?,?,?,?,?)")
+//	if err != nil {
+//		log.Fatal(err)
+//		return false
+//	} else {
+//		log.Println("stmt prepare success")
+//	}
+//	res, err := stmt.Exec(result, riskinfo, time, productinfo, place, "", "", 2)
+//	tx.Commit()
+//	fmt.Println(res.LastInsertId())
+//
+//	response := false
+//	notificationID, err := res.LastInsertId()
+//	if err != nil {
+//		fmt.Println(err)
+//		response = false
+//	} else {
+//		fmt.Println("notificationID: ", notificationID)
+//		response = true
+//	}
+//
+//	TargetUserList := QueryUserByPlace(place)
+//	fmt.Println("TargetUserList: ", TargetUserList)
+//	for i := range TargetUserList {
+//		targetUser := TargetUserList[i]
+//		var notList string
+//		sqlstr := "select Notification from UserInfo where ID=?"
+//		err = db.QueryRow(sqlstr, targetUser).Scan(&notList)
+//		if err != nil {
+//			fmt.Println(err)
+//		} else {
+//			fmt.Println("notList: ", notList)
+//		}
+//
+//		list := strings.Split(notList, ",")
+//		if list[0] == "" {
+//			fmt.Println("len list = 0")
+//			list[0] = strconv.Itoa(int(notificationID))
+//		} else {
+//			list = append(list, strconv.Itoa(int(notificationID)))
+//		}
+//
+//		fmt.Println("new list: ", list)
+//
+//		var listStr string
+//		for i, v := range list {
+//			fmt.Println("list item: ", list[i])
+//			if i != 0 {
+//				listStr += ","
+//			}
+//			listStr += v
+//		}
+//		fmt.Println("listStr: ", listStr)
+//
+//		updateSqlStr := "update UserInfo set Notification=? where ID=?"
+//		ret, err := db.Exec(updateSqlStr, listStr, targetUser)
+//		if err != nil {
+//			fmt.Printf("更新失败, err:%v\n", err)
+//			return false
+//		}
+//		rows, err := ret.RowsAffected()
+//		if err != nil {
+//			fmt.Printf("更新行失败, err:%v\n", err)
+//			return false
+//		}
+//		fmt.Printf("更新成功, 更新的行数： %d.\n", rows)
+//	}
+//
+//	return response
+//
+//}
 
 func NewNotification(safetyResult string, reason string, time string, id string, company string, user string, detail models.FoodChainNode) bool {
 	fmt.Println("***************** NewNotification *****************")

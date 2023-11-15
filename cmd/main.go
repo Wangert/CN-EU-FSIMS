@@ -6,6 +6,7 @@ import (
 	"CN-EU-FSIMS/internal/app/routers"
 	"CN-EU-FSIMS/internal/common"
 	"CN-EU-FSIMS/internal/config"
+	"flag"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
@@ -18,6 +19,7 @@ import (
 func main() {
 	fmt.Println("China-Europe Food Safety Intelligent Management and Decision Support System.")
 
+	flag.Set("logtostderr", "true")
 	err := config.InitConfig(common.CONFIG_PATH)
 	if err != nil {
 		panic("init config error: " + err.Error())
