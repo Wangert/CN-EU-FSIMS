@@ -1,0 +1,4 @@
+admin,/fsims/admin/*,*
+operator,/fsims/operator/*,*
+customer,/fsims/customer/*,*
+user,/fsims/user/*,*

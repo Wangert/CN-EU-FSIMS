@@ -23,13 +23,13 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	}
 
 	// admin router group
-	admin := fsims.Group("/admin", middlewares.JwtAuth())
+	admin := fsims.Group("/admin", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
 		admin.GET("allusers", handlers.GetAllUsers)
 	}
 
 	// industrial chain group
-	ic := fsims.Group("/industrial", middlewares.JwtAuth())
+	ic := fsims.Group("/industrial", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
 		ic.GET("all", handlers.AllIndustrialChains)
 	}

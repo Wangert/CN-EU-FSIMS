@@ -34,4 +34,5 @@ func main() {
 
 	listenAddr := viper.GetString("server.ip_addr") + ":" + viper.GetString("server.port")
 	glog.Infof(http.ListenAndServe(listenAddr, r).Error())
+
 }

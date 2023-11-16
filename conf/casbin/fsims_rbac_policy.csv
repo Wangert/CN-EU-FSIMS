@@ -1,0 +1,8 @@
+p, admin, /admin/*, *
+p, operator, /operator/*, *
+p, customer, /customer/*, *
+p, user, /user/*, *
+g, wangert, user
+g, wangert, admin
+g, wangyuzhou, user
+g, wangyuzhou, operator

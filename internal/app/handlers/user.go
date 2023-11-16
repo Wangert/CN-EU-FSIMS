@@ -30,7 +30,7 @@ func Register(c *gin.Context) {
 	glog.Info(reqUser)
 	err := service.AddFsimsUser(&reqUser)
 	if err != nil {
-		response.MakeFail(c, http.StatusBadRequest, "insert user into database error!")
+		response.MakeFail(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -67,7 +67,7 @@ func Login(c *gin.Context) {
 	// check password
 	if reqPwdHash != pwdHash {
 		glog.Errorln("password incorrect!")
-		response.MakeFail(c, http.StatusBadRequest, "password incorrecr!")
+		response.MakeFail(c, http.StatusBadRequest, "password incorrecrt!")
 		return
 	}
 
