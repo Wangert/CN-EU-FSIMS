@@ -10,9 +10,11 @@ import (
 	"CN-EU-FSIMS/utils/crypto"
 	"context"
 	"fmt"
+	"net/http"
+	"regexp"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
-	"net/http"
 )
 
 func Register(c *gin.Context) {
@@ -42,6 +44,31 @@ func Register(c *gin.Context) {
 func checkRegisterParams(reqUser *request.ReqUser) bool {
 	if reqUser.Name == "" || reqUser.Account == "" || reqUser.Type == 0 || reqUser.Role == "" {
 		glog.Errorln("Missing user registration parameters")
+		return false
+	}
+	ps := reqUser.Password
+	if len(ps) < 9 {
+		glog.Errorln("password len is < 9")
+		return false
+	}
+	num := `[0-9]{1}`
+	a_z := `[a-z]{1}`
+	A_Z := `[A-Z]{1}`
+	symbol := `[!@#~$%^&*()+|_]{1}`
+	if b, err := regexp.MatchString(num, ps); !b || err != nil {
+		glog.Errorln("password need num :%v", err)
+		return false
+	}
+	if b, err := regexp.MatchString(a_z, ps); !b || err != nil {
+		glog.Errorln("password need a_z :%v", err)
+		return false
+	}
+	if b, err := regexp.MatchString(A_Z, ps); !b || err != nil {
+		glog.Errorln("password need A_Z :%v", err)
+		return false
+	}
+	if b, err := regexp.MatchString(symbol, ps); !b || err != nil {
+		glog.Errorln("password need symbol :%v", err)
 		return false
 	}
 	return true

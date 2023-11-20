@@ -3,6 +3,7 @@ package routers
 import (
 	"CN-EU-FSIMS/internal/app/handlers"
 	"CN-EU-FSIMS/internal/app/middlewares"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -34,5 +35,22 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		ic.GET("all", handlers.AllIndustrialChains)
 	}
 
+	// pastureoperator router group
+	pop := fsims.Group("/pastureoperator", middlewares.JwtAuth(), middlewares.CheckPermission())
+	{
+		pop.GET("upload", handlers.PastureOperatorUpload)
+	}
+
+	// slaughteroperator router group
+	sop := fsims.Group("/slaughteroperator", middlewares.JwtAuth(), middlewares.CheckPermission())
+	{
+		sop.GET("upload", handlers.SlaughterOperatorUpload)
+	}
+
+	// transportoperator router group
+	top := fsims.Group("/transportoperator", middlewares.JwtAuth(), middlewares.CheckPermission())
+	{
+		top.GET("upload", handlers.TransportOperatorUpload)
+	}
 	return e
 }

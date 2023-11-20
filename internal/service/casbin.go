@@ -3,6 +3,7 @@ package service
 import (
 	"CN-EU-FSIMS/utils"
 	"errors"
+
 	"github.com/casbin/casbin/v2"
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/golang/glog"
@@ -10,7 +11,7 @@ import (
 )
 
 const (
-	CASBIN_MODEL_PATH       = "conf/casbin/fsims_rbac_model.conf"
+	CASBIN_MODEL_PATH       = "../conf/casbin/fsims_rbac_model.conf"
 	CASBIN_ROLE_POLICY_PATH = "conf/casbin/fsims_rbac_role_policy.csv"
 	CASBIN_USER_ROLE_PATH   = "conf/casbin/fsims_rbac_user_role.csv"
 )

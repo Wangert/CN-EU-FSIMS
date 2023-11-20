@@ -5,9 +5,10 @@ import (
 	"CN-EU-FSIMS/internal/service"
 	"flag"
 	"fmt"
+	"testing"
+
 	"github.com/casbin/casbin/v2"
 	"github.com/golang/glog"
-	"testing"
 )
 
 const (
@@ -58,7 +59,7 @@ func TestPolicyByDB(t *testing.T) {
 
 	pp := service.PendingPolicy{
 		UUID:   "wangert",
-		Url:    "/user/register",
+		Url:    "/fsims/user/register",
 		Method: "POST",
 	}
 

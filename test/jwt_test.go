@@ -26,7 +26,7 @@ func TestCreateAndVerifyJwtToken(t *testing.T) {
 }
 
 func TestVerifyJwtToken(t *testing.T) {
-	token := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiRlNJTVNVLTAwMDEtNTBlMGExY2JlOTMyZGE0MzhmMmY4ZmM0Njg5YzFiYzBkZjI2NDU2MGQ5NjlhZDlhMTIyNjViNzNiM2RhYjg2NSIsImV4cCI6MTcwMDAyNDUxMywiaWF0IjoxNzAwMDE3MzEzLCJpc3MiOiJGU0lNUy1TWVNURU0ifQ._DXaxZCcSRSKv9Hm3V5JO6Olyw46XwqjyAaix9134qw"
+	token := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiRlNJTVNVLTAwMDEtNTBlMGExY2JlOTMyZGE0MzhmMmY4ZmM0Njg5YzFiYzBkZjI2NDU2MGQ5NjlhZDlhMTIyNjViNzNiM2RhYjg2NSIsImV4cCI6MTcwMDAzMDA1OSwiaWF0IjoxNzAwMDMwMDU5LCJpc3MiOiJGU0lNUy1TWVNURU0ifQ.TUey7efIprQOZjLAUew1U_GLybRnbJOSM-ARAVMb2mE"
 
 	fmt.Println(token)
 	userClaims, err := service.ParseToken(token)

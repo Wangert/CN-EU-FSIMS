@@ -1,4 +1,7 @@
 admin,/fsims/admin/*,*
 operator,/fsims/operator/*,*
 customer,/fsims/customer/*,*
+pastureoperator,/fsims/pastureoperator/*,*
+slaughteroperator,/fsims/slaughteroperator/*,*
+transportoperator,/fsims/transportoperator/*,*
 user,/fsims/user/*,*

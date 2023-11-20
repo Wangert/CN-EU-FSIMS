@@ -8,19 +8,26 @@ import (
 	"CN-EU-FSIMS/utils/crypto"
 	"context"
 	"errors"
+
 	"github.com/golang/glog"
 )
 
 const (
 	UUID_PREFIX = "FSIMSU"
 
-	ADMIN_USER_TYPE    = 1
-	CUSTOMER_USER_TYPE = 2
-	OPERATOR_USER_TYPE = 3
+	ADMIN_USER_TYPE              = 1
+	CUSTOMER_USER_TYPE           = 2
+	OPERATOR_USER_TYPE           = 3
+	PASTURE_OPERATOR_USER_TYPE   = 4
+	SLAUGHTER_OPERATOR_USER_TYPE = 5
+	TRANSPORT_OPERATOR_USER_TYPE = 6
 
-	ADMIN_USER_NUMBER    = "0000"
-	CUSTOMER_USER_NUMBER = "0001"
-	OPERATOR_USER_NUMBER = "0002"
+	ADMIN_USER_NUMBER              = "0000"
+	CUSTOMER_USER_NUMBER           = "0001"
+	OPERATOR_USER_NUMBER           = "0002"
+	PASTURE_OPERATOR_USER_NUMBER   = "0003"
+	SLAUGHTER_OPERATOR_USER_NUMBER = "0004"
+	TRANSPORT_OPERATOR_USER_NUMBER = "0005"
 
 	PASSWORD_SALT = "FSIMSPS"
 )
@@ -100,6 +107,12 @@ func AddRoleForUserWithType(uuid string, ttype int) error {
 		roleName = "customer"
 	case OPERATOR_USER_TYPE:
 		roleName = "operator"
+	case PASTURE_OPERATOR_USER_TYPE:
+		roleName = "pastureoperator"
+	case SLAUGHTER_OPERATOR_USER_TYPE:
+		roleName = "slaughteroperator"
+	case TRANSPORT_OPERATOR_USER_TYPE:
+		roleName = "transportoperator"
 	default:
 		return errors.New("user type is not exist")
 	}
@@ -124,6 +137,12 @@ func generateUuid(account string, userType int) (string, error) {
 		uuid = UUID_PREFIX + "-" + CUSTOMER_USER_NUMBER + "-" + accountHash
 	case OPERATOR_USER_TYPE:
 		uuid = UUID_PREFIX + "-" + OPERATOR_USER_NUMBER + "-" + accountHash
+	case PASTURE_OPERATOR_USER_TYPE:
+		uuid = UUID_PREFIX + "-" + PASTURE_OPERATOR_USER_NUMBER + "-" + accountHash
+	case SLAUGHTER_OPERATOR_USER_TYPE:
+		uuid = UUID_PREFIX + "-" + SLAUGHTER_OPERATOR_USER_NUMBER + "-" + accountHash
+	case TRANSPORT_OPERATOR_USER_TYPE:
+		uuid = UUID_PREFIX + "-" + TRANSPORT_OPERATOR_USER_NUMBER + "-" + accountHash
 	default:
 		return "", errors.New("user type is not exist")
 	}

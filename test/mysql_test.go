@@ -9,9 +9,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/golang/glog"
 	"testing"
 	"time"
+
+	"github.com/golang/glog"
 )
 
 const TESTCONFIGPATH = "../conf/config.yaml"
@@ -193,37 +194,33 @@ func createPastureProcedureWithPasPID(pasPID string) pasture.PastureProcedure {
 func createPastureWater() pasture.PastureWater {
 	return pasture.PastureWater{
 		PhysicalHazard: pasture.PastureWaterPhysicalHazard{
-			Mercury:        0,
-			Cadmium:        0,
-			Lead:           0,
-			Chromium:       0,
-			Arsenic:        0,
-			Copper:         0,
-			PastureWaterID: 2,
+			Mercury:  1,
+			Cadmium:  1,
+			Lead:     0,
+			Chromium: 0,
+			Arsenic:  0,
+			Copper:   0,
 		},
 		ChemicalHazard: pasture.PastureWaterChemicalHazard{
-			Fluoride:        0,
-			Cyanide:         0,
+			Fluoride:        1,
+			Cyanide:         1,
 			Chloride:        0,
 			Nitrate:         0,
 			Sulfate:         0,
 			Sixsixsix:       0,
 			DDT:             0,
 			AmmoniaNitrogen: 0,
-			PastureWaterID:  2,
 		},
 		Biohazard: pasture.PastureWaterBiohazard{
-			ColiformBacteria: 0,
-			PastureWaterID:   2,
+			ColiformBacteria: 1,
 		},
 		SensoryTraits: pasture.PastureWaterSensoryTraits{
-			Color:          0,
+			Color:          1,
 			Turbidity:      0,
 			Smell:          "",
 			PH:             0,
 			Hardness:       0,
 			DissolvedSolid: 0,
-			PastureWaterID: 2,
 		},
 		PasPID: "PASPID-111",
 	}
@@ -277,11 +274,26 @@ func createPastureWaterSensoryTraits(pastureWaterID uint) pasture.PastureWaterSe
 func TestCreatePastureWater(t *testing.T) {
 	mysql.Init(TESTCONFIGPATH)
 
+	var err error
+	tx := query.Q.Begin()
+
+	defer func() {
+		if recover() != nil || err != nil {
+			_ = tx.Rollback()
+		} else {
+			err = tx.Commit()
+			if err != nil {
+				panic(err)
+			}
+
+			fmt.Println("create pasture procedure successful!")
+		}
+	}()
+
+	pastureProcedure1 := createPastureProcedureWithPasPID("PASPID-111")
+	err = tx.PastureProcedure.WithContext(context.Background()).Create(&pastureProcedure1)
 	pastureWater := createPastureWater()
-	err := query.PastureWater.WithContext(context.Background()).Create(&pastureWater)
-	if err != nil {
-		panic(err)
-	}
+	err = tx.PastureWater.WithContext(context.Background()).Create(&pastureWater)
 
 	fmt.Println("create pasture water successful!")
 }
