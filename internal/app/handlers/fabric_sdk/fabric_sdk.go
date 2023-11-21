@@ -1,10 +1,10 @@
+package fabricsdk
+
 /*
 Copyright 2020 IBM All Rights Reserved.
 
 SPDX-License-Identifier: Apache-2.0
 */
-
-package fabric
 
 import (
 	"encoding/json"
@@ -58,16 +58,25 @@ type TransactionAction struct {
 	WriteSetList []string `json:"writeSetList"` //
 }
 
-type FoodChainData struct {
-	ID        string          `json:"ID"`
-	Signature string          `json:"Signature"`
-	FoodChain []FoodChainNode `json:"FoodChain"`
+// type FoodChainData struct {
+// 	ID        string          `json:"ID"`
+// 	Signature string          `json:"Signature"`
+// 	FoodChain []FoodChainNode `json:"FoodChain"`
+// }
+
+//	type FoodChainNode struct {
+//		Foodchainprocess string `json:"Foodchainprocess"`
+//		UploadCompany    string `json:"UploadCompany"`
+//		FileHash         string `json:"FileHash"`
+//	}
+type Procedure struct {
+	PID       string `json:"pid"`
+	PrePID    string `json:"pre_pid"`
+	CheckCode string `json:"checkcode"`
 }
 
-type FoodChainNode struct {
-	Foodchainprocess string `json:"Foodchainprocess"`
-	UploadCompany    string `json:"UploadCompany"`
-	FileHash         string `json:"FileHash"`
+type IndustrialChain struct {
+	Procedures map[string]Procedure `json:"Procedures"`
 }
 
 // 测试fabric连接
