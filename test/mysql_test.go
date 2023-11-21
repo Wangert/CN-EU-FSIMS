@@ -5,6 +5,7 @@ import (
 	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/app/models/pasture"
 	"CN-EU-FSIMS/internal/app/models/query"
+	"CN-EU-FSIMS/internal/service"
 	"bytes"
 	"context"
 	"encoding/json"
@@ -61,6 +62,15 @@ func TestFindFsimsUsers(t *testing.T) {
 		for _, ic := range ics {
 			fmt.Println(*ic)
 		}
+	}
+}
+
+func TestUpdateFsimsUsers(t *testing.T) {
+	mysql.Init(TESTCONFIGPATH)
+	account := "Account_test"
+	err := service.ResetFsimsPassWord(account)
+	if err != nil {
+		glog.Errorln("user's password updated error!")
 	}
 }
 

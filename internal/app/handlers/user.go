@@ -147,6 +147,150 @@ func GetAllUsers(c *gin.Context) {
 
 }
 
+func AddUserByAdmin(c *gin.Context) {
+	glog.Info("################## Add A FSIMS User ##################")
+	var u request.ReqAddUser
+	if err := c.ShouldBind(&u); err != nil || !checkAddParams(&u) {
+		response.MakeFail(c, http.StatusBadRequest, "Add a user parameters error!")
+		return
+	}
+
+	//add
+	glog.Info("request user add parameters:")
+	glog.Info(u)
+	err := service.AddFsimsUserByAdmin(&u)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "The new user information insert error!")
+		return
+	}
+	glog.Info("fsims user add successful")
+	response.MakeSuccess(c, http.StatusOK, "successfully update the user by admin")
+}
+
+func checkAddParams(reqAddUser *request.ReqAddUser) bool {
+	if reqAddUser.Name == "" || reqAddUser.Account == "" || reqAddUser.Type == 0 || reqAddUser.Role == "" {
+		glog.Errorln("Missing user registration parameters")
+		return false
+	}
+	ps := reqAddUser.Password
+	if len(ps) < 9 {
+		glog.Errorln("password len is < 9")
+		return false
+	}
+	num := `[0-9]{1}`
+	a_z := `[a-z]{1}`
+	A_Z := `[A-Z]{1}`
+	symbol := `[!@#~$%^&*()+|_]{1}`
+	if b, err := regexp.MatchString(num, ps); !b || err != nil {
+		glog.Errorln("password need num :%v", err)
+		return false
+	}
+	if b, err := regexp.MatchString(a_z, ps); !b || err != nil {
+		glog.Errorln("password need a_z :%v", err)
+		return false
+	}
+	if b, err := regexp.MatchString(A_Z, ps); !b || err != nil {
+		glog.Errorln("password need A_Z :%v", err)
+		return false
+	}
+	if b, err := regexp.MatchString(symbol, ps); !b || err != nil {
+		glog.Errorln("password need symbol :%v", err)
+		return false
+	}
+	return true
+}
+
+func ResetPasswordByAdmin(c *gin.Context) {
+	glog.Info("################## Reset User's Password By Admin ##################")
+	var account string
+	if err := c.ShouldBind(&account); err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "Reset User's Password Error!")
+		return
+	}
+	//reset
+	glog.Info("request user account:")
+	glog.Info(account)
+
+	err := service.ResetFsimsPassWord(account)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "reset the user's password error!")
+		return
+	}
+	glog.Info("reset user's password successful!")
+	response.MakeSuccess(c, http.StatusOK, "successfully update the user!")
+	return
+}
+
+func UpdateUser(c *gin.Context) {
+	glog.Info("################## Update A FSIMS User ##################")
+	var u request.ReqUpdateUser
+	if err := c.ShouldBind(&u); err != nil || !checkUpdateParams(&u) {
+		response.MakeFail(c, http.StatusBadRequest, "Update a user parameters error!")
+		return
+	}
+
+	//update
+	glog.Info("request user update parameters:")
+	glog.Info(u)
+
+	err := service.UpdateFsimsUser(&u)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "The new user information insert error!")
+		return
+	}
+	glog.Info("fsims user update successful!")
+	response.MakeSuccess(c, http.StatusOK, "successfully update the user!")
+	return
+}
+
+func checkUpdateParams(reqUpdateUser *request.ReqUpdateUser) bool {
+	if reqUpdateUser.Name == "" || reqUpdateUser.Account == "" || reqUpdateUser.Type == 0 || reqUpdateUser.Role == "" {
+		glog.Errorln("Missing user registration parameters")
+		return false
+	}
+	ps := reqUpdateUser.Password
+	if len(ps) < 9 {
+		glog.Errorln("password len is < 9")
+		return false
+	}
+	num := `[0-9]{1}`
+	a_z := `[a-z]{1}`
+	A_Z := `[A-Z]{1}`
+	symbol := `[!@#~$%^&*()+|_]{1}`
+	if b, err := regexp.MatchString(num, ps); !b || err != nil {
+		glog.Errorln("password need num :%v", err)
+		return false
+	}
+	if b, err := regexp.MatchString(a_z, ps); !b || err != nil {
+		glog.Errorln("password need a_z :%v", err)
+		return false
+	}
+	if b, err := regexp.MatchString(A_Z, ps); !b || err != nil {
+		glog.Errorln("password need A_Z :%v", err)
+		return false
+	}
+	if b, err := regexp.MatchString(symbol, ps); !b || err != nil {
+		glog.Errorln("password need symbol :%v", err)
+		return false
+	}
+	return true
+}
+func DeleteUser(c *gin.Context) {
+	glog.Info("################## Delete A FSIMS User ##################")
+	var a string
+	if err := c.ShouldBind(&a); err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "Delete a user error")
+		return
+	}
+	err := service.DeleteFsimUser(a)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "The new user information delete error!")
+		return
+	}
+	glog.Info("delete fsims user successful")
+	response.MakeSuccess(c, http.StatusOK, "successfully delete the user!")
+}
+
 //func Login(c *gin.Context) {
 //	log.Println("******************* UserLogin *********************")
 //	username := c.PostForm("username")

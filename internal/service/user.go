@@ -8,6 +8,7 @@ import (
 	"CN-EU-FSIMS/utils/crypto"
 	"context"
 	"errors"
+	"gorm.io/gorm"
 
 	"github.com/golang/glog"
 )
@@ -30,7 +31,20 @@ const (
 	TRANSPORT_OPERATOR_USER_NUMBER = "0005"
 
 	PASSWORD_SALT = "FSIMSPS"
+	INIT_PASSWORD = "123456"
 )
+
+func CreateFsimUser(user *request.ReqUpdateUser) *models.FSIMSUser {
+	var u models.FSIMSUser
+	u.Name = user.Name
+	u.Phone = user.Phone
+	u.Type = user.Type
+	u.Role = user.Role
+	u.Account = user.Account
+	u.Company = user.Company
+	u.PasswordHash = crypto.CalculateSHA256(user.Password, PASSWORD_SALT)
+	return &u
+}
 
 func QueryFsimsUserPwdHash(account string) (string, error) {
 	u := query.FSIMSUser
@@ -148,4 +162,79 @@ func generateUuid(account string, userType int) (string, error) {
 	}
 
 	return uuid, nil
+}
+
+func AddFsimsUserByAdmin(user *request.ReqAddUser) error {
+	uuid, err := generateUuid(user.Account, user.Type)
+	if err != nil {
+		return err
+	}
+
+	//密码初始为fsims+123456
+	passwordHash := crypto.CalculateSHA256(INIT_PASSWORD, PASSWORD_SALT)
+
+	fsimsUser := models.FSIMSUser{
+		UUID:         uuid,
+		Name:         user.Name,
+		Account:      user.Account,
+		PasswordHash: passwordHash,
+		Type:         user.Type,
+		Role:         user.Role,
+		Status:       1,
+		Company:      user.Company,
+		Phone:        user.Phone,
+	}
+	err = query.FSIMSUser.WithContext(context.Background()).Create(&fsimsUser)
+	if err != nil {
+		glog.Errorln("create new user error by admin")
+		return errors.New("create new user error")
+	}
+	return nil
+}
+
+func ResetFsimsPassWord(account string) error {
+	p := crypto.CalculateSHA256(INIT_PASSWORD, PASSWORD_SALT)
+	u := query.FSIMSUser
+	_, err := u.WithContext(context.Background()).Where(u.Account.Eq(account)).Update(u.PasswordHash, p)
+	if err != nil {
+		glog.Errorln("Reset the user password error: %v", err)
+		return errors.New("Reset the user password error")
+	}
+	return nil
+}
+
+func UpdateFsimsUser(user *request.ReqUpdateUser) error {
+	//check whether user exist
+	u := query.FSIMSUser
+	_, err := u.WithContext(context.Background()).Where(u.Account.Eq(user.Account)).First()
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		glog.Errorln("Update a user error: %v", err)
+		return errors.New("update a user error: user not existed")
+	}
+	if err != nil {
+		glog.Errorln("Update a user error: %v", err)
+		return errors.New("update a user error")
+	}
+	//update
+	var fuu = CreateFsimUser(user)
+	_, err = u.WithContext(context.Background()).Where(u.Account.Eq(user.Account)).Updates(&fuu)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func DeleteFsimUser(account string) error {
+	u := query.FSIMSUser
+	res, err := u.WithContext(context.Background()).Where(u.Account.Eq(account)).Delete()
+	_ = res.RowsAffected
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		glog.Errorln("Delete a user error: %v", err)
+		return errors.New("delete a user error: user not existed")
+	}
+	if err != nil {
+		glog.Errorln("Update a user error: %v", err)
+		return errors.New("delete a user error")
+	}
+	return nil
 }

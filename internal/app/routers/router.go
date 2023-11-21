@@ -27,6 +27,10 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	admin := fsims.Group("/admin", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
 		admin.GET("allusers", handlers.GetAllUsers)
+		admin.POST("adduser", handlers.AddUserByAdmin)
+		admin.DELETE("deleteuser", handlers.DeleteUser)
+		admin.POST("updateuser", handlers.UpdateUser)
+		admin.POST("reset", handlers.ResetPasswordByAdmin)
 	}
 
 	// industrial chain group
