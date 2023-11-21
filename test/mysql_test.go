@@ -9,10 +9,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"testing"
-	"time"
-
 	"github.com/golang/glog"
+	"testing"
 )
 
 const TESTCONFIGPATH = "../conf/config.yaml"
@@ -350,88 +348,88 @@ func TestFindPastureProcedure(t *testing.T) {
 	}
 }
 
-func TestCreateIndustrialChainWithProcedures(t *testing.T) {
-	mysql.Init(TESTCONFIGPATH)
+//func TestCreateIndustrialChainWithProcedures(t *testing.T) {
+//	mysql.Init(TESTCONFIGPATH)
+//
+//	procedure1 := models.Procedure{
+//		PID:          "PID-3",
+//		Name:         "Production",
+//		SerialNumber: 1,
+//		PrePID:       "PID-0",
+//		ICID:         "ICID-11111",
+//	}
+//
+//	procedure2 := models.Procedure{
+//		PID:          "PID-4",
+//		Name:         "Slaughter",
+//		SerialNumber: 2,
+//		PrePID:       "PID-1",
+//		ICID:         "ICID-11111",
+//	}
+//
+//	ic := models.IndustrialChain{
+//		ICID:               "ICID-22222",
+//		Type:               "fish",
+//		State:              2,
+//		StartTimestamp:     time.Now(),
+//		CompletedTimestamp: time.Now(),
+//		Procedures: []models.Procedure{
+//			procedure1, procedure2,
+//		},
+//	}
+//
+//	err := query.IndustrialChain.WithContext(context.Background()).Create(&ic)
+//	if err != nil {
+//		panic(err)
+//	}
+//
+//	fmt.Println("create industrial chain successful!")
+//}
+//
+//func TestFindIndustrialChains(t *testing.T) {
+//	mysql.Init(TESTCONFIGPATH)
+//
+//	ics, err := query.IndustrialChain.WithContext(context.Background()).Find()
+//	if err != nil {
+//		panic(err)
+//	} else {
+//		for _, ic := range ics {
+//			fmt.Println(*ic)
+//		}
+//	}
+//}
+//
+//func TestFindAllProdecuresWithIndustrialChain(t *testing.T) {
+//	mysql.Init(TESTCONFIGPATH)
+//
+//	ic, err := query.IndustrialChain.WithContext(context.Background()).First()
+//	if err != nil {
+//		panic(err)
+//	} else {
+//		fmt.Println("industrial_chain:")
+//		fmt.Println(*ic)
+//	}
+//
+//	fmt.Println("=======================================")
+//	procedures, err := query.IndustrialChain.Procedures.WithContext(context.Background()).Model(ic).Find()
+//	if err != nil {
+//		panic(err)
+//	} else {
+//		for _, procedure := range procedures {
+//			fmt.Println(*procedure)
+//		}
+//	}
+//}
 
-	procedure1 := models.Procedure{
-		PID:          "PID-3",
-		Name:         "Production",
-		SerialNumber: 1,
-		PrePID:       "PID-0",
-		ICID:         "ICID-11111",
-	}
-
-	procedure2 := models.Procedure{
-		PID:          "PID-4",
-		Name:         "Slaughter",
-		SerialNumber: 2,
-		PrePID:       "PID-1",
-		ICID:         "ICID-11111",
-	}
-
-	ic := models.IndustrialChain{
-		ICID:               "ICID-22222",
-		Type:               "fish",
-		State:              2,
-		StartTimestamp:     time.Now(),
-		CompletedTimestamp: time.Now(),
-		Procedures: []models.Procedure{
-			procedure1, procedure2,
-		},
-	}
-
-	err := query.IndustrialChain.WithContext(context.Background()).Create(&ic)
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println("create industrial chain successful!")
-}
-
-func TestFindIndustrialChains(t *testing.T) {
-	mysql.Init(TESTCONFIGPATH)
-
-	ics, err := query.IndustrialChain.WithContext(context.Background()).Find()
-	if err != nil {
-		panic(err)
-	} else {
-		for _, ic := range ics {
-			fmt.Println(*ic)
-		}
-	}
-}
-
-func TestFindAllProdecuresWithIndustrialChain(t *testing.T) {
-	mysql.Init(TESTCONFIGPATH)
-
-	ic, err := query.IndustrialChain.WithContext(context.Background()).First()
-	if err != nil {
-		panic(err)
-	} else {
-		fmt.Println("industrial_chain:")
-		fmt.Println(*ic)
-	}
-
-	fmt.Println("=======================================")
-	procedures, err := query.IndustrialChain.Procedures.WithContext(context.Background()).Model(ic).Find()
-	if err != nil {
-		panic(err)
-	} else {
-		for _, procedure := range procedures {
-			fmt.Println(*procedure)
-		}
-	}
-}
-
-func TestDeleteIndustrialChains(t *testing.T) {
-	infoResult, err := query.FSIMSUser.WithContext(context.Background()).Where(query.IndustrialChain.ID.Gt(0)).Delete()
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println("Delete IndustrialChains(ID > 0) Successful")
-		fmt.Println(infoResult)
-	}
-}
+//func TestDeleteIndustrialChains(t *testing.T) {
+//	infoResult, err := query.FSIMSUser.WithContext(context.Background()).Where(query.IndustrialChain.ID.Gt(0)).Delete()
+//	if err != nil {
+//		fmt.Println(err)
+//	} else {
+//		fmt.Println("Delete IndustrialChains(ID > 0) Successful")
+//		fmt.Println(infoResult)
+//	}
+//}
 
 func TestDeleteProcedures(t *testing.T) {
 	infoResult, err := query.FSIMSUser.WithContext(context.Background()).Where(query.Procedure.ID.Gt(0)).Delete()

@@ -8,3 +8,8 @@ type PastureSoil struct {
 	Biohazard      PastureSoilBiohazard      `json:"biohazard"`
 	PasPID         string                    `gorm:"not null; type:varchar(256)" json:"pas_pid"`
 }
+
+type PastureSoilData struct {
+	PhysicalHazard PastureSoilPhysicalHazard `json:"physical_hazard"`
+	Biohazard      PastureSoilBiohazard      `json:"biohazard"`
+}

@@ -3,6 +3,7 @@ package service
 import (
 	"CN-EU-FSIMS/utils"
 	"errors"
+	"github.com/spf13/viper"
 
 	"github.com/casbin/casbin/v2"
 	gormadapter "github.com/casbin/gorm-adapter/v3"
@@ -34,7 +35,7 @@ func NewCasbinService(db *gorm.DB) (*CasbinService, error) {
 		return nil, err
 	}
 
-	enforcer, err := casbin.NewEnforcer(CASBIN_MODEL_PATH, adapter)
+	enforcer, err := casbin.NewEnforcer(viper.GetString("casbin.model_path"), adapter)
 	if err != nil {
 		glog.Errorln("new casbin enforcer error!")
 		return nil, err

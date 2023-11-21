@@ -30,15 +30,18 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	}
 
 	// industrial chain group
-	ic := fsims.Group("/industrial", middlewares.JwtAuth(), middlewares.CheckPermission())
-	{
-		ic.GET("all", handlers.AllIndustrialChains)
-	}
+	//ic := fsims.Group("/industrial", middlewares.JwtAuth(), middlewares.CheckPermission())
+	//{
+	//	ic.GET("all", handlers.AllIndustrialChains)
+	//}
 
 	// pastureoperator router group
 	pop := fsims.Group("/pastureoperator", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
 		pop.GET("upload", handlers.PastureOperatorUpload)
+
+		pop.POST("createproc", handlers.CreateProcedure)
+		pop.POST("commitproc", handlers.CommitPastureProcedure)
 	}
 
 	// slaughteroperator router group

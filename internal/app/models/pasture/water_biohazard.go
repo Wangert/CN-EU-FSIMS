@@ -7,3 +7,7 @@ type PastureWaterBiohazard struct {
 	ColiformBacteria uint `json:"coliform_bacteria"` // 总大肠菌群
 	PastureWaterID   uint `json:"pasture_water_id"`
 }
+
+type PastureWaterBiohazardData struct {
+	ColiformBacteria uint `json:"coliform_bacteria"` // 总大肠菌群
+}

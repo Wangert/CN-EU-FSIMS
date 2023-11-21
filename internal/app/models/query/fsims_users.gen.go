@@ -34,8 +34,9 @@ func newFSIMSUser(db *gorm.DB, opts ...gen.DOOption) fSIMSUser {
 	_fSIMSUser.Name = field.NewString(tableName, "name")
 	_fSIMSUser.Account = field.NewString(tableName, "account")
 	_fSIMSUser.PasswordHash = field.NewString(tableName, "password_hash")
-	_fSIMSUser.Type = field.NewString(tableName, "type")
-	_fSIMSUser.Status = field.NewString(tableName, "status")
+	_fSIMSUser.Type = field.NewInt(tableName, "type")
+	_fSIMSUser.Role = field.NewString(tableName, "role")
+	_fSIMSUser.Status = field.NewInt(tableName, "status")
 	_fSIMSUser.Company = field.NewString(tableName, "company")
 	_fSIMSUser.Phone = field.NewString(tableName, "phone")
 
@@ -56,8 +57,9 @@ type fSIMSUser struct {
 	Name         field.String
 	Account      field.String
 	PasswordHash field.String
-	Type         field.String
-	Status       field.String
+	Type         field.Int
+	Role         field.String
+	Status       field.Int
 	Company      field.String
 	Phone        field.String
 
@@ -84,8 +86,9 @@ func (f *fSIMSUser) updateTableName(table string) *fSIMSUser {
 	f.Name = field.NewString(table, "name")
 	f.Account = field.NewString(table, "account")
 	f.PasswordHash = field.NewString(table, "password_hash")
-	f.Type = field.NewString(table, "type")
-	f.Status = field.NewString(table, "status")
+	f.Type = field.NewInt(table, "type")
+	f.Role = field.NewString(table, "role")
+	f.Status = field.NewInt(table, "status")
 	f.Company = field.NewString(table, "company")
 	f.Phone = field.NewString(table, "phone")
 
@@ -114,7 +117,7 @@ func (f *fSIMSUser) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (f *fSIMSUser) fillFieldMap() {
-	f.fieldMap = make(map[string]field.Expr, 12)
+	f.fieldMap = make(map[string]field.Expr, 13)
 	f.fieldMap["id"] = f.ID
 	f.fieldMap["created_at"] = f.CreatedAt
 	f.fieldMap["updated_at"] = f.UpdatedAt
@@ -124,6 +127,7 @@ func (f *fSIMSUser) fillFieldMap() {
 	f.fieldMap["account"] = f.Account
 	f.fieldMap["password_hash"] = f.PasswordHash
 	f.fieldMap["type"] = f.Type
+	f.fieldMap["role"] = f.Role
 	f.fieldMap["status"] = f.Status
 	f.fieldMap["company"] = f.Company
 	f.fieldMap["phone"] = f.Phone

@@ -10,3 +10,10 @@ type PastureWater struct {
 	SensoryTraits  PastureWaterSensoryTraits  `gorm:"foreignKey:PastureWaterID" json:"sensory_traits"`
 	PasPID         string                     `gorm:"type:varchar(256)" json:"pas_pid"`
 }
+
+type PastureWaterData struct {
+	PhysicalHazard PastureWaterPhysicalHazardData `json:"physical_hazard"`
+	ChemicalHazard PastureWaterChemicalHazardData `json:"chemical_hazard"`
+	Biohazard      PastureWaterBiohazardData      `json:"biohazard"`
+	SensoryTraits  PastureWaterSensoryTraitsData  `json:"sensory_traits"`
+}

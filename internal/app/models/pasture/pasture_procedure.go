@@ -12,3 +12,15 @@ type PastureProcedure struct {
 	FloorBedding   PastureFloorBedding   `gorm:"foreignKey:PasPID; references:PasPID" json:"floor_bedding"`
 	WasteDischarge PastureWasteDischarge `gorm:"foreignKey:PasPID; references:PasPID" json:"waste_discharge"`
 }
+
+type PastureProcedureData struct {
+	Water          PastureWaterData
+	Fodder         PastureFodderData
+	Soil           PastureSoilData
+	Air            PastureAirData
+	FloorBedding   PastureFloorBeddingData
+	WasteDischarge PastureWasteDischargeData
+	PM10           float32 `json:"pm_10"`  // PM10
+	TSP            float32 `json:"tsp"`    // TSP
+	Stench         uint    `json:"stench"` // 恶臭稀释程度
+}

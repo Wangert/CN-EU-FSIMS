@@ -3,6 +3,8 @@ module CN-EU-FSIMS
 go 1.21.3
 
 require (
+	github.com/casbin/casbin/v2 v2.77.2
+	github.com/casbin/gorm-adapter/v3 v3.20.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fsnotify/fsnotify v1.4.7
 	github.com/gin-gonic/gin v1.9.1
@@ -24,8 +26,6 @@ require (
 	github.com/Knetic/govaluate v3.0.1-0.20171022003610-9aa49832a739+incompatible // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bytedance/sonic v1.9.1 // indirect
-	github.com/casbin/casbin/v2 v2.77.2 // indirect
-	github.com/casbin/gorm-adapter/v3 v3.20.0 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
 	github.com/cloudflare/cfssl v1.4.1 // indirect

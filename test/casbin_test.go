@@ -79,6 +79,11 @@ func TestPolicyByDB(t *testing.T) {
 func TestCasbinAndGorm(t *testing.T) {
 	flag.Set("logtostderr", "true")
 
+	//err := config.InitConfig(common.CONFIG_PATH)
+	//if err != nil {
+	//	panic("init config error: " + err.Error())
+	//}
+
 	mysql.Init(TESTCONFIGPATH)
 	cs, err := service.NewCasbinService(mysql.DB)
 	if err != nil {

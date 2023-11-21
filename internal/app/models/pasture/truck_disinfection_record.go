@@ -8,3 +8,9 @@ type PastureTruckDisinfectionRecord struct {
 	Concentration uint   `json:"concentration"`
 	Duration      uint64 `json:"duration"`
 }
+
+type PastureTruckDisinfectionRecordData struct {
+	Method        string `json:"method"`
+	Concentration uint   `json:"concentration"`
+	Duration      uint64 `json:"duration"`
+}

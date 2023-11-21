@@ -33,7 +33,10 @@ func newProcedure(db *gorm.DB, opts ...gen.DOOption) procedure {
 	_procedure.PID = field.NewString(tableName, "p_id")
 	_procedure.Type = field.NewUint(tableName, "type")
 	_procedure.Name = field.NewString(tableName, "name")
+	_procedure.PHash = field.NewString(tableName, "p_hash")
+	_procedure.CheckCode = field.NewString(tableName, "check_code")
 	_procedure.SerialNumber = field.NewUint(tableName, "serial_number")
+	_procedure.Operator = field.NewString(tableName, "operator")
 	_procedure.StartTimestamp = field.NewTime(tableName, "start_timestamp")
 	_procedure.CompletedTimestamp = field.NewTime(tableName, "completed_timestamp")
 	_procedure.PrePID = field.NewString(tableName, "pre_p_id")
@@ -60,7 +63,10 @@ type procedure struct {
 	PID                field.String
 	Type               field.Uint
 	Name               field.String
+	PHash              field.String
+	CheckCode          field.String
 	SerialNumber       field.Uint
+	Operator           field.String
 	StartTimestamp     field.Time
 	CompletedTimestamp field.Time
 	PrePID             field.String
@@ -89,7 +95,10 @@ func (p *procedure) updateTableName(table string) *procedure {
 	p.PID = field.NewString(table, "p_id")
 	p.Type = field.NewUint(table, "type")
 	p.Name = field.NewString(table, "name")
+	p.PHash = field.NewString(table, "p_hash")
+	p.CheckCode = field.NewString(table, "check_code")
 	p.SerialNumber = field.NewUint(table, "serial_number")
+	p.Operator = field.NewString(table, "operator")
 	p.StartTimestamp = field.NewTime(table, "start_timestamp")
 	p.CompletedTimestamp = field.NewTime(table, "completed_timestamp")
 	p.PrePID = field.NewString(table, "pre_p_id")
@@ -120,7 +129,7 @@ func (p *procedure) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (p *procedure) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 13)
+	p.fieldMap = make(map[string]field.Expr, 16)
 	p.fieldMap["id"] = p.ID
 	p.fieldMap["created_at"] = p.CreatedAt
 	p.fieldMap["updated_at"] = p.UpdatedAt
@@ -128,7 +137,10 @@ func (p *procedure) fillFieldMap() {
 	p.fieldMap["p_id"] = p.PID
 	p.fieldMap["type"] = p.Type
 	p.fieldMap["name"] = p.Name
+	p.fieldMap["p_hash"] = p.PHash
+	p.fieldMap["check_code"] = p.CheckCode
 	p.fieldMap["serial_number"] = p.SerialNumber
+	p.fieldMap["operator"] = p.Operator
 	p.fieldMap["start_timestamp"] = p.StartTimestamp
 	p.fieldMap["completed_timestamp"] = p.CompletedTimestamp
 	p.fieldMap["pre_p_id"] = p.PrePID

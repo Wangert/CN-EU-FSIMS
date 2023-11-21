@@ -29,7 +29,7 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 
 	g.UseDB(db)
 
-	g.ApplyBasic(&models.IndustrialChain{}, &models.Procedure{})
+	g.ApplyBasic(&models.Procedure{})
 
 	g.ApplyBasic(&models.FSIMSUser{})
 

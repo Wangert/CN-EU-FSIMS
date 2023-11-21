@@ -1,3 +1,3 @@
 package common
 
-const CONFIG_PATH = "../conf/config.yaml"
+const CONFIG_PATH = "conf/config.yaml"

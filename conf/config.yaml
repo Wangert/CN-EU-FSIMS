@@ -5,9 +5,9 @@ server:
   port: 8000
 
 mysql:
-  username: dbadmin
-  password: dqzgslb+1S
-  ip_addr: 10.176.35.60
+  username: root
+  password: root
+  ip_addr: 127.0.0.1
   port: 3306
   database: fsims
 
@@ -17,6 +17,12 @@ jwt:
 
 log:
   output_path: server/output/log/
+
+
+casbin:
+  model_path: conf/casbin/fsims_rbac_model.conf
+  role_policy_path : conf/casbin/fsims_rbac_role_policy.csv
+  user_role_path: conf/casbin/fsims_rbac_user_role.csv
 
 
 #admin:
