@@ -58,7 +58,6 @@ func ConnecttoNetwork() (result bool, channelname string, chaincodename string) 
 	ccpPath := filepath.Join(
 		"..",
 		"..",
-		"..",
 		"fabric",
 		"organizations",
 		"peerOrganizations",
@@ -93,7 +92,6 @@ func ConnecttoNetwork() (result bool, channelname string, chaincodename string) 
 func GetLedgerClient() {
 	fmt.Println("============ GetLedgerClient ============")
 	ccpPath := filepath.Join(
-		"..",
 		"..",
 		"..",
 		"fabric",
