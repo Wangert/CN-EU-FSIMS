@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/golang/glog"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
 
@@ -16,6 +17,7 @@ type Procedure struct {
 	PID       string `json:"pid"`
 	PrePID    string `json:"pre_pid"`
 	CheckCode string `json:"checkcode"`
+	PHash     string `json:"p_hash"`
 }
 
 // InitLedger adds a base set of assets to the ledger
@@ -52,9 +54,9 @@ func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) 
 	return nil
 }
 
-// new上传
-func (s *SmartContract) UploadProcedure(ctx contractapi.TransactionContextInterface, pid string, pre_pid string, checkcode string) error {
-	fmt.Println("UploadUserCarbonData")
+// 上传Procedure创建
+func (s *SmartContract) UploadProcedure(ctx contractapi.TransactionContextInterface, pid string, pre_pid string) error {
+	glog.Info("Blockchain--------UploadProcedure")
 	exists, err := s.UserExists(ctx, pid)
 	if err != nil {
 		return err
@@ -63,9 +65,9 @@ func (s *SmartContract) UploadProcedure(ctx contractapi.TransactionContextInterf
 		return fmt.Errorf("the asset %s already exists", pid)
 	}
 	proc := Procedure{
-		PID:       pid,
-		PrePID:    pre_pid,
-		CheckCode: checkcode,
+		PID:    pid,
+		PrePID: pre_pid,
+		//CheckCode: checkcode,
 	}
 
 	fmt.Println("userdata:  ", proc)
@@ -76,9 +78,46 @@ func (s *SmartContract) UploadProcedure(ctx contractapi.TransactionContextInterf
 	return ctx.GetStub().PutState(proc.PID, userdataJSON)
 }
 
+// 更新Procedure的checkcode和phash
+func (s *SmartContract) UpdateProcedure(ctx contractapi.TransactionContextInterface, pid string, checkcode string, p_hash string) error {
+	glog.Info("Blockchain--------UpdateProcedureCheckcode")
+	exists, err := s.UserExists(ctx, pid)
+	if err != nil {
+		return err
+	}
+	if !exists {
+		return fmt.Errorf("the procedure %s does not exist", pid)
+	}
+
+	ProcedureDataJSON, err := ctx.GetStub().GetState(pid)
+	if err != nil {
+		return fmt.Errorf("failed to read from world state: %v", err)
+	}
+
+	var ProcedureData Procedure
+	err = json.Unmarshal(ProcedureDataJSON, &ProcedureData)
+	if err != nil {
+		fmt.Println("Unmarshal failed")
+	}
+	//oldProc := UserCarbonData.CarbonTxs
+	procdata := Procedure{
+		PID:       pid,
+		PrePID:    ProcedureData.PrePID,
+		CheckCode: checkcode,
+		PHash:     p_hash,
+	}
+	fmt.Println("new Procedure:  ", procdata)
+
+	procdataJSON, err := json.Marshal(procdata)
+	if err != nil {
+		return err
+	}
+	return ctx.GetStub().PutState(pid, procdataJSON)
+}
+
 // new查询procedure数据
-func (s *SmartContract) QueryUserCarbonData(ctx contractapi.TransactionContextInterface, pid string) (*Procedure, error) {
-	fmt.Println("QueryUserCarbonData")
+func (s *SmartContract) QueryProcedureWithPID(ctx contractapi.TransactionContextInterface, pid string) (*Procedure, error) {
+	glog.Info("Blockchain--------QueryProcedureWithPID")
 
 	procJSON, err := ctx.GetStub().GetState(pid)
 	if err != nil {

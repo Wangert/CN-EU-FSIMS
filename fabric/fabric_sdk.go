@@ -1,4 +1,4 @@
-package fabricsdk
+package fabric
 
 /*
 Copyright 2020 IBM All Rights Reserved.
@@ -11,14 +11,12 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"net/http"
 	"os"
 	"path/filepath"
-	"strconv"
 	"time"
 	"unsafe"
 
-	"github.com/gin-gonic/gin"
+	"github.com/golang/glog"
 	"github.com/golang/protobuf/proto"
 	"github.com/hyperledger/fabric-protos-go/common"
 	"github.com/hyperledger/fabric-protos-go/ledger/rwset"
@@ -26,6 +24,7 @@ import (
 	"github.com/hyperledger/fabric-protos-go/msp"
 	"github.com/hyperledger/fabric-protos-go/peer"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/ledger"
+	"github.com/hyperledger/fabric-sdk-go/pkg/common/providers/fab"
 	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
 	"github.com/hyperledger/fabric-sdk-go/pkg/gateway"
@@ -33,51 +32,6 @@ import (
 
 var contract *gateway.Contract
 var ledgerClient *ledger.Client
-
-type Block struct {
-	Number          uint64         `json:"number"`          //
-	PreviousHash    []byte         `json:"previousHash"`    //
-	DataHash        []byte         `json:"dataHash"`        //
-	BlockHash       []byte         `json:"blockHash"`       //
-	TxNum           int            `json:"txNum"`           //
-	TransactionList []*Transaction `json:"transactionList"` //
-	CreateTime      string         `json:"createTime"`      //
-}
-type Transaction struct {
-	TransactionActionList []*TransactionAction `json:"transactionActionList"` //
-}
-type TransactionAction struct {
-	TxId         string   `json:"txId"`         //
-	BlockNum     uint64   `json:"blockNum"`     //
-	Type         string   `json:"type"`         //
-	Timestamp    string   `json:"timestamp"`    //
-	ChannelId    string   `json:"channelId"`    //
-	Endorsements []string `json:"endorsements"` //
-	ChaincodeId  string   `json:"chaincodeId"`  //
-	ReadSetList  []string `json:"readSetList"`  //
-	WriteSetList []string `json:"writeSetList"` //
-}
-
-// type FoodChainData struct {
-// 	ID        string          `json:"ID"`
-// 	Signature string          `json:"Signature"`
-// 	FoodChain []FoodChainNode `json:"FoodChain"`
-// }
-
-//	type FoodChainNode struct {
-//		Foodchainprocess string `json:"Foodchainprocess"`
-//		UploadCompany    string `json:"UploadCompany"`
-//		FileHash         string `json:"FileHash"`
-//	}
-type Procedure struct {
-	PID       string `json:"pid"`
-	PrePID    string `json:"pre_pid"`
-	CheckCode string `json:"checkcode"`
-}
-
-type IndustrialChain struct {
-	Procedures map[string]Procedure `json:"Procedures"`
-}
 
 // 测试fabric连接
 func ConnecttoNetwork() (result bool, channelname string, chaincodename string) {
@@ -125,7 +79,7 @@ func ConnecttoNetwork() (result bool, channelname string, chaincodename string) 
 	if err != nil {
 		log.Fatalf("Failed to get network: %v", err)
 	}
-	contract = network.GetContract("basic3")
+	contract = network.GetContract("Fsims")
 	if contract.Name() != "" {
 		fmt.Printf("成功连接到fabric网络，已监测到合约： %s\n", contract.Name())
 		result = true
@@ -161,9 +115,10 @@ func GetLedgerClient() {
 	}
 }
 
-func QueryBlockByHeight(c *gin.Context) {
-	fmt.Println("============ QueryBlockByHeight ============")
-	num, _ := strconv.Atoi(c.Query("num"))
+// 根据高度查询区块
+func QueryBlockByHeight(num int) (Block, error) {
+	//fmt.Println("============ QueryBlockByHeight ============")
+	//num, _ := strconv.Atoi(c.Query("num"))
 
 	GetLedgerClient()
 	rawBlock, err := ledgerClient.QueryBlock(uint64(num))
@@ -193,45 +148,38 @@ func QueryBlockByHeight(c *gin.Context) {
 		TransactionList: txList,
 		CreateTime:      txList[0].TransactionActionList[0].Timestamp,
 	}
-
-	if err != nil {
-		fmt.Println("QueryBlock err: ", err)
-	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"result": true,
-			"block":  block,
-		})
-	}
+	return block, err
 }
 
 func StringToBytes(data string) []byte {
 	return *(*[]byte)(unsafe.Pointer(&data))
 }
 
-func QueryBlockByHash(c *gin.Context) {
-	hash := c.PostForm("hash")
-	fmt.Println(hash)
-	GetLedgerClient()
+// 修改路由
+// func QueryBlockByHash(hash string)(Block,error) {
+// 	//hash := c.PostForm("hash")
+// 	//fmt.Println(hash)
+// 	GetLedgerClient()
 
-	ledgerInfo, err := ledgerClient.QueryInfo()
+// 	ledgerInfo, err := ledgerClient.QueryInfo()
 
-	hashByte := StringToBytes(hash)
-	fmt.Println("hash", hashByte)
-	fmt.Println(ledgerInfo.BCI.CurrentBlockHash)
+// 	hashByte := StringToBytes(hash)
+// 	fmt.Println("hash", hashByte)
+// 	fmt.Println(ledgerInfo.BCI.CurrentBlockHash)
 
-	block, err := ledgerClient.QueryBlockByHash(ledgerInfo.BCI.CurrentBlockHash)
-	if err != nil {
-		fmt.Println("querybyhash err: ", err)
-	}
-	c.JSON(http.StatusOK, gin.H{
-		"result": true,
-		"block":  block,
-	})
+// 	block, err := ledgerClient.QueryBlockByHash(ledgerInfo.BCI.CurrentBlockHash)
+// 	// if err != nil {
+// 	// 	fmt.Println("querybyhash err: ", err)
+// 	// }
+// 	// c.JSON(http.StatusOK, gin.H{
+// 	// 	"result": true,
+// 	// 	"block":  block,
+// 	// })
 
-}
+//     return block,err
+// }
 
-func GetLastestBlock(c *gin.Context) {
-	fmt.Println("============ GetLastestBlock ============")
+func GetLastestBlock() ([]Block, error) {
 	GetLedgerClient()
 
 	var blocks []Block
@@ -272,10 +220,11 @@ func GetLastestBlock(c *gin.Context) {
 
 		blocks = append(blocks, block)
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"result": true,
-		"blocks": blocks,
-	})
+	return blocks, err
+	// c.JSON(http.StatusOK, gin.H{
+	// 	"result": true,
+	// 	"blocks": blocks,
+	// })
 
 }
 
@@ -414,64 +363,51 @@ func GetTransactionActionFromTransactionDeep(transactionAction *peer.Transaction
 
 }
 
-func GetLedgerInfo(c *gin.Context) {
-	fmt.Println("============ GetChannelInfo ============")
+func GetLedgerInfo() (*fab.BlockchainInfoResponse, error) {
 
 	GetLedgerClient()
 
 	ledgerInfo, err := ledgerClient.QueryInfo()
-	if err != nil {
-		fmt.Println("QueryInfo err: ", err)
-	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"result": true,
-			"Info":   ledgerInfo,
-		})
-	}
+	return ledgerInfo, err
 }
 
 // 获得fabric对应账本的世界状态
-func GetAllFabricResult() []FoodChainData {
-	log.Println("============ GetAllResult ============")
+// func GetAllFabricResult() []FoodChainData {
+// 	log.Println("============ GetAllResult ============")
+// 	ConnecttoNetwork()
+// 	log.Println(contract.Name())
+// 	log.Println("--> Evaluate Transaction: GetAllFoodChainData, function returns all the current assets on the ledger")
+// 	result, err := contract.EvaluateTransaction("GetAllFoodChainData")
+// 	if err != nil {
+// 		log.Fatalf("Failed to evaluate transaction: %v", err)
+// 	}
+// 	var list []FoodChainData
+// 	err = json.Unmarshal(result, &list)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	} else {
+// 		log.Println(list)
+// 	}
+// 	log.Println(string(result))
+// 	return list
+// }
+
+func QueryProcedureWithPID(pid string) Procedure {
+	log.Println("============ QueryProcedureWithPID ============")
 	ConnecttoNetwork()
 	log.Println(contract.Name())
-	log.Println("--> Evaluate Transaction: GetAllFoodChainData, function returns all the current assets on the ledger")
-	result, err := contract.EvaluateTransaction("GetAllFoodChainData")
-	if err != nil {
-		log.Fatalf("Failed to evaluate transaction: %v", err)
-	}
-	var list []FoodChainData
-	err = json.Unmarshal(result, &list)
-	if err != nil {
-		log.Fatal(err)
-	} else {
-		log.Println(list)
-	}
-	log.Println(string(result))
-	return list
-}
-
-func QueryByBlockHeight(height int) {
-	fmt.Println("============ QueryByBlockHeight ============")
-
-}
-
-func GetFoodData(id string) FoodChainData {
-	log.Println("============ GetAllResult ============")
-	ConnecttoNetwork()
-	log.Println(contract.Name())
-	txn, err := contract.CreateTransaction("QueryFoodData", gateway.WithEndorsingPeers("peer0.org1", "peer0.org2"))
+	txn, err := contract.CreateTransaction("QueryProcedureWithPID", gateway.WithEndorsingPeers("peer0.org1", "peer0.org2"))
 	if err != nil {
 		log.Fatalf("Failed to create Tx: %v", err)
 	}
-	result, err := txn.Submit(id)
+	result, err := txn.Submit(pid)
 	if err != nil {
 		log.Fatalf("Failed to Submit transaction: %v", err)
 	} else {
 		fmt.Println("success result: ", string(result))
 	}
 
-	var resultJson FoodChainData
+	var resultJson Procedure
 	err = json.Unmarshal(result, &resultJson)
 	if err != nil {
 		log.Fatal(err)
@@ -482,39 +418,39 @@ func GetFoodData(id string) FoodChainData {
 	return resultJson
 }
 
-func UploadFoodData(id string, signature string, foodchainprocess string, filehash string, uploadcompany string) ([]byte, error) {
-	fmt.Println("============ UploadFoodData ============")
+func UploadProcedure(pid string, pre_id string) ([]byte, error) {
+	glog.Info("============ UploadProcedure ============")
 	ConnecttoNetwork()
 	fmt.Println("contract name: ", contract.Name())
-	txn, err := contract.CreateTransaction("UploadFooddata", gateway.WithEndorsingPeers("peer0.org1", "peer0.org2"))
+	txn, err := contract.CreateTransaction("UploadProcedure", gateway.WithEndorsingPeers("peer0.org1", "peer0.org2"))
 	if err != nil {
 		log.Fatalf("Failed to create Tx: %v", err)
 	}
-	result, err := txn.Submit(id, signature, foodchainprocess, filehash, uploadcompany)
+	result, err := txn.Submit(pid, pre_id)
 	if err != nil {
 		log.Fatalf("Failed to Submit transaction: %v", err)
 	} else {
 		fmt.Println("success result: ", result)
 	}
-	return result, nil
+	return result, err
 }
 
-func UpdateFoodData(id string, signature string, foodchainprocess string, filehash string, uploadcompany string) ([]byte, error) {
-	fmt.Println("============ UpdateFoodData ============")
+func UpdateProcedure(pid string, checkcode string, p_hash string) ([]byte, error) {
+	fmt.Println("============ UpdateProcedure ============")
 	ConnecttoNetwork()
 	fmt.Println("contract name: ", contract.Name())
-	txn, err := contract.CreateTransaction("UpdateFooddata", gateway.WithEndorsingPeers("peer0.org1", "peer0.org2"))
+	txn, err := contract.CreateTransaction("UpdateProcedure", gateway.WithEndorsingPeers("peer0.org1", "peer0.org2"))
 	if err != nil {
 		log.Fatalf("Failed to create Tx: %v", err)
 	}
-	result, err := txn.Submit(id, signature, foodchainprocess, filehash, uploadcompany)
+	result, err := txn.Submit(pid, checkcode, p_hash)
 	if err != nil {
 		log.Fatalf("Failed to Submit transaction: %v", err)
 		return nil, err
 	} else {
 		fmt.Println("success result: ", result)
 	}
-	return result, nil
+	return result, err
 
 }
 
