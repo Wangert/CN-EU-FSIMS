@@ -65,7 +65,7 @@ func TestFindFsimsUsers(t *testing.T) {
 	}
 }
 
-func TestUpdateFsimsUsers(t *testing.T) {
+func TestResetFsimsUsers(t *testing.T) {
 	mysql.Init(TESTCONFIGPATH)
 	account := "Account_test"
 	err := service.ResetFsimsPassWord(account)

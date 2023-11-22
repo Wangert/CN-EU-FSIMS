@@ -8,6 +8,7 @@ import (
 	"CN-EU-FSIMS/utils/crypto"
 	"context"
 	"errors"
+	"fmt"
 	"gorm.io/gorm"
 
 	"github.com/golang/glog"
@@ -31,11 +32,16 @@ const (
 	TRANSPORT_OPERATOR_USER_NUMBER = "0005"
 
 	PASSWORD_SALT = "FSIMSPS"
-	INIT_PASSWORD = "123456"
+	INIT_PASSWORD = "Fsims123456!"
 )
 
 func CreateFsimUser(user *request.ReqUpdateUser) *models.FSIMSUser {
+	uuid, err := generateUuid(user.Account, user.Type)
+	if err != nil {
+		return nil
+	}
 	var u models.FSIMSUser
+	u.UUID = uuid
 	u.Name = user.Name
 	u.Phone = user.Phone
 	u.Type = user.Type
@@ -83,7 +89,6 @@ func AddFsimsUser(user *request.ReqUser) error {
 		Company:      user.Company,
 		Phone:        user.Phone,
 	}
-
 	err = query.FSIMSUser.WithContext(context.Background()).Create(&fsimsUser)
 	if err != nil {
 		glog.Errorln("create new user error: %v", err)
@@ -109,6 +114,14 @@ func AddBasicRoleForUser(uuid string) error {
 	}
 
 	return cs.AddRoleForUserWithUUID(uuid, "user")
+}
+
+func RemoveBasicRoleForUser(uuid string) error {
+	cs, err := NewCasbinService(mysql.DB)
+	if err != nil {
+		return err
+	}
+	return cs.RemoveRoleForUserWithUUID(uuid, "user")
 }
 
 func AddRoleForUserWithType(uuid string, ttype int) error {
@@ -139,11 +152,16 @@ func AddRoleForUserWithType(uuid string, ttype int) error {
 	return cs.AddRoleForUserWithUUID(uuid, roleName)
 }
 
+func RemoveRoleForUserWithType(uuid string, ttype int) error {
+	return nil
+}
+
 func generateUuid(account string, userType int) (string, error) {
 	accountHash := crypto.CalculateSHA256(account, "uuid")
 
 	var uuid string
-
+	fmt.Println(userType)
+	fmt.Println("2222222222222222222222")
 	switch userType {
 	case ADMIN_USER_TYPE:
 		uuid = UUID_PREFIX + "-" + ADMIN_USER_NUMBER + "-" + accountHash
@@ -189,13 +207,28 @@ func AddFsimsUserByAdmin(user *request.ReqAddUser) error {
 		glog.Errorln("create new user error by admin")
 		return errors.New("create new user error")
 	}
+
+	err = AddBasicRoleForUser(uuid)
+	if err != nil {
+		return err
+	}
+	err = AddRoleForUserWithType(uuid, user.Type)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
-func ResetFsimsPassWord(account string) error {
+func ResetFsimsPassWord(account *request.ReqAccount) error {
 	p := crypto.CalculateSHA256(INIT_PASSWORD, PASSWORD_SALT)
 	u := query.FSIMSUser
-	_, err := u.WithContext(context.Background()).Where(u.Account.Eq(account)).Update(u.PasswordHash, p)
+	uuid, err := generateUuid(account.Account, account.Type)
+	if err != nil {
+		glog.Errorln("Reset the user password error: %v", err)
+		return errors.New("Reset the user password error")
+	}
+	_, err = u.WithContext(context.Background()).Where(u.UUID.Eq(uuid)).Update(u.PasswordHash, p)
 	if err != nil {
 		glog.Errorln("Reset the user password error: %v", err)
 		return errors.New("Reset the user password error")
@@ -207,6 +240,7 @@ func UpdateFsimsUser(user *request.ReqUpdateUser) error {
 	//check whether user exist
 	u := query.FSIMSUser
 	_, err := u.WithContext(context.Background()).Where(u.Account.Eq(user.Account)).First()
+	//First make a note of its uuid
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		glog.Errorln("Update a user error: %v", err)
 		return errors.New("update a user error: user not existed")
@@ -221,19 +255,31 @@ func UpdateFsimsUser(user *request.ReqUpdateUser) error {
 	if err != nil {
 		return err
 	}
+
+	//casbin_rule_update
+
 	return nil
 }
 
-func DeleteFsimUser(account string) error {
+func DeleteFsimUser(account *request.ReqAccount) error {
 	u := query.FSIMSUser
-	res, err := u.WithContext(context.Background()).Where(u.Account.Eq(account)).Delete()
+	uuid, err := generateUuid(account.Account, account.Type)
+	if err != nil {
+		glog.Errorln("delete a user error: %v", err)
+		return errors.New("delete a user error")
+	}
+	fmt.Println("1111111111111111")
+	//Delete the corresponding records in the casbin table first
+
+	res, err := u.WithContext(context.Background()).Unscoped().Where(u.UUID.Eq(uuid)).Delete()
 	_ = res.RowsAffected
+
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		glog.Errorln("Delete a user error: %v", err)
 		return errors.New("delete a user error: user not existed")
 	}
 	if err != nil {
-		glog.Errorln("Update a user error: %v", err)
+		glog.Errorln("delete a user error: %v", err)
 		return errors.New("delete a user error")
 	}
 	return nil

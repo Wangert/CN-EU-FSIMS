@@ -202,16 +202,18 @@ func checkAddParams(reqAddUser *request.ReqAddUser) bool {
 
 func ResetPasswordByAdmin(c *gin.Context) {
 	glog.Info("################## Reset User's Password By Admin ##################")
-	var account string
-	if err := c.ShouldBind(&account); err != nil {
+	var a request.ReqAccount
+	if err := c.ShouldBind(&a); err != nil {
 		response.MakeFail(c, http.StatusBadRequest, "Reset User's Password Error!")
 		return
 	}
+	fmt.Println("444444444444444")
+	fmt.Println(a.Account)
 	//reset
 	glog.Info("request user account:")
-	glog.Info(account)
+	glog.Info(a)
 
-	err := service.ResetFsimsPassWord(account)
+	err := service.ResetFsimsPassWord(&a)
 	if err != nil {
 		response.MakeFail(c, http.StatusBadRequest, "reset the user's password error!")
 		return
@@ -277,14 +279,17 @@ func checkUpdateParams(reqUpdateUser *request.ReqUpdateUser) bool {
 }
 func DeleteUser(c *gin.Context) {
 	glog.Info("################## Delete A FSIMS User ##################")
-	var a string
+	var a request.ReqAccount
 	if err := c.ShouldBind(&a); err != nil {
 		response.MakeFail(c, http.StatusBadRequest, "Delete a user error")
 		return
 	}
-	err := service.DeleteFsimUser(a)
+	fmt.Println("333333333333333333")
+	fmt.Println(a.Account)
+	fmt.Println(a.Type)
+	err := service.DeleteFsimUser(&a)
 	if err != nil {
-		response.MakeFail(c, http.StatusBadRequest, "The new user information delete error!")
+		response.MakeFail(c, http.StatusBadRequest, "The user information delete error!")
 		return
 	}
 	glog.Info("delete fsims user successful")

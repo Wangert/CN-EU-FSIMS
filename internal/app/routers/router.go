@@ -28,7 +28,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	{
 		admin.GET("allusers", handlers.GetAllUsers)
 		admin.POST("adduser", handlers.AddUserByAdmin)
-		admin.DELETE("deleteuser", handlers.DeleteUser)
+		admin.POST("deleteuser", handlers.DeleteUser) //修改为delete
 		admin.POST("updateuser", handlers.UpdateUser)
 		admin.POST("reset", handlers.ResetPasswordByAdmin)
 	}

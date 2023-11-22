@@ -38,3 +38,9 @@ type ReqUpdateUser struct {
 	Company         string `json:"company" form:"company"`
 	Phone           string `json:"phone" form:"phone"`
 }
+
+// reset password or delete user by admin
+type ReqAccount struct {
+	Account string `json:"account" form:"account"`
+	Type    int    `json:"type" form:"type"`
+}
