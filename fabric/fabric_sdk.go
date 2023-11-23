@@ -78,7 +78,7 @@ func ConnecttoNetwork() (result bool, channelname string, chaincodename string) 
 	if err != nil {
 		log.Fatalf("Failed to get network: %v", err)
 	}
-	contract = network.GetContract("Fsims")
+	contract = network.GetContract("fsims")
 	if contract.Name() != "" {
 		fmt.Printf("成功连接到fabric网络，已监测到合约： %s\n", contract.Name())
 		result = true
@@ -390,7 +390,7 @@ func GetLedgerInfo() (*fab.BlockchainInfoResponse, error) {
 // 	return list
 // }
 
-func QueryProcedureWithPID(pid string) Procedure {
+func QueryProcedureWithPID(pid string) (Procedure, error) {
 	log.Println("============ QueryProcedureWithPID ============")
 	ConnecttoNetwork()
 	log.Println(contract.Name())
@@ -413,7 +413,7 @@ func QueryProcedureWithPID(pid string) Procedure {
 		log.Println(resultJson)
 	}
 
-	return resultJson
+	return resultJson, err
 }
 
 func UploadProcedure(pid string, pre_id string) ([]byte, error) {

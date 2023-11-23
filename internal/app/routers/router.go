@@ -44,6 +44,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		pop.GET("upload", handlers.PastureOperatorUpload)
 
 		pop.POST("createproc", handlers.CreateProcedure)
+		pop.GET("queryproc", handlers.QueryProcedureWithPID)
 		pop.POST("commitproc", handlers.CommitPastureProcedure)
 	}
 

@@ -4,9 +4,10 @@ import (
 	"CN-EU-FSIMS/database/mysql"
 	"CN-EU-FSIMS/internal/app/handlers/response"
 	"CN-EU-FSIMS/internal/service"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
-	"net/http"
 )
 
 // CheckPermission
@@ -37,6 +38,7 @@ func CheckPermission() func(c *gin.Context) {
 			Url:    url,
 			Method: method,
 		}
+		glog.Info("pp:", pp)
 		ok, err = cs.CheckPermission(&pp)
 		if err != nil {
 			response.MakeFail(c, http.StatusForbidden, err.Error())

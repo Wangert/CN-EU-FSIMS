@@ -1,8 +1,9 @@
 package models
 
 import (
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type Procedure struct {
@@ -11,7 +12,7 @@ type Procedure struct {
 	Type               uint           `gorm:"not null" json:"type"`
 	Name               string         `gorm:"not null; type:varchar(100)" json:"name"`
 	state              uint           `gorm:"not null" json:"state"`
-	PHash              string         `gorm:"unique; type:varchar(256)" json:"p_hash"`
+	PHash              string         `gorm:"type:varchar(256)" json:"p_hash"`
 	CheckCode          string         `gorm:"type:varchar(256)" json:"check_code"`
 	SerialNumber       uint           `gorm:"not null" json:"serial_number"`
 	Operator           string         `json:"operator"`

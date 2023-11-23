@@ -1,11 +1,13 @@
 package handlers
 
 import (
+	"CN-EU-FSIMS/fabric"
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/handlers/response"
 	"CN-EU-FSIMS/internal/service"
-	"github.com/golang/glog"
 	"net/http"
+
+	"github.com/golang/glog"
 
 	"github.com/gin-gonic/gin"
 )
@@ -37,6 +39,22 @@ func CreateProcedure(c *gin.Context) {
 	}
 
 	response.MakeSuccess(c, http.StatusOK, "create procedure successful!")
+	return
+}
+
+func QueryProcedureWithPID(c *gin.Context) {
+	pid := c.Query("pid")
+	glog.Info("pid:", pid)
+	proc, err := fabric.QueryProcedureWithPID(pid)
+
+	if err != nil {
+		glog.Errorln("query procedure error")
+		response.MakeFail(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	glog.Info("query all fsims users successful")
+	response.MakeSuccess(c, http.StatusOK, proc)
 	return
 }
 
