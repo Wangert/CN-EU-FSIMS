@@ -27,10 +27,9 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	admin := fsims.Group("/admin", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
 		admin.GET("allusers", handlers.GetAllUsers)
-		admin.POST("adduser", handlers.AddUserByAdmin)
-		admin.POST("deleteuser", handlers.DeleteUser) //修改为delete
-		admin.POST("updateuser", handlers.UpdateUser)
-		admin.POST("reset", handlers.ResetPasswordByAdmin)
+		admin.GET("blockchain/queryblockbyheight", handlers.QueryBlockByHeight)
+		admin.GET("blockchain/ledgerinfo", handlers.GetLedgerInfo)
+		admin.GET("blockchain/latestblock", handlers.GetLastestBlock)
 	}
 
 	// industrial chain group
@@ -45,6 +44,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		pop.GET("upload", handlers.PastureOperatorUpload)
 
 		pop.POST("createproc", handlers.CreateProcedure)
+		pop.GET("queryproc", handlers.QueryProcedureWithPID)
 		pop.POST("commitproc", handlers.CommitPastureProcedure)
 	}
 

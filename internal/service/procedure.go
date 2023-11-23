@@ -1,6 +1,7 @@
 package service
 
 import (
+	"CN-EU-FSIMS/fabric"
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/app/models/pasture"
@@ -9,8 +10,9 @@ import (
 	"CN-EU-FSIMS/utils/crypto"
 	"context"
 	"errors"
-	"github.com/golang/glog"
 	"time"
+
+	"github.com/golang/glog"
 )
 
 const (
@@ -82,7 +84,10 @@ func AddProcedure(rcp request.ReqCreateProcedure) error {
 	}
 
 	// 调用智能合约新建Procedure
-
+	_, err = fabric.UploadProcedure(pid, prepid)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -174,7 +179,7 @@ func CommitPastureProcedure(cpp request.CommitPastureProcedure) (string, error) 
 	}
 
 	// 更新链上Procedure的pHash
-
+	_, err = fabric.UpdateProcedure(cpp.PID, ncc, pHash)
 	return ncc, nil
 }
 
