@@ -24,7 +24,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	}
 
 	// admin router group
-	admin := fsims.Group("/admin", middlewares.JwtAuth(), middlewares.CheckPermission())
+	admin := fsims.Group("/admin", middlewares.JwtAuth(), middlewares.CheckPermission(), middlewares.LogMiddleware())
 	{
 		admin.GET("allusers", handlers.GetAllUsers)
 		admin.GET("blockchain/queryblockbyheight", handlers.QueryBlockByHeight)

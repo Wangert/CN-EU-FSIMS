@@ -148,13 +148,12 @@ func GetAllUsers(c *gin.Context) {
 }
 
 func AddUserByAdmin(c *gin.Context) {
-	glog.Info("################## Add A FSIMS User ##################")
+	glog.Info("################## Add A FSIMS User By Admin ##################")
 	var u request.ReqAddUser
 	if err := c.ShouldBind(&u); err != nil || !checkAddParams(&u) {
 		response.MakeFail(c, http.StatusBadRequest, "Add a user parameters error!")
 		return
 	}
-
 	//add
 	glog.Info("request user add parameters:")
 	glog.Info(u)
@@ -164,37 +163,12 @@ func AddUserByAdmin(c *gin.Context) {
 		return
 	}
 	glog.Info("fsims user add successful")
-	response.MakeSuccess(c, http.StatusOK, "successfully update the user by admin")
+	response.MakeSuccess(c, http.StatusOK, "successfully add the user by admin")
 }
 
 func checkAddParams(reqAddUser *request.ReqAddUser) bool {
 	if reqAddUser.Name == "" || reqAddUser.Account == "" || reqAddUser.Type == 0 || reqAddUser.Role == "" {
 		glog.Errorln("Missing user registration parameters")
-		return false
-	}
-	ps := reqAddUser.Password
-	if len(ps) < 9 {
-		glog.Errorln("password len is < 9")
-		return false
-	}
-	num := `[0-9]{1}`
-	a_z := `[a-z]{1}`
-	A_Z := `[A-Z]{1}`
-	symbol := `[!@#~$%^&*()+|_]{1}`
-	if b, err := regexp.MatchString(num, ps); !b || err != nil {
-		glog.Errorln("password need num :%v", err)
-		return false
-	}
-	if b, err := regexp.MatchString(a_z, ps); !b || err != nil {
-		glog.Errorln("password need a_z :%v", err)
-		return false
-	}
-	if b, err := regexp.MatchString(A_Z, ps); !b || err != nil {
-		glog.Errorln("password need A_Z :%v", err)
-		return false
-	}
-	if b, err := regexp.MatchString(symbol, ps); !b || err != nil {
-		glog.Errorln("password need symbol :%v", err)
 		return false
 	}
 	return true

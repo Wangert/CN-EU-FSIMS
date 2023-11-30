@@ -8,7 +8,6 @@ import (
 	"CN-EU-FSIMS/utils/crypto"
 	"context"
 	"errors"
-	"fmt"
 	"gorm.io/gorm"
 
 	"github.com/golang/glog"
@@ -160,8 +159,6 @@ func generateUuid(account string, userType int) (string, error) {
 	accountHash := crypto.CalculateSHA256(account, "uuid")
 
 	var uuid string
-	fmt.Println(userType)
-	fmt.Println("2222222222222222222222")
 	switch userType {
 	case ADMIN_USER_TYPE:
 		uuid = UUID_PREFIX + "-" + ADMIN_USER_NUMBER + "-" + accountHash
@@ -187,7 +184,6 @@ func AddFsimsUserByAdmin(user *request.ReqAddUser) error {
 	if err != nil {
 		return err
 	}
-
 	//密码初始为fsims+123456
 	passwordHash := crypto.CalculateSHA256(INIT_PASSWORD, PASSWORD_SALT)
 
