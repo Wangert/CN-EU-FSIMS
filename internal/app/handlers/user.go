@@ -207,8 +207,6 @@ func ResetPasswordByAdmin(c *gin.Context) {
 		response.MakeFail(c, http.StatusBadRequest, "Reset User's Password Error!")
 		return
 	}
-	fmt.Println("444444444444444")
-	fmt.Println(a.Account)
 	//reset
 	glog.Info("request user account:")
 	glog.Info(a)
@@ -223,60 +221,6 @@ func ResetPasswordByAdmin(c *gin.Context) {
 	return
 }
 
-func UpdateUser(c *gin.Context) {
-	glog.Info("################## Update A FSIMS User ##################")
-	var u request.ReqUpdateUser
-	if err := c.ShouldBind(&u); err != nil || !checkUpdateParams(&u) {
-		response.MakeFail(c, http.StatusBadRequest, "Update a user parameters error!")
-		return
-	}
-
-	//update
-	glog.Info("request user update parameters:")
-	glog.Info(u)
-
-	err := service.UpdateFsimsUser(&u)
-	if err != nil {
-		response.MakeFail(c, http.StatusBadRequest, "The new user information insert error!")
-		return
-	}
-	glog.Info("fsims user update successful!")
-	response.MakeSuccess(c, http.StatusOK, "successfully update the user!")
-	return
-}
-
-func checkUpdateParams(reqUpdateUser *request.ReqUpdateUser) bool {
-	if reqUpdateUser.Name == "" || reqUpdateUser.Account == "" || reqUpdateUser.Type == 0 || reqUpdateUser.Role == "" {
-		glog.Errorln("Missing user registration parameters")
-		return false
-	}
-	ps := reqUpdateUser.Password
-	if len(ps) < 9 {
-		glog.Errorln("password len is < 9")
-		return false
-	}
-	num := `[0-9]{1}`
-	a_z := `[a-z]{1}`
-	A_Z := `[A-Z]{1}`
-	symbol := `[!@#~$%^&*()+|_]{1}`
-	if b, err := regexp.MatchString(num, ps); !b || err != nil {
-		glog.Errorln("password need num :%v", err)
-		return false
-	}
-	if b, err := regexp.MatchString(a_z, ps); !b || err != nil {
-		glog.Errorln("password need a_z :%v", err)
-		return false
-	}
-	if b, err := regexp.MatchString(A_Z, ps); !b || err != nil {
-		glog.Errorln("password need A_Z :%v", err)
-		return false
-	}
-	if b, err := regexp.MatchString(symbol, ps); !b || err != nil {
-		glog.Errorln("password need symbol :%v", err)
-		return false
-	}
-	return true
-}
 func DeleteUser(c *gin.Context) {
 	glog.Info("################## Delete A FSIMS User ##################")
 	var a request.ReqAccount
@@ -284,7 +228,6 @@ func DeleteUser(c *gin.Context) {
 		response.MakeFail(c, http.StatusBadRequest, "Delete a user error")
 		return
 	}
-	fmt.Println("333333333333333333")
 	fmt.Println(a.Account)
 	fmt.Println(a.Type)
 	err := service.DeleteFsimUser(&a)
@@ -295,24 +238,6 @@ func DeleteUser(c *gin.Context) {
 	glog.Info("delete fsims user successful")
 	response.MakeSuccess(c, http.StatusOK, "successfully delete the user!")
 }
-
-//func Login(c *gin.Context) {
-//	log.Println("******************* UserLogin *********************")
-//	username := c.PostForm("username")
-//	password := c.PostForm("password")
-//	usertype, _ := strconv.Atoi(c.PostForm("usertype"))
-//	res := mysql.QueryUser(username, password, usertype)
-//	if res.Login {
-//		log.Println("login success")
-//	} else {
-//		log.Println("login failed")
-//	}
-//	c.JSON(http.StatusOK, gin.H{
-//		"result":  res.Login,
-//		"message": "登录请求发送成功！",
-//		"data":    res,
-//	})
-//}
 
 func UserNotification(c *gin.Context) {
 	fmt.Println("******************* UserNotification *********************")
@@ -334,17 +259,3 @@ func ReadNotification(c *gin.Context) {
 		"result":  true,
 	})
 }
-
-//func PlaceRisk(c *gin.Context) {
-//	fmt.Println("******************* PlaceRisk *********************")
-//	place := c.PostForm("Place")
-//	ProductInfo := c.PostForm("ProductInfo")
-//	Risk := c.PostForm("Risk")
-//	Result, _ := strconv.Atoi(c.PostForm("Result"))
-//	time := c.PostForm("Time")
-//	mysql.InsertPlaceRiskNotification(Result, place, ProductInfo, Risk, time)
-//	c.JSON(http.StatusOK, gin.H{
-//		"message": "请求发送成功！",
-//		"result":  true,
-//	})
-//}

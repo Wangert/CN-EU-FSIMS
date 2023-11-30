@@ -30,6 +30,10 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		admin.GET("blockchain/queryblockbyheight", handlers.QueryBlockByHeight)
 		admin.GET("blockchain/ledgerinfo", handlers.GetLedgerInfo)
 		admin.GET("blockchain/latestblock", handlers.GetLastestBlock)
+
+		admin.POST("adduser", handlers.AddUserByAdmin)
+		admin.GET("deleteuser", handlers.DeleteUser)
+		admin.GET("reset", handlers.ResetPasswordByAdmin)
 	}
 
 	// industrial chain group

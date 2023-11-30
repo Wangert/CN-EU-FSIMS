@@ -33,6 +33,8 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 
 	g.ApplyBasic(&models.FSIMSUser{})
 
+	g.ApplyBasic(&models.Logs{})
+
 	g.ApplyBasic(&models.SubProcedure{},
 		&pasture.PastureProcedure{}, &pasture.PastureWater{}, &pasture.PastureFodder{}, &pasture.PastureSoil{}, &pasture.PastureFloorBedding{}, &pasture.PastureAir{},
 		&pasture.PastureWasteDischarge{}, &pasture.PastureWaterPhysicalHazard{}, &pasture.PastureWaterChemicalHazard{}, &pasture.PastureWaterSensoryTraits{}, &pasture.PastureWaterBiohazard{},
@@ -41,7 +43,6 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 		&pasture.PastureWorksuitDisinfectionRecord{}, &pasture.PastureTruckDisinfectionRecord{}, &fatten.FattenProcedure{}, &fatten.FattenWater{}, &fatten.FattenSoil{},
 		&fatten.FattenWaterPhysicalHazard{}, &fatten.FattenWaterChemicalHazard{}, &fatten.FattenWaterSensoryTraits{}, &fatten.FattenWaterBiohazard{},
 		&fatten.FattenSoilPhysicalHazard{}, &fatten.FattenSoilBiohazard{})
-
 	g.Execute()
 }
 

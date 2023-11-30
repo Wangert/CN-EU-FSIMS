@@ -35,22 +35,22 @@ const (
 	INIT_PASSWORD = "Fsims123456!"
 )
 
-func CreateFsimUser(user *request.ReqUpdateUser) *models.FSIMSUser {
-	uuid, err := generateUuid(user.Account, user.Type)
-	if err != nil {
-		return nil
-	}
-	var u models.FSIMSUser
-	u.UUID = uuid
-	u.Name = user.Name
-	u.Phone = user.Phone
-	u.Type = user.Type
-	u.Role = user.Role
-	u.Account = user.Account
-	u.Company = user.Company
-	u.PasswordHash = crypto.CalculateSHA256(user.Password, PASSWORD_SALT)
-	return &u
-}
+//func CreateFsimUser(user *request.ReqUpdateUser) *models.FSIMSUser {
+//	uuid, err := generateUuid(user.Account, user.Type)
+//	if err != nil {
+//		return nil
+//	}
+//	var u models.FSIMSUser
+//	u.UUID = uuid
+//	u.Name = user.Name
+//	u.Phone = user.Phone
+//	u.Type = user.Type
+//	u.Role = user.Role
+//	u.Account = user.Account
+//	u.Company = user.Company
+//	u.PasswordHash = crypto.CalculateSHA256(user.Password, PASSWORD_SALT)
+//	return &u
+//}
 
 func QueryFsimsUserPwdHash(account string) (string, error) {
 	u := query.FSIMSUser
@@ -236,30 +236,30 @@ func ResetFsimsPassWord(account *request.ReqAccount) error {
 	return nil
 }
 
-func UpdateFsimsUser(user *request.ReqUpdateUser) error {
-	//check whether user exist
-	u := query.FSIMSUser
-	_, err := u.WithContext(context.Background()).Where(u.Account.Eq(user.Account)).First()
-	//First make a note of its uuid
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		glog.Errorln("Update a user error: %v", err)
-		return errors.New("update a user error: user not existed")
-	}
-	if err != nil {
-		glog.Errorln("Update a user error: %v", err)
-		return errors.New("update a user error")
-	}
-	//update
-	var fuu = CreateFsimUser(user)
-	_, err = u.WithContext(context.Background()).Where(u.Account.Eq(user.Account)).Updates(&fuu)
-	if err != nil {
-		return err
-	}
-
-	//casbin_rule_update
-
-	return nil
-}
+//func UpdateFsimsUser(user *request.ReqUpdateUser) error {
+//	//check whether user exist
+//	u := query.FSIMSUser
+//	_, err := u.WithContext(context.Background()).Where(u.Account.Eq(user.Account)).First()
+//	//First make a note of its uuid
+//	if errors.Is(err, gorm.ErrRecordNotFound) {
+//		glog.Errorln("Update a user error: %v", err)
+//		return errors.New("update a user error: user not existed")
+//	}
+//	if err != nil {
+//		glog.Errorln("Update a user error: %v", err)
+//		return errors.New("update a user error")
+//	}
+//	//update
+//	var fuu = CreateFsimUser(user)
+//	_, err = u.WithContext(context.Background()).Where(u.Account.Eq(user.Account)).Updates(&fuu)
+//	if err != nil {
+//		return err
+//	}
+//
+//	//casbin_rule_update
+//
+//	return nil
+//}
 
 func DeleteFsimUser(account *request.ReqAccount) error {
 	u := query.FSIMSUser
@@ -268,7 +268,6 @@ func DeleteFsimUser(account *request.ReqAccount) error {
 		glog.Errorln("delete a user error: %v", err)
 		return errors.New("delete a user error")
 	}
-	fmt.Println("1111111111111111")
 	//Delete the corresponding records in the casbin table first
 
 	res, err := u.WithContext(context.Background()).Unscoped().Where(u.UUID.Eq(uuid)).Delete()

@@ -27,6 +27,7 @@ var (
 	FattenWaterChemicalHazard         *fattenWaterChemicalHazard
 	FattenWaterPhysicalHazard         *fattenWaterPhysicalHazard
 	FattenWaterSensoryTraits          *fattenWaterSensoryTraits
+	Logs                              *logs
 	PastureAir                        *pastureAir
 	PastureFloorBedding               *pastureFloorBedding
 	PastureFloorBeddingBiohazard      *pastureFloorBeddingBiohazard
@@ -63,6 +64,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	FattenWaterChemicalHazard = &Q.FattenWaterChemicalHazard
 	FattenWaterPhysicalHazard = &Q.FattenWaterPhysicalHazard
 	FattenWaterSensoryTraits = &Q.FattenWaterSensoryTraits
+	Logs = &Q.Logs
 	PastureAir = &Q.PastureAir
 	PastureFloorBedding = &Q.PastureFloorBedding
 	PastureFloorBeddingBiohazard = &Q.PastureFloorBeddingBiohazard
@@ -100,6 +102,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		FattenWaterChemicalHazard:         newFattenWaterChemicalHazard(db, opts...),
 		FattenWaterPhysicalHazard:         newFattenWaterPhysicalHazard(db, opts...),
 		FattenWaterSensoryTraits:          newFattenWaterSensoryTraits(db, opts...),
+		Logs:                              newLogs(db, opts...),
 		PastureAir:                        newPastureAir(db, opts...),
 		PastureFloorBedding:               newPastureFloorBedding(db, opts...),
 		PastureFloorBeddingBiohazard:      newPastureFloorBeddingBiohazard(db, opts...),
@@ -138,6 +141,7 @@ type Query struct {
 	FattenWaterChemicalHazard         fattenWaterChemicalHazard
 	FattenWaterPhysicalHazard         fattenWaterPhysicalHazard
 	FattenWaterSensoryTraits          fattenWaterSensoryTraits
+	Logs                              logs
 	PastureAir                        pastureAir
 	PastureFloorBedding               pastureFloorBedding
 	PastureFloorBeddingBiohazard      pastureFloorBeddingBiohazard
@@ -177,6 +181,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		FattenWaterChemicalHazard:         q.FattenWaterChemicalHazard.clone(db),
 		FattenWaterPhysicalHazard:         q.FattenWaterPhysicalHazard.clone(db),
 		FattenWaterSensoryTraits:          q.FattenWaterSensoryTraits.clone(db),
+		Logs:                              q.Logs.clone(db),
 		PastureAir:                        q.PastureAir.clone(db),
 		PastureFloorBedding:               q.PastureFloorBedding.clone(db),
 		PastureFloorBeddingBiohazard:      q.PastureFloorBeddingBiohazard.clone(db),
@@ -223,6 +228,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		FattenWaterChemicalHazard:         q.FattenWaterChemicalHazard.replaceDB(db),
 		FattenWaterPhysicalHazard:         q.FattenWaterPhysicalHazard.replaceDB(db),
 		FattenWaterSensoryTraits:          q.FattenWaterSensoryTraits.replaceDB(db),
+		Logs:                              q.Logs.replaceDB(db),
 		PastureAir:                        q.PastureAir.replaceDB(db),
 		PastureFloorBedding:               q.PastureFloorBedding.replaceDB(db),
 		PastureFloorBeddingBiohazard:      q.PastureFloorBeddingBiohazard.replaceDB(db),
@@ -259,6 +265,7 @@ type queryCtx struct {
 	FattenWaterChemicalHazard         IFattenWaterChemicalHazardDo
 	FattenWaterPhysicalHazard         IFattenWaterPhysicalHazardDo
 	FattenWaterSensoryTraits          IFattenWaterSensoryTraitsDo
+	Logs                              ILogsDo
 	PastureAir                        IPastureAirDo
 	PastureFloorBedding               IPastureFloorBeddingDo
 	PastureFloorBeddingBiohazard      IPastureFloorBeddingBiohazardDo
@@ -295,6 +302,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		FattenWaterChemicalHazard:         q.FattenWaterChemicalHazard.WithContext(ctx),
 		FattenWaterPhysicalHazard:         q.FattenWaterPhysicalHazard.WithContext(ctx),
 		FattenWaterSensoryTraits:          q.FattenWaterSensoryTraits.WithContext(ctx),
+		Logs:                              q.Logs.WithContext(ctx),
 		PastureAir:                        q.PastureAir.WithContext(ctx),
 		PastureFloorBedding:               q.PastureFloorBedding.WithContext(ctx),
 		PastureFloorBeddingBiohazard:      q.PastureFloorBeddingBiohazard.WithContext(ctx),
