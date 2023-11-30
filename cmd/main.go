@@ -2,6 +2,7 @@ package main
 
 import (
 	"CN-EU-FSIMS/database/mysql"
+	"CN-EU-FSIMS/fabric"
 	middleware "CN-EU-FSIMS/internal/app/middlewares"
 	"CN-EU-FSIMS/internal/app/routers"
 	"CN-EU-FSIMS/internal/common"
@@ -14,8 +15,6 @@ import (
 	"net/http"
 )
 
-//const MySQLDSN = "root:root@tcp(127.0.0.1:3306)/bft_diagnosis?charset=utf8mb4&parseTime=True"
-
 func main() {
 	fmt.Println("China-Europe Food Safety Intelligent Management and Decision Support System.")
 
@@ -25,9 +24,13 @@ func main() {
 		panic("init config error: " + err.Error())
 	}
 
+	// 初始化mysql
 	mysql.Init(common.CONFIG_PATH)
 
-	// set gin run mode
+	// 初始化fabric sdk client
+	fabric.InitFabricSDKClient()
+
+	// 设置gin运行模式
 	gin.SetMode(viper.GetString("runmode"))
 	//配置路由和中间件
 	r := routers.Load(gin.New(), middleware.Cors)
