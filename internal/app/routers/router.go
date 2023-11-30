@@ -27,7 +27,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	admin := fsims.Group("/admin", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
 		admin.GET("allusers", handlers.GetAllUsers)
-		admin.GET("blockchain/queryblockbyheight", handlers.QueryBlockByHeight)
+		admin.GET("blockchain/block", handlers.QueryBlockByHeight)
 		admin.GET("blockchain/ledgerinfo", handlers.GetLedgerInfo)
 		admin.GET("blockchain/latestblock", handlers.GetLastestBlock)
 	}

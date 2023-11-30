@@ -9,6 +9,7 @@ SPDX-License-Identifier: Apache-2.0
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/spf13/viper"
 	"io/ioutil"
 	"log"
 	"os"
@@ -33,17 +34,19 @@ import (
 var contract *gateway.Contract
 var ledgerClient *ledger.Client
 
+const FSMSI_CONTRACT_NAME = "fsims"
+
 // 测试fabric连接
-func ConnecttoNetwork() (result bool, channelname string, chaincodename string) {
+func ConnectToNetwork() (result bool, channelname string, chaincodename string) {
 	result = false
-	log.Println("============ ConnecttoNetwork1111 ============")
+	log.Println("============ Connect to Fabric Network ============")
 
 	err := os.Setenv("DISCOVERY_AS_LOCALHOST", "false")
 	if err != nil {
 		log.Fatalf("Error setting DISCOVERY_AS_LOCALHOST environemnt variable: %v", err)
 	}
 
-	wallet, err := gateway.NewFileSystemWallet("wallet")
+	wallet, err := gateway.NewFileSystemWallet(viper.GetString("fabric.basic_path") + "wallet")
 	if err != nil {
 		log.Fatalf("Failed to create wallet: %v", err)
 	}
@@ -55,57 +58,48 @@ func ConnecttoNetwork() (result bool, channelname string, chaincodename string) 
 		}
 	}
 
-	ccpPath := filepath.Join(
-		"..",
-		"..",
-		"fabric",
-		"organizations",
-		"peerOrganizations",
-		"org1",
-		"connection-org1.yaml",
-	)
+	ccpPath := viper.GetString("fabric.connection_path")
+	glog.Infoln("fabric connection path:", ccpPath)
 
 	gw, err := gateway.Connect(
 		gateway.WithConfig(config.FromFile(filepath.Clean(ccpPath))),
 		gateway.WithIdentity(wallet, "appUser"),
 	)
+
 	if err != nil {
 		log.Fatalf("Failed to connect to gateway: %v", err)
 	}
 	defer gw.Close()
 
-	network, err := gw.GetNetwork("channel1")
+	network, err := gw.GetNetwork(viper.GetString("fabric.channel_id"))
 	if err != nil {
 		log.Fatalf("Failed to get network: %v", err)
 	}
-	contract = network.GetContract("fsims")
+	contract = network.GetContract(FSMSI_CONTRACT_NAME)
 	if contract.Name() != "" {
 		fmt.Printf("成功连接到fabric网络，已监测到合约： %s\n", contract.Name())
 		result = true
-		channelname = "channel1"
+		channelname = viper.GetString("fabric.channel_id")
 		chaincodename = contract.Name()
 		return
 	}
 	return
 }
 
-func GetLedgerClient() {
-	fmt.Println("============ GetLedgerClient ============")
-	ccpPath := filepath.Join(
-		"..",
-		"..",
-		"fabric",
-		"organizations",
-		"peerOrganizations",
-		"org1",
-		"connection-org1.yaml",
-	)
+func InitFabricSDKClient() {
+	fmt.Println("============ Init fabric sdk client ============")
+
+	ConnectToNetwork()
+
+	ccpPath := viper.GetString("fabric.connection_path")
+	glog.Infoln("fabric connection path:", ccpPath)
+
 	sdk, err := fabsdk.New(config.FromFile(filepath.Clean(ccpPath)))
 	if err != nil {
 		fmt.Println("fabsdk.New error: ", err)
 	}
 
-	channel := sdk.ChannelContext("channel1", fabsdk.WithUser("Admin"), fabsdk.WithOrg("Org1"))
+	channel := sdk.ChannelContext(viper.GetString("fabric.channel_id"), fabsdk.WithUser("Admin"), fabsdk.WithOrg("Org1"))
 
 	ledgerClient, err = ledger.New(channel)
 	if err != nil {
@@ -118,7 +112,6 @@ func QueryBlockByHeight(num int) (Block, error) {
 	//fmt.Println("============ QueryBlockByHeight ============")
 	//num, _ := strconv.Atoi(c.Query("num"))
 
-	GetLedgerClient()
 	rawBlock, err := ledgerClient.QueryBlock(uint64(num))
 
 	txList := []*Transaction{}
@@ -178,8 +171,6 @@ func StringToBytes(data string) []byte {
 // }
 
 func GetLastestBlock() ([]Block, error) {
-	GetLedgerClient()
-
 	var blocks []Block
 
 	ledgerInfo, err := ledgerClient.QueryInfo()
@@ -219,11 +210,6 @@ func GetLastestBlock() ([]Block, error) {
 		blocks = append(blocks, block)
 	}
 	return blocks, err
-	// c.JSON(http.StatusOK, gin.H{
-	// 	"result": true,
-	// 	"blocks": blocks,
-	// })
-
 }
 
 func GetEnvelopeFromBlock(data []byte) (*common.Envelope, error) {
@@ -362,9 +348,6 @@ func GetTransactionActionFromTransactionDeep(transactionAction *peer.Transaction
 }
 
 func GetLedgerInfo() (*fab.BlockchainInfoResponse, error) {
-
-	GetLedgerClient()
-
 	ledgerInfo, err := ledgerClient.QueryInfo()
 	return ledgerInfo, err
 }
@@ -392,7 +375,7 @@ func GetLedgerInfo() (*fab.BlockchainInfoResponse, error) {
 
 func QueryProcedureWithPID(pid string) (Procedure, error) {
 	log.Println("============ QueryProcedureWithPID ============")
-	ConnecttoNetwork()
+	ConnectToNetwork()
 	log.Println(contract.Name())
 	txn, err := contract.CreateTransaction("QueryProcedureWithPID", gateway.WithEndorsingPeers("peer0.org1", "peer0.org2"))
 	if err != nil {
@@ -418,7 +401,7 @@ func QueryProcedureWithPID(pid string) (Procedure, error) {
 
 func UploadProcedure(pid string, pre_id string) ([]byte, error) {
 	glog.Info("============ UploadProcedure ============")
-	ConnecttoNetwork()
+	ConnectToNetwork()
 	fmt.Println("contract name: ", contract.Name())
 	txn, err := contract.CreateTransaction("UploadProcedure", gateway.WithEndorsingPeers("peer0.org1", "peer0.org2"))
 	if err != nil {
@@ -435,7 +418,7 @@ func UploadProcedure(pid string, pre_id string) ([]byte, error) {
 
 func UpdateProcedure(pid string, checkcode string, p_hash string) ([]byte, error) {
 	fmt.Println("============ UpdateProcedure ============")
-	ConnecttoNetwork()
+	ConnectToNetwork()
 	fmt.Println("contract name: ", contract.Name())
 	txn, err := contract.CreateTransaction("UpdateProcedure", gateway.WithEndorsingPeers("peer0.org1", "peer0.org2"))
 	if err != nil {
@@ -454,7 +437,7 @@ func UpdateProcedure(pid string, checkcode string, p_hash string) ([]byte, error
 
 func DeleteTest(id string) bool {
 	fmt.Println("============ DeleteTest ============")
-	ConnecttoNetwork()
+	ConnectToNetwork()
 	fmt.Println("contract name: ", contract.Name())
 	txn, err := contract.CreateTransaction("DeleteAsset", gateway.WithEndorsingPeers("peer0.org1", "peer0.org2"))
 	if err != nil {
@@ -473,18 +456,8 @@ func DeleteTest(id string) bool {
 
 func populateWallet(wallet *gateway.Wallet) error {
 	log.Println("============ Populating wallet ============")
-	credPath := filepath.Join(
-		"..",
-		"..",
-		"..",
-		"fabric",
-		"organizations",
-		"peerOrganizations",
-		"org1",
-		"users",
-		"User1@org1",
-		"msp",
-	)
+	credPath := viper.GetString("fabric.wallet_user_msp_path")
+	glog.Infoln("fabric wallet_user_msp_path: ", credPath)
 
 	certPath := filepath.Join(credPath, "signcerts", "cert.pem")
 	// read the certificate pem
