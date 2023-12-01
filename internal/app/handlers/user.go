@@ -144,7 +144,26 @@ func GetAllUsers(c *gin.Context) {
 	glog.Info("query all fsims users successful")
 	response.MakeSuccess(c, http.StatusOK, resUsers)
 	return
+}
 
+func ViewLogs(c *gin.Context) {
+	fmt.Println("******************* View Logs *********************")
+
+	logs, err := query.Logs.WithContext(context.Background()).Find()
+	if err != nil {
+		glog.Errorln("query all logs error!")
+		response.MakeFail(c, http.StatusBadRequest, "query all logs error")
+		return
+	}
+
+	// user array to ReqLogs array
+	var resLogs = make([]response.ResLogs, len(logs))
+	for index, log := range logs {
+		resLogs[index] = models.FsimsLogsToReslogs(log)
+	}
+
+	glog.Info("query all fsims logs successful")
+	response.MakeSuccess(c, http.StatusOK, resLogs)
 }
 
 func AddUserByAdmin(c *gin.Context) {

@@ -19,22 +19,6 @@ func LogMiddleware() func(c *gin.Context) {
 			return
 		}
 
-		//a, ok := c.Get("account")
-		//account := a.(string)
-		//if !ok {
-		//	response.MakeFail(c, http.StatusForbidden, "uuid not found!")
-		//	c.Abort()
-		//	return
-		//}
-		//
-		//ty, ok := c.Get("type")
-		//typ := ty.(int)
-		//if !ok {
-		//	response.MakeFail(c, http.StatusForbidden, "uuid not found!")
-		//	c.Abort()
-		//	return
-		//}
-
 		//simulate action
 		url := c.Request.URL.Path
 		method := c.Request.Method

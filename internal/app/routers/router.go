@@ -34,6 +34,8 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		admin.POST("adduser", handlers.AddUserByAdmin)
 		admin.GET("deleteuser", handlers.DeleteUser)
 		admin.GET("reset", handlers.ResetPasswordByAdmin)
+
+		admin.GET("viewlog", handlers.ViewLogs)
 	}
 
 	// industrial chain group
