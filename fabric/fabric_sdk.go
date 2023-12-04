@@ -9,13 +9,14 @@ SPDX-License-Identifier: Apache-2.0
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/spf13/viper"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
 	"time"
 	"unsafe"
+
+	"github.com/spf13/viper"
 
 	"github.com/golang/glog"
 	"github.com/golang/protobuf/proto"
