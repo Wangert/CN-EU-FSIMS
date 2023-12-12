@@ -38,7 +38,11 @@ type TransactionAction struct {
 }
 
 type Procedure struct {
-	PID       string `json:"pid"`
-	PrePID    string `json:"pre_pid"`
-	CheckCode string `json:"checkcode"`
+	PID    string `json:"pid"`
+	PrePID string `json:"pre_pid"`
+	PHash  string `json:"p_hash"`
+}
+
+type ResData struct {
+	Result string `json:"result"`
 }

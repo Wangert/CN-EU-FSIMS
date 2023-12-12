@@ -2,21 +2,24 @@ package mysql
 
 import (
 	"CN-EU-FSIMS/internal/app/models"
+	"CN-EU-FSIMS/internal/app/models/coldchain"
 	"CN-EU-FSIMS/internal/app/models/fatten"
 	"CN-EU-FSIMS/internal/app/models/pasture"
 	"CN-EU-FSIMS/internal/app/models/query"
+	"CN-EU-FSIMS/internal/app/models/warehouse"
 	"CN-EU-FSIMS/internal/config"
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"log"
+	"strconv"
+	"strings"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/golang/glog"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"log"
-	"strconv"
-	"strings"
 )
 
 const GLOBALCONFIGPATH = "conf/config.yaml"
@@ -61,8 +64,21 @@ func AutoMigrate() {
 		&pasture.PastureFloorBeddingPhysicalHazard{}, &pasture.PastureFloorBeddingBiohazard{}, &pasture.PastureSiteDisinfectionRecord{},
 		&pasture.PastureWorksuitDisinfectionRecord{}, &pasture.PastureTruckDisinfectionRecord{}, &fatten.FattenProcedure{}, &fatten.FattenWater{}, &fatten.FattenSoil{},
 		&fatten.FattenWaterPhysicalHazard{}, &fatten.FattenWaterChemicalHazard{}, &fatten.FattenWaterSensoryTraits{}, &fatten.FattenWaterBiohazard{},
-		&fatten.FattenSoilPhysicalHazard{}, &fatten.FattenSoilBiohazard{})
+		&fatten.FattenSoilPhysicalHazard{}, &fatten.FattenSoilBiohazard{}, &warehouse.PastureWareHouse{}, &warehouse.SlaughterWareHouse{})
 
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	err = DB.AutoMigrate(&warehouse.SlaughterReceive{})
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = DB.AutoMigrate(&warehouse.PackReceive{})
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = DB.AutoMigrate(&warehouse.PackWareHouse{}, &coldchain.TransportProcedureData{})
 	if err != nil {
 		fmt.Println(err)
 	}

@@ -1,7 +1,10 @@
 package chaincode
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"fmt"
 
 	"github.com/golang/glog"
@@ -14,10 +17,9 @@ type SmartContract struct {
 }
 
 type Procedure struct {
-	PID       string `json:"pid"`
-	PrePID    string `json:"pre_pid"`
-	CheckCode string `json:"checkcode"`
-	PHash     string `json:"p_hash"`
+	PID    string `json:"pid"`
+	PrePID string `json:"pre_pid"`
+	PHash  string `json:"p_hash"`
 }
 
 // InitLedger adds a base set of assets to the ledger
@@ -25,14 +27,12 @@ type Procedure struct {
 func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) error {
 
 	proc1 := Procedure{
-		PID:       "1111",
-		PrePID:    "0000",
-		CheckCode: "123456",
+		PID:    "1111",
+		PrePID: "0000",
 	}
 	proc2 := Procedure{
-		PID:       "2222",
-		PrePID:    "1111",
-		CheckCode: "456789",
+		PID:    "2222",
+		PrePID: "1111",
 	}
 	procs := []Procedure{
 		proc1, proc2,
@@ -67,7 +67,6 @@ func (s *SmartContract) UploadProcedure(ctx contractapi.TransactionContextInterf
 	proc := Procedure{
 		PID:    pid,
 		PrePID: pre_pid,
-		//CheckCode: checkcode,
 	}
 
 	fmt.Println("userdata:  ", proc)
@@ -78,9 +77,9 @@ func (s *SmartContract) UploadProcedure(ctx contractapi.TransactionContextInterf
 	return ctx.GetStub().PutState(proc.PID, userdataJSON)
 }
 
-// 更新Procedure的checkcode和phash
-func (s *SmartContract) UpdateProcedure(ctx contractapi.TransactionContextInterface, pid string, checkcode string, p_hash string) error {
-	glog.Info("Blockchain--------UpdateProcedureCheckcode")
+// 更新Procedure的phash
+func (s *SmartContract) UpdateProcedure(ctx contractapi.TransactionContextInterface, pid string, p_hash string) error {
+	glog.Info("Blockchain--------UpdateProcedure")
 	exists, err := s.UserExists(ctx, pid)
 	if err != nil {
 		return err
@@ -101,10 +100,9 @@ func (s *SmartContract) UpdateProcedure(ctx contractapi.TransactionContextInterf
 	}
 	//oldProc := UserCarbonData.CarbonTxs
 	procdata := Procedure{
-		PID:       pid,
-		PrePID:    ProcedureData.PrePID,
-		CheckCode: checkcode,
-		PHash:     p_hash,
+		PID:    pid,
+		PrePID: ProcedureData.PrePID,
+		PHash:  p_hash,
 	}
 	fmt.Println("new Procedure:  ", procdata)
 
@@ -136,6 +134,54 @@ func (s *SmartContract) QueryProcedureWithPID(ctx contractapi.TransactionContext
 
 }
 
+func (s *SmartContract) VerifyOnChainWithCheckcode(ctx contractapi.TransactionContextInterface, pid string, checkcode string) (string, error) {
+	glog.Info("Blockchain--------VerifyOnChainWithCheckcode")
+
+	var procedures []Procedure
+	for {
+		procJSON, err := ctx.GetStub().GetState(pid)
+		if err != nil {
+			return "", fmt.Errorf("failed to read from world state: %v", err)
+		}
+		var proc Procedure
+		err = json.Unmarshal(procJSON, &proc)
+		if err != nil {
+			fmt.Println("Unmarshal failed")
+			return "", err
+		} else {
+			fmt.Println("proc: ", proc)
+		}
+		procedures = append(procedures, proc)
+		pid = proc.PrePID
+		if pid == "HEADER" {
+			break
+		}
+	}
+	fmt.Println("procedures: ", procedures)
+	count := len(procedures)
+	var precc string
+	if procedures[count-1].PrePID == "HEADER" {
+		precc = "HSGAFSGSGAHGS8HS65GSAJ"
+	} else {
+		return "", errors.New("No first procedure")
+	}
+	for i := count - 1; i >= 0; i-- {
+		phash := procedures[i].PHash
+		fmt.Println("phash: ", phash)
+		fmt.Println("precc:", precc)
+
+		ncc := CalculateSHA256(string(procedures[i].PHash+precc), "1111")
+		fmt.Println("ncc: ", ncc)
+		precc = ncc
+	}
+	fmt.Println("caculate checkcode is ", precc)
+	if precc == checkcode {
+		return "verify success", nil
+	} else {
+		return "verify fail", nil
+	}
+}
+
 // UserExists returns true when asset with given ID exists in world state
 // old version
 // new
@@ -148,4 +194,11 @@ func (s *SmartContract) UserExists(ctx contractapi.TransactionContextInterface, 
 	}
 
 	return userJSON != nil, nil
+}
+
+func CalculateSHA256(s, salt string) string {
+	hasher := sha256.New()
+	hasher.Write([]byte(salt + s))
+
+	return hex.EncodeToString(hasher.Sum(nil))
 }

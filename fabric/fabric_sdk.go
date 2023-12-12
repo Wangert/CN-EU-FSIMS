@@ -394,7 +394,7 @@ func QueryProcedureWithPID(pid string) (Procedure, error) {
 	if err != nil {
 		log.Fatal(err)
 	} else {
-		log.Println(resultJson)
+		log.Println("resultJson:", resultJson)
 	}
 
 	return resultJson, err
@@ -417,7 +417,7 @@ func UploadProcedure(pid string, pre_id string) ([]byte, error) {
 	return result, err
 }
 
-func UpdateProcedure(pid string, checkcode string, p_hash string) ([]byte, error) {
+func UpdateProcedure(pid string, p_hash string) ([]byte, error) {
 	fmt.Println("============ UpdateProcedure ============")
 	ConnectToNetwork()
 	fmt.Println("contract name: ", contract.Name())
@@ -425,7 +425,7 @@ func UpdateProcedure(pid string, checkcode string, p_hash string) ([]byte, error
 	if err != nil {
 		log.Fatalf("Failed to create Tx: %v", err)
 	}
-	result, err := txn.Submit(pid, checkcode, p_hash)
+	result, err := txn.Submit(pid, p_hash)
 	if err != nil {
 		log.Fatalf("Failed to Submit transaction: %v", err)
 		return nil, err
@@ -436,6 +436,24 @@ func UpdateProcedure(pid string, checkcode string, p_hash string) ([]byte, error
 
 }
 
+func VerifyOnChainWithCheckcode(pid string, checkcode string) (string, error) {
+	fmt.Println("============ VerifyOnChainWithCheckcode ============")
+	ConnectToNetwork()
+	fmt.Println("contract name: ", contract.Name())
+	txn, err := contract.CreateTransaction("VerifyOnChainWithCheckcode", gateway.WithEndorsingPeers("peer0.org1", "peer0.org2"))
+
+	if err != nil {
+		log.Fatalf("Failed to create Tx: %v", err)
+	}
+	result, err := txn.Submit(pid, checkcode)
+	if err != nil {
+		log.Fatalf("Failed to Submit transaction: %v", err)
+	} else {
+		fmt.Println("success result: ", string(result))
+	}
+
+	return string(result), err
+}
 func DeleteTest(id string) bool {
 	fmt.Println("============ DeleteTest ============")
 	ConnectToNetwork()

@@ -38,26 +38,50 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	//	ic.GET("all", handlers.AllIndustrialChains)
 	//}
 
+	//operator create procedure
+	op := fsims.Group("/operator", middlewares.JwtAuth(), middlewares.CheckPermissionAndType())
+	{
+
+		op.POST("createproc", handlers.CreateProcedure)
+		op.GET("queryproc", handlers.QueryProcedureWithPID)
+		op.GET("querychain", handlers.QueryIndustrialChainWithCheckcode)
+		op.GET("verify", handlers.VerifyWithCheckcode)
+		//op.POST("createproc", handlers.CreateProcedure)
+	}
+
 	// pastureoperator router group
 	pop := fsims.Group("/pastureoperator", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
-		pop.GET("upload", handlers.PastureOperatorUpload)
+		//pop.POST("createproc", handlers.CreateProcedure)
 
-		pop.POST("createproc", handlers.CreateProcedure)
-		pop.GET("queryproc", handlers.QueryProcedureWithPID)
 		pop.POST("commitproc", handlers.CommitPastureProcedure)
+		pop.POST("inwarehouse", handlers.PastureInWarehouse)
+		pop.POST("sendtonext", handlers.SendToSlaughter)
 	}
 
-	// slaughteroperator router group
+	//slaughteroperator router group
 	sop := fsims.Group("/slaughteroperator", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
-		sop.GET("upload", handlers.SlaughterOperatorUpload)
+		sop.POST("commitproc", handlers.CommitSlaughterProcedure)
+		sop.POST("receive", handlers.SlaughterReceived)
+		sop.POST("inwarehouse", handlers.SlaughterInWarehouse)
+		sop.POST("sendtonext", handlers.SendToPack)
 	}
 
-	// transportoperator router group
+	//packoperator router group
+	kop := fsims.Group("/packoperator", middlewares.JwtAuth(), middlewares.CheckPermission())
+	{
+		kop.POST("commitproc", handlers.CommitPackProcedure)
+		kop.POST("receive", handlers.PackReceived)
+		kop.POST("inwarehouse", handlers.PackInWarehouse)
+
+	}
+
+	//transportoperator router group
 	top := fsims.Group("/transportoperator", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
-		top.GET("upload", handlers.TransportOperatorUpload)
+		top.POST("start", handlers.TransportStart)
+		top.POST("end", handlers.TransportEnd)
 	}
 	return e
 }

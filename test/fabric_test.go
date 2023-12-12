@@ -8,7 +8,7 @@ import (
 
 func TestFabricConnectNetwork(t *testing.T) {
 
-	re, cn, cd := fabric.ConnecttoNetwork()
+	re, cn, cd := fabric.ConnectToNetwork()
 
 	fmt.Println(re)
 	fmt.Println(cn)
@@ -16,5 +16,5 @@ func TestFabricConnectNetwork(t *testing.T) {
 }
 
 func TestGetLedger(t *testing.T) {
-	fabric.GetLedgerClient()
+	fabric.InitFabricSDKClient()
 }
