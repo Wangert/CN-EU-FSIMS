@@ -66,6 +66,13 @@ func (cs *CasbinService) AddRoleForUserWithUUID(uuid, roleName string) error {
 	return nil
 }
 
+func (cs *CasbinService) RemoveRoleForUserWithUUID(uuid, roleName string) error {
+	ok, err := cs.enforcer.RemoveGroupingPolicy(uuid, roleName)
+	if err !=nil || !ok{
+		return errors.New("remove grouping policy error")
+	}
+	return nil
+}
 func (cs *CasbinService) GetAllRoles() []string {
 	return cs.enforcer.GetAllRoles()
 }

@@ -16,3 +16,18 @@ type ReqLogin struct {
 	Password string `json:"password" form:"password"`
 	Type     int    `json:"type" form:"type"`
 }
+
+type ReqAddUser struct {
+	Name    string `json:"name" form:"name"`
+	Account string `json:"account" form:"account"`
+	Type    int    `json:"type" form:"type"`
+	Role    string `json:"role" form:"role"`
+	Company string `json:"company" form:"company"`
+	Phone   string `json:"phone" form:"phone"`
+}
+
+// reset password or delete user by admin
+type ReqAccount struct {
+	Account string `json:"account" form:"account"`
+	Type    int    `json:"type" form:"type"`
+}

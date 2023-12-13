@@ -144,26 +144,93 @@ func GetAllUsers(c *gin.Context) {
 	glog.Info("query all fsims users successful")
 	response.MakeSuccess(c, http.StatusOK, resUsers)
 	return
-
 }
 
-//func Login(c *gin.Context) {
-//	log.Println("******************* UserLogin *********************")
-//	username := c.PostForm("username")
-//	password := c.PostForm("password")
-//	usertype, _ := strconv.Atoi(c.PostForm("usertype"))
-//	res := mysql.QueryUser(username, password, usertype)
-//	if res.Login {
-//		log.Println("login success")
-//	} else {
-//		log.Println("login failed")
-//	}
-//	c.JSON(http.StatusOK, gin.H{
-//		"result":  res.Login,
-//		"message": "登录请求发送成功！",
-//		"data":    res,
-//	})
-//}
+func ViewLogs(c *gin.Context) {
+	fmt.Println("******************* View Logs *********************")
+
+	logs, err := query.Logs.WithContext(context.Background()).Find()
+	if err != nil {
+		glog.Errorln("query all logs error!")
+		response.MakeFail(c, http.StatusBadRequest, "query all logs error")
+		return
+	}
+
+	// user array to ReqLogs array
+	var resLogs = make([]response.ResLogs, len(logs))
+	for index, log := range logs {
+		resLogs[index] = models.FsimsLogsToReslogs(log)
+	}
+
+	glog.Info("query all fsims logs successful")
+	response.MakeSuccess(c, http.StatusOK, resLogs)
+}
+
+func AddUserByAdmin(c *gin.Context) {
+	glog.Info("################## Add A FSIMS User By Admin ##################")
+	var u request.ReqAddUser
+	if err := c.ShouldBind(&u); err != nil || !checkAddParams(&u) {
+		response.MakeFail(c, http.StatusBadRequest, "Add a user parameters error!")
+		return
+	}
+	//add
+	glog.Info("request user add parameters:")
+	glog.Info(u)
+	err := service.AddFsimsUserByAdmin(&u)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "The new user information insert error!")
+		return
+	}
+	glog.Info("fsims user add successful")
+	response.MakeSuccess(c, http.StatusOK, "successfully add the user by admin")
+}
+
+func checkAddParams(reqAddUser *request.ReqAddUser) bool {
+	if reqAddUser.Name == "" || reqAddUser.Account == "" || reqAddUser.Type == 0 || reqAddUser.Role == "" {
+		glog.Errorln("Missing user registration parameters")
+		return false
+	}
+	return true
+}
+
+func ResetPasswordByAdmin(c *gin.Context) {
+	glog.Info("################## Reset User's Password By Admin ##################")
+	var a request.ReqAccount
+	if err := c.ShouldBind(&a); err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "Reset User's Password Error!")
+		return
+	}
+	//reset
+	glog.Info("request user account:")
+	glog.Info(a)
+
+	err := service.ResetFsimsPassWord(&a)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "reset the user's password error!")
+		return
+	}
+	glog.Info("reset user's password successful!")
+	response.MakeSuccess(c, http.StatusOK, "successfully update the user!")
+	return
+}
+
+func DeleteUser(c *gin.Context) {
+	glog.Info("################## Delete A FSIMS User ##################")
+	var a request.ReqAccount
+	if err := c.ShouldBind(&a); err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "Delete a user error")
+		return
+	}
+	fmt.Println(a.Account)
+	fmt.Println(a.Type)
+	err := service.DeleteFsimUser(&a)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "The user information delete error!")
+		return
+	}
+	glog.Info("delete fsims user successful")
+	response.MakeSuccess(c, http.StatusOK, "successfully delete the user!")
+}
 
 func UserNotification(c *gin.Context) {
 	fmt.Println("******************* UserNotification *********************")
@@ -185,17 +252,3 @@ func ReadNotification(c *gin.Context) {
 		"result":  true,
 	})
 }
-
-//func PlaceRisk(c *gin.Context) {
-//	fmt.Println("******************* PlaceRisk *********************")
-//	place := c.PostForm("Place")
-//	ProductInfo := c.PostForm("ProductInfo")
-//	Risk := c.PostForm("Risk")
-//	Result, _ := strconv.Atoi(c.PostForm("Result"))
-//	time := c.PostForm("Time")
-//	mysql.InsertPlaceRiskNotification(Result, place, ProductInfo, Risk, time)
-//	c.JSON(http.StatusOK, gin.H{
-//		"message": "请求发送成功！",
-//		"result":  true,
-//	})
-//}

@@ -2,13 +2,10 @@ package main
 
 import (
 	"CN-EU-FSIMS/internal/app/models"
-	"CN-EU-FSIMS/internal/app/models/coldchain"
 	"CN-EU-FSIMS/internal/app/models/fatten"
 	"CN-EU-FSIMS/internal/app/models/pasture"
-	"CN-EU-FSIMS/internal/app/models/warehouse"
 	"CN-EU-FSIMS/internal/config"
 	"fmt"
-
 	"github.com/golang/glog"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
@@ -17,7 +14,7 @@ import (
 )
 
 const DEFAULTDSN = "root:root@tcp(127.0.0.1:3306)/fsims?charset=utf8mb4&parseTime=True"
-const GLOBALCONFIGPATH = "../../conf/config.yaml"
+const GLOBALCONFIGPATH = "conf/config.yaml"
 
 func generateModelAndQueryWithDB(dsn string, dbName string) {
 	db, err := gorm.Open(mysql.Open(dsn))
@@ -36,10 +33,7 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 
 	g.ApplyBasic(&models.FSIMSUser{})
 
-	g.ApplyBasic(&warehouse.PastureWareHouse{}, &warehouse.SlaughterWareHouse{})
-	g.ApplyBasic(&warehouse.SlaughterReceive{})
-	g.ApplyBasic(&warehouse.PackReceive{})
-	g.ApplyBasic(&warehouse.PackWareHouse{}, coldchain.TransportProcedureData{})
+	g.ApplyBasic(&models.Logs{})
 
 	g.ApplyBasic(&models.SubProcedure{},
 		&pasture.PastureProcedure{}, &pasture.PastureWater{}, &pasture.PastureFodder{}, &pasture.PastureSoil{}, &pasture.PastureFloorBedding{}, &pasture.PastureAir{},
@@ -49,7 +43,6 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 		&pasture.PastureWorksuitDisinfectionRecord{}, &pasture.PastureTruckDisinfectionRecord{}, &fatten.FattenProcedure{}, &fatten.FattenWater{}, &fatten.FattenSoil{},
 		&fatten.FattenWaterPhysicalHazard{}, &fatten.FattenWaterChemicalHazard{}, &fatten.FattenWaterSensoryTraits{}, &fatten.FattenWaterBiohazard{},
 		&fatten.FattenSoilPhysicalHazard{}, &fatten.FattenSoilBiohazard{})
-
 	g.Execute()
 }
 

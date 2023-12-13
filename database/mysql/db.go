@@ -57,7 +57,7 @@ func Init(cfgPath string) {
 }
 
 func AutoMigrate() {
-	err := DB.AutoMigrate(&models.FSIMSUser{}, &models.Procedure{}, &models.SubProcedure{},
+	err := DB.AutoMigrate(&models.FSIMSUser{}, &models.Logs{}, &models.Procedure{}, &models.SubProcedure{},
 		&pasture.PastureProcedure{}, &pasture.PastureWater{}, &pasture.PastureFodder{}, &pasture.PastureSoil{}, &pasture.PastureFloorBedding{}, &pasture.PastureAir{},
 		&pasture.PastureWasteDischarge{}, &pasture.PastureWaterPhysicalHazard{}, &pasture.PastureWaterChemicalHazard{}, &pasture.PastureWaterSensoryTraits{}, &pasture.PastureWaterBiohazard{},
 		&pasture.PastureFodderPhysicalHazard{}, &pasture.PastureFodderBiohazard{}, &pasture.PastureSoilPhysicalHazard{}, &pasture.PastureSoilBiohazard{},
