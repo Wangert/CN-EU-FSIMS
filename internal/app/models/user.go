@@ -14,6 +14,7 @@ type FSIMSUser struct {
 	PasswordHash string `gorm:"not null" json:"password_hash"`
 	Type         int    `json:"type"`
 	Role         string `json:"role"`
+	HouseNumber  string `json:"houseNumber"`
 	Status       int    `gorm:"not null" json:"status"`
 	Company      string `gorm:"not null" json:"company"`
 	Phone        string `gorm:"not null" json:"phone"`

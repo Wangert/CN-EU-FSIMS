@@ -31,6 +31,17 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		admin.GET("blockchain/ledgerinfo", handlers.GetLedgerInfo)
 		admin.GET("blockchain/latestblock", handlers.GetLastestBlock)
 
+		admin.POST("addpasture", handlers.AddPasture)
+		admin.POST("addslaughterhouse", handlers.AddSlaughterHouse)
+		admin.POST("addpackhouse", handlers.AddPackageHouse)
+		admin.POST("addtransportvehicle", handlers.AddTransportVehicle)
+
+		admin.GET("pastures", handlers.GetPastures)
+		admin.GET("slaughterhouses", handlers.GetSlaughterHouses)
+		admin.GET("packagehouses", handlers.GetPackageHouses)
+		admin.GET("transportvehicles", handlers.GetTransportVehicles)
+
+		admin.POST("addoperator", handlers.AddOperator)
 		admin.POST("adduser", handlers.AddUserByAdmin)
 		admin.GET("deleteuser", handlers.DeleteUser)
 		admin.GET("reset", handlers.ResetPasswordByAdmin)

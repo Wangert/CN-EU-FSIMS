@@ -17,4 +17,5 @@ type PastureWareHouse struct {
 	Destination   string    `json:"destination"`
 	InTimestamp   time.Time `gorm:"not null" json:"in_timestamp"`
 	OutTimestamp  time.Time `json:"out_timestamp"`
+	HouseNumber   string    `gorm:"not null; type:varchar(256)" json:"house_number"`
 }

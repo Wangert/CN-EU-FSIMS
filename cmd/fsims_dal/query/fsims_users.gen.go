@@ -36,6 +36,7 @@ func newFSIMSUser(db *gorm.DB, opts ...gen.DOOption) fSIMSUser {
 	_fSIMSUser.PasswordHash = field.NewString(tableName, "password_hash")
 	_fSIMSUser.Type = field.NewInt(tableName, "type")
 	_fSIMSUser.Role = field.NewString(tableName, "role")
+	_fSIMSUser.HouseNumber = field.NewString(tableName, "house_number")
 	_fSIMSUser.Status = field.NewInt(tableName, "status")
 	_fSIMSUser.Company = field.NewString(tableName, "company")
 	_fSIMSUser.Phone = field.NewString(tableName, "phone")
@@ -59,6 +60,7 @@ type fSIMSUser struct {
 	PasswordHash field.String
 	Type         field.Int
 	Role         field.String
+	HouseNumber  field.String
 	Status       field.Int
 	Company      field.String
 	Phone        field.String
@@ -88,6 +90,7 @@ func (f *fSIMSUser) updateTableName(table string) *fSIMSUser {
 	f.PasswordHash = field.NewString(table, "password_hash")
 	f.Type = field.NewInt(table, "type")
 	f.Role = field.NewString(table, "role")
+	f.HouseNumber = field.NewString(table, "house_number")
 	f.Status = field.NewInt(table, "status")
 	f.Company = field.NewString(table, "company")
 	f.Phone = field.NewString(table, "phone")
@@ -117,7 +120,7 @@ func (f *fSIMSUser) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (f *fSIMSUser) fillFieldMap() {
-	f.fieldMap = make(map[string]field.Expr, 13)
+	f.fieldMap = make(map[string]field.Expr, 14)
 	f.fieldMap["id"] = f.ID
 	f.fieldMap["created_at"] = f.CreatedAt
 	f.fieldMap["updated_at"] = f.UpdatedAt
@@ -128,6 +131,7 @@ func (f *fSIMSUser) fillFieldMap() {
 	f.fieldMap["password_hash"] = f.PasswordHash
 	f.fieldMap["type"] = f.Type
 	f.fieldMap["role"] = f.Role
+	f.fieldMap["house_number"] = f.HouseNumber
 	f.fieldMap["status"] = f.Status
 	f.fieldMap["company"] = f.Company
 	f.fieldMap["phone"] = f.Phone

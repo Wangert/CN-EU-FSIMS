@@ -2,8 +2,12 @@ package main
 
 import (
 	"CN-EU-FSIMS/internal/app/models"
+	"CN-EU-FSIMS/internal/app/models/coldchain"
 	"CN-EU-FSIMS/internal/app/models/fatten"
+	"CN-EU-FSIMS/internal/app/models/pack"
 	"CN-EU-FSIMS/internal/app/models/pasture"
+	"CN-EU-FSIMS/internal/app/models/slaughter"
+	"CN-EU-FSIMS/internal/app/models/warehouse"
 	"CN-EU-FSIMS/internal/config"
 	"fmt"
 	"github.com/golang/glog"
@@ -35,7 +39,12 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 
 	g.ApplyBasic(&models.Logs{})
 
-	g.ApplyBasic(&models.SubProcedure{},
+	g.ApplyBasic(&warehouse.PastureWareHouse{}, &warehouse.SlaughterWareHouse{})
+	g.ApplyBasic(&warehouse.SlaughterReceive{}, &warehouse.PackReceive{})
+	g.ApplyBasic(&warehouse.PackWareHouse{}, coldchain.TransportProcedureData{})
+	g.ApplyBasic(&pasture.PastureHouse{}, &slaughter.SlaughterHouse{}, &pack.PackageHouse{}, &coldchain.TransportVehicle{})
+
+	g.ApplyBasic(
 		&pasture.PastureProcedure{}, &pasture.PastureWater{}, &pasture.PastureFodder{}, &pasture.PastureSoil{}, &pasture.PastureFloorBedding{}, &pasture.PastureAir{},
 		&pasture.PastureWasteDischarge{}, &pasture.PastureWaterPhysicalHazard{}, &pasture.PastureWaterChemicalHazard{}, &pasture.PastureWaterSensoryTraits{}, &pasture.PastureWaterBiohazard{},
 		&pasture.PastureFodderPhysicalHazard{}, &pasture.PastureFodderBiohazard{}, &pasture.PastureSoilPhysicalHazard{}, &pasture.PastureSoilBiohazard{},

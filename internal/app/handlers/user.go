@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"CN-EU-FSIMS/database/mysql"
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/handlers/response"
 	"CN-EU-FSIMS/internal/app/models"
@@ -232,23 +231,23 @@ func DeleteUser(c *gin.Context) {
 	response.MakeSuccess(c, http.StatusOK, "successfully delete the user!")
 }
 
-func UserNotification(c *gin.Context) {
-	fmt.Println("******************* UserNotification *********************")
-	username := c.Query("UserName")
-	fmt.Println("User username", username)
-	res := mysql.GetNotification(username)
-	c.JSON(http.StatusOK, gin.H{
-		"data":    res,
-		"message": "请求发送成功！",
-		"result":  true,
-	})
-}
-func ReadNotification(c *gin.Context) {
-	fmt.Println("******************* ReadNotification *********************")
-	user := c.Query("user")
-	mysql.ClearWarnNum(user)
-	c.JSON(http.StatusOK, gin.H{
-		"message": "请求发送成功！",
-		"result":  true,
-	})
-}
+//func UserNotification(c *gin.Context) {
+//	fmt.Println("******************* UserNotification *********************")
+//	username := c.Query("UserName")
+//	fmt.Println("User username", username)
+//	res := mysql.GetNotification(username)
+//	c.JSON(http.StatusOK, gin.H{
+//		"data":    res,
+//		"message": "请求发送成功！",
+//		"result":  true,
+//	})
+//}
+//func ReadNotification(c *gin.Context) {
+//	fmt.Println("******************* ReadNotification *********************")
+//	user := c.Query("user")
+//	mysql.ClearWarnNum(user)
+//	c.JSON(http.StatusOK, gin.H{
+//		"message": "请求发送成功！",
+//		"result":  true,
+//	})
+//}
