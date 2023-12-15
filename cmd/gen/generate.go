@@ -37,7 +37,7 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 
 	g.ApplyBasic(&models.FSIMSUser{})
 
-	g.ApplyBasic(&models.Logs{})
+	g.ApplyBasic(&models.Log{})
 
 	g.ApplyBasic(&warehouse.PastureWareHouse{}, &warehouse.SlaughterWareHouse{})
 	g.ApplyBasic(&warehouse.SlaughterReceive{}, &warehouse.PackReceive{})

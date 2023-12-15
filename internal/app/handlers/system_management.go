@@ -4,22 +4,143 @@ import (
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/handlers/response"
 	"CN-EU-FSIMS/internal/service"
+	"CN-EU-FSIMS/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
 	"net/http"
 )
 
+func SearchPastures(c *gin.Context) {
+	glog.Info("################## Search Pastures ##################")
+	var sp request.ReqSearchPasture
+	if err := c.ShouldBind(&sp); err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "search pastures parameters error!")
+		return
+	}
+
+	condition, err := utils.StructToMap(sp)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "search pastures parameters to map error!")
+		return
+	}
+
+	houses, count, err := service.GetPasturesByCondition(condition)
+	if err != nil {
+		glog.Errorln("query pastures error!")
+		response.MakeFail(c, http.StatusBadRequest, "query pastures error")
+		return
+	}
+	glog.Info("query pastures successful")
+
+	res := response.ResHouses{
+		Houses: houses,
+		Count:  count,
+	}
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func SearchSlaughterHouses(c *gin.Context) {
+	glog.Info("################## Search Slaughter Houses ##################")
+	var r request.ReqSearchSlaughterHouse
+	if err := c.ShouldBind(&r); err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "search slaughter houses parameters error!")
+		return
+	}
+
+	condition, err := utils.StructToMap(r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "search slaughter houses to map error!")
+		return
+	}
+
+	houses, count, err := service.GetSlaughterHousesByCondition(condition)
+	if err != nil {
+		glog.Errorln("query slaughter houses error!")
+		response.MakeFail(c, http.StatusBadRequest, "query slaughter houses error")
+		return
+	}
+	glog.Info("query slaughter houses successful")
+
+	res := response.ResHouses{
+		Houses: houses,
+		Count:  count,
+	}
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func SearchPackageHouses(c *gin.Context) {
+	glog.Info("################## Search Package Houses ##################")
+	var r request.ReqSearchSlaughterHouse
+	if err := c.ShouldBind(&r); err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "search package houses parameters error!")
+		return
+	}
+
+	condition, err := utils.StructToMap(r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "search package houses to map error!")
+		return
+	}
+
+	houses, count, err := service.GetPackageHousesByCondition(condition)
+	if err != nil {
+		glog.Errorln("query package houses error!")
+		response.MakeFail(c, http.StatusBadRequest, "query package houses error")
+		return
+	}
+	glog.Info("query package houses successful")
+
+	res := response.ResHouses{
+		Houses: houses,
+		Count:  count,
+	}
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func SearchTransportVehicles(c *gin.Context) {
+	glog.Info("################## Search Transport Vehicles ##################")
+	var r request.ReqSearchVehicle
+	if err := c.ShouldBind(&r); err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "search transport vehicles parameters error!")
+		return
+	}
+
+	condition, err := utils.StructToMap(r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "search transport vehicles to map error!")
+		return
+	}
+
+	res, err := service.GetTransportVehiclesByCondition(condition)
+	if err != nil {
+		glog.Errorln("query transport vehicles error!")
+		response.MakeFail(c, http.StatusBadRequest, "query transport vehicles error")
+		return
+	}
+
+	glog.Info("query transport vehicles successful")
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
 func GetPastures(c *gin.Context) {
 	glog.Info("################## Get All pastures ##################")
 
-	res, err := service.GetPastures()
+	houses, count, err := service.GetPastures()
 	if err != nil {
 		glog.Errorln("query all pastures error!")
 		response.MakeFail(c, http.StatusBadRequest, "query all pastures error")
 		return
 	}
-
 	glog.Info("query all pastures successful")
+
+	res := response.ResHouses{
+		Houses: houses,
+		Count:  count,
+	}
 	response.MakeSuccess(c, http.StatusOK, res)
 	return
 }
@@ -27,14 +148,18 @@ func GetPastures(c *gin.Context) {
 func GetSlaughterHouses(c *gin.Context) {
 	glog.Info("################## Get All Slaughter Houses ##################")
 
-	res, err := service.GetSlaughterHouses()
+	houses, count, err := service.GetSlaughterHouses()
 	if err != nil {
 		glog.Errorln("query all slaughter houses error!")
 		response.MakeFail(c, http.StatusBadRequest, "query all slaughter houses error")
 		return
 	}
-
 	glog.Info("query all slaughter houses successful")
+
+	res := response.ResHouses{
+		Houses: houses,
+		Count:  count,
+	}
 	response.MakeSuccess(c, http.StatusOK, res)
 	return
 }
@@ -42,14 +167,18 @@ func GetSlaughterHouses(c *gin.Context) {
 func GetPackageHouses(c *gin.Context) {
 	glog.Info("################## Get All Package Houses ##################")
 
-	res, err := service.GetPackageHouses()
+	houses, count, err := service.GetPackageHouses()
 	if err != nil {
 		glog.Errorln("query all package houses error!")
 		response.MakeFail(c, http.StatusBadRequest, "query all package houses error")
 		return
 	}
-
 	glog.Info("query all package houses successful")
+
+	res := response.ResHouses{
+		Houses: houses,
+		Count:  count,
+	}
 	response.MakeSuccess(c, http.StatusOK, res)
 	return
 }

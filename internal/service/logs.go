@@ -17,8 +17,8 @@ type PendingLogs struct {
 }
 
 func AddLog(pl *PendingLogs) error {
-	lg := query.Logs
-	logRecord := models.Logs{
+	lg := query.Log
+	logRecord := models.Log{
 		TimeStamp: pl.TimeStamp,
 		UUID:      pl.UUID,
 		Account:   pl.Account,
@@ -30,4 +30,19 @@ func AddLog(pl *PendingLogs) error {
 		return errors.New("Failed to write log!")
 	}
 	return nil
+}
+
+func GetAllLogs() ([]models.LogInfo, int64, error) {
+	q := query.Log
+	ls, err := q.WithContext(context.Background()).Find()
+	if err != nil {
+		return []models.LogInfo{}, 0, err
+	}
+	count := len(ls)
+	logs := make([]models.LogInfo, count)
+	for i, log := range ls {
+		logs[i] = models.ToLogInfo(log)
+	}
+
+	return logs, int64(count), nil
 }

@@ -1,7 +1,7 @@
 package pasture
 
 import (
-	"CN-EU-FSIMS/internal/app/handlers/response"
+	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/app/models/warehouse"
 	"gorm.io/gorm"
 )
@@ -16,8 +16,8 @@ type PastureHouse struct {
 	PasHRecord  warehouse.PastureWareHouse `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"pash_record"`
 }
 
-func PastureToRes(pas *PastureHouse) response.ResHouse {
-	return response.ResHouse{
+func PastureToRes(pas *PastureHouse) models.House {
+	return models.House{
 		HouseNumber: pas.HouseNumber,
 		Name:        pas.Name,
 		Address:     pas.Address,

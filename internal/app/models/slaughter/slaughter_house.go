@@ -1,7 +1,7 @@
 package slaughter
 
 import (
-	"CN-EU-FSIMS/internal/app/handlers/response"
+	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/app/models/warehouse"
 	"gorm.io/gorm"
 )
@@ -16,8 +16,8 @@ type SlaughterHouse struct {
 	SWRecord    warehouse.SlaughterWareHouse `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"sw_record"`
 }
 
-func SlaughterHouseToRes(sh *SlaughterHouse) response.ResHouse {
-	return response.ResHouse{
+func SlaughterHouseToRes(sh *SlaughterHouse) models.House {
+	return models.House{
 		HouseNumber: sh.HouseNumber,
 		Name:        sh.Name,
 		Address:     sh.Address,

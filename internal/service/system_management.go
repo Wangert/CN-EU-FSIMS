@@ -24,46 +24,174 @@ const (
 	VEHICLE_PREFIX         = "VEH"
 )
 
-func GetPastures() ([]response.ResHouse, error) {
+type ReqSearchVehicle struct {
+	LicenseNumber string `json:"license_number" form:"license_number"`
+	Driver        string `json:"driver" form:"driver"`
+	DriverPhone   string `json:"driver_phone" form:"driver_phone"`
+}
+
+func GetTransportVehiclesByCondition(condition map[string]interface{}) ([]response.ResTransportVehicle, error) {
+	var ln, d, dp string
+	if val, ok := condition["license_number"]; ok {
+		ln = val.(string)
+	}
+	if val, ok := condition["driver"]; ok {
+		d = val.(string)
+	}
+	if val, ok := condition["driver_phone"]; ok {
+		dp = val.(string)
+	}
+
+	q := query.TransportVehicle
+	tvs, err := q.WithContext(context.Background()).
+		Where(q.LicenseNumber.Like("%" + ln + "%")).
+		Where(q.Driver.Like("%" + d + "%")).
+		Where(q.DriverPhone.Like("%" + dp + "%")).Find()
+	if err != nil {
+		return []response.ResTransportVehicle{}, err
+	}
+
+	res := make([]response.ResTransportVehicle, len(tvs))
+	for i, tv := range tvs {
+		res[i] = coldchain.TransportVehicleToRes(tv)
+	}
+
+	return res, nil
+}
+
+func GetPasturesByCondition(condition map[string]interface{}) ([]models.House, int64, error) {
+	var name, addr, lp string
+	if val, ok := condition["name"]; ok {
+		name = val.(string)
+	}
+	if val, ok := condition["address"]; ok {
+		addr = val.(string)
+	}
+	if val, ok := condition["legal_person"]; ok {
+		lp = val.(string)
+	}
+
+	q := query.PastureHouse
+	pastures, err := q.WithContext(context.Background()).
+		Where(q.Name.Like("%" + name + "%")).
+		Where(q.Address.Like("%" + addr + "%")).
+		Where(q.LegalPerson.Like("%" + lp + "%")).Find()
+	if err != nil {
+		return []models.House{}, 0, err
+	}
+
+	count := len(pastures)
+	houses := make([]models.House, count)
+	for i, p := range pastures {
+		houses[i] = pasture.PastureToRes(p)
+	}
+
+	return houses, int64(count), nil
+}
+
+func GetSlaughterHousesByCondition(condition map[string]interface{}) ([]models.House, int64, error) {
+	var name, addr, lp string
+	if val, ok := condition["name"]; ok {
+		name = val.(string)
+	}
+	if val, ok := condition["address"]; ok {
+		addr = val.(string)
+	}
+	if val, ok := condition["legal_person"]; ok {
+		lp = val.(string)
+	}
+
+	q := query.SlaughterHouse
+	slaHouses, err := q.WithContext(context.Background()).
+		Where(q.Name.Like("%" + name + "%")).
+		Where(q.Address.Like("%" + addr + "%")).
+		Where(q.LegalPerson.Like("%" + lp + "%")).Find()
+	if err != nil {
+		return []models.House{}, 0, err
+	}
+
+	count := len(slaHouses)
+	houses := make([]models.House, count)
+	for i, sh := range slaHouses {
+		houses[i] = slaughter.SlaughterHouseToRes(sh)
+	}
+
+	return houses, int64(count), nil
+}
+
+func GetPackageHousesByCondition(condition map[string]interface{}) ([]models.House, int64, error) {
+	var name, addr, lp string
+	if val, ok := condition["name"]; ok {
+		name = val.(string)
+	}
+	if val, ok := condition["address"]; ok {
+		addr = val.(string)
+	}
+	if val, ok := condition["legal_person"]; ok {
+		lp = val.(string)
+	}
+
+	q := query.PackageHouse
+	pacHouses, err := q.WithContext(context.Background()).
+		Where(q.Name.Like("%" + name + "%")).
+		Where(q.Address.Like("%" + addr + "%")).
+		Where(q.LegalPerson.Like("%" + lp + "%")).Find()
+	if err != nil {
+		return []models.House{}, 0, err
+	}
+
+	count := len(pacHouses)
+	houses := make([]models.House, count)
+	for i, ph := range pacHouses {
+		houses[i] = pack.PackageHouseToRes(ph)
+	}
+
+	return houses, int64(count), nil
+}
+
+func GetPastures() ([]models.House, int64, error) {
 	pastures, err := query.PastureHouse.WithContext(context.Background()).Find()
 	if err != nil {
-		return []response.ResHouse{}, err
+		return []models.House{}, 0, err
 	}
 
-	res := make([]response.ResHouse, len(pastures))
+	count := len(pastures)
+	houses := make([]models.House, count)
 	for i, p := range pastures {
-		res[i] = pasture.PastureToRes(p)
+		houses[i] = pasture.PastureToRes(p)
 	}
 
-	return res, nil
+	return houses, int64(count), nil
 }
 
-func GetSlaughterHouses() ([]response.ResHouse, error) {
+func GetSlaughterHouses() ([]models.House, int64, error) {
 	shs, err := query.SlaughterHouse.WithContext(context.Background()).Find()
 	if err != nil {
-		return []response.ResHouse{}, err
+		return []models.House{}, 0, err
 	}
 
-	res := make([]response.ResHouse, len(shs))
+	count := len(shs)
+	houses := make([]models.House, count)
 	for i, sh := range shs {
-		res[i] = slaughter.SlaughterHouseToRes(sh)
+		houses[i] = slaughter.SlaughterHouseToRes(sh)
 	}
 
-	return res, nil
+	return houses, int64(count), nil
 }
 
-func GetPackageHouses() ([]response.ResHouse, error) {
+func GetPackageHouses() ([]models.House, int64, error) {
 	phs, err := query.PackageHouse.WithContext(context.Background()).Find()
 	if err != nil {
-		return []response.ResHouse{}, err
+		return []models.House{}, 0, err
 	}
 
-	res := make([]response.ResHouse, len(phs))
+	count := len(phs)
+	houses := make([]models.House, count)
 	for i, ph := range phs {
-		res[i] = pack.PackageHouseToRes(ph)
+		houses[i] = pack.PackageHouseToRes(ph)
 	}
 
-	return res, nil
+	return houses, int64(count), nil
 }
 
 func GetTransportVehicles() ([]response.ResTransportVehicle, error) {
@@ -195,7 +323,7 @@ func generateHouseNumber(prefix, address string) string {
 	t := time.Now().String()
 	addressHash := crypto.CalculateSHA256(address+t, "address")
 
-	return prefix + addressHash
+	return prefix + "-" + addressHash
 }
 
 func generateVehicleNumber(license string) string {

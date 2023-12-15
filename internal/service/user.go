@@ -38,22 +38,22 @@ const (
 	INIT_PASSWORD = "Fsims123456!"
 )
 
-//func CreateFsimUser(user *request.ReqUpdateUser) *models.FSIMSUser {
-//	uuid, err := generateUuid(user.Account, user.Type)
-//	if err != nil {
-//		return nil
-//	}
-//	var u models.FSIMSUser
-//	u.UUID = uuid
-//	u.Name = user.Name
-//	u.Phone = user.Phone
-//	u.Type = user.Type
-//	u.Role = user.Role
-//	u.Account = user.Account
-//	u.Company = user.Company
-//	u.PasswordHash = crypto.CalculateSHA256(user.Password, PASSWORD_SALT)
-//	return &u
-//}
+func GetAllUsers() ([]models.UserInfo, int64, error) {
+	u := query.FSIMSUser
+	us, err := u.WithContext(context.Background()).Find()
+	if err != nil {
+		return []models.UserInfo{}, 0, err
+	}
+
+	count, err := u.WithContext(context.Background()).Count()
+
+	users := make([]models.UserInfo, count)
+	for i, user := range us {
+		users[i] = models.FsimsUserToResUser(user)
+	}
+
+	return users, count, nil
+}
 
 func QueryFsimsUserPwdHash(account string) (string, error) {
 	u := query.FSIMSUser

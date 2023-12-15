@@ -1,7 +1,7 @@
 package pack
 
 import (
-	"CN-EU-FSIMS/internal/app/handlers/response"
+	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/app/models/warehouse"
 	"gorm.io/gorm"
 )
@@ -16,8 +16,8 @@ type PackageHouse struct {
 	PWRecord    warehouse.PackWareHouse `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"pw_record"`
 }
 
-func PackageHouseToRes(ph *PackageHouse) response.ResHouse {
-	return response.ResHouse{
+func PackageHouseToRes(ph *PackageHouse) models.House {
+	return models.House{
 		HouseNumber: ph.HouseNumber,
 		Name:        ph.Name,
 		Address:     ph.Address,

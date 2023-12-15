@@ -1,5 +1,7 @@
 package response
 
+import "CN-EU-FSIMS/internal/app/models"
+
 type ResAddOperator struct {
 	Account  string `json:"account"`
 	Password string `json:"password"`
@@ -13,10 +15,7 @@ type ResTransportVehicle struct {
 	State         uint   `json:"state"`
 }
 
-type ResHouse struct {
-	HouseNumber string `json:"house_number"`
-	Name        string `json:"name"`
-	Address     string `json:"address"`
-	State       uint   `json:"state"`
-	LegalPerson string `json:"legal_person"`
+type ResHouses struct {
+	Houses []models.House `json:"houses"`
+	Count  int64          `json:"count"`
 }

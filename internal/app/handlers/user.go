@@ -3,11 +3,8 @@ package handlers
 import (
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/handlers/response"
-	"CN-EU-FSIMS/internal/app/models"
-	"CN-EU-FSIMS/internal/app/models/query"
 	"CN-EU-FSIMS/internal/service"
 	"CN-EU-FSIMS/utils/crypto"
-	"context"
 	"fmt"
 	"net/http"
 	"regexp"
@@ -126,43 +123,39 @@ func checkLoginParams(reqLogin *request.ReqLogin) bool {
 func GetAllUsers(c *gin.Context) {
 	glog.Info("################## Get All FSIMS User ##################")
 
-	users, err := query.FSIMSUser.WithContext(context.Background()).Find()
+	users, count, err := service.GetAllUsers()
 	if err != nil {
 		glog.Errorln("query all fsims users error!")
 		response.MakeFail(c, http.StatusBadRequest, "query all fsims user error")
 		return
 	}
-
-	// user array to ReqUser array
-	var resUsers = make([]response.ResUser, len(users))
-	for index, user := range users {
-		//convert
-		resUsers[index] = models.FsimsUserToResUser(user)
-	}
-
 	glog.Info("query all fsims users successful")
-	response.MakeSuccess(c, http.StatusOK, resUsers)
+
+	res := response.ResUsers{
+		Users: users,
+		Count: count,
+	}
+	response.MakeSuccess(c, http.StatusOK, res)
 	return
 }
 
 func ViewLogs(c *gin.Context) {
 	fmt.Println("******************* View Logs *********************")
 
-	logs, err := query.Logs.WithContext(context.Background()).Find()
+	logs, count, err := service.GetAllLogs()
 	if err != nil {
 		glog.Errorln("query all logs error!")
 		response.MakeFail(c, http.StatusBadRequest, "query all logs error")
 		return
 	}
 
-	// user array to ReqLogs array
-	var resLogs = make([]response.ResLogs, len(logs))
-	for index, log := range logs {
-		resLogs[index] = models.FsimsLogsToReslogs(log)
-	}
-
 	glog.Info("query all fsims logs successful")
-	response.MakeSuccess(c, http.StatusOK, resLogs)
+
+	res := response.ResLogs{
+		Logs:  logs,
+		Count: count,
+	}
+	response.MakeSuccess(c, http.StatusOK, res)
 }
 
 func AddUserByAdmin(c *gin.Context) {

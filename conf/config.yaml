@@ -20,13 +20,13 @@ log:
 
 
 casbin:
-  model_path: ../conf/casbin/fsims_rbac_model.conf
+  model_path: conf/casbin/fsims_rbac_model.conf
   role_policy_path : conf/casbin/fsims_rbac_role_policy.csv
   user_role_path: conf/casbin/fsims_rbac_user_role.csv
 
 fabric:
   basic_path: fabric/
-  connection_path: ../conf/fabric_connection.yaml
+  connection_path: conf/fabric_connection.yaml
   channel_id: fsims-channel
   wallet_user_msp_path: conf/fabric_organizations/peerOrganizations/org1/users/User1@org1/msp
 

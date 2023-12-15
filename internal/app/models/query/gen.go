@@ -27,7 +27,7 @@ var (
 	FattenWaterChemicalHazard         *fattenWaterChemicalHazard
 	FattenWaterPhysicalHazard         *fattenWaterPhysicalHazard
 	FattenWaterSensoryTraits          *fattenWaterSensoryTraits
-	Logs                              *logs
+	Log                               *log
 	PackReceive                       *packReceive
 	PackWareHouse                     *packWareHouse
 	PackageHouse                      *packageHouse
@@ -73,7 +73,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	FattenWaterChemicalHazard = &Q.FattenWaterChemicalHazard
 	FattenWaterPhysicalHazard = &Q.FattenWaterPhysicalHazard
 	FattenWaterSensoryTraits = &Q.FattenWaterSensoryTraits
-	Logs = &Q.Logs
+	Log = &Q.Log
 	PackReceive = &Q.PackReceive
 	PackWareHouse = &Q.PackWareHouse
 	PackageHouse = &Q.PackageHouse
@@ -120,7 +120,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		FattenWaterChemicalHazard:         newFattenWaterChemicalHazard(db, opts...),
 		FattenWaterPhysicalHazard:         newFattenWaterPhysicalHazard(db, opts...),
 		FattenWaterSensoryTraits:          newFattenWaterSensoryTraits(db, opts...),
-		Logs:                              newLogs(db, opts...),
+		Log:                               newLog(db, opts...),
 		PackReceive:                       newPackReceive(db, opts...),
 		PackWareHouse:                     newPackWareHouse(db, opts...),
 		PackageHouse:                      newPackageHouse(db, opts...),
@@ -168,7 +168,7 @@ type Query struct {
 	FattenWaterChemicalHazard         fattenWaterChemicalHazard
 	FattenWaterPhysicalHazard         fattenWaterPhysicalHazard
 	FattenWaterSensoryTraits          fattenWaterSensoryTraits
-	Logs                              logs
+	Log                               log
 	PackReceive                       packReceive
 	PackWareHouse                     packWareHouse
 	PackageHouse                      packageHouse
@@ -217,7 +217,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		FattenWaterChemicalHazard:         q.FattenWaterChemicalHazard.clone(db),
 		FattenWaterPhysicalHazard:         q.FattenWaterPhysicalHazard.clone(db),
 		FattenWaterSensoryTraits:          q.FattenWaterSensoryTraits.clone(db),
-		Logs:                              q.Logs.clone(db),
+		Log:                               q.Log.clone(db),
 		PackReceive:                       q.PackReceive.clone(db),
 		PackWareHouse:                     q.PackWareHouse.clone(db),
 		PackageHouse:                      q.PackageHouse.clone(db),
@@ -273,7 +273,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		FattenWaterChemicalHazard:         q.FattenWaterChemicalHazard.replaceDB(db),
 		FattenWaterPhysicalHazard:         q.FattenWaterPhysicalHazard.replaceDB(db),
 		FattenWaterSensoryTraits:          q.FattenWaterSensoryTraits.replaceDB(db),
-		Logs:                              q.Logs.replaceDB(db),
+		Log:                               q.Log.replaceDB(db),
 		PackReceive:                       q.PackReceive.replaceDB(db),
 		PackWareHouse:                     q.PackWareHouse.replaceDB(db),
 		PackageHouse:                      q.PackageHouse.replaceDB(db),
@@ -319,7 +319,7 @@ type queryCtx struct {
 	FattenWaterChemicalHazard         IFattenWaterChemicalHazardDo
 	FattenWaterPhysicalHazard         IFattenWaterPhysicalHazardDo
 	FattenWaterSensoryTraits          IFattenWaterSensoryTraitsDo
-	Logs                              ILogsDo
+	Log                               ILogDo
 	PackReceive                       IPackReceiveDo
 	PackWareHouse                     IPackWareHouseDo
 	PackageHouse                      IPackageHouseDo
@@ -365,7 +365,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		FattenWaterChemicalHazard:         q.FattenWaterChemicalHazard.WithContext(ctx),
 		FattenWaterPhysicalHazard:         q.FattenWaterPhysicalHazard.WithContext(ctx),
 		FattenWaterSensoryTraits:          q.FattenWaterSensoryTraits.WithContext(ctx),
-		Logs:                              q.Logs.WithContext(ctx),
+		Log:                               q.Log.WithContext(ctx),
 		PackReceive:                       q.PackReceive.WithContext(ctx),
 		PackWareHouse:                     q.PackWareHouse.WithContext(ctx),
 		PackageHouse:                      q.PackageHouse.WithContext(ctx),

@@ -1,7 +1,6 @@
 package models
 
 import (
-	"CN-EU-FSIMS/internal/app/handlers/response"
 	"gorm.io/gorm"
 )
 
@@ -20,8 +19,19 @@ type FSIMSUser struct {
 	Phone        string `gorm:"not null" json:"phone"`
 }
 
-func FsimsUserToResUser(fsimsUser *FSIMSUser) response.ResUser {
-	return response.ResUser{
+type UserInfo struct {
+	UUID    string `json:"uuid"`
+	Name    string `json:"name"`
+	Account string `json:"account"`
+	Type    int    `json:"type"`
+	Role    string `json:"role"`
+	Status  int    `json:"status"`
+	Company string `json:"company"`
+	Phone   string `json:"phone"`
+}
+
+func FsimsUserToResUser(fsimsUser *FSIMSUser) UserInfo {
+	return UserInfo{
 		UUID:    fsimsUser.UUID,
 		Name:    fsimsUser.Name,
 		Account: fsimsUser.Account,
