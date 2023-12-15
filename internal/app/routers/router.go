@@ -68,15 +68,13 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	//slaughteroperator router group
 	sop := fsims.Group("/slaughteroperator", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
-<<<<<<< HEAD
 		pop.POST("createproc", handlers.CreateProcedure)
 		sop.GET("upload", handlers.SlaughterOperatorUpload)
-=======
+
 		sop.POST("commitproc", handlers.CommitSlaughterProcedure)
 		sop.POST("receive", handlers.SlaughterReceived)
 		sop.POST("inwarehouse", handlers.SlaughterInWarehouse)
 		sop.POST("sendtonext", handlers.SendToPack)
->>>>>>> wangert
 	}
 
 	//packoperator router group
@@ -91,13 +89,11 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	//transportoperator router group
 	top := fsims.Group("/transportoperator", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
-<<<<<<< HEAD
 		pop.POST("createproc", handlers.CreateProcedure)
 		top.GET("upload", handlers.TransportOperatorUpload)
-=======
+
 		top.POST("start", handlers.TransportStart)
 		top.POST("end", handlers.TransportEnd)
->>>>>>> wangert
 	}
 	return e
 }
