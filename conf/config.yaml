@@ -5,12 +5,8 @@ server:
   port: 8000
 
 mysql:
-  username: root
-<<<<<<< HEAD
+  username: fit2104
   password: 123456
-=======
-  password: root
->>>>>>> wangert
   ip_addr: 127.0.0.1
   port: 3306
   database: fsims
@@ -24,15 +20,9 @@ log:
 
 
 casbin:
-<<<<<<< HEAD
   model_path: D:\A-中欧\CN-EU-FSIMS\conf\casbin\fsims_rbac_model.conf
   role_policy_path : D:\A-中欧\CN-EU-FSIMS\conf\casbin\fsims_rbac_role_policy.csv
   user_role_path: D:\A-中欧\CN-EU-FSIMS\conf\casbin\fsims_rbac_user_role.csv
-=======
-  model_path: conf/casbin/fsims_rbac_model.conf
-  role_policy_path : conf/casbin/fsims_rbac_role_policy.csv
-  user_role_path: conf/casbin/fsims_rbac_user_role.csv
->>>>>>> wangert
 
 fabric:
   basic_path: fabric/
