@@ -12,7 +12,7 @@ type ReqAddOperator struct {
 
 type ReqSearchUser struct {
 	Name        string `json:"name" form:"name"`
-	Type        int    `json:"type" form:"type"`
+	Role        string `json:"role"`
 	Company     string `json:"company" form:"company"`
 	HouseNumber string `json:"house_number" form:"house_number"`
 }

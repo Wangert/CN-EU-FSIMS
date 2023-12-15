@@ -47,6 +47,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		admin.POST("addoperator", handlers.AddOperator)
 		admin.POST("adduser", handlers.AddUserByAdmin)
 		admin.GET("allusers", handlers.GetAllUsers)
+		admin.GET("searchusers", handlers.SearchUsers)
 		admin.GET("deleteuser", handlers.DeleteUser)
 		admin.GET("reset", handlers.ResetPasswordByAdmin)
 

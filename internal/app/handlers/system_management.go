@@ -10,6 +10,36 @@ import (
 	"net/http"
 )
 
+func SearchUsers(c *gin.Context) {
+	glog.Info("################## Search Users ##################")
+	var r request.ReqSearchUser
+	if err := c.ShouldBind(&r); err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "search users parameters error!")
+		return
+	}
+
+	condition, err := utils.StructToMap(r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "search users parameters to map error!")
+		return
+	}
+
+	users, count, err := service.GetUsersByCondition(condition)
+	if err != nil {
+		glog.Errorln("query users error!")
+		response.MakeFail(c, http.StatusBadRequest, "query users error")
+		return
+	}
+	glog.Info("query users successful")
+
+	res := response.ResUsers{
+		Users: users,
+		Count: count,
+	}
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
 func SearchPastures(c *gin.Context) {
 	glog.Info("################## Search Pastures ##################")
 	var sp request.ReqSearchPasture
