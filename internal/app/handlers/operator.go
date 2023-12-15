@@ -53,8 +53,42 @@ func QueryProcedureWithPID(c *gin.Context) {
 		return
 	}
 
-	glog.Info("query all fsims users successful")
+	glog.Info("query all procedure successful")
 	response.MakeSuccess(c, http.StatusOK, proc)
+	return
+}
+
+func QueryIndustrialChainWithCheckcode(c *gin.Context) {
+	checkcode := c.Query("checkcode")
+	glog.Info("checkcode:", checkcode)
+
+	procs, err := service.QueryIndustrialChain(checkcode)
+
+	if err != nil {
+		glog.Errorln("query industrail chain by checkcode error")
+		response.MakeFail(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	glog.Info("query industrail chain by checkcode successful")
+	response.MakeSuccess(c, http.StatusOK, procs)
+	return
+}
+
+func VerifyWithCheckcode(c *gin.Context) {
+	checkcode := c.Query("checkcode")
+	glog.Info("checkcode:", checkcode)
+
+	res, err := service.VerifyWithCheckcode(checkcode)
+
+	if err != nil {
+		glog.Errorln("verify with checkcode error")
+		response.MakeFail(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	glog.Info("verify with checkcode successful")
+	response.MakeSuccess(c, http.StatusOK, res)
 	return
 }
 
@@ -76,6 +110,81 @@ func CommitPastureProcedure(c *gin.Context) {
 	checkcode, err := service.CommitPastureProcedure(cpp)
 	if err != nil {
 		glog.Errorln("commit pasture procedure error")
+		response.MakeFail(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, checkcode)
+	return
+}
+
+func CommitSlaughterProcedure(c *gin.Context) {
+	var csp request.CommitSlaughterProcedure
+	if err := c.ShouldBind(&csp); err != nil {
+		glog.Errorln(err.Error())
+		response.MakeFail(c, http.StatusNotAcceptable, err.Error())
+		return
+	}
+
+	checkcode, err := service.CommitSlaughterProcedure(csp)
+	if err != nil {
+		glog.Errorln("commit slaughter procedure error")
+		response.MakeFail(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, checkcode)
+	return
+}
+
+func CommitPackProcedure(c *gin.Context) {
+	var cpp request.CommitPackProcedure
+	if err := c.ShouldBind(&cpp); err != nil {
+		glog.Errorln(err.Error())
+		response.MakeFail(c, http.StatusNotAcceptable, err.Error())
+		return
+	}
+
+	checkcode, err := service.CommitPackProcedure(cpp)
+	if err != nil {
+		glog.Errorln("commit pack procedure error")
+		response.MakeFail(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, checkcode)
+	return
+}
+
+func TransportStart(c *gin.Context) {
+	var ctp request.TransportStart
+	if err := c.ShouldBind(&ctp); err != nil {
+		glog.Errorln(err.Error())
+		response.MakeFail(c, http.StatusNotAcceptable, err.Error())
+		return
+	}
+
+	if err := service.AddTransportProcedure(ctp); err != nil {
+		glog.Errorln("commit transport procedure error")
+		response.MakeFail(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, "create transport start successful")
+	return
+}
+
+func TransportEnd(c *gin.Context) {
+	var te request.TransportEnd
+	if err := c.ShouldBind(&te); err != nil {
+		glog.Errorln(err.Error())
+		response.MakeFail(c, http.StatusNotAcceptable, err.Error())
+		return
+	}
+
+	checkcode, err := service.TransportEnd(te)
+	if err != nil {
+		glog.Errorln("commit transport end error")
 		response.MakeFail(c, http.StatusBadRequest, err.Error())
 		return
 	}

@@ -3,5 +3,12 @@ operator,/fsims/operator/*,*
 customer,/fsims/customer/*,*
 pastureoperator,/fsims/pastureoperator/*,*
 slaughteroperator,/fsims/slaughteroperator/*,*
+packoperator,/fsims/packoperator/*,*
 transportoperator,/fsims/transportoperator/*,*
+buyeroperator,/fsims/buyeroperator/*,*
+pastureoperator,/fsims/operator/*,upload_4
+slaughteroperator,/fsims/operator/*,upload_5
+packoperator,/fsims/operator/*,upload_6
+transportoperator,/fsims/operator/*,upload_7
+buyeroperator,/fsims/operator/*,upload_8
 user,/fsims/user/*,*

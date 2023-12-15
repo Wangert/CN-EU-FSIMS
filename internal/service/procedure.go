@@ -4,12 +4,16 @@ import (
 	"CN-EU-FSIMS/fabric"
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/models"
+	"CN-EU-FSIMS/internal/app/models/coldchain"
+	"CN-EU-FSIMS/internal/app/models/pack"
 	"CN-EU-FSIMS/internal/app/models/pasture"
 	"CN-EU-FSIMS/internal/app/models/query"
+	"CN-EU-FSIMS/internal/app/models/slaughter"
 	"CN-EU-FSIMS/utils"
 	"CN-EU-FSIMS/utils/crypto"
 	"context"
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/golang/glog"
@@ -60,6 +64,8 @@ func AddProcedure(rcp request.ReqCreateProcedure) error {
 	var prepid string
 	if rcp.Type == PASTURE_TYPE {
 		prepid = "HEADER"
+	} else {
+		prepid = rcp.PrePID
 	}
 
 	p := models.Procedure{
@@ -91,6 +97,70 @@ func AddProcedure(rcp request.ReqCreateProcedure) error {
 	return nil
 }
 
+func AddTransportProcedure(rcp request.TransportStart) error {
+	ts := time.Now()
+	pid, err := generatePID(rcp.Type, ts)
+	if err != nil {
+		return err
+	}
+
+	p := models.Procedure{
+		PID:                pid,
+		Type:               rcp.Type,
+		Name:               "",
+		PHash:              "",
+		CheckCode:          "",
+		SerialNumber:       0,
+		Operator:           rcp.Operator,
+		StartTimestamp:     ts,
+		CompletedTimestamp: ts,
+		PrePID:             rcp.PrePID,
+		ICID:               "",
+		SubProcedures:      nil,
+	}
+	d := coldchain.TransportProcedureData{
+		TID:                pid,
+		ProductNumber:      rcp.ProductNumber,
+		CarNumber:          rcp.CarNumber,
+		Operator:           rcp.Operator,
+		Temperature:        rcp.Temperature,
+		Source:             rcp.Source,
+		Destination:        rcp.Destination,
+		Humidity:           rcp.Humidity,
+		LoadingTime:        rcp.LoadingTime,
+		UnloadingTime:      "",
+		StartTimestamp:     ts,
+		CompletedTimestamp: ts,
+	}
+	tx := query.Q.Begin()
+	defer func() {
+		if recover() != nil || err != nil {
+			_ = tx.Rollback()
+		} else {
+			err = tx.Commit()
+			if err != nil {
+				panic(err)
+			}
+
+			glog.Infoln("add transport procedure successful!")
+		}
+	}()
+	cts := time.Now()
+	// 在数据库中新建Procedure
+	err = tx.Procedure.WithContext(context.Background()).Create(&p)
+	err = tx.TransportProcedureData.WithContext(context.Background()).Create(&d)
+	params := map[string]interface{}{"out_timestamp": cts, "state": 2}
+	info, err := tx.PackWareHouse.WithContext(context.Background()).Where(tx.PackWareHouse.ProductNumber.Eq(rcp.ProductNumber)).Updates(params)
+	glog.Info("info", info)
+	// 调用智能合约新建Procedure
+	_, err = fabric.UploadProcedure(pid, rcp.PrePID)
+	if err != nil {
+		return err
+	}
+	return nil
+
+}
+
 // 该函数未完成，仅仅支持对Pasture过程的PHash进行计算!!!!!
 func generatePHash(ph *ProcedureHeader, data interface{}) (string, error) {
 
@@ -108,13 +178,13 @@ func generatePHash(ph *ProcedureHeader, data interface{}) (string, error) {
 		dataBytes := utils.SerializeStructToBytes(data.(pasture.PastureProcedureData))
 		pBytes = append(phBytes, dataBytes...)
 	case SLAUGHTER_TYPE:
-		dataBytes := utils.SerializeStructToBytes(data.(pasture.PastureProcedureData))
+		dataBytes := utils.SerializeStructToBytes(data.(slaughter.SlaughterProcedureData))
 		pBytes = append(phBytes, dataBytes...)
 	case PACKAGE_TYPE:
-		dataBytes := utils.SerializeStructToBytes(data.(pasture.PastureProcedureData))
+		dataBytes := utils.SerializeStructToBytes(data.(pack.PackProcedureData))
 		pBytes = append(phBytes, dataBytes...)
 	case COLDCHAIN_TRANSPORT_TYPE:
-		dataBytes := utils.SerializeStructToBytes(data.(pasture.PastureProcedureData))
+		dataBytes := utils.SerializeStructToBytes(data.(coldchain.TransportProcedureData))
 		pBytes = append(phBytes, dataBytes...)
 	case SELL_TYPE:
 		dataBytes := utils.SerializeStructToBytes(data.(pasture.PastureProcedureData))
@@ -127,6 +197,7 @@ func generatePHash(ph *ProcedureHeader, data interface{}) (string, error) {
 	return pHash, nil
 }
 
+// PastureProcedure提交
 func CommitPastureProcedure(cpp request.CommitPastureProcedure) (string, error) {
 	// 转换为pasture data
 	data := pasture.PastureProcedureData{
@@ -135,15 +206,73 @@ func CommitPastureProcedure(cpp request.CommitPastureProcedure) (string, error) 
 		Stench: cpp.Stench,
 	}
 
+	//后续需要存储data到数据库
+
+	pid := cpp.PID
+	ncc, err := CommitCheckcode(pid, data)
+	return ncc, err
+}
+
+// SlaughterProcedure提交
+func CommitSlaughterProcedure(csp request.CommitSlaughterProcedure) (string, error) {
+	// 转换为pasture data
+	data := slaughter.SlaughterProcedureData{
+		EnvirTemperature:      csp.EnvirTemperature,
+		EnvirLighting:         csp.EnvirLighting,
+		ShockVoltage:          csp.ShockVoltage,
+		BleedingTime:          csp.BleedingTime,
+		EleShockTime:          csp.EleShockTime,
+		KnifeDisinfectionTime: csp.KnifeDisinfectionTime,
+	}
+
+	//后续需要存储data到数据库
+
+	pid := csp.PID
+	ncc, err := CommitCheckcode(pid, data)
+	return ncc, err
+}
+
+// PackProcedure提交
+func CommitPackProcedure(cpp request.CommitPackProcedure) (string, error) {
+	data := pack.PackProcedureData{
+		PackType:        cpp.PackType,
+		PackTemperature: cpp.PackTemperature,
+	}
+
+	pid := cpp.PID
+	ncc, err := CommitCheckcode(pid, data)
+	return ncc, err
+}
+
+// TransportProcedure提交
+func TransportEnd(rte request.TransportEnd) (string, error) {
+	// 转换为pasture data
+	cts := time.Now()
+	pid := rte.PID
+	p := query.TransportProcedureData
+	params := map[string]interface{}{"unloading_time": rte.UnloadingTime, "completed_timestamp": cts}
+	info, err := p.WithContext(context.Background()).Where(p.TID.Eq(pid)).Updates(params)
+	if err != nil {
+		glog.Errorln(info)
+		return "", err
+	}
+	q := query.TransportProcedureData
+	data, err := q.WithContext(context.Background()).Where(q.TID.Eq(rte.PID)).First()
+	ncc, err := CommitCheckcode(pid, *data)
+	return ncc, err
+}
+
+// 计算checkcode并更新procedure
+func CommitCheckcode(pid string, data interface{}) (string, error) {
 	// 获取当前Procedure的前Procedure PID
-	p, err := QueryProcedureWithPID(cpp.PID)
+	p, err := QueryProcedureWithPID(pid)
 	if err != nil {
 		return "", err
 	}
 
 	cts := time.Now()
 	pHeader := ProcedureHeader{
-		PID:                cpp.PID,
+		PID:                pid,
 		Type:               p.Type,
 		StartTimestamp:     p.StartTimestamp,
 		CompletedTimestamp: cts,
@@ -167,19 +296,20 @@ func CommitPastureProcedure(cpp request.CommitPastureProcedure) (string, error) 
 			return "", err
 		}
 	}
-
+	fmt.Println("pHash:", pHash)
+	fmt.Println("precc", precc)
 	// 计算新的CheckCode
 	ncc := crypto.CalculateSHA256(string(pHash+precc), "1111")
 
 	// 更新当前Procedure
 	params := map[string]interface{}{"p_hash": pHash, "check_code": ncc, "completed_timestamp": cts}
-	err = UpdateProcedureWithPID(cpp.PID, params)
+	err = UpdateProcedureWithPID(pid, params)
 	if err != nil {
 		return "", err
 	}
 
 	// 更新链上Procedure的pHash
-	_, err = fabric.UpdateProcedure(cpp.PID, ncc, pHash)
+	_, err = fabric.UpdateProcedure(pid, pHash)
 	return ncc, nil
 }
 
@@ -196,7 +326,7 @@ func UpdateProcedureWithPID(pid string, params map[string]interface{}) error {
 
 func QueryProcedureCheckcode(pid string) (string, error) {
 	p := query.Procedure
-	procedure, err := p.WithContext(context.Background()).Where(p.PrePID.Eq(pid)).Select(p.CheckCode).First()
+	procedure, err := p.WithContext(context.Background()).Where(p.PID.Eq(pid)).Select(p.CheckCode).First()
 	if err != nil {
 		return "", err
 	}
@@ -237,4 +367,45 @@ func generatePID(ptype uint, startTimestamp time.Time) (string, error) {
 	}
 
 	return pid + tsHash, nil
+}
+
+func QueryIndustrialChain(checkcode string) ([]*models.Procedure, error) {
+
+	var procedure *models.Procedure
+	var err error
+	var procedures []*models.Procedure
+	for {
+		p := query.Procedure
+		procedure, err = p.WithContext(context.Background()).Where(p.CheckCode.Eq(checkcode)).First()
+		if err != nil {
+			return nil, err
+		}
+		if procedure == nil {
+			return nil, errors.New("No checkcode!")
+		}
+		procedures = append(procedures, procedure)
+		if procedure.PrePID == "HEADER" {
+			break
+		}
+		pre_pid := procedure.PrePID
+		pre_procedure, err := p.WithContext(context.Background()).Where(p.PID.Eq(pre_pid)).First()
+		if err != nil {
+			return nil, err
+		}
+		checkcode = pre_procedure.CheckCode
+	}
+	return procedures, nil
+}
+
+func VerifyWithCheckcode(checkcode string) (string, error) {
+	p := query.Procedure
+	procedure, err := p.WithContext(context.Background()).Where(p.CheckCode.Eq(checkcode)).First()
+	if err != nil {
+		return "", err
+	}
+	glog.Info("pid:", procedure.PID)
+
+	res, err := fabric.VerifyOnChainWithCheckcode(procedure.PID, checkcode)
+
+	return res, err
 }

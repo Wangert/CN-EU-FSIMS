@@ -21,14 +21,18 @@ const (
 	OPERATOR_USER_TYPE           = 3
 	PASTURE_OPERATOR_USER_TYPE   = 4
 	SLAUGHTER_OPERATOR_USER_TYPE = 5
-	TRANSPORT_OPERATOR_USER_TYPE = 6
+	PACK_OPERATOR_USER_TYPE      = 6
+	TRANSPORT_OPERATOR_USER_TYPE = 7
+	BUYER_OPERATOR_USER_TYPE     = 8
 
 	ADMIN_USER_NUMBER              = "0000"
 	CUSTOMER_USER_NUMBER           = "0001"
 	OPERATOR_USER_NUMBER           = "0002"
 	PASTURE_OPERATOR_USER_NUMBER   = "0003"
 	SLAUGHTER_OPERATOR_USER_NUMBER = "0004"
-	TRANSPORT_OPERATOR_USER_NUMBER = "0005"
+	PACK_OPERATOR_USER_NUMBER      = "0005"
+	TRANSPORT_OPERATOR_USER_NUMBER = "0006"
+	BUYER_OPERATOR_USER_NUMBER     = "0007"
 
 	PASSWORD_SALT = "FSIMSPS"
 	INIT_PASSWORD = "Fsims123456!"
@@ -137,8 +141,12 @@ func AddRoleForUserWithType(uuid string, ttype int) error {
 		roleName = "pastureoperator"
 	case SLAUGHTER_OPERATOR_USER_TYPE:
 		roleName = "slaughteroperator"
+	case PACK_OPERATOR_USER_TYPE:
+		roleName = "packoperator"
 	case TRANSPORT_OPERATOR_USER_TYPE:
 		roleName = "transportoperator"
+	case BUYER_OPERATOR_USER_TYPE:
+		roleName = "buyeroperator"
 	default:
 		return errors.New("user type is not exist")
 	}
@@ -170,8 +178,12 @@ func generateUuid(account string, userType int) (string, error) {
 		uuid = UUID_PREFIX + "-" + PASTURE_OPERATOR_USER_NUMBER + "-" + accountHash
 	case SLAUGHTER_OPERATOR_USER_TYPE:
 		uuid = UUID_PREFIX + "-" + SLAUGHTER_OPERATOR_USER_NUMBER + "-" + accountHash
+	case PACK_OPERATOR_USER_TYPE:
+		uuid = UUID_PREFIX + "-" + PACK_OPERATOR_USER_NUMBER + "-" + accountHash
 	case TRANSPORT_OPERATOR_USER_TYPE:
 		uuid = UUID_PREFIX + "-" + TRANSPORT_OPERATOR_USER_NUMBER + "-" + accountHash
+	case BUYER_OPERATOR_USER_TYPE:
+		uuid = UUID_PREFIX + "-" + BUYER_OPERATOR_USER_NUMBER + "-" + accountHash
 	default:
 		return "", errors.New("user type is not exist")
 	}
