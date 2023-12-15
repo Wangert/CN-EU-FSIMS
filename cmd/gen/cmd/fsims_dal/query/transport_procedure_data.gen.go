@@ -33,7 +33,7 @@ func newTransportProcedureData(db *gorm.DB, opts ...gen.DOOption) transportProce
 	_transportProcedureData.DeletedAt = field.NewField(tableName, "deleted_at")
 	_transportProcedureData.TID = field.NewString(tableName, "t_id")
 	_transportProcedureData.ProductNumber = field.NewString(tableName, "product_number")
-	_transportProcedureData.CarNumber = field.NewString(tableName, "car_number")
+	_transportProcedureData.TVNumber = field.NewString(tableName, "tv_number")
 	_transportProcedureData.Operator = field.NewString(tableName, "operator")
 	_transportProcedureData.Temperature = field.NewString(tableName, "temperature")
 	_transportProcedureData.Source = field.NewString(tableName, "source")
@@ -59,7 +59,7 @@ type transportProcedureData struct {
 	DeletedAt          field.Field
 	TID                field.String
 	ProductNumber      field.String
-	CarNumber          field.String
+	TVNumber           field.String
 	Operator           field.String
 	Temperature        field.String
 	Source             field.String
@@ -91,7 +91,7 @@ func (t *transportProcedureData) updateTableName(table string) *transportProcedu
 	t.DeletedAt = field.NewField(table, "deleted_at")
 	t.TID = field.NewString(table, "t_id")
 	t.ProductNumber = field.NewString(table, "product_number")
-	t.CarNumber = field.NewString(table, "car_number")
+	t.TVNumber = field.NewString(table, "tv_number")
 	t.Operator = field.NewString(table, "operator")
 	t.Temperature = field.NewString(table, "temperature")
 	t.Source = field.NewString(table, "source")
@@ -136,7 +136,7 @@ func (t *transportProcedureData) fillFieldMap() {
 	t.fieldMap["deleted_at"] = t.DeletedAt
 	t.fieldMap["t_id"] = t.TID
 	t.fieldMap["product_number"] = t.ProductNumber
-	t.fieldMap["car_number"] = t.CarNumber
+	t.fieldMap["tv_number"] = t.TVNumber
 	t.fieldMap["operator"] = t.Operator
 	t.fieldMap["temperature"] = t.Temperature
 	t.fieldMap["source"] = t.Source

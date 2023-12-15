@@ -37,6 +37,7 @@ func newPackWareHouse(db *gorm.DB, opts ...gen.DOOption) packWareHouse {
 	_packWareHouse.InOperator = field.NewString(tableName, "in_operator")
 	_packWareHouse.InTimestamp = field.NewTime(tableName, "in_timestamp")
 	_packWareHouse.OutTimestamp = field.NewTime(tableName, "out_timestamp")
+	_packWareHouse.HouseNumber = field.NewString(tableName, "house_number")
 
 	_packWareHouse.fillFieldMap()
 
@@ -58,6 +59,7 @@ type packWareHouse struct {
 	InOperator    field.String
 	InTimestamp   field.Time
 	OutTimestamp  field.Time
+	HouseNumber   field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -85,6 +87,7 @@ func (p *packWareHouse) updateTableName(table string) *packWareHouse {
 	p.InOperator = field.NewString(table, "in_operator")
 	p.InTimestamp = field.NewTime(table, "in_timestamp")
 	p.OutTimestamp = field.NewTime(table, "out_timestamp")
+	p.HouseNumber = field.NewString(table, "house_number")
 
 	p.fillFieldMap()
 
@@ -113,7 +116,7 @@ func (p *packWareHouse) GetFieldByName(fieldName string) (field.OrderExpr, bool)
 }
 
 func (p *packWareHouse) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 11)
+	p.fieldMap = make(map[string]field.Expr, 12)
 	p.fieldMap["id"] = p.ID
 	p.fieldMap["created_at"] = p.CreatedAt
 	p.fieldMap["updated_at"] = p.UpdatedAt
@@ -125,6 +128,7 @@ func (p *packWareHouse) fillFieldMap() {
 	p.fieldMap["in_operator"] = p.InOperator
 	p.fieldMap["in_timestamp"] = p.InTimestamp
 	p.fieldMap["out_timestamp"] = p.OutTimestamp
+	p.fieldMap["house_number"] = p.HouseNumber
 }
 
 func (p packWareHouse) clone(db *gorm.DB) packWareHouse {

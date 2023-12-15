@@ -39,6 +39,7 @@ func newSlaughterWareHouse(db *gorm.DB, opts ...gen.DOOption) slaughterWareHouse
 	_slaughterWareHouse.Destination = field.NewString(tableName, "destination")
 	_slaughterWareHouse.InTimestamp = field.NewTime(tableName, "in_timestamp")
 	_slaughterWareHouse.OutTimestamp = field.NewTime(tableName, "out_timestamp")
+	_slaughterWareHouse.HouseNumber = field.NewString(tableName, "house_number")
 
 	_slaughterWareHouse.fillFieldMap()
 
@@ -62,6 +63,7 @@ type slaughterWareHouse struct {
 	Destination   field.String
 	InTimestamp   field.Time
 	OutTimestamp  field.Time
+	HouseNumber   field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -91,6 +93,7 @@ func (s *slaughterWareHouse) updateTableName(table string) *slaughterWareHouse {
 	s.Destination = field.NewString(table, "destination")
 	s.InTimestamp = field.NewTime(table, "in_timestamp")
 	s.OutTimestamp = field.NewTime(table, "out_timestamp")
+	s.HouseNumber = field.NewString(table, "house_number")
 
 	s.fillFieldMap()
 
@@ -119,7 +122,7 @@ func (s *slaughterWareHouse) GetFieldByName(fieldName string) (field.OrderExpr, 
 }
 
 func (s *slaughterWareHouse) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 13)
+	s.fieldMap = make(map[string]field.Expr, 14)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
@@ -133,6 +136,7 @@ func (s *slaughterWareHouse) fillFieldMap() {
 	s.fieldMap["destination"] = s.Destination
 	s.fieldMap["in_timestamp"] = s.InTimestamp
 	s.fieldMap["out_timestamp"] = s.OutTimestamp
+	s.fieldMap["house_number"] = s.HouseNumber
 }
 
 func (s slaughterWareHouse) clone(db *gorm.DB) slaughterWareHouse {

@@ -39,6 +39,7 @@ func newPastureWareHouse(db *gorm.DB, opts ...gen.DOOption) pastureWareHouse {
 	_pastureWareHouse.Destination = field.NewString(tableName, "destination")
 	_pastureWareHouse.InTimestamp = field.NewTime(tableName, "in_timestamp")
 	_pastureWareHouse.OutTimestamp = field.NewTime(tableName, "out_timestamp")
+	_pastureWareHouse.HouseNumber = field.NewString(tableName, "house_number")
 
 	_pastureWareHouse.fillFieldMap()
 
@@ -62,6 +63,7 @@ type pastureWareHouse struct {
 	Destination   field.String
 	InTimestamp   field.Time
 	OutTimestamp  field.Time
+	HouseNumber   field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -91,6 +93,7 @@ func (p *pastureWareHouse) updateTableName(table string) *pastureWareHouse {
 	p.Destination = field.NewString(table, "destination")
 	p.InTimestamp = field.NewTime(table, "in_timestamp")
 	p.OutTimestamp = field.NewTime(table, "out_timestamp")
+	p.HouseNumber = field.NewString(table, "house_number")
 
 	p.fillFieldMap()
 
@@ -119,7 +122,7 @@ func (p *pastureWareHouse) GetFieldByName(fieldName string) (field.OrderExpr, bo
 }
 
 func (p *pastureWareHouse) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 13)
+	p.fieldMap = make(map[string]field.Expr, 14)
 	p.fieldMap["id"] = p.ID
 	p.fieldMap["created_at"] = p.CreatedAt
 	p.fieldMap["updated_at"] = p.UpdatedAt
@@ -133,6 +136,7 @@ func (p *pastureWareHouse) fillFieldMap() {
 	p.fieldMap["destination"] = p.Destination
 	p.fieldMap["in_timestamp"] = p.InTimestamp
 	p.fieldMap["out_timestamp"] = p.OutTimestamp
+	p.fieldMap["house_number"] = p.HouseNumber
 }
 
 func (p pastureWareHouse) clone(db *gorm.DB) pastureWareHouse {
