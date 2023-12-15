@@ -15,4 +15,5 @@ type PackWareHouse struct {
 	InOperator    string    `json:"in_operator"`
 	InTimestamp   time.Time `gorm:"not null" json:"in_timestamp"`
 	OutTimestamp  time.Time `json:"out_timestamp"`
+	HouseNumber   string    `gorm:"not null; type:varchar(256)" json:"house_number"`
 }

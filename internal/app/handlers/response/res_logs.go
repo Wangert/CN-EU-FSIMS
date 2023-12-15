@@ -1,11 +1,8 @@
 package response
 
-import "time"
+import "CN-EU-FSIMS/internal/app/models"
 
 type ResLogs struct {
-	TimeStamp time.Time `json:"timestamp"`
-	UUID      string    `json:"uuid"`
-	Account   string    `json:"account"`
-	Type      int       `json:"type"`
-	Action    string    `json:"action"`
+	Logs  []models.LogInfo `json:"logs"`
+	Count int64
 }

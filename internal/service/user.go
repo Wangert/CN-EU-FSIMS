@@ -38,22 +38,72 @@ const (
 	INIT_PASSWORD = "Fsims123456!"
 )
 
-//func CreateFsimUser(user *request.ReqUpdateUser) *models.FSIMSUser {
-//	uuid, err := generateUuid(user.Account, user.Type)
-//	if err != nil {
-//		return nil
-//	}
-//	var u models.FSIMSUser
-//	u.UUID = uuid
-//	u.Name = user.Name
-//	u.Phone = user.Phone
-//	u.Type = user.Type
-//	u.Role = user.Role
-//	u.Account = user.Account
-//	u.Company = user.Company
-//	u.PasswordHash = crypto.CalculateSHA256(user.Password, PASSWORD_SALT)
-//	return &u
-//}
+func GetUsersByCondition(condition map[string]interface{}) ([]models.UserInfo, int64, error) {
+	var n, r, c, h string
+	var t int
+
+	if val, ok := condition["name"]; ok {
+		n = val.(string)
+	}
+	if val, ok := condition["role"]; ok {
+		r = val.(string)
+	}
+	if val, ok := condition["company"]; ok {
+		c = val.(string)
+	}
+	if val, ok := condition["house_number"]; ok {
+		h = val.(string)
+	}
+
+	u := query.FSIMSUser
+	usDo := u.WithContext(context.Background()).Where(u.Name.Like("%" + n + "%")).
+		Where(u.Role.Like("%" + r + "%")).
+		Where(u.Company.Like("%" + c + "%")).
+		Where(u.HouseNumber.Like("%" + h + "%"))
+
+	var us []*models.FSIMSUser
+	if val, ok := condition["type"]; ok {
+		t = val.(int)
+		results, err := usDo.Where(u.Type.Eq(t)).Find()
+		if err != nil {
+			return []models.UserInfo{}, 0, err
+		}
+
+		us = results
+	} else {
+		results, err := usDo.Find()
+		if err != nil {
+			return []models.UserInfo{}, 0, err
+		}
+
+		us = results
+	}
+
+	count := len(us)
+	users := make([]models.UserInfo, count)
+	for i, user := range us {
+		users[i] = models.FsimsUserToResUser(user)
+	}
+
+	return users, int64(count), nil
+}
+
+func GetAllUsers() ([]models.UserInfo, int64, error) {
+	u := query.FSIMSUser
+	us, err := u.WithContext(context.Background()).Find()
+	if err != nil {
+		return []models.UserInfo{}, 0, err
+	}
+
+	count, err := u.WithContext(context.Background()).Count()
+
+	users := make([]models.UserInfo, count)
+	for i, user := range us {
+		users[i] = models.FsimsUserToResUser(user)
+	}
+
+	return users, count, nil
+}
 
 func QueryFsimsUserPwdHash(account string) (string, error) {
 	u := query.FSIMSUser

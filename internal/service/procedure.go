@@ -80,7 +80,6 @@ func AddProcedure(rcp request.ReqCreateProcedure) error {
 		CompletedTimestamp: ts,
 		PrePID:             prepid,
 		ICID:               "",
-		SubProcedures:      nil,
 	}
 
 	// 在数据库中新建Procedure
@@ -116,12 +115,11 @@ func AddTransportProcedure(rcp request.TransportStart) error {
 		CompletedTimestamp: ts,
 		PrePID:             rcp.PrePID,
 		ICID:               "",
-		SubProcedures:      nil,
 	}
 	d := coldchain.TransportProcedureData{
 		TID:                pid,
 		ProductNumber:      rcp.ProductNumber,
-		CarNumber:          rcp.CarNumber,
+		TVNumber:           rcp.CarNumber,
 		Operator:           rcp.Operator,
 		Temperature:        rcp.Temperature,
 		Source:             rcp.Source,
