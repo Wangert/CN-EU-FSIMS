@@ -68,6 +68,10 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 	err = tx.Procedure.WithContext(context.Background()).Create(&procedure)
 	err = tx.FeedingBatch.WithContext(context.Background()).Create(&fb)
 
+	for _, number := range r.CowNumbers {
+		_, err = tx.Cow.WithContext(context.Background()).Where(tx.Cow.Number.Eq(number)).Updates(map[string]interface{}{"state": 2})
+	}
+
 	return bNum, nil
 }
 
