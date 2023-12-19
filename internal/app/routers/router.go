@@ -52,6 +52,9 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		admin.GET("reset", handlers.ResetPasswordByAdmin)
 
 		admin.GET("viewlog", handlers.ViewLogs)
+
+		admin.POST("newfeedingbatch", handlers.NewFeedingBatch)
+		admin.POST("addcow", handlers.AddCow)
 	}
 
 	// industrial chain group
@@ -65,6 +68,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	{
 
 		op.POST("createproc", handlers.CreateProcedure)
+		op.POST("newfeedingbatch", handlers.NewFeedingBatch)
 		op.GET("queryproc", handlers.QueryProcedureWithPID)
 		op.GET("querychain", handlers.QueryIndustrialChainWithCheckcode)
 		op.GET("verify", handlers.VerifyWithCheckcode)
@@ -76,6 +80,8 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	{
 		//pop.POST("createproc", handlers.CreateProcedure)
 
+		pop.POST("addcow", handlers.AddCow)
+		//pop.GET("getfeedingrecords", handlers.GetFeedingRecords)
 		pop.POST("commitproc", handlers.CommitPastureProcedure)
 		pop.POST("inwarehouse", handlers.PastureInWarehouse)
 		pop.POST("sendtonext", handlers.SendToSlaughter)

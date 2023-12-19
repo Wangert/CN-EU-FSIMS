@@ -6,6 +6,7 @@ import (
 	"CN-EU-FSIMS/internal/app/models/fatten"
 	"CN-EU-FSIMS/internal/app/models/pack"
 	"CN-EU-FSIMS/internal/app/models/pasture"
+	"CN-EU-FSIMS/internal/app/models/product"
 	"CN-EU-FSIMS/internal/app/models/query"
 	"CN-EU-FSIMS/internal/app/models/slaughter"
 	"CN-EU-FSIMS/internal/app/models/warehouse"
@@ -80,6 +81,11 @@ func AutoMigrate() {
 	}
 
 	err = DB.AutoMigrate(&pasture.PastureHouse{}, &slaughter.SlaughterHouse{}, &slaughter.SlaughterHouse{}, &pack.PackageHouse{}, &coldchain.TransportVehicle{})
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	err = DB.AutoMigrate(&product.Cow{}, &pasture.FeedingBatch{})
 	if err != nil {
 		fmt.Println(err)
 	}

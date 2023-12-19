@@ -54,6 +54,43 @@ type ProcedureHeader struct {
 	PrePID             string
 }
 
+type NewProcedureParams struct {
+	Type     uint
+	Operator string
+	PrePID   string
+}
+
+func NewProcedure(params *NewProcedureParams) (models.Procedure, error) {
+	ts := time.Now()
+	pid, err := generatePID(params.Type, ts)
+	if err != nil {
+		return models.Procedure{}, err
+	}
+
+	var prepid string
+	if params.Type == PASTURE_TYPE {
+		prepid = "HEADER"
+	} else {
+		prepid = params.PrePID
+	}
+
+	p := models.Procedure{
+		PID:                pid,
+		Type:               params.Type,
+		Name:               "",
+		PHash:              "",
+		CheckCode:          "",
+		SerialNumber:       0,
+		Operator:           params.Operator,
+		StartTimestamp:     ts,
+		CompletedTimestamp: ts,
+		PrePID:             prepid,
+		ICID:               "",
+	}
+
+	return p, nil
+}
+
 func AddProcedure(rcp request.ReqCreateProcedure) error {
 	ts := time.Now()
 	pid, err := generatePID(rcp.Type, ts)
