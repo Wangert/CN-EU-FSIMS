@@ -9,10 +9,11 @@ import (
 	"CN-EU-FSIMS/internal/config"
 	"flag"
 	"fmt"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
 	"github.com/spf13/viper"
-	"net/http"
 )
 
 func main() {

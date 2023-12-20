@@ -26,9 +26,9 @@ casbin:
 
 fabric:
   basic_path: fabric/
-  connection_path: conf/fabric_connection.yaml
+  connection_path: ../conf/fabric_connection.yaml
   channel_id: fsims-channel
-  wallet_user_msp_path: conf/fabric_organizations/peerOrganizations/org1/users/User1@org1/msp
+  wallet_user_msp_path: ../conf/fabric_organizations/peerOrganizations/org1/users/User1@org1/msp
 
 #admin:
 #  sec_admin_username: secadmin

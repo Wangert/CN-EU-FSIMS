@@ -8,8 +8,9 @@ import (
 	"CN-EU-FSIMS/utils"
 	"CN-EU-FSIMS/utils/crypto"
 	"context"
-	"github.com/golang/glog"
 	"time"
+
+	"github.com/golang/glog"
 )
 
 const (
@@ -89,6 +90,19 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 	}
 
 	return bNum, nil
+}
+
+func GetCowList(house_number string) ([]product.Cow, error) {
+	q := query.Cow
+	cows, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(house_number)).Find()
+	if err != nil {
+		return nil, err
+	}
+	var cowsRes []product.Cow
+	for i, _ := range cows {
+		cowsRes = append(cowsRes, *cows[i])
+	}
+	return cowsRes, nil
 }
 
 func GetCowsByNumbers(numbers []string) ([]product.Cow, error) {

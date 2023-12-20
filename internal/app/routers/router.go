@@ -5,18 +5,18 @@ import (
 	"CN-EU-FSIMS/internal/app/middlewares"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang/glog"
 )
 
 func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	// use middlewares
 	e.Use(gin.Recovery(), gin.Logger())
 	e.Use(mw...)
-
+	glog.Info("已经load")
 	fsims := e.Group("/fsims")
 
 	fsims.GET("home", handlers.Welcome)
 
-	// user router group
 	user := fsims.Group("/user")
 	{
 		user.POST("register", handlers.Register)
@@ -84,6 +84,8 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		pop.POST("addcow", handlers.AddCow)
 		pop.POST("newfeedingbatch", handlers.NewFeedingBatch)
 		pop.GET("getfeedingrecords", handlers.GetFeedingRecords)
+		pop.GET("searchhouse", handlers.GetUserHouse)
+		pop.GET("getcow", handlers.GetCowList)
 		pop.POST("commitproc", handlers.CommitPastureProcedure)
 		pop.POST("inwarehouse", handlers.PastureInWarehouse)
 		pop.POST("sendtonext", handlers.SendToSlaughter)

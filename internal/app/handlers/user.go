@@ -78,8 +78,9 @@ func Login(c *gin.Context) {
 		response.MakeFail(c, http.StatusBadRequest, "login parameters error!")
 		return
 	}
-
+	glog.Info("a", reqLogin.Account)
 	reqPwdHash := crypto.CalculateSHA256(reqLogin.Password, service.PASSWORD_SALT)
+
 	uuid, pwdHash, err := service.QueryFsimsUserUuidAndPwdHash(reqLogin.Account)
 	if err != nil {
 		glog.Errorln("query fsims password hash error!")
@@ -113,7 +114,7 @@ func Login(c *gin.Context) {
 }
 
 func checkLoginParams(reqLogin *request.ReqLogin) bool {
-	if reqLogin.Account == "" || reqLogin.Password == "" || reqLogin.Type == 0 {
+	if reqLogin.Account == "" || reqLogin.Password == "" {
 		glog.Errorln("Missing login parameters")
 		return false
 	}

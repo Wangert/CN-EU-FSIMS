@@ -20,7 +20,7 @@ import (
 	"gorm.io/gorm"
 )
 
-const GLOBALCONFIGPATH = "conf/config.yaml"
+const GLOBALCONFIGPATH = "../conf/config.yaml"
 
 var DB *gorm.DB
 

@@ -19,3 +19,8 @@ type ResHouses struct {
 	Houses []models.House `json:"houses"`
 	Count  int64          `json:"count"`
 }
+
+type ResUserHouseInfo struct {
+	House       string `json:"house"`
+	HouseNumber string `json:"house_number"`
+}

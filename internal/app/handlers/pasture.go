@@ -4,9 +4,10 @@ import (
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/handlers/response"
 	"CN-EU-FSIMS/internal/service"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
-	"net/http"
 )
 
 func GetFeedingRecords(c *gin.Context) {
@@ -32,10 +33,13 @@ func NewFeedingBatch(c *gin.Context) {
 
 	var r request.ReqNewFeedingBatch
 	if err := c.ShouldBind(&r); err != nil || !checkNewFeedingBatchParams(&r) {
+		glog.Info("收到", r.HouseNumber)
+		glog.Info("收到", r.CowNumbers)
 		response.MakeFail(c, http.StatusBadRequest, "new feeding batch parameters error!")
 		return
 	}
-
+	glog.Info("收到", r.HouseNumber)
+	glog.Info("收到", r.CowNumbers)
 	batchNum, err := service.NewFeedingBatch(&r)
 	if err != nil {
 		response.MakeFail(c, http.StatusBadRequest, "new feeding batch error!")
@@ -48,9 +52,11 @@ func NewFeedingBatch(c *gin.Context) {
 
 func checkNewFeedingBatchParams(r *request.ReqNewFeedingBatch) bool {
 	if r.HouseNumber == "" {
+		glog.Info("1")
 		return false
 	}
 	if len(r.CowNumbers) == 0 {
+		glog.Info("2")
 		return false
 	}
 	return true
@@ -91,4 +97,16 @@ func checkAddCowParams(r *request.ReqAddCow) bool {
 		return false
 	}
 	return true
+}
+
+func GetCowList(c *gin.Context) {
+	glog.Info("################## FSIMS Get Cow ##################")
+	house_number := c.Query("house_number")
+	cows, err := service.GetCowList(house_number)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "get cow list error!")
+		return
+	}
+	response.MakeSuccess(c, http.StatusOK, cows)
+	return
 }
