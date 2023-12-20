@@ -9,6 +9,26 @@ import (
 	"net/http"
 )
 
+func GetWarehouseInfos(c *gin.Context) {
+	glog.Info("################## FSIMS Get Warehouse Infos ##################")
+
+	houseNum := c.Query("house_number")
+
+	pws, count, err := service.GetWarehouseInfosByPastureNumber(houseNum)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "get warehouse infos error!")
+		return
+	}
+
+	res := response.ResWarehouseInfos{
+		PastureWarehouses: pws,
+		Count:             count,
+	}
+
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
 func EndFeeding(c *gin.Context) {
 	glog.Info("################## FSIMS End Feeding ##################")
 

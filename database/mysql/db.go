@@ -61,7 +61,7 @@ func AutoMigrate() {
 		&pasture.PastureFloorBeddingPhysicalHazard{}, &pasture.PastureFloorBeddingBiohazard{}, &pasture.PastureSiteDisinfectionRecord{},
 		&pasture.PastureWorksuitDisinfectionRecord{}, &pasture.PastureTruckDisinfectionRecord{}, &fatten.FattenProcedure{}, &fatten.FattenWater{}, &fatten.FattenSoil{},
 		&fatten.FattenWaterPhysicalHazard{}, &fatten.FattenWaterChemicalHazard{}, &fatten.FattenWaterSensoryTraits{}, &fatten.FattenWaterBiohazard{},
-		&fatten.FattenSoilPhysicalHazard{}, &fatten.FattenSoilBiohazard{}, &warehouse.PastureWareHouse{}, &warehouse.SlaughterWareHouse{})
+		&fatten.FattenSoilPhysicalHazard{}, &fatten.FattenSoilBiohazard{})
 
 	if err != nil {
 		fmt.Println(err)
@@ -75,7 +75,7 @@ func AutoMigrate() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = DB.AutoMigrate(&warehouse.PackWareHouse{}, &coldchain.TransportProcedureData{})
+	err = DB.AutoMigrate(&coldchain.TransportProcedureData{})
 	if err != nil {
 		fmt.Println(err)
 	}

@@ -25,6 +25,22 @@ const (
 	END_STATE       = 5
 )
 
+func GetWarehouseInfosByPastureNumber(num string) ([]warehouse.PastureWarehouseInfo, int64, error) {
+	q := query.PastureWarehouse
+	pws, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(num)).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(pws)
+	records := make([]warehouse.PastureWarehouseInfo, count)
+	for i, pw := range pws {
+		records[i] = warehouse.ToPastureWarehouseInfo(*pw)
+	}
+
+	return records, int64(count), nil
+}
+
 func EndFeeding(r *request.ReqEndFeeding) (string, []string, error) {
 	var err error
 	tx := query.Q.Begin()
@@ -69,7 +85,7 @@ func EndFeeding(r *request.ReqEndFeeding) (string, []string, error) {
 			OutOperator:  "",
 			Destination:  "",
 			InTimestamp:  time.Now(),
-			OutTimestamp: time.Now(),
+			OutTimestamp: nil,
 			HouseNumber:  r.HouseNumber,
 		}
 		pws[i] = &pw

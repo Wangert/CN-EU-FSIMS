@@ -16,8 +16,8 @@ type ReqNewFeedingBatch struct {
 type ReqEndFeeding struct {
 	BatchNumber string  `json:"batch_number" form:"batch_number"`
 	Worker      string  `json:"worker" form:"worker"`
-	HouseNumber string  `json:"house_number"`
-	PM10        float32 `json:"pm_10"`  // PM10
-	TSP         float32 `json:"tsp"`    // TSP
-	Stench      uint    `json:"stench"` // 恶臭稀释程度
+	HouseNumber string  `json:"house_number" form:"house_number"`
+	PM10        float32 `json:"pm_10" form:"pm_10"`   // PM10
+	TSP         float32 `json:"tsp" form:"tsp"`       // TSP
+	Stench      uint    `json:"stench" form:"stench"` // 恶臭稀释程度
 }
