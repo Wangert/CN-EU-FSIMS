@@ -2,11 +2,11 @@ runmode: debug # 开发模式, debug, release, test
 
 server:
   ip_addr: 127.0.0.1
-  port: 8000
+  port: 8080
 
 mysql:
   username: root
-  password: root
+  password: 123456
   ip_addr: 127.0.0.1
   port: 3306
   database: fsims
@@ -25,7 +25,7 @@ casbin:
   user_role_path: conf/casbin/fsims_rbac_user_role.csv
 
 fabric:
-  basic_path: fabric/
+  basic_path: fabric
   connection_path: conf/fabric_connection.yaml
   channel_id: fsims-channel
   wallet_user_msp_path: conf/fabric_organizations/peerOrganizations/org1/users/User1@org1/msp

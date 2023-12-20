@@ -105,7 +105,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	//transportoperator router group
 	top := fsims.Group("/transportoperator", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
-		pop.POST("createproc", handlers.CreateProcedure)
+		top.POST("createproc", handlers.CreateProcedure)
 		top.GET("upload", handlers.TransportOperatorUpload)
 
 		top.POST("start", handlers.TransportStart)

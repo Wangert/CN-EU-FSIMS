@@ -11,6 +11,7 @@ import (
 // JwtAuth 基于JWT的认证中间件
 func JwtAuth() func(c *gin.Context) {
 	return func(c *gin.Context) {
+		glog.Infoln("到达JWT中间件")
 		// 客户端携带Token有三种方式 1.放在请求头 2.放在请求体 3.放在URI
 		// Token放在Header的Authorization中
 		token := c.Request.Header.Get("Authorization")
