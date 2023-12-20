@@ -1,6 +1,152 @@
 package service
 
-import "CN-EU-FSIMS/internal/app/models/pasture"
+import (
+	"CN-EU-FSIMS/internal/app/handlers/request"
+	"CN-EU-FSIMS/internal/app/models/pasture"
+	"CN-EU-FSIMS/internal/app/models/product"
+	"CN-EU-FSIMS/internal/app/models/query"
+	"CN-EU-FSIMS/utils"
+	"CN-EU-FSIMS/utils/crypto"
+	"context"
+	"github.com/golang/glog"
+	"time"
+)
+
+const (
+	COW_NUMBER_PREFIX   = "COW-"
+	BATCH_NUMBER_PREFIX = "BATCH-"
+
+	// cow state
+	INIT_STATE      = 1
+	FEEDING_STATE   = 2
+	WAREHOUSE_STATE = 3
+	SENDING_STATE   = 4
+	END_STATE       = 5
+)
+
+func GetFeedingRecords(houseNum string) ([]pasture.FeedingBatchInfo, int64, error) {
+	q := query.FeedingBatch
+	fbs, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(houseNum)).Preload(q.Cows).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(fbs)
+	records := make([]pasture.FeedingBatchInfo, count)
+	for i, fb := range fbs {
+		records[i] = pasture.ToFeedingBatchInfo(fb)
+	}
+
+	return records, int64(count), nil
+}
+
+func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
+	var err error
+	tx := query.Q.Begin()
+
+	defer func() {
+		if recover() != nil || err != nil {
+			_ = tx.Rollback()
+		} else {
+			err = tx.Commit()
+			if err != nil {
+				panic(err)
+			}
+
+			glog.Infoln("new feeding batch successful!")
+		}
+	}()
+
+	pp := NewProcedureParams{
+		Type:     PASTURE_TYPE,
+		Operator: r.Worker,
+		PrePID:   r.PrePID,
+	}
+	procedure, err := NewProcedure(&pp)
+
+	glog.Infoln("CowNumbers:")
+	glog.Infoln(r.CowNumbers)
+	cows, err := GetCowsByNumbers(r.CowNumbers)
+
+	glog.Infoln("Cows:")
+	glog.Infoln(cows)
+
+	bNum := BATCH_NUMBER_PREFIX + generateNumber(r)
+	fb := pasture.FeedingBatch{
+		BatchNumber: bNum,
+		HouseNumber: r.HouseNumber,
+		State:       1,
+		PID:         procedure.PID,
+		Worker:      r.Worker,
+		Cows:        cows,
+	}
+
+	err = tx.Procedure.WithContext(context.Background()).Create(&procedure)
+	err = tx.FeedingBatch.WithContext(context.Background()).Create(&fb)
+
+	for _, number := range r.CowNumbers {
+		_, err = tx.Cow.WithContext(context.Background()).Where(tx.Cow.Number.Eq(number)).Updates(map[string]interface{}{"state": 2})
+	}
+
+	return bNum, nil
+}
+
+func GetCowsByNumbers(numbers []string) ([]product.Cow, error) {
+	cows := make([]product.Cow, len(numbers))
+	q := query.Cow
+	for i, number := range numbers {
+		c, err := q.WithContext(context.Background()).Where(q.Number.Eq(number)).First()
+		if err != nil {
+			return nil, err
+		}
+
+		cows[i] = *c
+	}
+
+	return cows, nil
+}
+
+func PastureIsExist(number string) (bool, error) {
+	q := query.PastureHouse
+	count, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(number)).Count()
+	if err != nil {
+		return false, err
+	}
+	if count == 0 {
+		return false, nil
+	}
+
+	return true, nil
+}
+
+func AddCow(r *request.ReqAddCow) (product.CowInfo, error) {
+	cowNum := generateNumber(r)
+	cow := product.Cow{
+		Number:      COW_NUMBER_PREFIX + cowNum,
+		Age:         r.Age,
+		Weight:      r.Weight,
+		State:       INIT_STATE,
+		HouseNumber: r.HouseNumber,
+		BatchNumber: nil,
+	}
+
+	q := query.Cow
+	err := q.WithContext(context.Background()).Create(&cow)
+	if err != nil {
+		return product.CowInfo{}, err
+	}
+
+	cowInfo := product.ToCowInfo(&cow)
+	return cowInfo, nil
+}
+
+func generateNumber(i interface{}) string {
+	t := time.Now().String()
+	s := utils.SerializeStructToString(i)
+	h := crypto.CalculateSHA256(s+t, "number")
+
+	return h
+}
 
 func createPastureProcedure(pasPID string) pasture.PastureProcedure {
 	pastureProcedure := pasture.PastureProcedure{
