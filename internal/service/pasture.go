@@ -24,6 +24,22 @@ const (
 	END_STATE       = 5
 )
 
+func GetFeedingRecords(houseNum string) ([]pasture.FeedingBatchInfo, int64, error) {
+	q := query.FeedingBatch
+	fbs, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(houseNum)).Preload(q.Cows).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(fbs)
+	records := make([]pasture.FeedingBatchInfo, count)
+	for i, fb := range fbs {
+		records[i] = pasture.ToFeedingBatchInfo(fb)
+	}
+
+	return records, int64(count), nil
+}
+
 func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 	var err error
 	tx := query.Q.Begin()

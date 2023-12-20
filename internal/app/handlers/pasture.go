@@ -9,6 +9,24 @@ import (
 	"net/http"
 )
 
+func GetFeedingRecords(c *gin.Context) {
+	glog.Info("################## FSIMS Get Feeding Records ##################")
+
+	houseNum := c.Query("house_number")
+	bs, count, err := service.GetFeedingRecords(houseNum)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "get feeding records error!")
+		return
+	}
+
+	res := response.ResFeedingRecords{
+		FeedingBatches: bs,
+		Count:          count,
+	}
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
 func NewFeedingBatch(c *gin.Context) {
 	glog.Info("################## FSIMS New Feeding Batch ##################")
 
