@@ -17,6 +17,7 @@ import (
 
 var (
 	Q                                 = new(Query)
+	Cow                               *cow
 	FSIMSUser                         *fSIMSUser
 	FattenProcedure                   *fattenProcedure
 	FattenSoil                        *fattenSoil
@@ -27,6 +28,7 @@ var (
 	FattenWaterChemicalHazard         *fattenWaterChemicalHazard
 	FattenWaterPhysicalHazard         *fattenWaterPhysicalHazard
 	FattenWaterSensoryTraits          *fattenWaterSensoryTraits
+	FeedingBatch                      *feedingBatch
 	Log                               *log
 	PackReceive                       *packReceive
 	PackWareHouse                     *packWareHouse
@@ -63,6 +65,7 @@ var (
 
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
+	Cow = &Q.Cow
 	FSIMSUser = &Q.FSIMSUser
 	FattenProcedure = &Q.FattenProcedure
 	FattenSoil = &Q.FattenSoil
@@ -73,6 +76,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	FattenWaterChemicalHazard = &Q.FattenWaterChemicalHazard
 	FattenWaterPhysicalHazard = &Q.FattenWaterPhysicalHazard
 	FattenWaterSensoryTraits = &Q.FattenWaterSensoryTraits
+	FeedingBatch = &Q.FeedingBatch
 	Log = &Q.Log
 	PackReceive = &Q.PackReceive
 	PackWareHouse = &Q.PackWareHouse
@@ -110,6 +114,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
 		db:                                db,
+		Cow:                               newCow(db, opts...),
 		FSIMSUser:                         newFSIMSUser(db, opts...),
 		FattenProcedure:                   newFattenProcedure(db, opts...),
 		FattenSoil:                        newFattenSoil(db, opts...),
@@ -120,6 +125,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		FattenWaterChemicalHazard:         newFattenWaterChemicalHazard(db, opts...),
 		FattenWaterPhysicalHazard:         newFattenWaterPhysicalHazard(db, opts...),
 		FattenWaterSensoryTraits:          newFattenWaterSensoryTraits(db, opts...),
+		FeedingBatch:                      newFeedingBatch(db, opts...),
 		Log:                               newLog(db, opts...),
 		PackReceive:                       newPackReceive(db, opts...),
 		PackWareHouse:                     newPackWareHouse(db, opts...),
@@ -158,6 +164,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 type Query struct {
 	db *gorm.DB
 
+	Cow                               cow
 	FSIMSUser                         fSIMSUser
 	FattenProcedure                   fattenProcedure
 	FattenSoil                        fattenSoil
@@ -168,6 +175,7 @@ type Query struct {
 	FattenWaterChemicalHazard         fattenWaterChemicalHazard
 	FattenWaterPhysicalHazard         fattenWaterPhysicalHazard
 	FattenWaterSensoryTraits          fattenWaterSensoryTraits
+	FeedingBatch                      feedingBatch
 	Log                               log
 	PackReceive                       packReceive
 	PackWareHouse                     packWareHouse
@@ -207,6 +215,7 @@ func (q *Query) Available() bool { return q.db != nil }
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
 		db:                                db,
+		Cow:                               q.Cow.clone(db),
 		FSIMSUser:                         q.FSIMSUser.clone(db),
 		FattenProcedure:                   q.FattenProcedure.clone(db),
 		FattenSoil:                        q.FattenSoil.clone(db),
@@ -217,6 +226,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		FattenWaterChemicalHazard:         q.FattenWaterChemicalHazard.clone(db),
 		FattenWaterPhysicalHazard:         q.FattenWaterPhysicalHazard.clone(db),
 		FattenWaterSensoryTraits:          q.FattenWaterSensoryTraits.clone(db),
+		FeedingBatch:                      q.FeedingBatch.clone(db),
 		Log:                               q.Log.clone(db),
 		PackReceive:                       q.PackReceive.clone(db),
 		PackWareHouse:                     q.PackWareHouse.clone(db),
@@ -263,6 +273,7 @@ func (q *Query) WriteDB() *Query {
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
 		db:                                db,
+		Cow:                               q.Cow.replaceDB(db),
 		FSIMSUser:                         q.FSIMSUser.replaceDB(db),
 		FattenProcedure:                   q.FattenProcedure.replaceDB(db),
 		FattenSoil:                        q.FattenSoil.replaceDB(db),
@@ -273,6 +284,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		FattenWaterChemicalHazard:         q.FattenWaterChemicalHazard.replaceDB(db),
 		FattenWaterPhysicalHazard:         q.FattenWaterPhysicalHazard.replaceDB(db),
 		FattenWaterSensoryTraits:          q.FattenWaterSensoryTraits.replaceDB(db),
+		FeedingBatch:                      q.FeedingBatch.replaceDB(db),
 		Log:                               q.Log.replaceDB(db),
 		PackReceive:                       q.PackReceive.replaceDB(db),
 		PackWareHouse:                     q.PackWareHouse.replaceDB(db),
@@ -309,6 +321,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 }
 
 type queryCtx struct {
+	Cow                               ICowDo
 	FSIMSUser                         IFSIMSUserDo
 	FattenProcedure                   IFattenProcedureDo
 	FattenSoil                        IFattenSoilDo
@@ -319,6 +332,7 @@ type queryCtx struct {
 	FattenWaterChemicalHazard         IFattenWaterChemicalHazardDo
 	FattenWaterPhysicalHazard         IFattenWaterPhysicalHazardDo
 	FattenWaterSensoryTraits          IFattenWaterSensoryTraitsDo
+	FeedingBatch                      IFeedingBatchDo
 	Log                               ILogDo
 	PackReceive                       IPackReceiveDo
 	PackWareHouse                     IPackWareHouseDo
@@ -355,6 +369,7 @@ type queryCtx struct {
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
+		Cow:                               q.Cow.WithContext(ctx),
 		FSIMSUser:                         q.FSIMSUser.WithContext(ctx),
 		FattenProcedure:                   q.FattenProcedure.WithContext(ctx),
 		FattenSoil:                        q.FattenSoil.WithContext(ctx),
@@ -365,6 +380,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		FattenWaterChemicalHazard:         q.FattenWaterChemicalHazard.WithContext(ctx),
 		FattenWaterPhysicalHazard:         q.FattenWaterPhysicalHazard.WithContext(ctx),
 		FattenWaterSensoryTraits:          q.FattenWaterSensoryTraits.WithContext(ctx),
+		FeedingBatch:                      q.FeedingBatch.WithContext(ctx),
 		Log:                               q.Log.WithContext(ctx),
 		PackReceive:                       q.PackReceive.WithContext(ctx),
 		PackWareHouse:                     q.PackWareHouse.WithContext(ctx),

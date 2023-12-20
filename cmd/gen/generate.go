@@ -6,6 +6,7 @@ import (
 	"CN-EU-FSIMS/internal/app/models/fatten"
 	"CN-EU-FSIMS/internal/app/models/pack"
 	"CN-EU-FSIMS/internal/app/models/pasture"
+	"CN-EU-FSIMS/internal/app/models/product"
 	"CN-EU-FSIMS/internal/app/models/slaughter"
 	"CN-EU-FSIMS/internal/app/models/warehouse"
 	"CN-EU-FSIMS/internal/config"
@@ -43,6 +44,7 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 	g.ApplyBasic(&warehouse.SlaughterReceive{}, &warehouse.PackReceive{})
 	g.ApplyBasic(&warehouse.PackWareHouse{}, coldchain.TransportProcedureData{})
 	g.ApplyBasic(&pasture.PastureHouse{}, &slaughter.SlaughterHouse{}, &pack.PackageHouse{}, &coldchain.TransportVehicle{})
+	g.ApplyBasic(&product.Cow{}, &pasture.FeedingBatch{})
 
 	g.ApplyBasic(
 		&pasture.PastureProcedure{}, &pasture.PastureWater{}, &pasture.PastureFodder{}, &pasture.PastureSoil{}, &pasture.PastureFloorBedding{}, &pasture.PastureAir{},

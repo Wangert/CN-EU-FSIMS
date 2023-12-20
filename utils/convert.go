@@ -22,6 +22,21 @@ func SerializeStructToBytes(i interface{}) []byte {
 	return result.Bytes()
 }
 
+func SerializeStructToString(i interface{}) string {
+	// create buffer
+	var result bytes.Buffer
+
+	encoder := gob.NewEncoder(&result)
+
+	err := encoder.Encode(i)
+
+	if err != nil {
+		log.Panic(err)
+	}
+
+	return result.String()
+}
+
 // struct to map
 func StructToMap(data interface{}) (map[string]interface{}, error) {
 	dataBytes, err := json.Marshal(data)
