@@ -9,6 +9,39 @@ import (
 	"net/http"
 )
 
+func EndFeeding(c *gin.Context) {
+	glog.Info("################## FSIMS End Feeding ##################")
+
+	var r request.ReqEndFeeding
+	if err := c.ShouldBind(&r); err != nil || !checkEndFeedingParams(&r) {
+		response.MakeFail(c, http.StatusBadRequest, "new feeding batch parameters error!")
+		return
+	}
+
+	checkcode, cowsNum, err := service.EndFeeding(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "end feeding error!")
+		return
+	}
+
+	res := response.ResEndFeeding{
+		Checkcode: checkcode,
+		CowsNum:   cowsNum,
+		Count:     int64(len(cowsNum)),
+	}
+
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func checkEndFeedingParams(r *request.ReqEndFeeding) bool {
+	if r.BatchNumber == "" || r.Worker == "" {
+		return false
+	}
+
+	return true
+}
+
 func GetFeedingRecords(c *gin.Context) {
 	glog.Info("################## FSIMS Get Feeding Records ##################")
 

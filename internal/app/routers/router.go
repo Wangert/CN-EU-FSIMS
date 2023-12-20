@@ -57,6 +57,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		admin.POST("newfeedingbatch", handlers.NewFeedingBatch)
 		admin.POST("addcow", handlers.AddCow)
 		admin.GET("getfeedingrecords", handlers.GetFeedingRecords)
+		admin.POST("endfeeding", handlers.EndFeeding)
 	}
 
 	// industrial chain group
@@ -84,6 +85,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		pop.POST("addcow", handlers.AddCow)
 		pop.POST("newfeedingbatch", handlers.NewFeedingBatch)
 		pop.GET("getfeedingrecords", handlers.GetFeedingRecords)
+		pop.POST("endfeeding", handlers.EndFeeding)
 		pop.POST("commitproc", handlers.CommitPastureProcedure)
 		pop.POST("inwarehouse", handlers.PastureInWarehouse)
 		pop.POST("sendtonext", handlers.SendToSlaughter)

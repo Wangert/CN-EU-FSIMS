@@ -48,6 +48,7 @@ var (
 	PastureSoilPhysicalHazard         *pastureSoilPhysicalHazard
 	PastureTruckDisinfectionRecord    *pastureTruckDisinfectionRecord
 	PastureWareHouse                  *pastureWareHouse
+	PastureWarehouse                  *pastureWarehouse
 	PastureWasteDischarge             *pastureWasteDischarge
 	PastureWater                      *pastureWater
 	PastureWaterBiohazard             *pastureWaterBiohazard
@@ -96,6 +97,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	PastureSoilPhysicalHazard = &Q.PastureSoilPhysicalHazard
 	PastureTruckDisinfectionRecord = &Q.PastureTruckDisinfectionRecord
 	PastureWareHouse = &Q.PastureWareHouse
+	PastureWarehouse = &Q.PastureWarehouse
 	PastureWasteDischarge = &Q.PastureWasteDischarge
 	PastureWater = &Q.PastureWater
 	PastureWaterBiohazard = &Q.PastureWaterBiohazard
@@ -145,6 +147,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		PastureSoilPhysicalHazard:         newPastureSoilPhysicalHazard(db, opts...),
 		PastureTruckDisinfectionRecord:    newPastureTruckDisinfectionRecord(db, opts...),
 		PastureWareHouse:                  newPastureWareHouse(db, opts...),
+		PastureWarehouse:                  newPastureWarehouse(db, opts...),
 		PastureWasteDischarge:             newPastureWasteDischarge(db, opts...),
 		PastureWater:                      newPastureWater(db, opts...),
 		PastureWaterBiohazard:             newPastureWaterBiohazard(db, opts...),
@@ -195,6 +198,7 @@ type Query struct {
 	PastureSoilPhysicalHazard         pastureSoilPhysicalHazard
 	PastureTruckDisinfectionRecord    pastureTruckDisinfectionRecord
 	PastureWareHouse                  pastureWareHouse
+	PastureWarehouse                  pastureWarehouse
 	PastureWasteDischarge             pastureWasteDischarge
 	PastureWater                      pastureWater
 	PastureWaterBiohazard             pastureWaterBiohazard
@@ -246,6 +250,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		PastureSoilPhysicalHazard:         q.PastureSoilPhysicalHazard.clone(db),
 		PastureTruckDisinfectionRecord:    q.PastureTruckDisinfectionRecord.clone(db),
 		PastureWareHouse:                  q.PastureWareHouse.clone(db),
+		PastureWarehouse:                  q.PastureWarehouse.clone(db),
 		PastureWasteDischarge:             q.PastureWasteDischarge.clone(db),
 		PastureWater:                      q.PastureWater.clone(db),
 		PastureWaterBiohazard:             q.PastureWaterBiohazard.clone(db),
@@ -304,6 +309,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		PastureSoilPhysicalHazard:         q.PastureSoilPhysicalHazard.replaceDB(db),
 		PastureTruckDisinfectionRecord:    q.PastureTruckDisinfectionRecord.replaceDB(db),
 		PastureWareHouse:                  q.PastureWareHouse.replaceDB(db),
+		PastureWarehouse:                  q.PastureWarehouse.replaceDB(db),
 		PastureWasteDischarge:             q.PastureWasteDischarge.replaceDB(db),
 		PastureWater:                      q.PastureWater.replaceDB(db),
 		PastureWaterBiohazard:             q.PastureWaterBiohazard.replaceDB(db),
@@ -352,6 +358,7 @@ type queryCtx struct {
 	PastureSoilPhysicalHazard         IPastureSoilPhysicalHazardDo
 	PastureTruckDisinfectionRecord    IPastureTruckDisinfectionRecordDo
 	PastureWareHouse                  IPastureWareHouseDo
+	PastureWarehouse                  IPastureWarehouseDo
 	PastureWasteDischarge             IPastureWasteDischargeDo
 	PastureWater                      IPastureWaterDo
 	PastureWaterBiohazard             IPastureWaterBiohazardDo
@@ -400,6 +407,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		PastureSoilPhysicalHazard:         q.PastureSoilPhysicalHazard.WithContext(ctx),
 		PastureTruckDisinfectionRecord:    q.PastureTruckDisinfectionRecord.WithContext(ctx),
 		PastureWareHouse:                  q.PastureWareHouse.WithContext(ctx),
+		PastureWarehouse:                  q.PastureWarehouse.WithContext(ctx),
 		PastureWasteDischarge:             q.PastureWasteDischarge.WithContext(ctx),
 		PastureWater:                      q.PastureWater.WithContext(ctx),
 		PastureWaterBiohazard:             q.PastureWaterBiohazard.WithContext(ctx),

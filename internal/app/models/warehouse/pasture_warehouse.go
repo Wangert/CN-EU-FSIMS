@@ -24,7 +24,7 @@ type PastureWarehouse struct {
 	gorm.Model
 	CowNumber    string    `gorm:"not null; unique; type:varchar(256)" json:"cow_number"`
 	PID          string    `gorm:"not null" json:"pid"`
-	Type         string    `gorm:"not null; type:varchar(100)" json:"type"`
+	Type         string    `gorm:"type:varchar(100)" json:"type"`
 	State        uint      `gorm:"not null" json:"state"`
 	InOperator   string    `json:"in_operator"`
 	OutOperator  string    `json:"out_operator"`

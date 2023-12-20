@@ -85,7 +85,7 @@ func AutoMigrate() {
 		fmt.Println(err)
 	}
 
-	err = DB.AutoMigrate(&product.Cow{}, &pasture.FeedingBatch{})
+	err = DB.AutoMigrate(&product.Cow{}, &pasture.FeedingBatch{}, &warehouse.PastureWarehouse{})
 	if err != nil {
 		fmt.Println(err)
 	}

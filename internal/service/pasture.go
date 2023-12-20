@@ -5,6 +5,7 @@ import (
 	"CN-EU-FSIMS/internal/app/models/pasture"
 	"CN-EU-FSIMS/internal/app/models/product"
 	"CN-EU-FSIMS/internal/app/models/query"
+	"CN-EU-FSIMS/internal/app/models/warehouse"
 	"CN-EU-FSIMS/utils"
 	"CN-EU-FSIMS/utils/crypto"
 	"context"
@@ -23,6 +24,108 @@ const (
 	SENDING_STATE   = 4
 	END_STATE       = 5
 )
+
+func EndFeeding(r *request.ReqEndFeeding) (string, []string, error) {
+	var err error
+	tx := query.Q.Begin()
+
+	defer func() {
+		if recover() != nil {
+			_ = tx.Rollback()
+		}
+	}()
+
+	// 读取PID
+	pid, err := GetPidByBatchNumber(r.BatchNumber)
+	if err != nil {
+		return "", nil, err
+	}
+	cowsNum, err := GetCowsNumberByBatchNumber(r.BatchNumber)
+	if err != nil {
+		return "", nil, err
+	}
+
+	// 更新Cow状态
+	_, err = tx.Cow.WithContext(context.Background()).Where(tx.Cow.BatchNumber.Eq(r.BatchNumber)).Updates(map[string]interface{}{"state": 3})
+	if err != nil {
+		_ = tx.Rollback()
+		return "", nil, err
+	}
+	// 更新FeedingBatch状态
+	_, err = tx.FeedingBatch.WithContext(context.Background()).Where(tx.FeedingBatch.BatchNumber.Eq(r.BatchNumber)).Updates(map[string]interface{}{"state": 2})
+	if err != nil {
+		_ = tx.Rollback()
+		return "", nil, err
+	}
+	// 写入仓库
+	pws := make([]*warehouse.PastureWarehouse, len(cowsNum))
+	for i, num := range cowsNum {
+		pw := warehouse.PastureWarehouse{
+			CowNumber:    num,
+			PID:          pid,
+			Type:         "",
+			State:        1,
+			InOperator:   r.Worker,
+			OutOperator:  "",
+			Destination:  "",
+			InTimestamp:  time.Now(),
+			OutTimestamp: time.Now(),
+			HouseNumber:  r.HouseNumber,
+		}
+		pws[i] = &pw
+	}
+	err = tx.PastureWarehouse.WithContext(context.Background()).Create(pws...)
+	if err != nil {
+		_ = tx.Rollback()
+		return "", nil, err
+	}
+
+	// 提交Procedure
+	data := pasture.PastureProcedureData{
+		PM10:   r.PM10,
+		TSP:    r.TSP,
+		Stench: r.Stench,
+	}
+
+	checkcode, err := BasicCommitProcedureWithTx(tx, pid, data)
+	if err != nil {
+		_ = tx.Rollback()
+		return "", nil, err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		_ = tx.Rollback()
+		return "", nil, err
+	}
+
+	return checkcode, cowsNum, nil
+}
+
+func GetCowsNumberByBatchNumber(num string) ([]string, error) {
+	q := query.Cow
+	cows, err := q.WithContext(context.Background()).Where(q.BatchNumber.Eq(num)).Find()
+	if err != nil {
+		return nil, err
+	}
+
+	nums := make([]string, len(cows))
+	for i, cow := range cows {
+		nums[i] = cow.Number
+	}
+
+	return nums, nil
+}
+
+func GetPidByBatchNumber(num string) (string, error) {
+	q := query.FeedingBatch
+	fb, err := q.WithContext(context.Background()).Where(q.BatchNumber.Eq(num)).First()
+	if err != nil {
+		return "", err
+	}
+
+	return fb.PID, nil
+}
 
 func GetFeedingRecords(houseNum string) ([]pasture.FeedingBatchInfo, int64, error) {
 	q := query.FeedingBatch
@@ -45,15 +148,8 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 	tx := query.Q.Begin()
 
 	defer func() {
-		if recover() != nil || err != nil {
+		if recover() != nil {
 			_ = tx.Rollback()
-		} else {
-			err = tx.Commit()
-			if err != nil {
-				panic(err)
-			}
-
-			glog.Infoln("new feeding batch successful!")
 		}
 	}()
 
@@ -82,10 +178,28 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 	}
 
 	err = tx.Procedure.WithContext(context.Background()).Create(&procedure)
+	if err != nil {
+		_ = tx.Rollback()
+		return "", err
+	}
 	err = tx.FeedingBatch.WithContext(context.Background()).Create(&fb)
+	if err != nil {
+		_ = tx.Rollback()
+		return "", err
+	}
 
 	for _, number := range r.CowNumbers {
 		_, err = tx.Cow.WithContext(context.Background()).Where(tx.Cow.Number.Eq(number)).Updates(map[string]interface{}{"state": 2})
+		if err != nil {
+			_ = tx.Rollback()
+			return "", err
+		}
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		_ = tx.Rollback()
+		return "", err
 	}
 
 	return bNum, nil
