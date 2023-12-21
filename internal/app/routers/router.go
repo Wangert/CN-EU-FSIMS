@@ -59,6 +59,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		admin.GET("getfeedingrecords", handlers.GetFeedingRecords)
 		admin.POST("endfeeding", handlers.EndFeeding)
 		admin.GET("warehouse", handlers.GetWarehouseInfos)
+		admin.POST("sendtoslaughter", handlers.SendToSlaughter)
 	}
 
 	// industrial chain group
@@ -90,7 +91,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		pop.POST("endfeeding", handlers.EndFeeding)
 		pop.GET("warehouse", handlers.GetWarehouseInfos)
 		//pop.POST("inwarehouse", handlers.PastureInWarehouse)
-		//pop.POST("sendtonext", handlers.SendToSlaughter)
+		pop.POST("send", handlers.SendToSlaughter)
 	}
 
 	//slaughteroperator router group

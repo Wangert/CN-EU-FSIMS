@@ -9,6 +9,32 @@ import (
 	"net/http"
 )
 
+func SendToSlaughter(c *gin.Context) {
+	var r request.ReqSendToSlaughter
+	if err := c.ShouldBind(&r); err != nil || !checkSendToSlaughterParams(&r) {
+		glog.Errorln(err.Error())
+		response.MakeFail(c, http.StatusNotAcceptable, err.Error())
+		return
+	}
+
+	err := service.SendToSlaughter(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "send to slaughter error!")
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, "sending to slaughter successful!")
+	return
+}
+
+func checkSendToSlaughterParams(r *request.ReqSendToSlaughter) bool {
+	if r.CowNumber == "" || r.SlaughterHouseNumber == "" || r.Operator == "" {
+		return false
+	}
+
+	return true
+}
+
 func GetWarehouseInfos(c *gin.Context) {
 	glog.Info("################## FSIMS Get Warehouse Infos ##################")
 

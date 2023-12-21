@@ -19,6 +19,14 @@ type PastureHouse struct {
 	PasHRecord    []warehouse.PastureWarehouse `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"pash_record"`
 }
 
+type PastureHouseInfo struct {
+	HouseNumber string `json:"house_number"`
+	Name        string `json:"name"`
+	Address     string `json:"address"`
+	State       uint   `json:"state"`
+	LegalPerson string `json:"legal_person"`
+}
+
 func PastureToRes(pas *PastureHouse) models.House {
 	return models.House{
 		HouseNumber: pas.HouseNumber,
@@ -26,5 +34,15 @@ func PastureToRes(pas *PastureHouse) models.House {
 		Address:     pas.Address,
 		State:       pas.State,
 		LegalPerson: pas.LegalPerson,
+	}
+}
+
+func ToPastureHouseInfo(house PastureHouse) PastureHouseInfo {
+	return PastureHouseInfo{
+		HouseNumber: house.HouseNumber,
+		Name:        house.Name,
+		Address:     house.Address,
+		State:       house.State,
+		LegalPerson: house.LegalPerson,
 	}
 }

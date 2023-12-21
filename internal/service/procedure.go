@@ -185,7 +185,7 @@ func AddTransportProcedure(rcp request.TransportStart) error {
 	err = tx.Procedure.WithContext(context.Background()).Create(&p)
 	err = tx.TransportProcedureData.WithContext(context.Background()).Create(&d)
 	params := map[string]interface{}{"out_timestamp": cts, "state": 2}
-	info, err := tx.PackWareHouse.WithContext(context.Background()).Where(tx.PackWareHouse.ProductNumber.Eq(rcp.ProductNumber)).Updates(params)
+	info, err := tx.PackWarehouse.WithContext(context.Background()).Where(tx.PackWarehouse.ProductNumber.Eq(rcp.ProductNumber)).Updates(params)
 	glog.Info("info", info)
 	// 调用智能合约新建Procedure
 	_, err = fabric.UploadProcedure(pid, rcp.PrePID)

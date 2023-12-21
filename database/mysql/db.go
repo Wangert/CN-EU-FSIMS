@@ -67,25 +67,17 @@ func AutoMigrate() {
 		fmt.Println(err)
 	}
 
-	err = DB.AutoMigrate(&warehouse.SlaughterReceive{})
-	if err != nil {
-		fmt.Println(err)
-	}
-	err = DB.AutoMigrate(&warehouse.PackReceive{})
-	if err != nil {
-		fmt.Println(err)
-	}
 	err = DB.AutoMigrate(&coldchain.TransportProcedureData{})
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	err = DB.AutoMigrate(&pasture.PastureHouse{}, &slaughter.SlaughterHouse{}, &slaughter.SlaughterHouse{}, &pack.PackageHouse{}, &coldchain.TransportVehicle{})
+	err = DB.AutoMigrate(&pasture.PastureHouse{}, &slaughter.SlaughterHouse{}, &pack.PackageHouse{}, &coldchain.TransportVehicle{})
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	err = DB.AutoMigrate(&product.Cow{}, &pasture.FeedingBatch{}, &warehouse.PastureWarehouse{})
+	err = DB.AutoMigrate(&product.Cow{}, &pasture.FeedingBatch{}, &warehouse.PastureWarehouse{}, &warehouse.SlaughterReceiveRecord{}, &slaughter.SlaughterBatch{}, &warehouse.SlaughterWarehouse{}, &warehouse.PackageReceiveRecord{}, &pack.PackageBatch{}, &warehouse.PackWarehouse{})
 	if err != nil {
 		fmt.Println(err)
 	}

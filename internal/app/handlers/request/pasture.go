@@ -21,3 +21,9 @@ type ReqEndFeeding struct {
 	TSP         float32 `json:"tsp" form:"tsp"`       // TSP
 	Stench      uint    `json:"stench" form:"stench"` // 恶臭稀释程度
 }
+
+type ReqSendToSlaughter struct {
+	CowNumber            string `json:"cow_number" form:"cow_number"`
+	Operator             string `json:"operator" form:"operator"`
+	SlaughterHouseNumber string `json:"slaughter_house_number" form:"slaughter_house_number"`
+}

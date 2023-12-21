@@ -29,23 +29,7 @@ package handlers
 //	return
 //}
 //
-//func SendToSlaughter(c *gin.Context) {
-//	var rcp request.ReqSendToSlaughter
-//	if err := c.ShouldBind(&rcp); err != nil {
-//		glog.Errorln(err.Error())
-//		response.MakeFail(c, http.StatusNotAcceptable, err.Error())
-//		return
-//	}
-//
-//	if err := warehouse.SendToSlaughter(rcp); err != nil {
-//		glog.Errorln("add procedure error")
-//		response.MakeFail(c, http.StatusBadRequest, err.Error())
-//		return
-//	}
-//
-//	response.MakeSuccess(c, http.StatusOK, "sending to slaughter successful!")
-//	return
-//}
+
 //
 //func SlaughterReceived(c *gin.Context) {
 //	var rcp request.SlaughterReceive
