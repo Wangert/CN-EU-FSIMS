@@ -26,7 +26,7 @@ type SlaughterHouseInfo struct {
 	LegalPerson string `json:"legal_person"`
 }
 
-func ToSlaughterHouseInfo(house SlaughterHouse) SlaughterHouseInfo {
+func ToSlaughterHouseInfo(house *SlaughterHouse) SlaughterHouseInfo {
 	return SlaughterHouseInfo{
 		HouseNumber: house.HouseNumber,
 		Name:        house.Name,

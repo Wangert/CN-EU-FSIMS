@@ -59,6 +59,7 @@ var (
 	Procedure                         *procedure
 	SlaughterBatch                    *slaughterBatch
 	SlaughterHouse                    *slaughterHouse
+	SlaughterProduct                  *slaughterProduct
 	SlaughterReceiveRecord            *slaughterReceiveRecord
 	SlaughterWarehouse                *slaughterWarehouse
 	TransportProcedureData            *transportProcedureData
@@ -109,6 +110,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	Procedure = &Q.Procedure
 	SlaughterBatch = &Q.SlaughterBatch
 	SlaughterHouse = &Q.SlaughterHouse
+	SlaughterProduct = &Q.SlaughterProduct
 	SlaughterReceiveRecord = &Q.SlaughterReceiveRecord
 	SlaughterWarehouse = &Q.SlaughterWarehouse
 	TransportProcedureData = &Q.TransportProcedureData
@@ -160,6 +162,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		Procedure:                         newProcedure(db, opts...),
 		SlaughterBatch:                    newSlaughterBatch(db, opts...),
 		SlaughterHouse:                    newSlaughterHouse(db, opts...),
+		SlaughterProduct:                  newSlaughterProduct(db, opts...),
 		SlaughterReceiveRecord:            newSlaughterReceiveRecord(db, opts...),
 		SlaughterWarehouse:                newSlaughterWarehouse(db, opts...),
 		TransportProcedureData:            newTransportProcedureData(db, opts...),
@@ -212,6 +215,7 @@ type Query struct {
 	Procedure                         procedure
 	SlaughterBatch                    slaughterBatch
 	SlaughterHouse                    slaughterHouse
+	SlaughterProduct                  slaughterProduct
 	SlaughterReceiveRecord            slaughterReceiveRecord
 	SlaughterWarehouse                slaughterWarehouse
 	TransportProcedureData            transportProcedureData
@@ -265,6 +269,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		Procedure:                         q.Procedure.clone(db),
 		SlaughterBatch:                    q.SlaughterBatch.clone(db),
 		SlaughterHouse:                    q.SlaughterHouse.clone(db),
+		SlaughterProduct:                  q.SlaughterProduct.clone(db),
 		SlaughterReceiveRecord:            q.SlaughterReceiveRecord.clone(db),
 		SlaughterWarehouse:                q.SlaughterWarehouse.clone(db),
 		TransportProcedureData:            q.TransportProcedureData.clone(db),
@@ -325,6 +330,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		Procedure:                         q.Procedure.replaceDB(db),
 		SlaughterBatch:                    q.SlaughterBatch.replaceDB(db),
 		SlaughterHouse:                    q.SlaughterHouse.replaceDB(db),
+		SlaughterProduct:                  q.SlaughterProduct.replaceDB(db),
 		SlaughterReceiveRecord:            q.SlaughterReceiveRecord.replaceDB(db),
 		SlaughterWarehouse:                q.SlaughterWarehouse.replaceDB(db),
 		TransportProcedureData:            q.TransportProcedureData.replaceDB(db),
@@ -375,6 +381,7 @@ type queryCtx struct {
 	Procedure                         IProcedureDo
 	SlaughterBatch                    ISlaughterBatchDo
 	SlaughterHouse                    ISlaughterHouseDo
+	SlaughterProduct                  ISlaughterProductDo
 	SlaughterReceiveRecord            ISlaughterReceiveRecordDo
 	SlaughterWarehouse                ISlaughterWarehouseDo
 	TransportProcedureData            ITransportProcedureDataDo
@@ -425,6 +432,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		Procedure:                         q.Procedure.WithContext(ctx),
 		SlaughterBatch:                    q.SlaughterBatch.WithContext(ctx),
 		SlaughterHouse:                    q.SlaughterHouse.WithContext(ctx),
+		SlaughterProduct:                  q.SlaughterProduct.WithContext(ctx),
 		SlaughterReceiveRecord:            q.SlaughterReceiveRecord.WithContext(ctx),
 		SlaughterWarehouse:                q.SlaughterWarehouse.WithContext(ctx),
 		TransportProcedureData:            q.TransportProcedureData.WithContext(ctx),

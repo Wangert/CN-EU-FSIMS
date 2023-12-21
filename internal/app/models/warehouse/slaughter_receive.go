@@ -21,6 +21,7 @@ type SlaughterReceiveRecord struct {
 	PID             string     `gorm:"not null" json:"pid"`
 	SourceNumber    string     `gorm:"not null" json:"source_number"`
 	SourceName      string     `gorm:"not null" json:"source_name"`
+	State           int        `gorm:"not null" json:"state"`
 	Operator        string     `gorm:"type:varchar(100)" json:"operator"`
 	ReceiveTime     time.Time  `gorm:"not null" json:"receive_time"`
 	ConfirmTime     *time.Time `json:"confirm_time"`
@@ -32,18 +33,20 @@ type SlaughterReceiveRecordInfo struct {
 	PID             string     `json:"pid"`
 	SourceNumber    string     `json:"source_number"`
 	SourceName      string     `json:"source_name"`
+	State           int        `json:"state"`
 	Operator        string     `json:"operator"`
 	ReceiveTime     time.Time  `json:"receive_time"`
 	ConfirmTime     *time.Time `json:"confirm_time"`
 	SlaughterNumber string     `json:"slaughter_number"`
 }
 
-func ToSlaughterReceiveRecordInfo(record SlaughterReceiveRecord) SlaughterReceiveRecordInfo {
+func ToSlaughterReceiveRecordInfo(record *SlaughterReceiveRecord) SlaughterReceiveRecordInfo {
 	return SlaughterReceiveRecordInfo{
 		CowNumber:       record.CowNumber,
 		PID:             record.PID,
 		SourceNumber:    record.SourceNumber,
 		SourceName:      record.SourceName,
+		State:           record.State,
 		Operator:        record.Operator,
 		ReceiveTime:     record.ReceiveTime,
 		ConfirmTime:     record.ConfirmTime,

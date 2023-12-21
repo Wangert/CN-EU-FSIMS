@@ -5,6 +5,7 @@
 package query
 
 import (
+	"CN-EU-FSIMS/internal/app/models/product"
 	"CN-EU-FSIMS/internal/app/models/slaughter"
 	"context"
 
@@ -36,6 +37,11 @@ func newSlaughterBatch(db *gorm.DB, opts ...gen.DOOption) slaughterBatch {
 	_slaughterBatch.PID = field.NewString(tableName, "p_id")
 	_slaughterBatch.Worker = field.NewString(tableName, "worker")
 	_slaughterBatch.CowNumber = field.NewString(tableName, "cow_number")
+	_slaughterBatch.Products = slaughterBatchHasManyProducts{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("Products", "product.SlaughterProduct"),
+	}
 
 	_slaughterBatch.fillFieldMap()
 
@@ -56,6 +62,7 @@ type slaughterBatch struct {
 	PID         field.String
 	Worker      field.String
 	CowNumber   field.String
+	Products    slaughterBatchHasManyProducts
 
 	fieldMap map[string]field.Expr
 }
@@ -110,7 +117,7 @@ func (s *slaughterBatch) GetFieldByName(fieldName string) (field.OrderExpr, bool
 }
 
 func (s *slaughterBatch) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 10)
+	s.fieldMap = make(map[string]field.Expr, 11)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
@@ -121,6 +128,7 @@ func (s *slaughterBatch) fillFieldMap() {
 	s.fieldMap["p_id"] = s.PID
 	s.fieldMap["worker"] = s.Worker
 	s.fieldMap["cow_number"] = s.CowNumber
+
 }
 
 func (s slaughterBatch) clone(db *gorm.DB) slaughterBatch {
@@ -131,6 +139,77 @@ func (s slaughterBatch) clone(db *gorm.DB) slaughterBatch {
 func (s slaughterBatch) replaceDB(db *gorm.DB) slaughterBatch {
 	s.slaughterBatchDo.ReplaceDB(db)
 	return s
+}
+
+type slaughterBatchHasManyProducts struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a slaughterBatchHasManyProducts) Where(conds ...field.Expr) *slaughterBatchHasManyProducts {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a slaughterBatchHasManyProducts) WithContext(ctx context.Context) *slaughterBatchHasManyProducts {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a slaughterBatchHasManyProducts) Session(session *gorm.Session) *slaughterBatchHasManyProducts {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a slaughterBatchHasManyProducts) Model(m *slaughter.SlaughterBatch) *slaughterBatchHasManyProductsTx {
+	return &slaughterBatchHasManyProductsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type slaughterBatchHasManyProductsTx struct{ tx *gorm.Association }
+
+func (a slaughterBatchHasManyProductsTx) Find() (result []*product.SlaughterProduct, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a slaughterBatchHasManyProductsTx) Append(values ...*product.SlaughterProduct) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a slaughterBatchHasManyProductsTx) Replace(values ...*product.SlaughterProduct) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a slaughterBatchHasManyProductsTx) Delete(values ...*product.SlaughterProduct) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a slaughterBatchHasManyProductsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a slaughterBatchHasManyProductsTx) Count() int64 {
+	return a.tx.Count()
 }
 
 type slaughterBatchDo struct{ gen.DO }

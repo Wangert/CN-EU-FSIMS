@@ -53,6 +53,18 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 
 		admin.GET("viewlog", handlers.ViewLogs)
 
+		// 便于测试
+		admin.POST("newfeedingbatch", handlers.NewFeedingBatch)
+		admin.POST("addcow", handlers.AddCow)
+		admin.GET("getfeedingrecords", handlers.GetFeedingRecords)
+		admin.POST("endfeeding", handlers.EndFeeding)
+		admin.GET("warehouse", handlers.GetWarehouseInfos)
+		admin.POST("sendtoslaughter", handlers.SendToSlaughter)
+		admin.POST("confirmcow", handlers.ConfirmCowFromPasture)
+		admin.POST("newslaughterbatch", handlers.NewSlaughterBatch)
+		admin.POST("newslaughterproduct", handlers.NewSlaughterProduct)
+		admin.POST("endslaughterbatch", handlers.EndSlaughter)
+		admin.POST("sendtopackage", handlers.SendToPackage)
 	}
 
 	// industrial chain group
@@ -97,6 +109,16 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	sop := fsims.Group("/slaughteroperator", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
 		sop.POST("commitproc", handlers.CommitSlaughterProcedure)
+
+		sop.GET("receiverecords", handlers.GetSlaughterReceiveRecords)
+		sop.GET("batches", handlers.GetSlaughterBatches)
+		sop.GET("warehouserecords", handlers.GetSlaughterWarehouseRecords)
+
+		sop.POST("receiveconfirm", handlers.ConfirmCowFromPasture)
+		sop.POST("newbatch", handlers.NewSlaughterBatch)
+		sop.POST("newproduct", handlers.NewSlaughterProduct)
+		sop.POST("endbatch", handlers.EndSlaughter)
+		sop.POST("send", handlers.SendToPackage)
 		//sop.POST("receive", handlers.SlaughterReceived)
 		//sop.POST("inwarehouse", handlers.SlaughterInWarehouse)
 		//sop.POST("sendtonext", handlers.SendToPack)

@@ -18,6 +18,24 @@ type PackageHouse struct {
 	PWRecords      []warehouse.PackWarehouse        `gorm:"foreignKey:PacNumber; references:HouseNumber" json:"pw_records"`
 }
 
+type PackageHouseInfo struct {
+	HouseNumber string `json:"house_number"`
+	Name        string `json:"name"`
+	Address     string `json:"address"`
+	State       uint   `json:"state"`
+	LegalPerson string `json:"legal_person"`
+}
+
+func ToPackageHouseInfo(house *PackageHouse) PackageHouseInfo {
+	return PackageHouseInfo{
+		HouseNumber: house.HouseNumber,
+		Name:        house.Name,
+		Address:     house.Address,
+		State:       house.State,
+		LegalPerson: house.LegalPerson,
+	}
+}
+
 func PackageHouseToRes(ph *PackageHouse) models.House {
 	return models.House{
 		HouseNumber: ph.HouseNumber,
