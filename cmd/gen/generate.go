@@ -41,8 +41,11 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 	g.ApplyBasic(&models.Log{})
 
 	g.ApplyBasic(coldchain.TransportProcedureData{})
+
 	g.ApplyBasic(&pasture.PastureHouse{}, &slaughter.SlaughterHouse{}, &pack.PackageHouse{}, &coldchain.TransportVehicle{})
-	g.ApplyBasic(&product.Cow{}, &pasture.FeedingBatch{}, &warehouse.PastureWarehouse{}, &warehouse.SlaughterReceiveRecord{}, &slaughter.SlaughterBatch{}, &warehouse.SlaughterWarehouse{}, &warehouse.PackageReceiveRecord{}, &pack.PackageBatch{}, &warehouse.PackWarehouse{})
+	g.ApplyBasic(&product.Cow{}, &pasture.FeedingBatch{}, &warehouse.PastureWarehouse{},
+		&warehouse.SlaughterReceiveRecord{}, &slaughter.SlaughterBatch{}, &product.SlaughterProduct{}, &warehouse.SlaughterWarehouse{},
+		&warehouse.PackageReceiveRecord{}, &pack.PackageBatch{}, &warehouse.PackWarehouse{})
 
 	g.ApplyBasic(
 		&pasture.PastureProcedure{}, &pasture.PastureWater{}, &pasture.PastureFodder{}, &pasture.PastureSoil{}, &pasture.PastureFloorBedding{}, &pasture.PastureAir{},

@@ -60,7 +60,7 @@ func EndFeeding(c *gin.Context) {
 
 	var r request.ReqEndFeeding
 	if err := c.ShouldBind(&r); err != nil || !checkEndFeedingParams(&r) {
-		response.MakeFail(c, http.StatusBadRequest, "new feeding batch parameters error!")
+		response.MakeFail(c, http.StatusBadRequest, "end feeding parameters error!")
 		return
 	}
 
@@ -81,7 +81,7 @@ func EndFeeding(c *gin.Context) {
 }
 
 func checkEndFeedingParams(r *request.ReqEndFeeding) bool {
-	if r.BatchNumber == "" || r.Worker == "" {
+	if r.BatchNumber == "" || r.Worker == "" || r.HouseNumber == "" {
 		return false
 	}
 

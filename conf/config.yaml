@@ -20,7 +20,7 @@ log:
 
 
 casbin:
-  model_path: ../conf/casbin/fsims_rbac_model.conf
+  model_path: conf/casbin/fsims_rbac_model.conf
   role_policy_path : conf/casbin/fsims_rbac_role_policy.csv
   user_role_path: conf/casbin/fsims_rbac_user_role.csv
 

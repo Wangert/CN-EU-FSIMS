@@ -6,8 +6,6 @@ import (
 	"CN-EU-FSIMS/internal/app/models/product"
 	"CN-EU-FSIMS/internal/app/models/query"
 	"CN-EU-FSIMS/internal/app/models/warehouse"
-	"CN-EU-FSIMS/utils"
-	"CN-EU-FSIMS/utils/crypto"
 	"context"
 	"github.com/golang/glog"
 	"time"
@@ -23,6 +21,10 @@ const (
 	WAREHOUSE_STATE_COW = 3
 	SENDING_STATE_COW   = 4
 	END_STATE_COW       = 5
+
+	// pasture batch state
+	INIT_STATE_BATCH_PAS = 1
+	END_STATE_BATCH_PAS  = 2
 
 	// pasture house state
 	INIT_STATE_PH    = 1
@@ -44,7 +46,7 @@ func SendToSlaughter(r *request.ReqSendToSlaughter) error {
 		return err
 	}
 
-	phinfo, err := GetHouseInfoByCowNumber(r.CowNumber)
+	phinfo, err := GetPastureHouseInfoByCowNumber(r.CowNumber)
 	if err != nil {
 		return err
 	}
@@ -78,6 +80,7 @@ func SendToSlaughter(r *request.ReqSendToSlaughter) error {
 		PID:             pid,
 		SourceNumber:    phinfo.HouseNumber,
 		SourceName:      phinfo.Name,
+		State:           INIT_STATE_REC_SLA,
 		Operator:        r.Operator,
 		ReceiveTime:     time.Now(),
 		ConfirmTime:     nil,
@@ -98,7 +101,7 @@ func SendToSlaughter(r *request.ReqSendToSlaughter) error {
 	return nil
 }
 
-func GetHouseInfoByCowNumber(num string) (pasture.PastureHouseInfo, error) {
+func GetPastureHouseInfoByCowNumber(num string) (pasture.PastureHouseInfo, error) {
 	q1 := query.PastureWarehouse
 	pw, err := q1.WithContext(context.Background()).Where(q1.CowNumber.Eq(num)).First()
 	if err != nil {
@@ -153,11 +156,11 @@ func EndFeeding(r *request.ReqEndFeeding) (string, []string, error) {
 	}()
 
 	// 读取PID
-	pid, err := GetPidByBatchNumber(r.BatchNumber)
+	pid, err := GetPidByFeedingBatchNumber(r.BatchNumber)
 	if err != nil {
 		return "", nil, err
 	}
-	cowsNum, err := GetCowsNumberByBatchNumber(r.BatchNumber)
+	cowsNum, err := GetCowsNumberByFeedingBatchNumber(r.BatchNumber)
 	if err != nil {
 		return "", nil, err
 	}
@@ -169,7 +172,7 @@ func EndFeeding(r *request.ReqEndFeeding) (string, []string, error) {
 		return "", nil, err
 	}
 	// 更新FeedingBatch状态
-	_, err = tx.FeedingBatch.WithContext(context.Background()).Where(tx.FeedingBatch.BatchNumber.Eq(r.BatchNumber)).Updates(map[string]interface{}{"state": 2})
+	_, err = tx.FeedingBatch.WithContext(context.Background()).Where(tx.FeedingBatch.BatchNumber.Eq(r.BatchNumber)).Updates(map[string]interface{}{"state": END_STATE_BATCH_PAS})
 	if err != nil {
 		_ = tx.Rollback()
 		return "", nil, err
@@ -219,7 +222,7 @@ func EndFeeding(r *request.ReqEndFeeding) (string, []string, error) {
 	return checkcode, cowsNum, nil
 }
 
-func GetCowsNumberByBatchNumber(num string) ([]string, error) {
+func GetCowsNumberByFeedingBatchNumber(num string) ([]string, error) {
 	q := query.Cow
 	cows, err := q.WithContext(context.Background()).Where(q.BatchNumber.Eq(num)).Find()
 	if err != nil {
@@ -234,7 +237,7 @@ func GetCowsNumberByBatchNumber(num string) ([]string, error) {
 	return nums, nil
 }
 
-func GetPidByBatchNumber(num string) (string, error) {
+func GetPidByFeedingBatchNumber(num string) (string, error) {
 	q := query.FeedingBatch
 	fb, err := q.WithContext(context.Background()).Where(q.BatchNumber.Eq(num)).First()
 	if err != nil {
@@ -284,11 +287,11 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 	glog.Infoln("Cows:")
 	glog.Infoln(cows)
 
-	bNum := BATCH_NUMBER_PREFIX + generateNumber(r)
+	bNum := BATCH_NUMBER_PREFIX + GenerateNumber(r)
 	fb := pasture.FeedingBatch{
 		BatchNumber: bNum,
 		HouseNumber: r.HouseNumber,
-		State:       1,
+		State:       INIT_STATE_BATCH_PAS,
 		PID:         procedure.PID,
 		Worker:      r.Worker,
 		Cows:        cows,
@@ -351,7 +354,7 @@ func PastureIsExist(number string) (bool, error) {
 }
 
 func AddCow(r *request.ReqAddCow) (product.CowInfo, error) {
-	cowNum := generateNumber(r)
+	cowNum := GenerateNumber(r)
 	cow := product.Cow{
 		Number:      COW_NUMBER_PREFIX + cowNum,
 		Age:         r.Age,
@@ -369,14 +372,6 @@ func AddCow(r *request.ReqAddCow) (product.CowInfo, error) {
 
 	cowInfo := product.ToCowInfo(&cow)
 	return cowInfo, nil
-}
-
-func generateNumber(i interface{}) string {
-	t := time.Now().String()
-	s := utils.SerializeStructToString(i)
-	h := crypto.CalculateSHA256(s+t, "number")
-
-	return h
 }
 
 func createPastureProcedure(pasPID string) pasture.PastureProcedure {
