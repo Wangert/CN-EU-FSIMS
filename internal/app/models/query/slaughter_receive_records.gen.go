@@ -34,6 +34,7 @@ func newSlaughterReceiveRecord(db *gorm.DB, opts ...gen.DOOption) slaughterRecei
 	_slaughterReceiveRecord.PID = field.NewString(tableName, "p_id")
 	_slaughterReceiveRecord.SourceNumber = field.NewString(tableName, "source_number")
 	_slaughterReceiveRecord.SourceName = field.NewString(tableName, "source_name")
+	_slaughterReceiveRecord.State = field.NewInt(tableName, "state")
 	_slaughterReceiveRecord.Operator = field.NewString(tableName, "operator")
 	_slaughterReceiveRecord.ReceiveTime = field.NewTime(tableName, "receive_time")
 	_slaughterReceiveRecord.ConfirmTime = field.NewTime(tableName, "confirm_time")
@@ -56,6 +57,7 @@ type slaughterReceiveRecord struct {
 	PID             field.String
 	SourceNumber    field.String
 	SourceName      field.String
+	State           field.Int
 	Operator        field.String
 	ReceiveTime     field.Time
 	ConfirmTime     field.Time
@@ -84,6 +86,7 @@ func (s *slaughterReceiveRecord) updateTableName(table string) *slaughterReceive
 	s.PID = field.NewString(table, "p_id")
 	s.SourceNumber = field.NewString(table, "source_number")
 	s.SourceName = field.NewString(table, "source_name")
+	s.State = field.NewInt(table, "state")
 	s.Operator = field.NewString(table, "operator")
 	s.ReceiveTime = field.NewTime(table, "receive_time")
 	s.ConfirmTime = field.NewTime(table, "confirm_time")
@@ -116,7 +119,7 @@ func (s *slaughterReceiveRecord) GetFieldByName(fieldName string) (field.OrderEx
 }
 
 func (s *slaughterReceiveRecord) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 12)
+	s.fieldMap = make(map[string]field.Expr, 13)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
@@ -125,6 +128,7 @@ func (s *slaughterReceiveRecord) fillFieldMap() {
 	s.fieldMap["p_id"] = s.PID
 	s.fieldMap["source_number"] = s.SourceNumber
 	s.fieldMap["source_name"] = s.SourceName
+	s.fieldMap["state"] = s.State
 	s.fieldMap["operator"] = s.Operator
 	s.fieldMap["receive_time"] = s.ReceiveTime
 	s.fieldMap["confirm_time"] = s.ConfirmTime
