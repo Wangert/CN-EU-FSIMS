@@ -36,10 +36,22 @@ func newPackageHouse(db *gorm.DB, opts ...gen.DOOption) packageHouse {
 	_packageHouse.Address = field.NewString(tableName, "address")
 	_packageHouse.State = field.NewUint(tableName, "state")
 	_packageHouse.LegalPerson = field.NewString(tableName, "legal_person")
-	_packageHouse.PWRecord = packageHouseHasOnePWRecord{
+	_packageHouse.ReceiveRecords = packageHouseHasManyReceiveRecords{
 		db: db.Session(&gorm.Session{}),
 
-		RelationField: field.NewRelation("PWRecord", "warehouse.PackWareHouse"),
+		RelationField: field.NewRelation("ReceiveRecords", "warehouse.PackageReceiveRecord"),
+	}
+
+	_packageHouse.PackageRecords = packageHouseHasManyPackageRecords{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("PackageRecords", "pack.PackageBatch"),
+	}
+
+	_packageHouse.PWRecords = packageHouseHasManyPWRecords{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("PWRecords", "warehouse.PackWarehouse"),
 	}
 
 	_packageHouse.fillFieldMap()
@@ -50,17 +62,21 @@ func newPackageHouse(db *gorm.DB, opts ...gen.DOOption) packageHouse {
 type packageHouse struct {
 	packageHouseDo packageHouseDo
 
-	ALL         field.Asterisk
-	ID          field.Uint
-	CreatedAt   field.Time
-	UpdatedAt   field.Time
-	DeletedAt   field.Field
-	HouseNumber field.String
-	Name        field.String
-	Address     field.String
-	State       field.Uint
-	LegalPerson field.String
-	PWRecord    packageHouseHasOnePWRecord
+	ALL            field.Asterisk
+	ID             field.Uint
+	CreatedAt      field.Time
+	UpdatedAt      field.Time
+	DeletedAt      field.Field
+	HouseNumber    field.String
+	Name           field.String
+	Address        field.String
+	State          field.Uint
+	LegalPerson    field.String
+	ReceiveRecords packageHouseHasManyReceiveRecords
+
+	PackageRecords packageHouseHasManyPackageRecords
+
+	PWRecords packageHouseHasManyPWRecords
 
 	fieldMap map[string]field.Expr
 }
@@ -114,7 +130,7 @@ func (p *packageHouse) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 }
 
 func (p *packageHouse) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 10)
+	p.fieldMap = make(map[string]field.Expr, 12)
 	p.fieldMap["id"] = p.ID
 	p.fieldMap["created_at"] = p.CreatedAt
 	p.fieldMap["updated_at"] = p.UpdatedAt
@@ -137,13 +153,13 @@ func (p packageHouse) replaceDB(db *gorm.DB) packageHouse {
 	return p
 }
 
-type packageHouseHasOnePWRecord struct {
+type packageHouseHasManyReceiveRecords struct {
 	db *gorm.DB
 
 	field.RelationField
 }
 
-func (a packageHouseHasOnePWRecord) Where(conds ...field.Expr) *packageHouseHasOnePWRecord {
+func (a packageHouseHasManyReceiveRecords) Where(conds ...field.Expr) *packageHouseHasManyReceiveRecords {
 	if len(conds) == 0 {
 		return &a
 	}
@@ -156,27 +172,27 @@ func (a packageHouseHasOnePWRecord) Where(conds ...field.Expr) *packageHouseHasO
 	return &a
 }
 
-func (a packageHouseHasOnePWRecord) WithContext(ctx context.Context) *packageHouseHasOnePWRecord {
+func (a packageHouseHasManyReceiveRecords) WithContext(ctx context.Context) *packageHouseHasManyReceiveRecords {
 	a.db = a.db.WithContext(ctx)
 	return &a
 }
 
-func (a packageHouseHasOnePWRecord) Session(session *gorm.Session) *packageHouseHasOnePWRecord {
+func (a packageHouseHasManyReceiveRecords) Session(session *gorm.Session) *packageHouseHasManyReceiveRecords {
 	a.db = a.db.Session(session)
 	return &a
 }
 
-func (a packageHouseHasOnePWRecord) Model(m *pack.PackageHouse) *packageHouseHasOnePWRecordTx {
-	return &packageHouseHasOnePWRecordTx{a.db.Model(m).Association(a.Name())}
+func (a packageHouseHasManyReceiveRecords) Model(m *pack.PackageHouse) *packageHouseHasManyReceiveRecordsTx {
+	return &packageHouseHasManyReceiveRecordsTx{a.db.Model(m).Association(a.Name())}
 }
 
-type packageHouseHasOnePWRecordTx struct{ tx *gorm.Association }
+type packageHouseHasManyReceiveRecordsTx struct{ tx *gorm.Association }
 
-func (a packageHouseHasOnePWRecordTx) Find() (result *warehouse.PackWareHouse, err error) {
+func (a packageHouseHasManyReceiveRecordsTx) Find() (result []*warehouse.PackageReceiveRecord, err error) {
 	return result, a.tx.Find(&result)
 }
 
-func (a packageHouseHasOnePWRecordTx) Append(values ...*warehouse.PackWareHouse) (err error) {
+func (a packageHouseHasManyReceiveRecordsTx) Append(values ...*warehouse.PackageReceiveRecord) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -184,7 +200,7 @@ func (a packageHouseHasOnePWRecordTx) Append(values ...*warehouse.PackWareHouse)
 	return a.tx.Append(targetValues...)
 }
 
-func (a packageHouseHasOnePWRecordTx) Replace(values ...*warehouse.PackWareHouse) (err error) {
+func (a packageHouseHasManyReceiveRecordsTx) Replace(values ...*warehouse.PackageReceiveRecord) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -192,7 +208,7 @@ func (a packageHouseHasOnePWRecordTx) Replace(values ...*warehouse.PackWareHouse
 	return a.tx.Replace(targetValues...)
 }
 
-func (a packageHouseHasOnePWRecordTx) Delete(values ...*warehouse.PackWareHouse) (err error) {
+func (a packageHouseHasManyReceiveRecordsTx) Delete(values ...*warehouse.PackageReceiveRecord) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -200,11 +216,153 @@ func (a packageHouseHasOnePWRecordTx) Delete(values ...*warehouse.PackWareHouse)
 	return a.tx.Delete(targetValues...)
 }
 
-func (a packageHouseHasOnePWRecordTx) Clear() error {
+func (a packageHouseHasManyReceiveRecordsTx) Clear() error {
 	return a.tx.Clear()
 }
 
-func (a packageHouseHasOnePWRecordTx) Count() int64 {
+func (a packageHouseHasManyReceiveRecordsTx) Count() int64 {
+	return a.tx.Count()
+}
+
+type packageHouseHasManyPackageRecords struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a packageHouseHasManyPackageRecords) Where(conds ...field.Expr) *packageHouseHasManyPackageRecords {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a packageHouseHasManyPackageRecords) WithContext(ctx context.Context) *packageHouseHasManyPackageRecords {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a packageHouseHasManyPackageRecords) Session(session *gorm.Session) *packageHouseHasManyPackageRecords {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a packageHouseHasManyPackageRecords) Model(m *pack.PackageHouse) *packageHouseHasManyPackageRecordsTx {
+	return &packageHouseHasManyPackageRecordsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type packageHouseHasManyPackageRecordsTx struct{ tx *gorm.Association }
+
+func (a packageHouseHasManyPackageRecordsTx) Find() (result []*pack.PackageBatch, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a packageHouseHasManyPackageRecordsTx) Append(values ...*pack.PackageBatch) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a packageHouseHasManyPackageRecordsTx) Replace(values ...*pack.PackageBatch) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a packageHouseHasManyPackageRecordsTx) Delete(values ...*pack.PackageBatch) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a packageHouseHasManyPackageRecordsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a packageHouseHasManyPackageRecordsTx) Count() int64 {
+	return a.tx.Count()
+}
+
+type packageHouseHasManyPWRecords struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a packageHouseHasManyPWRecords) Where(conds ...field.Expr) *packageHouseHasManyPWRecords {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a packageHouseHasManyPWRecords) WithContext(ctx context.Context) *packageHouseHasManyPWRecords {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a packageHouseHasManyPWRecords) Session(session *gorm.Session) *packageHouseHasManyPWRecords {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a packageHouseHasManyPWRecords) Model(m *pack.PackageHouse) *packageHouseHasManyPWRecordsTx {
+	return &packageHouseHasManyPWRecordsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type packageHouseHasManyPWRecordsTx struct{ tx *gorm.Association }
+
+func (a packageHouseHasManyPWRecordsTx) Find() (result []*warehouse.PackWarehouse, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a packageHouseHasManyPWRecordsTx) Append(values ...*warehouse.PackWarehouse) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a packageHouseHasManyPWRecordsTx) Replace(values ...*warehouse.PackWarehouse) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a packageHouseHasManyPWRecordsTx) Delete(values ...*warehouse.PackWarehouse) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a packageHouseHasManyPWRecordsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a packageHouseHasManyPWRecordsTx) Count() int64 {
 	return a.tx.Count()
 }
 

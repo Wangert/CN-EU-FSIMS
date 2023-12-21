@@ -53,13 +53,6 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 
 		admin.GET("viewlog", handlers.ViewLogs)
 
-		// 便于测试
-		admin.POST("newfeedingbatch", handlers.NewFeedingBatch)
-		admin.POST("addcow", handlers.AddCow)
-		admin.GET("getfeedingrecords", handlers.GetFeedingRecords)
-		admin.POST("endfeeding", handlers.EndFeeding)
-		admin.GET("warehouse", handlers.GetWarehouseInfos)
-		admin.POST("sendtoslaughter", handlers.SendToSlaughter)
 	}
 
 	// industrial chain group
@@ -97,6 +90,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		pop.GET("warehouse", handlers.GetWarehouseInfos)
 		//pop.POST("inwarehouse", handlers.PastureInWarehouse)
 		pop.POST("send", handlers.SendToSlaughter)
+		pop.GET("slaughterhouses", handlers.GetSlaughterHouses)
 	}
 
 	//slaughteroperator router group
