@@ -10,6 +10,85 @@ import (
 	"github.com/golang/glog"
 )
 
+func SendToSlaughter(c *gin.Context) {
+	var r request.ReqSendToSlaughter
+	if err := c.ShouldBind(&r); err != nil || !checkSendToSlaughterParams(&r) {
+		glog.Errorln(err.Error())
+		response.MakeFail(c, http.StatusNotAcceptable, err.Error())
+		return
+	}
+
+	err := service.SendToSlaughter(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "send to slaughter error!")
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, "sending to slaughter successful!")
+	return
+}
+
+func checkSendToSlaughterParams(r *request.ReqSendToSlaughter) bool {
+	if r.CowNumber == "" || r.SlaughterHouseNumber == "" || r.Operator == "" {
+		return false
+	}
+
+	return true
+}
+
+func GetWarehouseInfos(c *gin.Context) {
+	glog.Info("################## FSIMS Get Warehouse Infos ##################")
+
+	houseNum := c.Query("house_number")
+
+	pws, count, err := service.GetWarehouseInfosByPastureNumber(houseNum)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "get warehouse infos error!")
+		return
+	}
+
+	res := response.ResWarehouseInfos{
+		PastureWarehouses: pws,
+		Count:             count,
+	}
+
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func EndFeeding(c *gin.Context) {
+	glog.Info("################## FSIMS End Feeding ##################")
+
+	var r request.ReqEndFeeding
+	if err := c.ShouldBind(&r); err != nil || !checkEndFeedingParams(&r) {
+		response.MakeFail(c, http.StatusBadRequest, "new feeding batch parameters error!")
+		return
+	}
+
+	checkcode, cowsNum, err := service.EndFeeding(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "end feeding error!")
+		return
+	}
+
+	res := response.ResEndFeeding{
+		Checkcode: checkcode,
+		CowsNum:   cowsNum,
+		Count:     int64(len(cowsNum)),
+	}
+
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func checkEndFeedingParams(r *request.ReqEndFeeding) bool {
+	if r.BatchNumber == "" || r.Worker == "" {
+		return false
+	}
+
+	return true
+}
+
 func GetFeedingRecords(c *gin.Context) {
 	glog.Info("################## FSIMS Get Feeding Records ##################")
 

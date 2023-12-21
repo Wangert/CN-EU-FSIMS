@@ -45,23 +45,23 @@ func isProcedureCompleted(pid string) bool {
 	}
 }
 
-func UpdatePastureWarehouse(productNumber string, params map[string]interface{}) error {
-	p := query.PastureWareHouse
-	info, err := p.WithContext(context.Background()).Where(p.ProductNumber.Eq(productNumber)).Updates(params)
-	if err != nil {
-		glog.Errorln(info)
-		return err
-	}
-	glog.Infoln(info)
-	return nil
-}
-func UpdateSlaughterWarehouse(productNumber string, params map[string]interface{}) error {
-	p := query.SlaughterWareHouse
-	info, err := p.WithContext(context.Background()).Where(p.ProductNumber.Eq(productNumber)).Updates(params)
-	if err != nil {
-		glog.Errorln(info)
-		return err
-	}
-	glog.Infoln(info)
-	return nil
-}
+//func UpdatePastureWarehouse(productNumber string, params map[string]interface{}) error {
+//	p := query.PastureWareHouse
+//	info, err := p.WithContext(context.Background()).Where(p.ProductNumber.Eq(productNumber)).Updates(params)
+//	if err != nil {
+//		glog.Errorln(info)
+//		return err
+//	}
+//	glog.Infoln(info)
+//	return nil
+//}
+//func UpdateSlaughterWarehouse(productNumber string, params map[string]interface{}) error {
+//	p := query.SlaughterWareHouse
+//	info, err := p.WithContext(context.Background()).Where(p.ProductNumber.Eq(productNumber)).Updates(params)
+//	if err != nil {
+//		glog.Errorln(info)
+//		return err
+//	}
+//	glog.Infoln(info)
+//	return nil
+//}

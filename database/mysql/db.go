@@ -62,31 +62,23 @@ func AutoMigrate() {
 		&pasture.PastureFloorBeddingPhysicalHazard{}, &pasture.PastureFloorBeddingBiohazard{}, &pasture.PastureSiteDisinfectionRecord{},
 		&pasture.PastureWorksuitDisinfectionRecord{}, &pasture.PastureTruckDisinfectionRecord{}, &fatten.FattenProcedure{}, &fatten.FattenWater{}, &fatten.FattenSoil{},
 		&fatten.FattenWaterPhysicalHazard{}, &fatten.FattenWaterChemicalHazard{}, &fatten.FattenWaterSensoryTraits{}, &fatten.FattenWaterBiohazard{},
-		&fatten.FattenSoilPhysicalHazard{}, &fatten.FattenSoilBiohazard{}, &warehouse.PastureWareHouse{}, &warehouse.SlaughterWareHouse{})
+		&fatten.FattenSoilPhysicalHazard{}, &fatten.FattenSoilBiohazard{})
 
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	err = DB.AutoMigrate(&warehouse.SlaughterReceive{})
-	if err != nil {
-		fmt.Println(err)
-	}
-	err = DB.AutoMigrate(&warehouse.PackReceive{})
-	if err != nil {
-		fmt.Println(err)
-	}
-	err = DB.AutoMigrate(&warehouse.PackWareHouse{}, &coldchain.TransportProcedureData{})
+	err = DB.AutoMigrate(&coldchain.TransportProcedureData{})
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	err = DB.AutoMigrate(&pasture.PastureHouse{}, &slaughter.SlaughterHouse{}, &slaughter.SlaughterHouse{}, &pack.PackageHouse{}, &coldchain.TransportVehicle{})
+	err = DB.AutoMigrate(&pasture.PastureHouse{}, &slaughter.SlaughterHouse{}, &pack.PackageHouse{}, &coldchain.TransportVehicle{})
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	err = DB.AutoMigrate(&product.Cow{}, &pasture.FeedingBatch{})
+	err = DB.AutoMigrate(&product.Cow{}, &pasture.FeedingBatch{}, &warehouse.PastureWarehouse{}, &warehouse.SlaughterReceiveRecord{}, &slaughter.SlaughterBatch{}, &warehouse.SlaughterWarehouse{}, &warehouse.PackageReceiveRecord{}, &pack.PackageBatch{}, &warehouse.PackWarehouse{})
 	if err != nil {
 		fmt.Println(err)
 	}

@@ -19,3 +19,17 @@ type SlaughterWareHouse struct {
 	OutTimestamp  time.Time `json:"out_timestamp"`
 	HouseNumber   string    `gorm:"not null; type:varchar(256)" json:"house_number"`
 }
+
+type SlaughterWarehouse struct {
+	gorm.Model
+	ProductNumber string     `gorm:"not null; unique; type:varchar(256)" json:"product_number"`
+	PID           string     `gorm:"not null" json:"pid"`
+	Type          string     `gorm:"type:varchar(100)" json:"type"`
+	State         uint       `gorm:"not null" json:"state"`
+	InOperator    string     `json:"in_operator"`
+	OutOperator   string     `json:"out_operator"`
+	Destination   string     `json:"destination"`
+	InTimestamp   time.Time  `gorm:"not null" json:"in_timestamp"`
+	OutTimestamp  *time.Time `json:"out_timestamp"`
+	HouseNumber   string     `gorm:"not null; type:varchar(256)" json:"house_number"`
+}

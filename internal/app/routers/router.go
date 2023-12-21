@@ -57,6 +57,9 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		admin.POST("newfeedingbatch", handlers.NewFeedingBatch)
 		admin.POST("addcow", handlers.AddCow)
 		admin.GET("getfeedingrecords", handlers.GetFeedingRecords)
+		admin.POST("endfeeding", handlers.EndFeeding)
+		admin.GET("warehouse", handlers.GetWarehouseInfos)
+		admin.POST("sendtoslaughter", handlers.SendToSlaughter)
 	}
 
 	// industrial chain group
@@ -82,30 +85,35 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		//pop.POST("createproc", handlers.CreateProcedure)
 
 		pop.POST("addcow", handlers.AddCow)
+
 		pop.POST("newfeedingbatch", handlers.NewFeedingBatch)
 		pop.GET("getfeedingrecords", handlers.GetFeedingRecords)
 		pop.GET("searchhouse", handlers.GetUserHouse)
 		pop.GET("getcow", handlers.GetCowList)
-		pop.POST("commitproc", handlers.CommitPastureProcedure)
-		pop.POST("inwarehouse", handlers.PastureInWarehouse)
-		pop.POST("sendtonext", handlers.SendToSlaughter)
+		//pop.POST("commitproc", handlers.CommitPastureProcedure)
+		//pop.POST("inwarehouse", handlers.PastureInWarehouse)
+		//pop.POST("sendtonext", handlers.SendToSlaughter)
+		pop.POST("endfeeding", handlers.EndFeeding)
+		pop.GET("warehouse", handlers.GetWarehouseInfos)
+		//pop.POST("inwarehouse", handlers.PastureInWarehouse)
+		pop.POST("send", handlers.SendToSlaughter)
 	}
 
 	//slaughteroperator router group
 	sop := fsims.Group("/slaughteroperator", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
 		sop.POST("commitproc", handlers.CommitSlaughterProcedure)
-		sop.POST("receive", handlers.SlaughterReceived)
-		sop.POST("inwarehouse", handlers.SlaughterInWarehouse)
-		sop.POST("sendtonext", handlers.SendToPack)
+		//sop.POST("receive", handlers.SlaughterReceived)
+		//sop.POST("inwarehouse", handlers.SlaughterInWarehouse)
+		//sop.POST("sendtonext", handlers.SendToPack)
 	}
 
 	//packoperator router group
 	kop := fsims.Group("/packoperator", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
 		kop.POST("commitproc", handlers.CommitPackProcedure)
-		kop.POST("receive", handlers.PackReceived)
-		kop.POST("inwarehouse", handlers.PackInWarehouse)
+		//kop.POST("receive", handlers.PackReceived)
+		//kop.POST("inwarehouse", handlers.PackInWarehouse)
 
 	}
 
