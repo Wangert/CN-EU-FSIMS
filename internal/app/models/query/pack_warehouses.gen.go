@@ -35,8 +35,10 @@ func newPackWarehouse(db *gorm.DB, opts ...gen.DOOption) packWarehouse {
 	_packWarehouse.Type = field.NewString(tableName, "type")
 	_packWarehouse.State = field.NewUint(tableName, "state")
 	_packWarehouse.InOperator = field.NewString(tableName, "in_operator")
+	_packWarehouse.OutOperator = field.NewString(tableName, "out_operator")
 	_packWarehouse.InTimestamp = field.NewTime(tableName, "in_timestamp")
 	_packWarehouse.OutTimestamp = field.NewTime(tableName, "out_timestamp")
+	_packWarehouse.VehicleNumber = field.NewString(tableName, "vehicle_number")
 	_packWarehouse.PacNumber = field.NewString(tableName, "pac_number")
 
 	_packWarehouse.fillFieldMap()
@@ -57,8 +59,10 @@ type packWarehouse struct {
 	Type          field.String
 	State         field.Uint
 	InOperator    field.String
+	OutOperator   field.String
 	InTimestamp   field.Time
 	OutTimestamp  field.Time
+	VehicleNumber field.String
 	PacNumber     field.String
 
 	fieldMap map[string]field.Expr
@@ -85,8 +89,10 @@ func (p *packWarehouse) updateTableName(table string) *packWarehouse {
 	p.Type = field.NewString(table, "type")
 	p.State = field.NewUint(table, "state")
 	p.InOperator = field.NewString(table, "in_operator")
+	p.OutOperator = field.NewString(table, "out_operator")
 	p.InTimestamp = field.NewTime(table, "in_timestamp")
 	p.OutTimestamp = field.NewTime(table, "out_timestamp")
+	p.VehicleNumber = field.NewString(table, "vehicle_number")
 	p.PacNumber = field.NewString(table, "pac_number")
 
 	p.fillFieldMap()
@@ -116,7 +122,7 @@ func (p *packWarehouse) GetFieldByName(fieldName string) (field.OrderExpr, bool)
 }
 
 func (p *packWarehouse) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 12)
+	p.fieldMap = make(map[string]field.Expr, 14)
 	p.fieldMap["id"] = p.ID
 	p.fieldMap["created_at"] = p.CreatedAt
 	p.fieldMap["updated_at"] = p.UpdatedAt
@@ -126,8 +132,10 @@ func (p *packWarehouse) fillFieldMap() {
 	p.fieldMap["type"] = p.Type
 	p.fieldMap["state"] = p.State
 	p.fieldMap["in_operator"] = p.InOperator
+	p.fieldMap["out_operator"] = p.OutOperator
 	p.fieldMap["in_timestamp"] = p.InTimestamp
 	p.fieldMap["out_timestamp"] = p.OutTimestamp
+	p.fieldMap["vehicle_number"] = p.VehicleNumber
 	p.fieldMap["pac_number"] = p.PacNumber
 }
 

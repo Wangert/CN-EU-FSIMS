@@ -34,6 +34,7 @@ func newPackageReceiveRecord(db *gorm.DB, opts ...gen.DOOption) packageReceiveRe
 	_packageReceiveRecord.PID = field.NewString(tableName, "p_id")
 	_packageReceiveRecord.SourceNumber = field.NewString(tableName, "source_number")
 	_packageReceiveRecord.SourceName = field.NewString(tableName, "source_name")
+	_packageReceiveRecord.State = field.NewInt(tableName, "state")
 	_packageReceiveRecord.Operator = field.NewString(tableName, "operator")
 	_packageReceiveRecord.ReceiveTime = field.NewTime(tableName, "receive_time")
 	_packageReceiveRecord.ConfirmTime = field.NewTime(tableName, "confirm_time")
@@ -56,6 +57,7 @@ type packageReceiveRecord struct {
 	PID           field.String
 	SourceNumber  field.String
 	SourceName    field.String
+	State         field.Int
 	Operator      field.String
 	ReceiveTime   field.Time
 	ConfirmTime   field.Time
@@ -84,6 +86,7 @@ func (p *packageReceiveRecord) updateTableName(table string) *packageReceiveReco
 	p.PID = field.NewString(table, "p_id")
 	p.SourceNumber = field.NewString(table, "source_number")
 	p.SourceName = field.NewString(table, "source_name")
+	p.State = field.NewInt(table, "state")
 	p.Operator = field.NewString(table, "operator")
 	p.ReceiveTime = field.NewTime(table, "receive_time")
 	p.ConfirmTime = field.NewTime(table, "confirm_time")
@@ -116,7 +119,7 @@ func (p *packageReceiveRecord) GetFieldByName(fieldName string) (field.OrderExpr
 }
 
 func (p *packageReceiveRecord) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 12)
+	p.fieldMap = make(map[string]field.Expr, 13)
 	p.fieldMap["id"] = p.ID
 	p.fieldMap["created_at"] = p.CreatedAt
 	p.fieldMap["updated_at"] = p.UpdatedAt
@@ -125,6 +128,7 @@ func (p *packageReceiveRecord) fillFieldMap() {
 	p.fieldMap["p_id"] = p.PID
 	p.fieldMap["source_number"] = p.SourceNumber
 	p.fieldMap["source_name"] = p.SourceName
+	p.fieldMap["state"] = p.State
 	p.fieldMap["operator"] = p.Operator
 	p.fieldMap["receive_time"] = p.ReceiveTime
 	p.fieldMap["confirm_time"] = p.ConfirmTime
