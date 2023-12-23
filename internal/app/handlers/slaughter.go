@@ -4,9 +4,10 @@ import (
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/handlers/response"
 	"CN-EU-FSIMS/internal/service"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
-	"net/http"
 )
 
 func SendToPackage(c *gin.Context) {
@@ -87,6 +88,11 @@ func NewSlaughterProduct(c *gin.Context) {
 }
 
 func checkNewSlaughterProductParams(r *request.ReqNewSlaughterProduct) bool {
+	glog.Info(r.BatchNumber)
+	glog.Info(r.Worker)
+	glog.Info(r.HouseNumber)
+	glog.Info(r.Type)
+	glog.Info(r.Weight)
 	if r.BatchNumber == "" || r.Worker == "" || r.HouseNumber == "" || r.Type == 0 || r.Weight == 0 {
 		return false
 	}
@@ -123,7 +129,8 @@ func checkNewSlaughterBatchParams(r *request.ReqNewSlaughterBatch) bool {
 
 func ConfirmCowFromPasture(c *gin.Context) {
 	glog.Info("################## FSIMS Confirm Cow From Pasture ##################")
-	cowNum := c.Query("cow_number")
+	cowNum := c.PostForm("cow_number")
+	glog.Info("cowNum", cowNum)
 	err := service.ConfirmCowFromPasture(cowNum)
 	if err != nil {
 		response.MakeFail(c, http.StatusBadRequest, "confirm cow error!")

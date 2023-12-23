@@ -8,6 +8,8 @@ import (
 	"CN-EU-FSIMS/internal/app/models/warehouse"
 	"context"
 	"time"
+
+	"github.com/golang/glog"
 )
 
 const (
@@ -347,11 +349,29 @@ func NewSlaughterBatch(r *request.ReqNewSlaughterBatch) (string, error) {
 }
 
 func ConfirmCowFromPasture(num string) error {
-	q := query.SlaughterReceiveRecord
-	_, err := q.WithContext(context.Background()).
-		Where(q.CowNumber.Eq(num)).
+	glog.Info("num:", num)
+	tx := query.Q.Begin()
+
+	defer func() {
+		if recover() != nil {
+			_ = tx.Rollback()
+		}
+	}()
+	//q := query.SlaughterReceiveRecord
+	_, err := tx.SlaughterReceiveRecord.WithContext(context.Background()).
+		Where(tx.SlaughterReceiveRecord.CowNumber.Eq(num)).
 		Updates(map[string]interface{}{"state": CONFIRM_STATE_REC_SLA})
 	if err != nil {
+		return err
+	}
+	//p := query.PastureWarehouse
+	_, err = tx.PastureWarehouse.WithContext(context.Background()).
+		Where(tx.PastureWarehouse.CowNumber.Eq(num)).
+		Updates(map[string]interface{}{"state": CONFIRM_STATE_PH})
+
+	err = tx.Commit()
+	if err != nil {
+		_ = tx.Rollback()
 		return err
 	}
 	return nil
