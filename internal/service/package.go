@@ -8,6 +8,8 @@ import (
 	"CN-EU-FSIMS/internal/app/models/warehouse"
 	"context"
 	"time"
+
+	"github.com/golang/glog"
 )
 
 const (
@@ -235,8 +237,8 @@ func NewPackageBatch(r *request.ReqNewPackageBatch) (string, error) {
 	}
 
 	// 更新package receive record
-	_, err = tx.SlaughterReceiveRecord.WithContext(context.Background()).
-		Where(tx.SlaughterReceiveRecord.CowNumber.Eq(r.ProductNumber)).
+	_, err = tx.PackageReceiveRecord.WithContext(context.Background()).
+		Where(tx.PackageReceiveRecord.ProductNumber.Eq(r.ProductNumber)).
 		Updates(map[string]interface{}{"state": PACKAGE_STATE_REC_PAC})
 	if err != nil {
 		_ = tx.Rollback()
@@ -255,7 +257,7 @@ func NewPackageBatch(r *request.ReqNewPackageBatch) (string, error) {
 func ConfirmProductFromSlaughter(num string) error {
 	var err error
 	tx := query.Q.Begin()
-
+	glog.Info("num", num)
 	defer func() {
 		if recover() != nil {
 			_ = tx.Rollback()

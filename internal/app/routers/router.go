@@ -133,11 +133,11 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		kop.GET("receiverecords", handlers.GetPackageReceiveRecords)
 		kop.GET("batches", handlers.GetPackageBatches)
 		kop.GET("warehouserecords", handlers.GetPackageWarehouseRecords)
-
+		kop.GET("searchhouse", handlers.GetUserHouse)
 		kop.POST("receiveconfirm", handlers.ConfirmProductFromSlaughter)
 		kop.POST("newbatch", handlers.NewPackageBatch)
 		kop.POST("newproduct", handlers.NewPackageProduct)
-		kop.POST("endbatch", handlers.EndSlaughter)
+		kop.POST("endbatch", handlers.EndPackage)
 
 	}
 

@@ -4,9 +4,10 @@ import (
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/handlers/response"
 	"CN-EU-FSIMS/internal/service"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
-	"net/http"
 )
 
 func EndPackage(c *gin.Context) {
@@ -97,7 +98,8 @@ func checkNewPackageBatchParams(r *request.ReqNewPackageBatch) bool {
 
 func ConfirmProductFromSlaughter(c *gin.Context) {
 	glog.Info("################## FSIMS Confirm Product From Slaughter ##################")
-	productNum := c.Query("product_number")
+	productNum := c.PostForm("product_number")
+	glog.Info("productNum", productNum)
 	err := service.ConfirmProductFromSlaughter(productNum)
 	if err != nil {
 		response.MakeFail(c, http.StatusBadRequest, "confirm slaughter product error!")
