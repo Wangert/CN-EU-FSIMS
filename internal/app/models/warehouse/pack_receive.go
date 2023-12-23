@@ -40,7 +40,7 @@ type PackageReceiveRecordInfo struct {
 	PacNumber     string     `json:"pac_number"`
 }
 
-func ToPackageReceiveRecordInfo(record PackageReceiveRecord) PackageReceiveRecordInfo {
+func ToPackageReceiveRecordInfo(record *PackageReceiveRecord) PackageReceiveRecordInfo {
 	return PackageReceiveRecordInfo{
 		ProductNumber: record.ProductNumber,
 		PID:           record.PID,

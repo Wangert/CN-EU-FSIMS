@@ -129,8 +129,15 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	kop := fsims.Group("/packoperator", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
 		kop.POST("commitproc", handlers.CommitPackProcedure)
-		//kop.POST("receive", handlers.PackReceived)
-		//kop.POST("inwarehouse", handlers.PackInWarehouse)
+
+		kop.GET("receiverecords", handlers.GetPackageReceiveRecords)
+		kop.GET("batches", handlers.GetPackageBatches)
+		kop.GET("warehouserecords", handlers.GetPackageWarehouseRecords)
+
+		kop.POST("receiveconfirm", handlers.ConfirmProductFromSlaughter)
+		kop.POST("newbatch", handlers.NewPackageBatch)
+		kop.POST("newproduct", handlers.NewPackageProduct)
+		kop.POST("endbatch", handlers.EndSlaughter)
 
 	}
 

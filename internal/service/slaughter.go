@@ -47,7 +47,7 @@ func SendToPackage(r *request.ReqSendToPackage) error {
 		}
 	}()
 
-	pid, err := GetPidByProductNumber(r.ProductNumber)
+	pid, err := GetPidBySlaughterProductNumber(r.ProductNumber)
 	if err != nil {
 		return err
 	}
@@ -74,7 +74,7 @@ func SendToPackage(r *request.ReqSendToPackage) error {
 	// 更新slaughter warehouse状态
 	_, err = tx.SlaughterWarehouse.WithContext(context.Background()).
 		Where(tx.SlaughterWarehouse.ProductNumber.Eq(r.ProductNumber)).
-		Updates(map[string]interface{}{"state": SENDING_SH, "destination": ph.Name})
+		Updates(map[string]interface{}{"state": SENDING_SH, "destination": ph.Name, "out_timestamp": time.Now()})
 	if err != nil {
 		_ = tx.Rollback()
 		return err
@@ -125,7 +125,7 @@ func GetSlaughterHouseInfoByProductNumber(num string) (slaughter.SlaughterHouseI
 	return shinfo, nil
 }
 
-func GetPidByProductNumber(num string) (string, error) {
+func GetPidBySlaughterProductNumber(num string) (string, error) {
 	q := query.SlaughterWarehouse
 	sw, err := q.WithContext(context.Background()).Where(q.ProductNumber.Eq(num)).First()
 	if err != nil {
@@ -152,7 +152,7 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 	}
 
 	// 获取slaughter products
-	products, err := GetSlaughterProductByBatchNumber(r.BatchNumber)
+	products, err := GetSlaughterProductsByBatchNumber(r.BatchNumber)
 	if err != nil {
 		return "", nil, err
 	}
@@ -235,7 +235,7 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 	return checkcode, productNums, nil
 }
 
-func GetSlaughterProductByBatchNumber(num string) ([]*product.SlaughterProduct, error) {
+func GetSlaughterProductsByBatchNumber(num string) ([]*product.SlaughterProduct, error) {
 	q := query.SlaughterProduct
 	sps, err := q.WithContext(context.Background()).Where(q.BatchNumber.Eq(num)).Find()
 	if err != nil {

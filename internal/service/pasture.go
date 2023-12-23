@@ -69,7 +69,7 @@ func SendToSlaughter(r *request.ReqSendToSlaughter) error {
 	// 更新pasture warehouse状态
 	_, err = tx.PastureWarehouse.WithContext(context.Background()).
 		Where(tx.PastureWarehouse.CowNumber.Eq(r.CowNumber)).
-		Updates(map[string]interface{}{"state": SENDING_STATE_PH, "destination": sh.Name})
+		Updates(map[string]interface{}{"state": SENDING_STATE_PH, "destination": sh.Name, "out_timestamp": time.Now()})
 	if err != nil {
 		_ = tx.Rollback()
 		return err
