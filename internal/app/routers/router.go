@@ -21,14 +21,16 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	{
 		user.POST("register", handlers.Register)
 		user.POST("login", handlers.Login)
+		user.GET("blockchain/blockByHeight", handlers.QueryBlockByHeight)
+		user.GET("blockchain/blockByHash", handlers.QueryBlockByHash)
+		user.GET("blockchain/ledgerinfo", handlers.GetLedgerInfo)
+		user.GET("blockchain/latestblock", handlers.GetLastestBlock)
+
 	}
 
 	// admin router group
 	admin := fsims.Group("/admin", middlewares.JwtAuth(), middlewares.CheckPermission(), middlewares.LogMiddleware())
 	{
-		admin.GET("blockchain/block", handlers.QueryBlockByHeight)
-		admin.GET("blockchain/ledgerinfo", handlers.GetLedgerInfo)
-		admin.GET("blockchain/latestblock", handlers.GetLastestBlock)
 
 		admin.POST("addpasture", handlers.AddPasture)
 		admin.POST("addslaughterhouse", handlers.AddSlaughterHouse)
