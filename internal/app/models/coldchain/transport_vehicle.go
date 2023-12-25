@@ -1,7 +1,6 @@
 package coldchain
 
 import (
-	"CN-EU-FSIMS/internal/app/handlers/response"
 	"gorm.io/gorm"
 )
 
@@ -14,8 +13,16 @@ type TransportVehicle struct {
 	State         uint   `gorm:"not null" json:"state"`
 }
 
-func TransportVehicleToRes(tv *TransportVehicle) response.ResTransportVehicle {
-	return response.ResTransportVehicle{
+type TransportVehicleInfo struct {
+	TVNumber      string `json:"tv_number"`
+	LicenseNumber string `json:"license_number"`
+	Driver        string `json:"driver"`
+	DriverPhone   string `json:"driver_phone"`
+	State         uint   `json:"state"`
+}
+
+func ToTransportVehicleInfo(tv *TransportVehicle) TransportVehicleInfo {
+	return TransportVehicleInfo{
 		TVNumber:      tv.TVNumber,
 		LicenseNumber: tv.LicenseNumber,
 		Driver:        tv.Driver,

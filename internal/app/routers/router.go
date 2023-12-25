@@ -34,6 +34,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		admin.POST("addslaughterhouse", handlers.AddSlaughterHouse)
 		admin.POST("addpackhouse", handlers.AddPackageHouse)
 		admin.POST("addtransportvehicle", handlers.AddTransportVehicle)
+		admin.POST("addmall", handlers.AddMall)
 
 		admin.GET("pastures", handlers.GetPastures)
 		admin.GET("searchpas", handlers.SearchPastures)
@@ -43,6 +44,8 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		admin.GET("searchpac", handlers.SearchPackageHouses)
 		admin.GET("transportvehicles", handlers.GetTransportVehicles)
 		admin.GET("searchtv", handlers.SearchTransportVehicles)
+		admin.GET("malls", handlers.GetMalls)
+		admin.GET("searchmall", handlers.SearchMalls)
 
 		admin.POST("addoperator", handlers.AddOperator)
 		admin.POST("adduser", handlers.AddUserByAdmin)
@@ -127,7 +130,8 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		kop.POST("receiveconfirm", handlers.ConfirmProductFromSlaughter)
 		kop.POST("newbatch", handlers.NewPackageBatch)
 		kop.POST("newproduct", handlers.NewPackageProduct)
-		kop.POST("endbatch", handlers.EndSlaughter)
+		kop.POST("endbatch", handlers.EndPackage)
+		kop.POST("pretransport", handlers.PreTransport)
 
 	}
 
@@ -135,7 +139,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	top := fsims.Group("/transportoperator", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
 		top.POST("start", handlers.TransportStart)
-		top.POST("end", handlers.TransportEnd)
+		//top.POST("end", handlers.TransportEnd)
 	}
 	return e
 }

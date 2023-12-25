@@ -40,6 +40,7 @@ func newPackageProduct(db *gorm.DB, opts ...gen.DOOption) packageProduct {
 	_packageProduct.State = field.NewInt(tableName, "state")
 	_packageProduct.HouseNumber = field.NewString(tableName, "house_number")
 	_packageProduct.BatchNumber = field.NewString(tableName, "batch_number")
+	_packageProduct.TransportBatchNumber = field.NewString(tableName, "transport_batch_number")
 
 	_packageProduct.fillFieldMap()
 
@@ -49,21 +50,22 @@ func newPackageProduct(db *gorm.DB, opts ...gen.DOOption) packageProduct {
 type packageProduct struct {
 	packageProductDo packageProductDo
 
-	ALL            field.Asterisk
-	ID             field.Uint
-	CreatedAt      field.Time
-	UpdatedAt      field.Time
-	DeletedAt      field.Field
-	Number         field.String
-	Type           field.Int
-	TypeName       field.String
-	PackMethod     field.Int
-	PackMethodName field.String
-	ShelfLife      field.String
-	Weight         field.Float64
-	State          field.Int
-	HouseNumber    field.String
-	BatchNumber    field.String
+	ALL                  field.Asterisk
+	ID                   field.Uint
+	CreatedAt            field.Time
+	UpdatedAt            field.Time
+	DeletedAt            field.Field
+	Number               field.String
+	Type                 field.Int
+	TypeName             field.String
+	PackMethod           field.Int
+	PackMethodName       field.String
+	ShelfLife            field.String
+	Weight               field.Float64
+	State                field.Int
+	HouseNumber          field.String
+	BatchNumber          field.String
+	TransportBatchNumber field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -94,6 +96,7 @@ func (p *packageProduct) updateTableName(table string) *packageProduct {
 	p.State = field.NewInt(table, "state")
 	p.HouseNumber = field.NewString(table, "house_number")
 	p.BatchNumber = field.NewString(table, "batch_number")
+	p.TransportBatchNumber = field.NewString(table, "transport_batch_number")
 
 	p.fillFieldMap()
 
@@ -122,7 +125,7 @@ func (p *packageProduct) GetFieldByName(fieldName string) (field.OrderExpr, bool
 }
 
 func (p *packageProduct) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 14)
+	p.fieldMap = make(map[string]field.Expr, 15)
 	p.fieldMap["id"] = p.ID
 	p.fieldMap["created_at"] = p.CreatedAt
 	p.fieldMap["updated_at"] = p.UpdatedAt
@@ -137,6 +140,7 @@ func (p *packageProduct) fillFieldMap() {
 	p.fieldMap["state"] = p.State
 	p.fieldMap["house_number"] = p.HouseNumber
 	p.fieldMap["batch_number"] = p.BatchNumber
+	p.fieldMap["transport_batch_number"] = p.TransportBatchNumber
 }
 
 func (p packageProduct) clone(db *gorm.DB) packageProduct {

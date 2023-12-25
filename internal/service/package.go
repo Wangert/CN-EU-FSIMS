@@ -2,6 +2,7 @@ package service
 
 import (
 	"CN-EU-FSIMS/internal/app/handlers/request"
+	"CN-EU-FSIMS/internal/app/models/coldchain"
 	"CN-EU-FSIMS/internal/app/models/pack"
 	"CN-EU-FSIMS/internal/app/models/product"
 	"CN-EU-FSIMS/internal/app/models/query"
@@ -19,20 +20,83 @@ const (
 	INIT_STATE_BATCH_PAC = 1
 	END_STATE_BATCH_PAC  = 2
 
-	INIT_PACPRO      = 1
-	WAREHOUSE_PACPRO = 2
-	SENDING_PACPRO   = 3
-	CONFIRM_PACPRO   = 4
+	INIT_PACPRO          = 1
+	WAREHOUSE_PACPRO     = 2
+	PRE_TRANSPORT_PACPRO = 3
+	TRANSPORT_PACPRO     = 4
 
-	INIT_PH    = 1
-	SENDING_PH = 2
-	CONFIRM_PH = 3
+	INIT_PH          = 1
+	PRE_TRANSPORT_PH = 2
+	TRANSPORT_PH     = 3
 
 	PACKAGE_PRODUCT_PREFIX = "PACPRO-"
 
 	BAG = 1
 	BOX = 2
 )
+
+func PreTransport(r *request.ReqPreTransport) error {
+	var err error
+	tx := query.Q.Begin()
+
+	defer func() {
+		if recover() != nil {
+			_ = tx.Rollback()
+		}
+	}()
+
+	// 获取package products
+	packProducts := make([]product.PackageProduct, len(r.PackageProductNumbers))
+
+	// 更新Package product状态（待运输确认）
+	// 更新Package house状态（待运输确认）
+	for i, number := range r.PackageProductNumbers {
+		_, err = tx.PackageProduct.WithContext(context.Background()).
+			Where(tx.PackageProduct.Number.Eq(number)).
+			Updates(map[string]interface{}{"state": PRE_TRANSPORT_PACPRO})
+		if err != nil {
+			_ = tx.Rollback()
+			return err
+		}
+
+		_, err = tx.PackWarehouse.WithContext(context.Background()).
+			Where(tx.PackWarehouse.ProductNumber.Eq(number)).
+			Updates(map[string]interface{}{"state": PRE_TRANSPORT_PH})
+		if err != nil {
+			_ = tx.Rollback()
+			return err
+		}
+
+		p, err := tx.PackageProduct.WithContext(context.Background()).
+			Where(tx.PackageProduct.Number.Eq(number)).First()
+		if err != nil {
+			_ = tx.Rollback()
+			return err
+		}
+
+		packProducts[i] = *p
+	}
+
+	bNum := BATCH_NUMBER_PREFIX + GenerateNumber(r)
+
+	// 新增transport batch，设置初始状态还未确认运输
+	tBatch := coldchain.TransportBatch{
+		BatchNumber: bNum,
+		TVNumber:    r.TVNumber,
+		State:       1,
+		PID:         "",
+		Worker:      r.Worker,
+		Products:    packProducts,
+	}
+
+	err = tx.TransportBatch.WithContext(context.Background()).Create(&tBatch)
+	if err != nil {
+		_ = tx.Rollback()
+		return err
+	}
+
+	return nil
+}
 
 func EndPackage(r *request.ReqEndPackage) (string, []string, error) {
 	var err error

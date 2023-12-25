@@ -67,3 +67,16 @@ type ReqSearchVehicle struct {
 	Driver        string `json:"driver" form:"driver"`
 	DriverPhone   string `json:"driver_phone" form:"driver_phone"`
 }
+
+type ReqAddMall struct {
+	Name        string `json:"name" form:"name"`
+	Address     string `json:"address" form:"address"`
+	State       uint   `json:"state" form:"state"`
+	LegalPerson string `json:"legal_person" form:"legal_person"`
+}
+
+type ReqSearchMall struct {
+	Name        string `json:"name" form:"name"`
+	Address     string `json:"address" form:"address"`
+	LegalPerson string `json:"legal_person" form:"legal_person"`
+}

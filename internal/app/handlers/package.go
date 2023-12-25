@@ -9,6 +9,33 @@ import (
 	"net/http"
 )
 
+func PreTransport(c *gin.Context) {
+	glog.Info("################## FSIMS Pre Transport ##################")
+
+	var r request.ReqPreTransport
+	if err := c.ShouldBind(&r); err != nil || !checkPreTransportParams(&r) {
+		response.MakeFail(c, http.StatusBadRequest, "pre-transport parameters error!")
+		return
+	}
+
+	err := service.PreTransport(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "pre-transport error!")
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, "pre-transport successful!")
+	return
+}
+
+func checkPreTransportParams(r *request.ReqPreTransport) bool {
+	if r.TVNumber == "" || r.Worker == "" || r.HouseNumber == "" || len(r.PackageProductNumbers) == 0 {
+		return false
+	}
+
+	return true
+}
+
 func EndPackage(c *gin.Context) {
 	glog.Info("################## FSIMS End Package ##################")
 

@@ -144,14 +144,49 @@ func SearchTransportVehicles(c *gin.Context) {
 		return
 	}
 
-	res, err := service.GetTransportVehiclesByCondition(condition)
+	tvs, count, err := service.GetTransportVehiclesByCondition(condition)
 	if err != nil {
 		glog.Errorln("query transport vehicles error!")
 		response.MakeFail(c, http.StatusBadRequest, "query transport vehicles error")
 		return
 	}
 
+	res := response.ResTransportVehicles{
+		TVs:   tvs,
+		Count: count,
+	}
 	glog.Info("query transport vehicles successful")
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func SearchMalls(c *gin.Context) {
+	glog.Info("################## Search Malls ##################")
+	var r request.ReqSearchMall
+	if err := c.ShouldBind(&r); err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "search malls parameters error!")
+		return
+	}
+
+	condition, err := utils.StructToMap(r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "search malls to map error!")
+		return
+	}
+
+	malls, count, err := service.GetMallsByCondition(condition)
+	if err != nil {
+		glog.Errorln("query malls error!")
+		response.MakeFail(c, http.StatusBadRequest, "query malls error")
+		return
+	}
+	glog.Info("query malls successful")
+
+	res := response.ResMalls{
+		Malls: malls,
+		Count: count,
+	}
+
 	response.MakeSuccess(c, http.StatusOK, res)
 	return
 }
@@ -224,6 +259,25 @@ func GetTransportVehicles(c *gin.Context) {
 	}
 
 	glog.Info("query all transport vehicles successful")
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func GetMalls(c *gin.Context) {
+	glog.Info("################## Get All Malls ##################")
+
+	malls, count, err := service.GetMalls()
+	if err != nil {
+		glog.Errorln("query all package houses error!")
+		response.MakeFail(c, http.StatusBadRequest, "query all package houses error")
+		return
+	}
+	glog.Info("query all package houses successful")
+
+	res := response.ResMalls{
+		Malls: malls,
+		Count: count,
+	}
 	response.MakeSuccess(c, http.StatusOK, res)
 	return
 }
@@ -331,6 +385,34 @@ func AddTransportVehicle(c *gin.Context) {
 
 	response.MakeSuccess(c, http.StatusOK, "add vehicle successful")
 	return
+}
+
+func AddMall(c *gin.Context) {
+	glog.Info("################## Add a FSIMS Mall ##################")
+	var r request.ReqAddMall
+	if err := c.ShouldBind(&r); err != nil || !checkAddMallParams(&r) {
+		response.MakeFail(c, http.StatusBadRequest, "Add a mall error!")
+		return
+	}
+
+	err := service.AddMall(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "new a mall error!")
+		return
+	}
+
+	glog.Info("add vehicle successful")
+
+	response.MakeSuccess(c, http.StatusOK, "add mall successful")
+	return
+}
+
+func checkAddMallParams(ph *request.ReqAddMall) bool {
+	if ph.Name == "" || ph.Address == "" || ph.LegalPerson == "" {
+		glog.Errorln("Missing add mall parameters")
+		return false
+	}
+	return true
 }
 
 func checkAddVehicleParams(v *request.ReqAddVehicle) bool {
