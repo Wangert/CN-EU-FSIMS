@@ -81,7 +81,7 @@ func Login(c *gin.Context) {
 	glog.Info("a", reqLogin.Account)
 	reqPwdHash := crypto.CalculateSHA256(reqLogin.Password, service.PASSWORD_SALT)
 
-	uuid, pwdHash, err := service.QueryFsimsUserUuidAndPwdHash(reqLogin.Account)
+	uuid, pwdHash, usertype, err := service.QueryFsimsUserUuidAndPwdHash(reqLogin.Account)
 	if err != nil {
 		glog.Errorln("query fsims password hash error!")
 		response.MakeFail(c, http.StatusBadRequest, err.Error())
@@ -105,10 +105,11 @@ func Login(c *gin.Context) {
 
 	glog.Infoln(reqLogin.Account, " login successful!")
 	glog.Infoln("token:", token)
-
+	glog.Infoln("type", usertype)
 	resLogin := response.ResLogin{
-		UUID:  uuid,
-		Token: token,
+		UUID:     uuid,
+		Token:    token,
+		UserType: usertype,
 	}
 	response.MakeSuccess(c, http.StatusOK, resLogin)
 }

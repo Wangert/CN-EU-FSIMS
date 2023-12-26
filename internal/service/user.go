@@ -8,6 +8,7 @@ import (
 	"CN-EU-FSIMS/utils/crypto"
 	"context"
 	"errors"
+
 	"gorm.io/gorm"
 
 	"github.com/golang/glog"
@@ -114,13 +115,13 @@ func QueryFsimsUserPwdHash(account string) (string, error) {
 	return fsimsUser.PasswordHash, nil
 }
 
-func QueryFsimsUserUuidAndPwdHash(account string) (uuid, password string, err error) {
+func QueryFsimsUserUuidAndPwdHash(account string) (uuid, password string, usertype int, err error) {
 	u := query.FSIMSUser
-	fsimsUser, err := u.WithContext(context.Background()).Where(u.Account.Eq(account)).Select(u.UUID, u.PasswordHash).First()
+	fsimsUser, err := u.WithContext(context.Background()).Where(u.Account.Eq(account)).Select(u.UUID, u.PasswordHash, u.Type).First()
 	if err != nil {
-		return "", "", err
+		return "", "", 0, err
 	}
-	return fsimsUser.UUID, fsimsUser.PasswordHash, nil
+	return fsimsUser.UUID, fsimsUser.PasswordHash, fsimsUser.Type, nil
 }
 
 func AddFsimsUser(user *request.ReqUser) error {
