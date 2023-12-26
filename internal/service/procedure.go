@@ -83,7 +83,7 @@ func NewProcedure(params *NewProcedureParams) (models.Procedure, error) {
 		SerialNumber:       0,
 		Operator:           params.Operator,
 		StartTimestamp:     ts,
-		CompletedTimestamp: ts,
+		CompletedTimestamp: nil,
 		PrePID:             prepid,
 		ICID:               "",
 	}
@@ -114,7 +114,7 @@ func AddProcedure(rcp request.ReqCreateProcedure) error {
 		SerialNumber:       0,
 		Operator:           rcp.Operator,
 		StartTimestamp:     ts,
-		CompletedTimestamp: ts,
+		CompletedTimestamp: nil,
 		PrePID:             prepid,
 		ICID:               "",
 	}
@@ -133,68 +133,68 @@ func AddProcedure(rcp request.ReqCreateProcedure) error {
 	return nil
 }
 
-func AddTransportProcedure(rcp request.TransportStart) error {
-	ts := time.Now()
-	pid, err := generatePID(rcp.Type, ts)
-	if err != nil {
-		return err
-	}
-
-	p := models.Procedure{
-		PID:                pid,
-		Type:               rcp.Type,
-		Name:               "",
-		PHash:              "",
-		CheckCode:          "",
-		SerialNumber:       0,
-		Operator:           rcp.Operator,
-		StartTimestamp:     ts,
-		CompletedTimestamp: ts,
-		PrePID:             rcp.PrePID,
-		ICID:               "",
-	}
-	d := coldchain.TransportProcedureData{
-		TID:                pid,
-		ProductNumber:      rcp.ProductNumber,
-		TVNumber:           rcp.CarNumber,
-		Operator:           rcp.Operator,
-		Temperature:        rcp.Temperature,
-		Source:             rcp.Source,
-		Destination:        rcp.Destination,
-		Humidity:           rcp.Humidity,
-		LoadingTime:        rcp.LoadingTime,
-		UnloadingTime:      "",
-		StartTimestamp:     ts,
-		CompletedTimestamp: ts,
-	}
-	tx := query.Q.Begin()
-	defer func() {
-		if recover() != nil || err != nil {
-			_ = tx.Rollback()
-		} else {
-			err = tx.Commit()
-			if err != nil {
-				panic(err)
-			}
-
-			glog.Infoln("add transport procedure successful!")
-		}
-	}()
-	cts := time.Now()
-	// 在数据库中新建Procedure
-	err = tx.Procedure.WithContext(context.Background()).Create(&p)
-	err = tx.TransportProcedureData.WithContext(context.Background()).Create(&d)
-	params := map[string]interface{}{"out_timestamp": cts, "state": 2}
-	info, err := tx.PackWarehouse.WithContext(context.Background()).Where(tx.PackWarehouse.ProductNumber.Eq(rcp.ProductNumber)).Updates(params)
-	glog.Info("info", info)
-	// 调用智能合约新建Procedure
-	_, err = fabric.UploadProcedure(pid, rcp.PrePID)
-	if err != nil {
-		return err
-	}
-	return nil
-
-}
+//func AddTransportProcedure(rcp request.TransportStart) error {
+//	ts := time.Now()
+//	pid, err := generatePID(rcp.Type, ts)
+//	if err != nil {
+//		return err
+//	}
+//
+//	p := models.Procedure{
+//		PID:                pid,
+//		Type:               rcp.Type,
+//		Name:               "",
+//		PHash:              "",
+//		CheckCode:          "",
+//		SerialNumber:       0,
+//		Operator:           rcp.Operator,
+//		StartTimestamp:     ts,
+//		CompletedTimestamp: ts,
+//		PrePID:             rcp.PrePID,
+//		ICID:               "",
+//	}
+//	d := coldchain.TransportProcedureData{
+//		TID:                pid,
+//		ProductNumber:      rcp.ProductNumber,
+//		TVNumber:           rcp.CarNumber,
+//		Operator:           rcp.Operator,
+//		Temperature:        rcp.Temperature,
+//		Source:             rcp.Source,
+//		Destination:        rcp.Destination,
+//		Humidity:           rcp.Humidity,
+//		LoadingTime:        rcp.LoadingTime,
+//		UnloadingTime:      "",
+//		StartTimestamp:     ts,
+//		CompletedTimestamp: ts,
+//	}
+//	tx := query.Q.Begin()
+//	defer func() {
+//		if recover() != nil || err != nil {
+//			_ = tx.Rollback()
+//		} else {
+//			err = tx.Commit()
+//			if err != nil {
+//				panic(err)
+//			}
+//
+//			glog.Infoln("add transport procedure successful!")
+//		}
+//	}()
+//	cts := time.Now()
+//	// 在数据库中新建Procedure
+//	err = tx.Procedure.WithContext(context.Background()).Create(&p)
+//	err = tx.TransportProcedureData.WithContext(context.Background()).Create(&d)
+//	params := map[string]interface{}{"out_timestamp": cts, "state": 2}
+//	info, err := tx.PackWarehouse.WithContext(context.Background()).Where(tx.PackWarehouse.ProductNumber.Eq(rcp.ProductNumber)).Updates(params)
+//	glog.Info("info", info)
+//	// 调用智能合约新建Procedure
+//	_, err = fabric.UploadProcedure(pid, rcp.PrePID)
+//	if err != nil {
+//		return err
+//	}
+//	return nil
+//
+//}
 
 // 该函数未完成，仅仅支持对Pasture过程的PHash进行计算!!!!!
 func generatePHash(ph *ProcedureHeader, data interface{}) (string, error) {
@@ -280,22 +280,22 @@ func CommitPackProcedure(cpp request.CommitPackProcedure) (string, error) {
 }
 
 // TransportProcedure提交
-func TransportEnd(rte request.TransportEnd) (string, error) {
-	// 转换为pasture data
-	cts := time.Now()
-	pid := rte.PID
-	p := query.TransportProcedureData
-	params := map[string]interface{}{"unloading_time": rte.UnloadingTime, "completed_timestamp": cts}
-	info, err := p.WithContext(context.Background()).Where(p.TID.Eq(pid)).Updates(params)
-	if err != nil {
-		glog.Errorln(info)
-		return "", err
-	}
-	q := query.TransportProcedureData
-	data, err := q.WithContext(context.Background()).Where(q.TID.Eq(rte.PID)).First()
-	ncc, err := BasicCommitProcedure(pid, *data)
-	return ncc, err
-}
+//func TransportEnd(rte request.TransportEnd) (string, error) {
+//	// 转换为pasture data
+//	cts := time.Now()
+//	pid := rte.PID
+//	p := query.TransportProcedureData
+//	params := map[string]interface{}{"unloading_time": rte.UnloadingTime, "completed_timestamp": cts}
+//	info, err := p.WithContext(context.Background()).Where(p.TID.Eq(pid)).Updates(params)
+//	if err != nil {
+//		glog.Errorln(info)
+//		return "", err
+//	}
+//	q := query.TransportProcedureData
+//	data, err := q.WithContext(context.Background()).Where(q.TID.Eq(rte.PID)).First()
+//	ncc, err := BasicCommitProcedure(pid, *data)
+//	return ncc, err
+//}
 
 // 计算checkcode并更新procedure
 func BasicCommitProcedureWithTx(tx *query.QueryTx, pid string, data interface{}) (string, error) {

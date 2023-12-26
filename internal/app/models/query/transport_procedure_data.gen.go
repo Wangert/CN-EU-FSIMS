@@ -27,22 +27,10 @@ func newTransportProcedureData(db *gorm.DB, opts ...gen.DOOption) transportProce
 
 	tableName := _transportProcedureData.transportProcedureDataDo.TableName()
 	_transportProcedureData.ALL = field.NewAsterisk(tableName)
-	_transportProcedureData.ID = field.NewUint(tableName, "id")
-	_transportProcedureData.CreatedAt = field.NewTime(tableName, "created_at")
-	_transportProcedureData.UpdatedAt = field.NewTime(tableName, "updated_at")
-	_transportProcedureData.DeletedAt = field.NewField(tableName, "deleted_at")
-	_transportProcedureData.TID = field.NewString(tableName, "t_id")
-	_transportProcedureData.ProductNumber = field.NewString(tableName, "product_number")
-	_transportProcedureData.TVNumber = field.NewString(tableName, "tv_number")
-	_transportProcedureData.Operator = field.NewString(tableName, "operator")
 	_transportProcedureData.Temperature = field.NewString(tableName, "temperature")
 	_transportProcedureData.Source = field.NewString(tableName, "source")
 	_transportProcedureData.Destination = field.NewString(tableName, "destination")
 	_transportProcedureData.Humidity = field.NewString(tableName, "humidity")
-	_transportProcedureData.LoadingTime = field.NewString(tableName, "loading_time")
-	_transportProcedureData.UnloadingTime = field.NewString(tableName, "unloading_time")
-	_transportProcedureData.StartTimestamp = field.NewTime(tableName, "start_timestamp")
-	_transportProcedureData.CompletedTimestamp = field.NewTime(tableName, "completed_timestamp")
 
 	_transportProcedureData.fillFieldMap()
 
@@ -52,23 +40,11 @@ func newTransportProcedureData(db *gorm.DB, opts ...gen.DOOption) transportProce
 type transportProcedureData struct {
 	transportProcedureDataDo transportProcedureDataDo
 
-	ALL                field.Asterisk
-	ID                 field.Uint
-	CreatedAt          field.Time
-	UpdatedAt          field.Time
-	DeletedAt          field.Field
-	TID                field.String
-	ProductNumber      field.String
-	TVNumber           field.String
-	Operator           field.String
-	Temperature        field.String
-	Source             field.String
-	Destination        field.String
-	Humidity           field.String
-	LoadingTime        field.String
-	UnloadingTime      field.String
-	StartTimestamp     field.Time
-	CompletedTimestamp field.Time
+	ALL         field.Asterisk
+	Temperature field.String
+	Source      field.String
+	Destination field.String
+	Humidity    field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -85,22 +61,10 @@ func (t transportProcedureData) As(alias string) *transportProcedureData {
 
 func (t *transportProcedureData) updateTableName(table string) *transportProcedureData {
 	t.ALL = field.NewAsterisk(table)
-	t.ID = field.NewUint(table, "id")
-	t.CreatedAt = field.NewTime(table, "created_at")
-	t.UpdatedAt = field.NewTime(table, "updated_at")
-	t.DeletedAt = field.NewField(table, "deleted_at")
-	t.TID = field.NewString(table, "t_id")
-	t.ProductNumber = field.NewString(table, "product_number")
-	t.TVNumber = field.NewString(table, "tv_number")
-	t.Operator = field.NewString(table, "operator")
 	t.Temperature = field.NewString(table, "temperature")
 	t.Source = field.NewString(table, "source")
 	t.Destination = field.NewString(table, "destination")
 	t.Humidity = field.NewString(table, "humidity")
-	t.LoadingTime = field.NewString(table, "loading_time")
-	t.UnloadingTime = field.NewString(table, "unloading_time")
-	t.StartTimestamp = field.NewTime(table, "start_timestamp")
-	t.CompletedTimestamp = field.NewTime(table, "completed_timestamp")
 
 	t.fillFieldMap()
 
@@ -129,23 +93,11 @@ func (t *transportProcedureData) GetFieldByName(fieldName string) (field.OrderEx
 }
 
 func (t *transportProcedureData) fillFieldMap() {
-	t.fieldMap = make(map[string]field.Expr, 16)
-	t.fieldMap["id"] = t.ID
-	t.fieldMap["created_at"] = t.CreatedAt
-	t.fieldMap["updated_at"] = t.UpdatedAt
-	t.fieldMap["deleted_at"] = t.DeletedAt
-	t.fieldMap["t_id"] = t.TID
-	t.fieldMap["product_number"] = t.ProductNumber
-	t.fieldMap["tv_number"] = t.TVNumber
-	t.fieldMap["operator"] = t.Operator
+	t.fieldMap = make(map[string]field.Expr, 4)
 	t.fieldMap["temperature"] = t.Temperature
 	t.fieldMap["source"] = t.Source
 	t.fieldMap["destination"] = t.Destination
 	t.fieldMap["humidity"] = t.Humidity
-	t.fieldMap["loading_time"] = t.LoadingTime
-	t.fieldMap["unloading_time"] = t.UnloadingTime
-	t.fieldMap["start_timestamp"] = t.StartTimestamp
-	t.fieldMap["completed_timestamp"] = t.CompletedTimestamp
 }
 
 func (t transportProcedureData) clone(db *gorm.DB) transportProcedureData {

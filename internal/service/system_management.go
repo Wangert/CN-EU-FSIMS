@@ -2,12 +2,12 @@ package service
 
 import (
 	"CN-EU-FSIMS/internal/app/handlers/request"
-	"CN-EU-FSIMS/internal/app/handlers/response"
 	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/app/models/coldchain"
 	"CN-EU-FSIMS/internal/app/models/pack"
 	"CN-EU-FSIMS/internal/app/models/pasture"
 	"CN-EU-FSIMS/internal/app/models/query"
+	"CN-EU-FSIMS/internal/app/models/sell"
 	"CN-EU-FSIMS/internal/app/models/slaughter"
 	"CN-EU-FSIMS/utils/crypto"
 	"context"
@@ -23,6 +23,7 @@ const (
 	SLAUGHTER_HOUSE_PREFIX = "SLAHP"
 	PACKAGE_HOUSE_PREFIX   = "PACHP"
 	VEHICLE_PREFIX         = "VEH"
+	MALL_PREFIX            = "MALL"
 )
 
 type ReqSearchVehicle struct {
@@ -31,7 +32,37 @@ type ReqSearchVehicle struct {
 	DriverPhone   string `json:"driver_phone" form:"driver_phone"`
 }
 
-func GetTransportVehiclesByCondition(condition map[string]interface{}) ([]response.ResTransportVehicle, error) {
+func GetMallsByCondition(condition map[string]interface{}) ([]sell.MallInfo, int64, error) {
+	var name, addr, lp string
+	if val, ok := condition["name"]; ok {
+		name = val.(string)
+	}
+	if val, ok := condition["address"]; ok {
+		addr = val.(string)
+	}
+	if val, ok := condition["legal_person"]; ok {
+		lp = val.(string)
+	}
+
+	q := query.Mall
+	malls, err := q.WithContext(context.Background()).
+		Where(q.Name.Like("%" + name + "%")).
+		Where(q.Address.Like("%" + addr + "%")).
+		Where(q.LegalPerson.Like("%" + lp + "%")).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(malls)
+	mallsInfo := make([]sell.MallInfo, count)
+	for i, m := range malls {
+		mallsInfo[i] = sell.ToMallInfo(m)
+	}
+
+	return mallsInfo, int64(count), nil
+}
+
+func GetTransportVehiclesByCondition(condition map[string]interface{}) ([]coldchain.TransportVehicleInfo, int64, error) {
 	var ln, d, dp string
 	if val, ok := condition["license_number"]; ok {
 		ln = val.(string)
@@ -49,15 +80,16 @@ func GetTransportVehiclesByCondition(condition map[string]interface{}) ([]respon
 		Where(q.Driver.Like("%" + d + "%")).
 		Where(q.DriverPhone.Like("%" + dp + "%")).Find()
 	if err != nil {
-		return []response.ResTransportVehicle{}, err
+		return nil, 0, err
 	}
 
-	res := make([]response.ResTransportVehicle, len(tvs))
+	count := len(tvs)
+	res := make([]coldchain.TransportVehicleInfo, count)
 	for i, tv := range tvs {
-		res[i] = coldchain.TransportVehicleToRes(tv)
+		res[i] = coldchain.ToTransportVehicleInfo(tv)
 	}
 
-	return res, nil
+	return res, int64(count), nil
 }
 
 func GetPasturesByCondition(condition map[string]interface{}) ([]models.House, int64, error) {
@@ -195,18 +227,33 @@ func GetPackageHouses() ([]models.House, int64, error) {
 	return houses, int64(count), nil
 }
 
-func GetTransportVehicles() ([]response.ResTransportVehicle, error) {
+func GetTransportVehicles() ([]coldchain.TransportVehicleInfo, error) {
 	tvs, err := query.TransportVehicle.WithContext(context.Background()).Find()
 	if err != nil {
-		return []response.ResTransportVehicle{}, err
+		return nil, err
 	}
 
-	res := make([]response.ResTransportVehicle, len(tvs))
+	res := make([]coldchain.TransportVehicleInfo, len(tvs))
 	for i, tv := range tvs {
-		res[i] = coldchain.TransportVehicleToRes(tv)
+		res[i] = coldchain.ToTransportVehicleInfo(tv)
 	}
 
 	return res, nil
+}
+
+func GetMalls() ([]sell.MallInfo, int64, error) {
+	malls, err := query.Mall.WithContext(context.Background()).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(malls)
+	mallsInfo := make([]sell.MallInfo, count)
+	for i, m := range malls {
+		mallsInfo[i] = sell.ToMallInfo(m)
+	}
+
+	return mallsInfo, int64(count), nil
 }
 
 func AddFsimsOperator(o *request.ReqAddOperator) (string, error) {
@@ -323,6 +370,26 @@ func AddVehicle(v *request.ReqAddVehicle) error {
 	}
 
 	err := query.TransportVehicle.WithContext(context.Background()).Create(&tv)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func AddMall(r *request.ReqAddMall) error {
+	number := MALL_PREFIX + "-" + GenerateNumber(r)
+
+	mall := sell.Mall{
+		Number:      number,
+		Name:        r.Name,
+		Address:     r.Address,
+		State:       1,
+		LegalPerson: r.LegalPerson,
+		Goods:       nil,
+	}
+
+	err := query.Mall.WithContext(context.Background()).Create(&mall)
 	if err != nil {
 		return err
 	}

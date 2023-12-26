@@ -31,3 +31,10 @@ type ReqSendToTransportVehicle struct {
 	Operator      string `json:"operator" form:"operator"`
 	VehicleNumber string `json:"vehicle_number" form:"vehicle_number"`
 }
+
+type ReqPreTransport struct {
+	HouseNumber           string   `json:"house_number" form:"house_number"`
+	TVNumber              string   `json:"tv_number" form:"tv_number"`
+	Worker                string   `json:"worker" form:"worker"`
+	PackageProductNumbers []string `json:"package_product_numbers" form:"package_product_numbers"`
+}
