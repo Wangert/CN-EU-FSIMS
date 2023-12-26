@@ -24,10 +24,12 @@ const (
 	WAREHOUSE_PACPRO     = 2
 	PRE_TRANSPORT_PACPRO = 3
 	TRANSPORT_PACPRO     = 4
+	TRANSPORT_END_PACPRO = 5
 
 	INIT_PH          = 1
 	PRE_TRANSPORT_PH = 2
 	TRANSPORT_PH     = 3
+	TRANSPORT_END_PH = 4
 
 	PACKAGE_PRODUCT_PREFIX = "PACPRO-"
 
@@ -83,8 +85,7 @@ func PreTransport(r *request.ReqPreTransport) error {
 	tBatch := coldchain.TransportBatch{
 		BatchNumber: bNum,
 		TVNumber:    r.TVNumber,
-		State:       1,
-		PID:         "",
+		State:       0,
 		Worker:      r.Worker,
 		Products:    packProducts,
 	}

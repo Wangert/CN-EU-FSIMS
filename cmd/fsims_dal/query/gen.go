@@ -27,6 +27,7 @@ var (
 	PackageBatch                      *packageBatch
 	PackageHouse                      *packageHouse
 	PackageProduct                    *packageProduct
+	PackageProductAndTransportPIDMap  *packageProductAndTransportPIDMap
 	PackageReceiveRecord              *packageReceiveRecord
 	PastureAir                        *pastureAir
 	PastureFloorBedding               *pastureFloorBedding
@@ -73,6 +74,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	PackageBatch = &Q.PackageBatch
 	PackageHouse = &Q.PackageHouse
 	PackageProduct = &Q.PackageProduct
+	PackageProductAndTransportPIDMap = &Q.PackageProductAndTransportPIDMap
 	PackageReceiveRecord = &Q.PackageReceiveRecord
 	PastureAir = &Q.PastureAir
 	PastureFloorBedding = &Q.PastureFloorBedding
@@ -120,6 +122,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		PackageBatch:                      newPackageBatch(db, opts...),
 		PackageHouse:                      newPackageHouse(db, opts...),
 		PackageProduct:                    newPackageProduct(db, opts...),
+		PackageProductAndTransportPIDMap:  newPackageProductAndTransportPIDMap(db, opts...),
 		PackageReceiveRecord:              newPackageReceiveRecord(db, opts...),
 		PastureAir:                        newPastureAir(db, opts...),
 		PastureFloorBedding:               newPastureFloorBedding(db, opts...),
@@ -168,6 +171,7 @@ type Query struct {
 	PackageBatch                      packageBatch
 	PackageHouse                      packageHouse
 	PackageProduct                    packageProduct
+	PackageProductAndTransportPIDMap  packageProductAndTransportPIDMap
 	PackageReceiveRecord              packageReceiveRecord
 	PastureAir                        pastureAir
 	PastureFloorBedding               pastureFloorBedding
@@ -217,6 +221,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		PackageBatch:                      q.PackageBatch.clone(db),
 		PackageHouse:                      q.PackageHouse.clone(db),
 		PackageProduct:                    q.PackageProduct.clone(db),
+		PackageProductAndTransportPIDMap:  q.PackageProductAndTransportPIDMap.clone(db),
 		PackageReceiveRecord:              q.PackageReceiveRecord.clone(db),
 		PastureAir:                        q.PastureAir.clone(db),
 		PastureFloorBedding:               q.PastureFloorBedding.clone(db),
@@ -273,6 +278,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		PackageBatch:                      q.PackageBatch.replaceDB(db),
 		PackageHouse:                      q.PackageHouse.replaceDB(db),
 		PackageProduct:                    q.PackageProduct.replaceDB(db),
+		PackageProductAndTransportPIDMap:  q.PackageProductAndTransportPIDMap.replaceDB(db),
 		PackageReceiveRecord:              q.PackageReceiveRecord.replaceDB(db),
 		PastureAir:                        q.PastureAir.replaceDB(db),
 		PastureFloorBedding:               q.PastureFloorBedding.replaceDB(db),
@@ -319,6 +325,7 @@ type queryCtx struct {
 	PackageBatch                      IPackageBatchDo
 	PackageHouse                      IPackageHouseDo
 	PackageProduct                    IPackageProductDo
+	PackageProductAndTransportPIDMap  IPackageProductAndTransportPIDMapDo
 	PackageReceiveRecord              IPackageReceiveRecordDo
 	PastureAir                        IPastureAirDo
 	PastureFloorBedding               IPastureFloorBeddingDo
@@ -365,6 +372,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		PackageBatch:                      q.PackageBatch.WithContext(ctx),
 		PackageHouse:                      q.PackageHouse.WithContext(ctx),
 		PackageProduct:                    q.PackageProduct.WithContext(ctx),
+		PackageProductAndTransportPIDMap:  q.PackageProductAndTransportPIDMap.WithContext(ctx),
 		PackageReceiveRecord:              q.PackageReceiveRecord.WithContext(ctx),
 		PastureAir:                        q.PastureAir.WithContext(ctx),
 		PastureFloorBedding:               q.PastureFloorBedding.WithContext(ctx),

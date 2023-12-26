@@ -34,8 +34,8 @@ func newTransportBatch(db *gorm.DB, opts ...gen.DOOption) transportBatch {
 	_transportBatch.BatchNumber = field.NewString(tableName, "batch_number")
 	_transportBatch.TVNumber = field.NewString(tableName, "tv_number")
 	_transportBatch.State = field.NewInt(tableName, "state")
-	_transportBatch.PID = field.NewString(tableName, "p_id")
 	_transportBatch.Worker = field.NewString(tableName, "worker")
+	_transportBatch.MallNumber = field.NewString(tableName, "mall_number")
 	_transportBatch.Products = transportBatchHasManyProducts{
 		db: db.Session(&gorm.Session{}),
 
@@ -58,8 +58,8 @@ type transportBatch struct {
 	BatchNumber field.String
 	TVNumber    field.String
 	State       field.Int
-	PID         field.String
 	Worker      field.String
+	MallNumber  field.String
 	Products    transportBatchHasManyProducts
 
 	fieldMap map[string]field.Expr
@@ -84,8 +84,8 @@ func (t *transportBatch) updateTableName(table string) *transportBatch {
 	t.BatchNumber = field.NewString(table, "batch_number")
 	t.TVNumber = field.NewString(table, "tv_number")
 	t.State = field.NewInt(table, "state")
-	t.PID = field.NewString(table, "p_id")
 	t.Worker = field.NewString(table, "worker")
+	t.MallNumber = field.NewString(table, "mall_number")
 
 	t.fillFieldMap()
 
@@ -122,8 +122,8 @@ func (t *transportBatch) fillFieldMap() {
 	t.fieldMap["batch_number"] = t.BatchNumber
 	t.fieldMap["tv_number"] = t.TVNumber
 	t.fieldMap["state"] = t.State
-	t.fieldMap["p_id"] = t.PID
 	t.fieldMap["worker"] = t.Worker
+	t.fieldMap["mall_number"] = t.MallNumber
 
 }
 

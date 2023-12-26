@@ -138,8 +138,14 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	//transportoperator router group
 	top := fsims.Group("/transportoperator", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
-		top.POST("start", handlers.TransportStart)
-		//top.POST("end", handlers.TransportEnd)
+		top.POST("start", handlers.StartTransport)
+		top.POST("end", handlers.EndTransport)
+	}
+
+	// mall
+	mop := fsims.Group("malloperator", middlewares.JwtAuth())
+	{
+		mop.GET("goods", handlers.GetMallGoods)
 	}
 	return e
 }

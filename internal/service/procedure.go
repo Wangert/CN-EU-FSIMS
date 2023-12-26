@@ -83,7 +83,7 @@ func NewProcedure(params *NewProcedureParams) (models.Procedure, error) {
 		SerialNumber:       0,
 		Operator:           params.Operator,
 		StartTimestamp:     ts,
-		CompletedTimestamp: ts,
+		CompletedTimestamp: nil,
 		PrePID:             prepid,
 		ICID:               "",
 	}
@@ -114,7 +114,7 @@ func AddProcedure(rcp request.ReqCreateProcedure) error {
 		SerialNumber:       0,
 		Operator:           rcp.Operator,
 		StartTimestamp:     ts,
-		CompletedTimestamp: ts,
+		CompletedTimestamp: nil,
 		PrePID:             prepid,
 		ICID:               "",
 	}
