@@ -48,7 +48,7 @@ func PreTransport(r *request.ReqPreTransport) error {
 			_ = tx.Rollback()
 		}
 	}()
-
+	bNum := BATCH_NUMBER_PREFIX + GenerateNumber(r)
 	// 获取package products
 	packProducts := make([]product.PackageProduct, len(r.PackageProductNumbers))
 
@@ -60,6 +60,7 @@ func PreTransport(r *request.ReqPreTransport) error {
 			Updates(map[string]interface{}{"state": PRE_TRANSPORT_PACPRO})
 		if err != nil {
 			_ = tx.Rollback()
+			glog.Info("1")
 			return err
 		}
 
@@ -81,14 +82,13 @@ func PreTransport(r *request.ReqPreTransport) error {
 		packProducts[i] = *p
 	}
 
-	bNum := BATCH_NUMBER_PREFIX + GenerateNumber(r)
-
 	// 新增transport batch，设置初始状态还未确认运输
 	tBatch := coldchain.TransportBatch{
 		BatchNumber: bNum,
 		TVNumber:    r.TVNumber,
 		State:       0,
 		Worker:      r.Worker,
+		MallNumber:  r.MallNumber,
 		Products:    packProducts,
 	}
 
@@ -98,6 +98,11 @@ func PreTransport(r *request.ReqPreTransport) error {
 		return err
 	}
 
+	err = tx.Commit()
+	if err != nil {
+		_ = tx.Rollback()
+		return err
+	}
 	return nil
 }
 
@@ -422,4 +427,19 @@ func GetPackageInfoByNumber(num string) (pack.PackageHouseInfo, error) {
 
 	phinfo := pack.ToPackageHouseInfo(ph)
 	return phinfo, nil
+}
+
+func GetPackageProducts(num string) ([]product.PackageProductInfo, int64, error) {
+	q := query.PackageProduct
+	products, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(num)).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+	count := len(products)
+	records := make([]product.PackageProductInfo, count)
+	for i, sw := range products {
+		records[i] = product.ToPackageProductInfo(sw)
+	}
+
+	return records, int64(count), nil
 }

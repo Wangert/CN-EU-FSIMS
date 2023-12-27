@@ -137,6 +137,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 
 		kop.GET("receiverecords", handlers.GetPackageReceiveRecords)
 		kop.GET("batches", handlers.GetPackageBatches)
+		kop.GET("productsrecords", handlers.GetPackageProductsRecords)
 		kop.GET("warehouserecords", handlers.GetPackageWarehouseRecords)
 		kop.GET("searchhouse", handlers.GetUserHouse)
 		kop.POST("receiveconfirm", handlers.ConfirmProductFromSlaughter)
@@ -144,14 +145,20 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		kop.POST("newproduct", handlers.NewPackageProduct)
 		kop.POST("endbatch", handlers.EndPackage)
 		kop.POST("pretransport", handlers.PreTransport)
+		kop.GET("transportvehicles", handlers.GetTransportVehicles)
+		kop.GET("malls", handlers.GetMalls)
 
 	}
 
 	//transportoperator router group
 	top := fsims.Group("/transportoperator", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
+		top.GET("searchhouse", handlers.GetUserHouse)
 		top.POST("start", handlers.StartTransport)
+		top.GET("batches", handlers.GetTransportBatches)
+		top.GET("mall", handlers.GetMall)
 		top.POST("end", handlers.EndTransport)
+		top.GET("goods", handlers.GetMallGoods)
 	}
 
 	// mall

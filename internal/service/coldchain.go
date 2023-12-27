@@ -210,3 +210,19 @@ func StartTransport(r *request.ReqStartTransport) error {
 
 	return nil
 }
+
+func GetTransportBatches(houseNum string) ([]coldchain.TransportBatchInfo, int64, error) {
+	q := query.TransportBatch
+	pbs, err := q.WithContext(context.Background()).Where(q.TVNumber.Eq(houseNum)).Preload(q.Products).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(pbs)
+	records := make([]coldchain.TransportBatchInfo, count)
+	for i, pb := range pbs {
+		records[i] = coldchain.ToTransportBatchInfo(pb)
+	}
+
+	return records, int64(count), nil
+}

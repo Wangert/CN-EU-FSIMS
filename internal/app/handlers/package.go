@@ -18,7 +18,11 @@ func PreTransport(c *gin.Context) {
 		response.MakeFail(c, http.StatusBadRequest, "pre-transport parameters error!")
 		return
 	}
-
+	glog.Info(r.HouseNumber)
+	glog.Info(r.MallNumber)
+	glog.Info(r.PackageProductNumbers)
+	glog.Info(r.TVNumber)
+	glog.Info(r.Worker)
 	err := service.PreTransport(&r)
 	if err != nil {
 		response.MakeFail(c, http.StatusBadRequest, "pre-transport error!")
@@ -183,6 +187,24 @@ func GetPackageWarehouseRecords(c *gin.Context) {
 	}
 
 	res := response.ResPackageWarehouseRecords{
+		Records: pws,
+		Count:   count,
+	}
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func GetPackageProductsRecords(c *gin.Context) {
+	glog.Info("################## FSIMS Get Package Products Records ##################")
+
+	houseNum := c.Query("house_number")
+	pws, count, err := service.GetPackageProducts(houseNum)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "get package products records error!")
+		return
+	}
+
+	res := response.ResPackageProductsRecords{
 		Records: pws,
 		Count:   count,
 	}

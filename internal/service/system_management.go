@@ -241,6 +241,15 @@ func GetTransportVehicles() ([]coldchain.TransportVehicleInfo, error) {
 	return res, nil
 }
 
+func GetMall(num string) (string, error) {
+	mall, err := query.Mall.WithContext(context.Background()).Where(query.Mall.Number.Eq(num)).First()
+	if err != nil {
+		return "", err
+	}
+	mallName := mall.Name
+	return mallName, nil
+}
+
 func GetMalls() ([]sell.MallInfo, int64, error) {
 	malls, err := query.Mall.WithContext(context.Background()).Find()
 	if err != nil {

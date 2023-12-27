@@ -264,6 +264,22 @@ func GetTransportVehicles(c *gin.Context) {
 	return
 }
 
+func GetMall(c *gin.Context) {
+	glog.Info("################## Get Mall Name ##################")
+	number := c.Query("mall_number")
+	glog.Info("mall_number:", number)
+	mall, err := service.GetMall(number)
+	if err != nil {
+		glog.Errorln("query all package houses error!")
+		response.MakeFail(c, http.StatusBadRequest, "query all package houses error")
+		return
+	}
+	glog.Info("query all package houses successful")
+
+	response.MakeSuccess(c, http.StatusOK, mall)
+	return
+}
+
 func GetMalls(c *gin.Context) {
 	glog.Info("################## Get All Malls ##################")
 

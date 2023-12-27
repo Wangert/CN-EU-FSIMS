@@ -81,7 +81,11 @@ func AutoMigrate() {
 
 	err = DB.AutoMigrate(&product.Cow{}, &pasture.FeedingBatch{}, &warehouse.PastureWarehouse{},
 		&warehouse.SlaughterReceiveRecord{}, &slaughter.SlaughterBatch{}, &product.SlaughterProduct{}, &warehouse.SlaughterWarehouse{},
-		&warehouse.PackageReceiveRecord{}, &pack.PackageBatch{}, &product.PackageProduct{}, &warehouse.PackWarehouse{}, &coldchain.TransportBatch{}, &coldchain.PackageProductAndTransportPIDMap{}, &product.MallGood{})
+		&warehouse.PackageReceiveRecord{}, &pack.PackageBatch{}, &product.PackageProduct{}, &warehouse.PackWarehouse{}, &coldchain.TransportBatch{})
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = DB.AutoMigrate(&coldchain.PackageProductAndTransportPIDMap{}, &product.MallGood{})
 	if err != nil {
 		fmt.Println(err)
 	}
