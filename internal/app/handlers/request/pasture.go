@@ -1,5 +1,9 @@
 package request
 
+import (
+	"CN-EU-FSIMS/internal/app/models/pasture"
+)
+
 type ReqAddCow struct {
 	Age         int     `json:"age" form:"age"`
 	Weight      float64 `json:"weight" form:"weight"`
@@ -26,4 +30,28 @@ type ReqSendToSlaughter struct {
 	CowNumber            string `json:"cow_number" form:"cow_number"`
 	Operator             string `json:"operator" form:"operator"`
 	SlaughterHouseNumber string `json:"slaughter_house_number" form:"slaughter_house_number"`
+}
+
+type ReqAddPastureFeedHeavyMetal struct {
+	HouseNumber string         `json:"house_number"`
+	Ass         pasture.AsInfo `json:"aas"` //砷元素
+	Pb          pasture.PbInfo `json:"pb"`  //铅元素
+	Cd          pasture.CdInfo `json:"cd"`  //镉元素
+	Cr          pasture.CrInfo `json:"cr"`  //铬元素
+}
+
+type ReqAddPastureFeedCass struct {
+	////饲料中真菌毒素、农兽药残留
+	HouseNumber string               `json:"house_number"`
+	Afb1        pasture.Afb1Info     `json:"afb_1"`       //黄曲霉毒素B1
+	Don         pasture.DonInfo      `json:"don"`         //玉米赤霉烯酮
+	T2toxin     pasture.T2toxinInfo  `json:"t2Toxin"`     //脱氧雪腐镰刀菌烯醇（呕吐毒素）
+	T2VomZea    pasture.T2VomZeaInfo `json:"t_2_vom_zea"` //T-2毒素 伏马毒素 赭曲霉毒素A
+}
+
+type ReqAddPastureWaterRecord struct {
+	HouseNumber string                 `json:"house_number"` //时间记录
+	OapGci      pasture.OapGciInfo     `json:"oap_gci"`      //感官性状和一般化学指标
+	ToxIndex    pasture.ToxIndexInfo   `json:"tox_index"`    //毒理性指标
+	MicroIndex  pasture.MicroIndexInfo `json:"micro_index"`  //微生物指标
 }

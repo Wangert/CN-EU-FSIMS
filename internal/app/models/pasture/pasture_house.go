@@ -21,7 +21,6 @@ type PastureHouse struct {
 	CassRecords        []Cass                       `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"cass_records"`
 	WaterRecords       []WaterRecord                `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"water_records"`
 	EnvironmentRecords []FarmEnvironment            `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"environment_records"`
-	CowsInfoRecords    []Cow                        `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"cow_info_records"`
 }
 
 type PastureHouseInfo struct {

@@ -5,6 +5,7 @@ import (
 	"CN-EU-FSIMS/internal/app/models/coldchain"
 	"CN-EU-FSIMS/internal/app/models/pack"
 	"CN-EU-FSIMS/internal/app/models/pasture"
+	"CN-EU-FSIMS/internal/app/models/premortem"
 	"CN-EU-FSIMS/internal/app/models/product"
 	"CN-EU-FSIMS/internal/app/models/query"
 	"CN-EU-FSIMS/internal/app/models/sell"
@@ -81,6 +82,20 @@ func AutoMigrate() {
 	err = DB.AutoMigrate(&product.Cow{}, &pasture.FeedingBatch{}, &warehouse.PastureWarehouse{},
 		&warehouse.SlaughterReceiveRecord{}, &slaughter.SlaughterBatch{}, &product.SlaughterProduct{}, &warehouse.SlaughterWarehouse{},
 		&warehouse.PackageReceiveRecord{}, &pack.PackageBatch{}, &product.PackageProduct{}, &warehouse.PackWarehouse{}, &coldchain.TransportBatch{}, &coldchain.PackageProductAndTransportPIDMap{}, &product.MallGood{})
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	//传感器数据
+	err = DB.AutoMigrate(&pasture.Cass{}, &pasture.Afb1{}, &pasture.Don{}, &pasture.T2toxin{}, &pasture.T2VomZea{},
+		&pasture.FarmEnvironment{}, &pasture.Buffer{}, &pasture.CattleFarm{}, &pasture.CowHouse{}, &pasture.Environment{}, &pasture.PaddingRequire{}, &pasture.WastedWaterIndex{}, &pasture.FarmDisRecord{},
+		&pasture.HeavyMetal{}, &pasture.As{}, &pasture.Pb{}, &pasture.Cd{}, &pasture.Cr{},
+		&pasture.WaterRecord{}, &pasture.OapGci{}, &pasture.ToxIndex{}, &pasture.MicroIndex{},
+		&premortem.PreSlaInfoRec{}, &premortem.Gps{}, &premortem.PreSlaGerms{}, &premortem.PreSlaDietManage{}, &premortem.PreSlaPicAndEn{},
+		&slaughter.ChiledFreshIndex{}, &slaughter.PaGerm{}, &slaughter.OtherIndex{}, &slaughter.DrugsResi{},
+		&slaughter.SlaInfoMon{}, &slaughter.SlaughterWaterMicroIndex{}, &slaughter.SlaughterWaterToxIndex{}, &slaughter.Stun{}, &slaughter.BleedElectronic{}, &slaughter.AnalAfterSlaQuanCar{}, &slaughter.PreSlaQuanPic{}, &slaughter.WaterTempMoni{}, &slaughter.AnalCutWeight{}, &slaughter.AnalCutWeight{},
+		&slaughter.TempHumMon{}, &slaughter.FacDisMon{}, &slaughter.SlaEnvLigRec{}, &slaughter.ToNumGermMon{}, &slaughter.AirNumGermMon{}, &slaughter.WaterQualityMon{}, &slaughter.SlaShop{}, &slaughter.DivShop{}, &slaughter.AcidShop{}, &slaughter.FroShop{},
+		&slaughter.PackShop{}, &slaughter.StaUni{}, &slaughter.DisRecord{})
 	if err != nil {
 		fmt.Println(err)
 	}

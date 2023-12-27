@@ -100,6 +100,8 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		pop.GET("warehouse", handlers.GetWarehouseInfos)
 		//pop.POST("inwarehouse", handlers.PastureInWarehouse)
 		pop.POST("send", handlers.SendToSlaughter)
+
+		pop.POST("addfeedheavymetal", handlers.AddPastureFeedHeavyMetal)
 	}
 
 	//slaughteroperator router group

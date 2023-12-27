@@ -1,7 +1,6 @@
 package slaughter
 
 import "gorm.io/gorm"
-import "CN-EU-FSIMS/internal/app/models/pasture"
 
 type SlaInfoMon struct {
 	//屠宰过程监控
@@ -13,7 +12,6 @@ type SlaInfoMon struct {
 	BleedElectronic     BleedElectronic     `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"bleed_electronic"`        //放血和电刺激参数
 	AnalAfterSlaQuanCar AnalAfterSlaQuanCar `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"anal_after_sla_quan_car"` //肛门结扎，宰后检疫，胴体图像采集,图片先只做记录
 	PreSlaQuanPic       PreSlaQuanPic       `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"pre_sla_quan_pic"`        //宰前检疫工位照片
-	WaterTempMoni       WaterTempMoni       `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"water_temp_moni"`         //消毒热水温度监控
 	AnalCutWeight       AnalCutWeight       `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"anal_cut_weight"`         //胴体、冷鲜肉温度监控,屠宰到入排酸库的时间，记录排酸库胴体间隙,分割前胴体重量记录,分割前胴体温度,分割刀温度，记录,分割后肉称重
 	TempHumMon          TempHumMon          `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"temp_hum_mon"`            //温湿度监控
 	FacDisMon           FacDisMon           `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"fac_dis_mon"`
@@ -300,12 +298,49 @@ type AirNumGermMon struct {
 type WaterQualityMon struct {
 	//水质监控
 	gorm.Model
-	SlaInfoMonID          uint                  `json:"sla_info_mon_id"`
-	MicroIndex            pasture.MicroIndex    `gorm:"foreignKey:WaterQualityMonID; references:ID" json:"micro_index"`               //微生物指标
-	ToxIndex              pasture.ToxIndex      `gorm:"foreignKey:WaterQualityMonID; references:ID" json:"tox_index"`                 //毒理性指标
-	OapGciSla             OapGciSla             `gorm:"foreignKey:WaterQualityMonID; references:ID" json:"oap_gci_sla"`               //感官性状和一般化学指标
-	MicroIndexWaterMonSla MicroIndexWaterMonSla `gorm:"foreignKey:WaterQualityMonID; references:ID" json:"micro_index_water_mon_sla"` //微生物指标屠宰阶段 和 屠宰污水检测记录
-	ToxinIndexSla         ToxinIndexSla         `gorm:"foreignKey:WaterQualityMonID; references:ID" json:"toxin_index_sla"`           //屠宰污水毒理指标
+	SlaInfoMonID          uint                     `json:"sla_info_mon_id"`
+	MicroIndex            SlaughterWaterMicroIndex `gorm:"foreignKey:WaterQualityMonID; references:ID" json:"micro_index"`               //微生物指标
+	ToxIndex              SlaughterWaterToxIndex   `gorm:"foreignKey:WaterQualityMonID; references:ID" json:"tox_index"`                 //毒理性指标
+	OapGciSla             OapGciSla                `gorm:"foreignKey:WaterQualityMonID; references:ID" json:"oap_gci_sla"`               //感官性状和一般化学指标
+	MicroIndexWaterMonSla MicroIndexWaterMonSla    `gorm:"foreignKey:WaterQualityMonID; references:ID" json:"micro_index_water_mon_sla"` //微生物指标屠宰阶段 和 屠宰污水检测记录
+	ToxinIndexSla         ToxinIndexSla            `gorm:"foreignKey:WaterQualityMonID; references:ID" json:"toxin_index_sla"`           //屠宰污水毒理指标
+}
+
+type SlaughterWaterMicroIndex struct {
+	//微生物指标
+	gorm.Model
+	WaterQualityMonID uint    `json:"water_quality_mon_id"`
+	MicroIndex1       float64 `json:"micro_index_1"` //总大肠菌群
+	MicroIndex2       float64 `json:"micro_index_2"` //粪大肠菌群
+	MicroIndex3       float64 `json:"micro_index_3"` //菌落总数
+}
+
+type SlaughterWaterToxIndex struct {
+	//毒理性指标
+	gorm.Model
+	WaterQualityMonID uint    `json:"water_quality_mon_id"`
+	ToxIndex1         float64 `json:"tox_index_1"`  //氰化物
+	ToxIndex2         float64 `json:"tox_index_2"`  //总砷
+	ToxIndex3         float64 `json:"tox_index_3"`  //总汞
+	ToxIndex4         float64 `json:"tox_index_4"`  //总铅
+	ToxIndex5         float64 `json:"tox_index_5"`  //铬（六价）
+	ToxIndex6         float64 `json:"tox_index_6"`  //总镉
+	ToxIndex7         float64 `json:"tox_index_7"`  //硝酸盐
+	ToxIndex8         float64 `json:"tox_index_8"`  //砷
+	ToxIndex9         float64 `json:"tox_index_9"`  //镉
+	ToxIndex10        float64 `json:"tox_index_10"` //氯化物
+	ToxIndex11        float64 `json:"tox_index_11"` //硝酸钾
+	ToxIndex12        float64 `json:"tox_index_12"` //三氯甲烷
+	ToxIndex13        float64 `json:"tox_index_13"` //一氯二溴甲烷
+	ToxIndex14        float64 `json:"tox_index_14"` //二氯一溴甲烷
+	ToxIndex15        float64 `json:"tox_index_15"` //三溴甲烷
+	ToxIndex16        float64 `json:"tox_index_16"` //三卤甲烷（三氯甲烷、一氯二溴甲烷、二氯一溴甲烷、三溴甲烷的总和）
+	ToxIndex17        float64 `json:"tox_index_17"` //二氯乙酸
+	ToxIndex18        float64 `json:"tox_index_18"` //三氯乙酸
+	ToxIndex19        float64 `json:"tox_index_19"` //溴酸盐
+	ToxIndex20        float64 `json:"tox_index_20"` //亚氯酸盐
+	ToxIndex21        float64 `json:"tox_index_21"` //氯酸盐
+	ToxIndex22        float64 `json:"tox_index_22"` //化学耗氧量
 }
 
 type OapGciSla struct {
