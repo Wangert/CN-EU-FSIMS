@@ -17,18 +17,53 @@ import (
 
 var (
 	Q                                 = new(Query)
+	AcidShop                          *acidShop
+	Afb1                              *afb1
+	AirNumGermMon                     *airNumGermMon
+	AnalAfterSlaQuanCar               *analAfterSlaQuanCar
+	AnalCutWeight                     *analCutWeight
+	As                                *as
+	BleedElectronic                   *bleedElectronic
+	Buffer                            *buffer
+	Cass                              *cass
+	CattleFarm                        *cattleFarm
+	Cd                                *cd
+	ChiledFreshIndex                  *chiledFreshIndex
 	Cow                               *cow
+	CowHouse                          *cowHouse
+	Cr                                *cr
+	DisRecord                         *disRecord
+	DivShop                           *divShop
+	Don                               *don
+	DrugsResi                         *drugsResi
+	Environment                       *environment
 	FSIMSUser                         *fSIMSUser
+	FacDisMon                         *facDisMon
+	FarmDisRecord                     *farmDisRecord
+	FarmEnvironment                   *farmEnvironment
+	FattenProcedure                   *fattenProcedure
+	FattenSoil                        *fattenSoil
+	FattenSoilBiohazard               *fattenSoilBiohazard
+	FattenSoilPhysicalHazard          *fattenSoilPhysicalHazard
+	FattenWater                       *fattenWater
+	FattenWaterBiohazard              *fattenWaterBiohazard
+	FattenWaterChemicalHazard         *fattenWaterChemicalHazard
+	FattenWaterPhysicalHazard         *fattenWaterPhysicalHazard
+	FattenWaterSensoryTraits          *fattenWaterSensoryTraits
 	FeedingBatch                      *feedingBatch
+	FroShop                           *froShop
+	Gps                               *gps
+	HeavyMetal                        *heavyMetal
 	Log                               *log
-	Mall                              *mall
-	MallGood                          *mallGood
-	PackWarehouse                     *packWarehouse
-	PackageBatch                      *packageBatch
+	MicroIndex                        *microIndex
+	OapGci                            *oapGci
+	OtherIndex                        *otherIndex
+	PaGerm                            *paGerm
+	PackReceive                       *packReceive
+	PackShop                          *packShop
+	PackWareHouse                     *packWareHouse
 	PackageHouse                      *packageHouse
-	PackageProduct                    *packageProduct
-	PackageProductAndTransportPIDMap  *packageProductAndTransportPIDMap
-	PackageReceiveRecord              *packageReceiveRecord
+	PaddingRequire                    *paddingRequire
 	PastureAir                        *pastureAir
 	PastureFloorBedding               *pastureFloorBedding
 	PastureFloorBeddingBiohazard      *pastureFloorBeddingBiohazard
@@ -43,7 +78,7 @@ var (
 	PastureSoilBiohazard              *pastureSoilBiohazard
 	PastureSoilPhysicalHazard         *pastureSoilPhysicalHazard
 	PastureTruckDisinfectionRecord    *pastureTruckDisinfectionRecord
-	PastureWarehouse                  *pastureWarehouse
+	PastureWareHouse                  *pastureWareHouse
 	PastureWasteDischarge             *pastureWasteDischarge
 	PastureWater                      *pastureWater
 	PastureWaterBiohazard             *pastureWaterBiohazard
@@ -51,31 +86,83 @@ var (
 	PastureWaterPhysicalHazard        *pastureWaterPhysicalHazard
 	PastureWaterSensoryTraits         *pastureWaterSensoryTraits
 	PastureWorksuitDisinfectionRecord *pastureWorksuitDisinfectionRecord
+	Pb                                *pb
+	PreSlaDietManage                  *preSlaDietManage
+	PreSlaGerms                       *preSlaGerms
+	PreSlaInfoRec                     *preSlaInfoRec
+	PreSlaPicAndEn                    *preSlaPicAndEn
+	PreSlaQuanPic                     *preSlaQuanPic
 	Procedure                         *procedure
-	SlaughterBatch                    *slaughterBatch
+	SlaEnvLigRec                      *slaEnvLigRec
+	SlaInfoMon                        *slaInfoMon
+	SlaShop                           *slaShop
 	SlaughterHouse                    *slaughterHouse
-	SlaughterProduct                  *slaughterProduct
-	SlaughterReceiveRecord            *slaughterReceiveRecord
-	SlaughterWarehouse                *slaughterWarehouse
-	TransportBatch                    *transportBatch
+	SlaughterReceive                  *slaughterReceive
+	SlaughterWareHouse                *slaughterWareHouse
+	StaUni                            *staUni
+	Stun                              *stun
+	T2VomZea                          *t2VomZea
+	T2toxin                           *t2toxin
+	TempHumMon                        *tempHumMon
+	ToNumGermMon                      *toNumGermMon
+	ToxIndex                          *toxIndex
 	TransportProcedureData            *transportProcedureData
 	TransportVehicle                  *transportVehicle
+	WastedWaterIndex                  *wastedWaterIndex
+	WaterQualityMon                   *waterQualityMon
+	WaterRecord                       *waterRecord
+	WaterTempMoni                     *waterTempMoni
 )
 
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
+	AcidShop = &Q.AcidShop
+	Afb1 = &Q.Afb1
+	AirNumGermMon = &Q.AirNumGermMon
+	AnalAfterSlaQuanCar = &Q.AnalAfterSlaQuanCar
+	AnalCutWeight = &Q.AnalCutWeight
+	As = &Q.As
+	BleedElectronic = &Q.BleedElectronic
+	Buffer = &Q.Buffer
+	Cass = &Q.Cass
+	CattleFarm = &Q.CattleFarm
+	Cd = &Q.Cd
+	ChiledFreshIndex = &Q.ChiledFreshIndex
 	Cow = &Q.Cow
+	CowHouse = &Q.CowHouse
+	Cr = &Q.Cr
+	DisRecord = &Q.DisRecord
+	DivShop = &Q.DivShop
+	Don = &Q.Don
+	DrugsResi = &Q.DrugsResi
+	Environment = &Q.Environment
 	FSIMSUser = &Q.FSIMSUser
+	FacDisMon = &Q.FacDisMon
+	FarmDisRecord = &Q.FarmDisRecord
+	FarmEnvironment = &Q.FarmEnvironment
+	FattenProcedure = &Q.FattenProcedure
+	FattenSoil = &Q.FattenSoil
+	FattenSoilBiohazard = &Q.FattenSoilBiohazard
+	FattenSoilPhysicalHazard = &Q.FattenSoilPhysicalHazard
+	FattenWater = &Q.FattenWater
+	FattenWaterBiohazard = &Q.FattenWaterBiohazard
+	FattenWaterChemicalHazard = &Q.FattenWaterChemicalHazard
+	FattenWaterPhysicalHazard = &Q.FattenWaterPhysicalHazard
+	FattenWaterSensoryTraits = &Q.FattenWaterSensoryTraits
 	FeedingBatch = &Q.FeedingBatch
+	FroShop = &Q.FroShop
+	Gps = &Q.Gps
+	HeavyMetal = &Q.HeavyMetal
 	Log = &Q.Log
-	Mall = &Q.Mall
-	MallGood = &Q.MallGood
-	PackWarehouse = &Q.PackWarehouse
-	PackageBatch = &Q.PackageBatch
+	MicroIndex = &Q.MicroIndex
+	OapGci = &Q.OapGci
+	OtherIndex = &Q.OtherIndex
+	PaGerm = &Q.PaGerm
+	PackReceive = &Q.PackReceive
+	PackShop = &Q.PackShop
+	PackWareHouse = &Q.PackWareHouse
 	PackageHouse = &Q.PackageHouse
-	PackageProduct = &Q.PackageProduct
-	PackageProductAndTransportPIDMap = &Q.PackageProductAndTransportPIDMap
-	PackageReceiveRecord = &Q.PackageReceiveRecord
+	PaddingRequire = &Q.PaddingRequire
 	PastureAir = &Q.PastureAir
 	PastureFloorBedding = &Q.PastureFloorBedding
 	PastureFloorBeddingBiohazard = &Q.PastureFloorBeddingBiohazard
@@ -90,7 +177,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	PastureSoilBiohazard = &Q.PastureSoilBiohazard
 	PastureSoilPhysicalHazard = &Q.PastureSoilPhysicalHazard
 	PastureTruckDisinfectionRecord = &Q.PastureTruckDisinfectionRecord
-	PastureWarehouse = &Q.PastureWarehouse
+	PastureWareHouse = &Q.PastureWareHouse
 	PastureWasteDischarge = &Q.PastureWasteDischarge
 	PastureWater = &Q.PastureWater
 	PastureWaterBiohazard = &Q.PastureWaterBiohazard
@@ -98,32 +185,84 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	PastureWaterPhysicalHazard = &Q.PastureWaterPhysicalHazard
 	PastureWaterSensoryTraits = &Q.PastureWaterSensoryTraits
 	PastureWorksuitDisinfectionRecord = &Q.PastureWorksuitDisinfectionRecord
+	Pb = &Q.Pb
+	PreSlaDietManage = &Q.PreSlaDietManage
+	PreSlaGerms = &Q.PreSlaGerms
+	PreSlaInfoRec = &Q.PreSlaInfoRec
+	PreSlaPicAndEn = &Q.PreSlaPicAndEn
+	PreSlaQuanPic = &Q.PreSlaQuanPic
 	Procedure = &Q.Procedure
-	SlaughterBatch = &Q.SlaughterBatch
+	SlaEnvLigRec = &Q.SlaEnvLigRec
+	SlaInfoMon = &Q.SlaInfoMon
+	SlaShop = &Q.SlaShop
 	SlaughterHouse = &Q.SlaughterHouse
-	SlaughterProduct = &Q.SlaughterProduct
-	SlaughterReceiveRecord = &Q.SlaughterReceiveRecord
-	SlaughterWarehouse = &Q.SlaughterWarehouse
-	TransportBatch = &Q.TransportBatch
+	SlaughterReceive = &Q.SlaughterReceive
+	SlaughterWareHouse = &Q.SlaughterWareHouse
+	StaUni = &Q.StaUni
+	Stun = &Q.Stun
+	T2VomZea = &Q.T2VomZea
+	T2toxin = &Q.T2toxin
+	TempHumMon = &Q.TempHumMon
+	ToNumGermMon = &Q.ToNumGermMon
+	ToxIndex = &Q.ToxIndex
 	TransportProcedureData = &Q.TransportProcedureData
 	TransportVehicle = &Q.TransportVehicle
+	WastedWaterIndex = &Q.WastedWaterIndex
+	WaterQualityMon = &Q.WaterQualityMon
+	WaterRecord = &Q.WaterRecord
+	WaterTempMoni = &Q.WaterTempMoni
 }
 
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
 		db:                                db,
+		AcidShop:                          newAcidShop(db, opts...),
+		Afb1:                              newAfb1(db, opts...),
+		AirNumGermMon:                     newAirNumGermMon(db, opts...),
+		AnalAfterSlaQuanCar:               newAnalAfterSlaQuanCar(db, opts...),
+		AnalCutWeight:                     newAnalCutWeight(db, opts...),
+		As:                                newAs(db, opts...),
+		BleedElectronic:                   newBleedElectronic(db, opts...),
+		Buffer:                            newBuffer(db, opts...),
+		Cass:                              newCass(db, opts...),
+		CattleFarm:                        newCattleFarm(db, opts...),
+		Cd:                                newCd(db, opts...),
+		ChiledFreshIndex:                  newChiledFreshIndex(db, opts...),
 		Cow:                               newCow(db, opts...),
+		CowHouse:                          newCowHouse(db, opts...),
+		Cr:                                newCr(db, opts...),
+		DisRecord:                         newDisRecord(db, opts...),
+		DivShop:                           newDivShop(db, opts...),
+		Don:                               newDon(db, opts...),
+		DrugsResi:                         newDrugsResi(db, opts...),
+		Environment:                       newEnvironment(db, opts...),
 		FSIMSUser:                         newFSIMSUser(db, opts...),
+		FacDisMon:                         newFacDisMon(db, opts...),
+		FarmDisRecord:                     newFarmDisRecord(db, opts...),
+		FarmEnvironment:                   newFarmEnvironment(db, opts...),
+		FattenProcedure:                   newFattenProcedure(db, opts...),
+		FattenSoil:                        newFattenSoil(db, opts...),
+		FattenSoilBiohazard:               newFattenSoilBiohazard(db, opts...),
+		FattenSoilPhysicalHazard:          newFattenSoilPhysicalHazard(db, opts...),
+		FattenWater:                       newFattenWater(db, opts...),
+		FattenWaterBiohazard:              newFattenWaterBiohazard(db, opts...),
+		FattenWaterChemicalHazard:         newFattenWaterChemicalHazard(db, opts...),
+		FattenWaterPhysicalHazard:         newFattenWaterPhysicalHazard(db, opts...),
+		FattenWaterSensoryTraits:          newFattenWaterSensoryTraits(db, opts...),
 		FeedingBatch:                      newFeedingBatch(db, opts...),
+		FroShop:                           newFroShop(db, opts...),
+		Gps:                               newGps(db, opts...),
+		HeavyMetal:                        newHeavyMetal(db, opts...),
 		Log:                               newLog(db, opts...),
-		Mall:                              newMall(db, opts...),
-		MallGood:                          newMallGood(db, opts...),
-		PackWarehouse:                     newPackWarehouse(db, opts...),
-		PackageBatch:                      newPackageBatch(db, opts...),
+		MicroIndex:                        newMicroIndex(db, opts...),
+		OapGci:                            newOapGci(db, opts...),
+		OtherIndex:                        newOtherIndex(db, opts...),
+		PaGerm:                            newPaGerm(db, opts...),
+		PackReceive:                       newPackReceive(db, opts...),
+		PackShop:                          newPackShop(db, opts...),
+		PackWareHouse:                     newPackWareHouse(db, opts...),
 		PackageHouse:                      newPackageHouse(db, opts...),
-		PackageProduct:                    newPackageProduct(db, opts...),
-		PackageProductAndTransportPIDMap:  newPackageProductAndTransportPIDMap(db, opts...),
-		PackageReceiveRecord:              newPackageReceiveRecord(db, opts...),
+		PaddingRequire:                    newPaddingRequire(db, opts...),
 		PastureAir:                        newPastureAir(db, opts...),
 		PastureFloorBedding:               newPastureFloorBedding(db, opts...),
 		PastureFloorBeddingBiohazard:      newPastureFloorBeddingBiohazard(db, opts...),
@@ -138,7 +277,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		PastureSoilBiohazard:              newPastureSoilBiohazard(db, opts...),
 		PastureSoilPhysicalHazard:         newPastureSoilPhysicalHazard(db, opts...),
 		PastureTruckDisinfectionRecord:    newPastureTruckDisinfectionRecord(db, opts...),
-		PastureWarehouse:                  newPastureWarehouse(db, opts...),
+		PastureWareHouse:                  newPastureWareHouse(db, opts...),
 		PastureWasteDischarge:             newPastureWasteDischarge(db, opts...),
 		PastureWater:                      newPastureWater(db, opts...),
 		PastureWaterBiohazard:             newPastureWaterBiohazard(db, opts...),
@@ -146,33 +285,85 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		PastureWaterPhysicalHazard:        newPastureWaterPhysicalHazard(db, opts...),
 		PastureWaterSensoryTraits:         newPastureWaterSensoryTraits(db, opts...),
 		PastureWorksuitDisinfectionRecord: newPastureWorksuitDisinfectionRecord(db, opts...),
+		Pb:                                newPb(db, opts...),
+		PreSlaDietManage:                  newPreSlaDietManage(db, opts...),
+		PreSlaGerms:                       newPreSlaGerms(db, opts...),
+		PreSlaInfoRec:                     newPreSlaInfoRec(db, opts...),
+		PreSlaPicAndEn:                    newPreSlaPicAndEn(db, opts...),
+		PreSlaQuanPic:                     newPreSlaQuanPic(db, opts...),
 		Procedure:                         newProcedure(db, opts...),
-		SlaughterBatch:                    newSlaughterBatch(db, opts...),
+		SlaEnvLigRec:                      newSlaEnvLigRec(db, opts...),
+		SlaInfoMon:                        newSlaInfoMon(db, opts...),
+		SlaShop:                           newSlaShop(db, opts...),
 		SlaughterHouse:                    newSlaughterHouse(db, opts...),
-		SlaughterProduct:                  newSlaughterProduct(db, opts...),
-		SlaughterReceiveRecord:            newSlaughterReceiveRecord(db, opts...),
-		SlaughterWarehouse:                newSlaughterWarehouse(db, opts...),
-		TransportBatch:                    newTransportBatch(db, opts...),
+		SlaughterReceive:                  newSlaughterReceive(db, opts...),
+		SlaughterWareHouse:                newSlaughterWareHouse(db, opts...),
+		StaUni:                            newStaUni(db, opts...),
+		Stun:                              newStun(db, opts...),
+		T2VomZea:                          newT2VomZea(db, opts...),
+		T2toxin:                           newT2toxin(db, opts...),
+		TempHumMon:                        newTempHumMon(db, opts...),
+		ToNumGermMon:                      newToNumGermMon(db, opts...),
+		ToxIndex:                          newToxIndex(db, opts...),
 		TransportProcedureData:            newTransportProcedureData(db, opts...),
 		TransportVehicle:                  newTransportVehicle(db, opts...),
+		WastedWaterIndex:                  newWastedWaterIndex(db, opts...),
+		WaterQualityMon:                   newWaterQualityMon(db, opts...),
+		WaterRecord:                       newWaterRecord(db, opts...),
+		WaterTempMoni:                     newWaterTempMoni(db, opts...),
 	}
 }
 
 type Query struct {
 	db *gorm.DB
 
+	AcidShop                          acidShop
+	Afb1                              afb1
+	AirNumGermMon                     airNumGermMon
+	AnalAfterSlaQuanCar               analAfterSlaQuanCar
+	AnalCutWeight                     analCutWeight
+	As                                as
+	BleedElectronic                   bleedElectronic
+	Buffer                            buffer
+	Cass                              cass
+	CattleFarm                        cattleFarm
+	Cd                                cd
+	ChiledFreshIndex                  chiledFreshIndex
 	Cow                               cow
+	CowHouse                          cowHouse
+	Cr                                cr
+	DisRecord                         disRecord
+	DivShop                           divShop
+	Don                               don
+	DrugsResi                         drugsResi
+	Environment                       environment
 	FSIMSUser                         fSIMSUser
+	FacDisMon                         facDisMon
+	FarmDisRecord                     farmDisRecord
+	FarmEnvironment                   farmEnvironment
+	FattenProcedure                   fattenProcedure
+	FattenSoil                        fattenSoil
+	FattenSoilBiohazard               fattenSoilBiohazard
+	FattenSoilPhysicalHazard          fattenSoilPhysicalHazard
+	FattenWater                       fattenWater
+	FattenWaterBiohazard              fattenWaterBiohazard
+	FattenWaterChemicalHazard         fattenWaterChemicalHazard
+	FattenWaterPhysicalHazard         fattenWaterPhysicalHazard
+	FattenWaterSensoryTraits          fattenWaterSensoryTraits
 	FeedingBatch                      feedingBatch
+	FroShop                           froShop
+	Gps                               gps
+	HeavyMetal                        heavyMetal
 	Log                               log
-	Mall                              mall
-	MallGood                          mallGood
-	PackWarehouse                     packWarehouse
-	PackageBatch                      packageBatch
+	MicroIndex                        microIndex
+	OapGci                            oapGci
+	OtherIndex                        otherIndex
+	PaGerm                            paGerm
+	PackReceive                       packReceive
+	PackShop                          packShop
+	PackWareHouse                     packWareHouse
 	PackageHouse                      packageHouse
-	PackageProduct                    packageProduct
-	PackageProductAndTransportPIDMap  packageProductAndTransportPIDMap
-	PackageReceiveRecord              packageReceiveRecord
+	PaddingRequire                    paddingRequire
 	PastureAir                        pastureAir
 	PastureFloorBedding               pastureFloorBedding
 	PastureFloorBeddingBiohazard      pastureFloorBeddingBiohazard
@@ -187,7 +378,7 @@ type Query struct {
 	PastureSoilBiohazard              pastureSoilBiohazard
 	PastureSoilPhysicalHazard         pastureSoilPhysicalHazard
 	PastureTruckDisinfectionRecord    pastureTruckDisinfectionRecord
-	PastureWarehouse                  pastureWarehouse
+	PastureWareHouse                  pastureWareHouse
 	PastureWasteDischarge             pastureWasteDischarge
 	PastureWater                      pastureWater
 	PastureWaterBiohazard             pastureWaterBiohazard
@@ -195,15 +386,32 @@ type Query struct {
 	PastureWaterPhysicalHazard        pastureWaterPhysicalHazard
 	PastureWaterSensoryTraits         pastureWaterSensoryTraits
 	PastureWorksuitDisinfectionRecord pastureWorksuitDisinfectionRecord
+	Pb                                pb
+	PreSlaDietManage                  preSlaDietManage
+	PreSlaGerms                       preSlaGerms
+	PreSlaInfoRec                     preSlaInfoRec
+	PreSlaPicAndEn                    preSlaPicAndEn
+	PreSlaQuanPic                     preSlaQuanPic
 	Procedure                         procedure
-	SlaughterBatch                    slaughterBatch
+	SlaEnvLigRec                      slaEnvLigRec
+	SlaInfoMon                        slaInfoMon
+	SlaShop                           slaShop
 	SlaughterHouse                    slaughterHouse
-	SlaughterProduct                  slaughterProduct
-	SlaughterReceiveRecord            slaughterReceiveRecord
-	SlaughterWarehouse                slaughterWarehouse
-	TransportBatch                    transportBatch
+	SlaughterReceive                  slaughterReceive
+	SlaughterWareHouse                slaughterWareHouse
+	StaUni                            staUni
+	Stun                              stun
+	T2VomZea                          t2VomZea
+	T2toxin                           t2toxin
+	TempHumMon                        tempHumMon
+	ToNumGermMon                      toNumGermMon
+	ToxIndex                          toxIndex
 	TransportProcedureData            transportProcedureData
 	TransportVehicle                  transportVehicle
+	WastedWaterIndex                  wastedWaterIndex
+	WaterQualityMon                   waterQualityMon
+	WaterRecord                       waterRecord
+	WaterTempMoni                     waterTempMoni
 }
 
 func (q *Query) Available() bool { return q.db != nil }
@@ -211,18 +419,53 @@ func (q *Query) Available() bool { return q.db != nil }
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
 		db:                                db,
+		AcidShop:                          q.AcidShop.clone(db),
+		Afb1:                              q.Afb1.clone(db),
+		AirNumGermMon:                     q.AirNumGermMon.clone(db),
+		AnalAfterSlaQuanCar:               q.AnalAfterSlaQuanCar.clone(db),
+		AnalCutWeight:                     q.AnalCutWeight.clone(db),
+		As:                                q.As.clone(db),
+		BleedElectronic:                   q.BleedElectronic.clone(db),
+		Buffer:                            q.Buffer.clone(db),
+		Cass:                              q.Cass.clone(db),
+		CattleFarm:                        q.CattleFarm.clone(db),
+		Cd:                                q.Cd.clone(db),
+		ChiledFreshIndex:                  q.ChiledFreshIndex.clone(db),
 		Cow:                               q.Cow.clone(db),
+		CowHouse:                          q.CowHouse.clone(db),
+		Cr:                                q.Cr.clone(db),
+		DisRecord:                         q.DisRecord.clone(db),
+		DivShop:                           q.DivShop.clone(db),
+		Don:                               q.Don.clone(db),
+		DrugsResi:                         q.DrugsResi.clone(db),
+		Environment:                       q.Environment.clone(db),
 		FSIMSUser:                         q.FSIMSUser.clone(db),
+		FacDisMon:                         q.FacDisMon.clone(db),
+		FarmDisRecord:                     q.FarmDisRecord.clone(db),
+		FarmEnvironment:                   q.FarmEnvironment.clone(db),
+		FattenProcedure:                   q.FattenProcedure.clone(db),
+		FattenSoil:                        q.FattenSoil.clone(db),
+		FattenSoilBiohazard:               q.FattenSoilBiohazard.clone(db),
+		FattenSoilPhysicalHazard:          q.FattenSoilPhysicalHazard.clone(db),
+		FattenWater:                       q.FattenWater.clone(db),
+		FattenWaterBiohazard:              q.FattenWaterBiohazard.clone(db),
+		FattenWaterChemicalHazard:         q.FattenWaterChemicalHazard.clone(db),
+		FattenWaterPhysicalHazard:         q.FattenWaterPhysicalHazard.clone(db),
+		FattenWaterSensoryTraits:          q.FattenWaterSensoryTraits.clone(db),
 		FeedingBatch:                      q.FeedingBatch.clone(db),
+		FroShop:                           q.FroShop.clone(db),
+		Gps:                               q.Gps.clone(db),
+		HeavyMetal:                        q.HeavyMetal.clone(db),
 		Log:                               q.Log.clone(db),
-		Mall:                              q.Mall.clone(db),
-		MallGood:                          q.MallGood.clone(db),
-		PackWarehouse:                     q.PackWarehouse.clone(db),
-		PackageBatch:                      q.PackageBatch.clone(db),
+		MicroIndex:                        q.MicroIndex.clone(db),
+		OapGci:                            q.OapGci.clone(db),
+		OtherIndex:                        q.OtherIndex.clone(db),
+		PaGerm:                            q.PaGerm.clone(db),
+		PackReceive:                       q.PackReceive.clone(db),
+		PackShop:                          q.PackShop.clone(db),
+		PackWareHouse:                     q.PackWareHouse.clone(db),
 		PackageHouse:                      q.PackageHouse.clone(db),
-		PackageProduct:                    q.PackageProduct.clone(db),
-		PackageProductAndTransportPIDMap:  q.PackageProductAndTransportPIDMap.clone(db),
-		PackageReceiveRecord:              q.PackageReceiveRecord.clone(db),
+		PaddingRequire:                    q.PaddingRequire.clone(db),
 		PastureAir:                        q.PastureAir.clone(db),
 		PastureFloorBedding:               q.PastureFloorBedding.clone(db),
 		PastureFloorBeddingBiohazard:      q.PastureFloorBeddingBiohazard.clone(db),
@@ -237,7 +480,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		PastureSoilBiohazard:              q.PastureSoilBiohazard.clone(db),
 		PastureSoilPhysicalHazard:         q.PastureSoilPhysicalHazard.clone(db),
 		PastureTruckDisinfectionRecord:    q.PastureTruckDisinfectionRecord.clone(db),
-		PastureWarehouse:                  q.PastureWarehouse.clone(db),
+		PastureWareHouse:                  q.PastureWareHouse.clone(db),
 		PastureWasteDischarge:             q.PastureWasteDischarge.clone(db),
 		PastureWater:                      q.PastureWater.clone(db),
 		PastureWaterBiohazard:             q.PastureWaterBiohazard.clone(db),
@@ -245,15 +488,32 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		PastureWaterPhysicalHazard:        q.PastureWaterPhysicalHazard.clone(db),
 		PastureWaterSensoryTraits:         q.PastureWaterSensoryTraits.clone(db),
 		PastureWorksuitDisinfectionRecord: q.PastureWorksuitDisinfectionRecord.clone(db),
+		Pb:                                q.Pb.clone(db),
+		PreSlaDietManage:                  q.PreSlaDietManage.clone(db),
+		PreSlaGerms:                       q.PreSlaGerms.clone(db),
+		PreSlaInfoRec:                     q.PreSlaInfoRec.clone(db),
+		PreSlaPicAndEn:                    q.PreSlaPicAndEn.clone(db),
+		PreSlaQuanPic:                     q.PreSlaQuanPic.clone(db),
 		Procedure:                         q.Procedure.clone(db),
-		SlaughterBatch:                    q.SlaughterBatch.clone(db),
+		SlaEnvLigRec:                      q.SlaEnvLigRec.clone(db),
+		SlaInfoMon:                        q.SlaInfoMon.clone(db),
+		SlaShop:                           q.SlaShop.clone(db),
 		SlaughterHouse:                    q.SlaughterHouse.clone(db),
-		SlaughterProduct:                  q.SlaughterProduct.clone(db),
-		SlaughterReceiveRecord:            q.SlaughterReceiveRecord.clone(db),
-		SlaughterWarehouse:                q.SlaughterWarehouse.clone(db),
-		TransportBatch:                    q.TransportBatch.clone(db),
+		SlaughterReceive:                  q.SlaughterReceive.clone(db),
+		SlaughterWareHouse:                q.SlaughterWareHouse.clone(db),
+		StaUni:                            q.StaUni.clone(db),
+		Stun:                              q.Stun.clone(db),
+		T2VomZea:                          q.T2VomZea.clone(db),
+		T2toxin:                           q.T2toxin.clone(db),
+		TempHumMon:                        q.TempHumMon.clone(db),
+		ToNumGermMon:                      q.ToNumGermMon.clone(db),
+		ToxIndex:                          q.ToxIndex.clone(db),
 		TransportProcedureData:            q.TransportProcedureData.clone(db),
 		TransportVehicle:                  q.TransportVehicle.clone(db),
+		WastedWaterIndex:                  q.WastedWaterIndex.clone(db),
+		WaterQualityMon:                   q.WaterQualityMon.clone(db),
+		WaterRecord:                       q.WaterRecord.clone(db),
+		WaterTempMoni:                     q.WaterTempMoni.clone(db),
 	}
 }
 
@@ -268,18 +528,53 @@ func (q *Query) WriteDB() *Query {
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
 		db:                                db,
+		AcidShop:                          q.AcidShop.replaceDB(db),
+		Afb1:                              q.Afb1.replaceDB(db),
+		AirNumGermMon:                     q.AirNumGermMon.replaceDB(db),
+		AnalAfterSlaQuanCar:               q.AnalAfterSlaQuanCar.replaceDB(db),
+		AnalCutWeight:                     q.AnalCutWeight.replaceDB(db),
+		As:                                q.As.replaceDB(db),
+		BleedElectronic:                   q.BleedElectronic.replaceDB(db),
+		Buffer:                            q.Buffer.replaceDB(db),
+		Cass:                              q.Cass.replaceDB(db),
+		CattleFarm:                        q.CattleFarm.replaceDB(db),
+		Cd:                                q.Cd.replaceDB(db),
+		ChiledFreshIndex:                  q.ChiledFreshIndex.replaceDB(db),
 		Cow:                               q.Cow.replaceDB(db),
+		CowHouse:                          q.CowHouse.replaceDB(db),
+		Cr:                                q.Cr.replaceDB(db),
+		DisRecord:                         q.DisRecord.replaceDB(db),
+		DivShop:                           q.DivShop.replaceDB(db),
+		Don:                               q.Don.replaceDB(db),
+		DrugsResi:                         q.DrugsResi.replaceDB(db),
+		Environment:                       q.Environment.replaceDB(db),
 		FSIMSUser:                         q.FSIMSUser.replaceDB(db),
+		FacDisMon:                         q.FacDisMon.replaceDB(db),
+		FarmDisRecord:                     q.FarmDisRecord.replaceDB(db),
+		FarmEnvironment:                   q.FarmEnvironment.replaceDB(db),
+		FattenProcedure:                   q.FattenProcedure.replaceDB(db),
+		FattenSoil:                        q.FattenSoil.replaceDB(db),
+		FattenSoilBiohazard:               q.FattenSoilBiohazard.replaceDB(db),
+		FattenSoilPhysicalHazard:          q.FattenSoilPhysicalHazard.replaceDB(db),
+		FattenWater:                       q.FattenWater.replaceDB(db),
+		FattenWaterBiohazard:              q.FattenWaterBiohazard.replaceDB(db),
+		FattenWaterChemicalHazard:         q.FattenWaterChemicalHazard.replaceDB(db),
+		FattenWaterPhysicalHazard:         q.FattenWaterPhysicalHazard.replaceDB(db),
+		FattenWaterSensoryTraits:          q.FattenWaterSensoryTraits.replaceDB(db),
 		FeedingBatch:                      q.FeedingBatch.replaceDB(db),
+		FroShop:                           q.FroShop.replaceDB(db),
+		Gps:                               q.Gps.replaceDB(db),
+		HeavyMetal:                        q.HeavyMetal.replaceDB(db),
 		Log:                               q.Log.replaceDB(db),
-		Mall:                              q.Mall.replaceDB(db),
-		MallGood:                          q.MallGood.replaceDB(db),
-		PackWarehouse:                     q.PackWarehouse.replaceDB(db),
-		PackageBatch:                      q.PackageBatch.replaceDB(db),
+		MicroIndex:                        q.MicroIndex.replaceDB(db),
+		OapGci:                            q.OapGci.replaceDB(db),
+		OtherIndex:                        q.OtherIndex.replaceDB(db),
+		PaGerm:                            q.PaGerm.replaceDB(db),
+		PackReceive:                       q.PackReceive.replaceDB(db),
+		PackShop:                          q.PackShop.replaceDB(db),
+		PackWareHouse:                     q.PackWareHouse.replaceDB(db),
 		PackageHouse:                      q.PackageHouse.replaceDB(db),
-		PackageProduct:                    q.PackageProduct.replaceDB(db),
-		PackageProductAndTransportPIDMap:  q.PackageProductAndTransportPIDMap.replaceDB(db),
-		PackageReceiveRecord:              q.PackageReceiveRecord.replaceDB(db),
+		PaddingRequire:                    q.PaddingRequire.replaceDB(db),
 		PastureAir:                        q.PastureAir.replaceDB(db),
 		PastureFloorBedding:               q.PastureFloorBedding.replaceDB(db),
 		PastureFloorBeddingBiohazard:      q.PastureFloorBeddingBiohazard.replaceDB(db),
@@ -294,7 +589,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		PastureSoilBiohazard:              q.PastureSoilBiohazard.replaceDB(db),
 		PastureSoilPhysicalHazard:         q.PastureSoilPhysicalHazard.replaceDB(db),
 		PastureTruckDisinfectionRecord:    q.PastureTruckDisinfectionRecord.replaceDB(db),
-		PastureWarehouse:                  q.PastureWarehouse.replaceDB(db),
+		PastureWareHouse:                  q.PastureWareHouse.replaceDB(db),
 		PastureWasteDischarge:             q.PastureWasteDischarge.replaceDB(db),
 		PastureWater:                      q.PastureWater.replaceDB(db),
 		PastureWaterBiohazard:             q.PastureWaterBiohazard.replaceDB(db),
@@ -302,31 +597,83 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		PastureWaterPhysicalHazard:        q.PastureWaterPhysicalHazard.replaceDB(db),
 		PastureWaterSensoryTraits:         q.PastureWaterSensoryTraits.replaceDB(db),
 		PastureWorksuitDisinfectionRecord: q.PastureWorksuitDisinfectionRecord.replaceDB(db),
+		Pb:                                q.Pb.replaceDB(db),
+		PreSlaDietManage:                  q.PreSlaDietManage.replaceDB(db),
+		PreSlaGerms:                       q.PreSlaGerms.replaceDB(db),
+		PreSlaInfoRec:                     q.PreSlaInfoRec.replaceDB(db),
+		PreSlaPicAndEn:                    q.PreSlaPicAndEn.replaceDB(db),
+		PreSlaQuanPic:                     q.PreSlaQuanPic.replaceDB(db),
 		Procedure:                         q.Procedure.replaceDB(db),
-		SlaughterBatch:                    q.SlaughterBatch.replaceDB(db),
+		SlaEnvLigRec:                      q.SlaEnvLigRec.replaceDB(db),
+		SlaInfoMon:                        q.SlaInfoMon.replaceDB(db),
+		SlaShop:                           q.SlaShop.replaceDB(db),
 		SlaughterHouse:                    q.SlaughterHouse.replaceDB(db),
-		SlaughterProduct:                  q.SlaughterProduct.replaceDB(db),
-		SlaughterReceiveRecord:            q.SlaughterReceiveRecord.replaceDB(db),
-		SlaughterWarehouse:                q.SlaughterWarehouse.replaceDB(db),
-		TransportBatch:                    q.TransportBatch.replaceDB(db),
+		SlaughterReceive:                  q.SlaughterReceive.replaceDB(db),
+		SlaughterWareHouse:                q.SlaughterWareHouse.replaceDB(db),
+		StaUni:                            q.StaUni.replaceDB(db),
+		Stun:                              q.Stun.replaceDB(db),
+		T2VomZea:                          q.T2VomZea.replaceDB(db),
+		T2toxin:                           q.T2toxin.replaceDB(db),
+		TempHumMon:                        q.TempHumMon.replaceDB(db),
+		ToNumGermMon:                      q.ToNumGermMon.replaceDB(db),
+		ToxIndex:                          q.ToxIndex.replaceDB(db),
 		TransportProcedureData:            q.TransportProcedureData.replaceDB(db),
 		TransportVehicle:                  q.TransportVehicle.replaceDB(db),
+		WastedWaterIndex:                  q.WastedWaterIndex.replaceDB(db),
+		WaterQualityMon:                   q.WaterQualityMon.replaceDB(db),
+		WaterRecord:                       q.WaterRecord.replaceDB(db),
+		WaterTempMoni:                     q.WaterTempMoni.replaceDB(db),
 	}
 }
 
 type queryCtx struct {
+	AcidShop                          IAcidShopDo
+	Afb1                              IAfb1Do
+	AirNumGermMon                     IAirNumGermMonDo
+	AnalAfterSlaQuanCar               IAnalAfterSlaQuanCarDo
+	AnalCutWeight                     IAnalCutWeightDo
+	As                                IAsDo
+	BleedElectronic                   IBleedElectronicDo
+	Buffer                            IBufferDo
+	Cass                              ICassDo
+	CattleFarm                        ICattleFarmDo
+	Cd                                ICdDo
+	ChiledFreshIndex                  IChiledFreshIndexDo
 	Cow                               ICowDo
+	CowHouse                          ICowHouseDo
+	Cr                                ICrDo
+	DisRecord                         IDisRecordDo
+	DivShop                           IDivShopDo
+	Don                               IDonDo
+	DrugsResi                         IDrugsResiDo
+	Environment                       IEnvironmentDo
 	FSIMSUser                         IFSIMSUserDo
+	FacDisMon                         IFacDisMonDo
+	FarmDisRecord                     IFarmDisRecordDo
+	FarmEnvironment                   IFarmEnvironmentDo
+	FattenProcedure                   IFattenProcedureDo
+	FattenSoil                        IFattenSoilDo
+	FattenSoilBiohazard               IFattenSoilBiohazardDo
+	FattenSoilPhysicalHazard          IFattenSoilPhysicalHazardDo
+	FattenWater                       IFattenWaterDo
+	FattenWaterBiohazard              IFattenWaterBiohazardDo
+	FattenWaterChemicalHazard         IFattenWaterChemicalHazardDo
+	FattenWaterPhysicalHazard         IFattenWaterPhysicalHazardDo
+	FattenWaterSensoryTraits          IFattenWaterSensoryTraitsDo
 	FeedingBatch                      IFeedingBatchDo
+	FroShop                           IFroShopDo
+	Gps                               IGpsDo
+	HeavyMetal                        IHeavyMetalDo
 	Log                               ILogDo
-	Mall                              IMallDo
-	MallGood                          IMallGoodDo
-	PackWarehouse                     IPackWarehouseDo
-	PackageBatch                      IPackageBatchDo
+	MicroIndex                        IMicroIndexDo
+	OapGci                            IOapGciDo
+	OtherIndex                        IOtherIndexDo
+	PaGerm                            IPaGermDo
+	PackReceive                       IPackReceiveDo
+	PackShop                          IPackShopDo
+	PackWareHouse                     IPackWareHouseDo
 	PackageHouse                      IPackageHouseDo
-	PackageProduct                    IPackageProductDo
-	PackageProductAndTransportPIDMap  IPackageProductAndTransportPIDMapDo
-	PackageReceiveRecord              IPackageReceiveRecordDo
+	PaddingRequire                    IPaddingRequireDo
 	PastureAir                        IPastureAirDo
 	PastureFloorBedding               IPastureFloorBeddingDo
 	PastureFloorBeddingBiohazard      IPastureFloorBeddingBiohazardDo
@@ -341,7 +688,7 @@ type queryCtx struct {
 	PastureSoilBiohazard              IPastureSoilBiohazardDo
 	PastureSoilPhysicalHazard         IPastureSoilPhysicalHazardDo
 	PastureTruckDisinfectionRecord    IPastureTruckDisinfectionRecordDo
-	PastureWarehouse                  IPastureWarehouseDo
+	PastureWareHouse                  IPastureWareHouseDo
 	PastureWasteDischarge             IPastureWasteDischargeDo
 	PastureWater                      IPastureWaterDo
 	PastureWaterBiohazard             IPastureWaterBiohazardDo
@@ -349,31 +696,83 @@ type queryCtx struct {
 	PastureWaterPhysicalHazard        IPastureWaterPhysicalHazardDo
 	PastureWaterSensoryTraits         IPastureWaterSensoryTraitsDo
 	PastureWorksuitDisinfectionRecord IPastureWorksuitDisinfectionRecordDo
+	Pb                                IPbDo
+	PreSlaDietManage                  IPreSlaDietManageDo
+	PreSlaGerms                       IPreSlaGermsDo
+	PreSlaInfoRec                     IPreSlaInfoRecDo
+	PreSlaPicAndEn                    IPreSlaPicAndEnDo
+	PreSlaQuanPic                     IPreSlaQuanPicDo
 	Procedure                         IProcedureDo
-	SlaughterBatch                    ISlaughterBatchDo
+	SlaEnvLigRec                      ISlaEnvLigRecDo
+	SlaInfoMon                        ISlaInfoMonDo
+	SlaShop                           ISlaShopDo
 	SlaughterHouse                    ISlaughterHouseDo
-	SlaughterProduct                  ISlaughterProductDo
-	SlaughterReceiveRecord            ISlaughterReceiveRecordDo
-	SlaughterWarehouse                ISlaughterWarehouseDo
-	TransportBatch                    ITransportBatchDo
+	SlaughterReceive                  ISlaughterReceiveDo
+	SlaughterWareHouse                ISlaughterWareHouseDo
+	StaUni                            IStaUniDo
+	Stun                              IStunDo
+	T2VomZea                          IT2VomZeaDo
+	T2toxin                           IT2toxinDo
+	TempHumMon                        ITempHumMonDo
+	ToNumGermMon                      IToNumGermMonDo
+	ToxIndex                          IToxIndexDo
 	TransportProcedureData            ITransportProcedureDataDo
 	TransportVehicle                  ITransportVehicleDo
+	WastedWaterIndex                  IWastedWaterIndexDo
+	WaterQualityMon                   IWaterQualityMonDo
+	WaterRecord                       IWaterRecordDo
+	WaterTempMoni                     IWaterTempMoniDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
+		AcidShop:                          q.AcidShop.WithContext(ctx),
+		Afb1:                              q.Afb1.WithContext(ctx),
+		AirNumGermMon:                     q.AirNumGermMon.WithContext(ctx),
+		AnalAfterSlaQuanCar:               q.AnalAfterSlaQuanCar.WithContext(ctx),
+		AnalCutWeight:                     q.AnalCutWeight.WithContext(ctx),
+		As:                                q.As.WithContext(ctx),
+		BleedElectronic:                   q.BleedElectronic.WithContext(ctx),
+		Buffer:                            q.Buffer.WithContext(ctx),
+		Cass:                              q.Cass.WithContext(ctx),
+		CattleFarm:                        q.CattleFarm.WithContext(ctx),
+		Cd:                                q.Cd.WithContext(ctx),
+		ChiledFreshIndex:                  q.ChiledFreshIndex.WithContext(ctx),
 		Cow:                               q.Cow.WithContext(ctx),
+		CowHouse:                          q.CowHouse.WithContext(ctx),
+		Cr:                                q.Cr.WithContext(ctx),
+		DisRecord:                         q.DisRecord.WithContext(ctx),
+		DivShop:                           q.DivShop.WithContext(ctx),
+		Don:                               q.Don.WithContext(ctx),
+		DrugsResi:                         q.DrugsResi.WithContext(ctx),
+		Environment:                       q.Environment.WithContext(ctx),
 		FSIMSUser:                         q.FSIMSUser.WithContext(ctx),
+		FacDisMon:                         q.FacDisMon.WithContext(ctx),
+		FarmDisRecord:                     q.FarmDisRecord.WithContext(ctx),
+		FarmEnvironment:                   q.FarmEnvironment.WithContext(ctx),
+		FattenProcedure:                   q.FattenProcedure.WithContext(ctx),
+		FattenSoil:                        q.FattenSoil.WithContext(ctx),
+		FattenSoilBiohazard:               q.FattenSoilBiohazard.WithContext(ctx),
+		FattenSoilPhysicalHazard:          q.FattenSoilPhysicalHazard.WithContext(ctx),
+		FattenWater:                       q.FattenWater.WithContext(ctx),
+		FattenWaterBiohazard:              q.FattenWaterBiohazard.WithContext(ctx),
+		FattenWaterChemicalHazard:         q.FattenWaterChemicalHazard.WithContext(ctx),
+		FattenWaterPhysicalHazard:         q.FattenWaterPhysicalHazard.WithContext(ctx),
+		FattenWaterSensoryTraits:          q.FattenWaterSensoryTraits.WithContext(ctx),
 		FeedingBatch:                      q.FeedingBatch.WithContext(ctx),
+		FroShop:                           q.FroShop.WithContext(ctx),
+		Gps:                               q.Gps.WithContext(ctx),
+		HeavyMetal:                        q.HeavyMetal.WithContext(ctx),
 		Log:                               q.Log.WithContext(ctx),
-		Mall:                              q.Mall.WithContext(ctx),
-		MallGood:                          q.MallGood.WithContext(ctx),
-		PackWarehouse:                     q.PackWarehouse.WithContext(ctx),
-		PackageBatch:                      q.PackageBatch.WithContext(ctx),
+		MicroIndex:                        q.MicroIndex.WithContext(ctx),
+		OapGci:                            q.OapGci.WithContext(ctx),
+		OtherIndex:                        q.OtherIndex.WithContext(ctx),
+		PaGerm:                            q.PaGerm.WithContext(ctx),
+		PackReceive:                       q.PackReceive.WithContext(ctx),
+		PackShop:                          q.PackShop.WithContext(ctx),
+		PackWareHouse:                     q.PackWareHouse.WithContext(ctx),
 		PackageHouse:                      q.PackageHouse.WithContext(ctx),
-		PackageProduct:                    q.PackageProduct.WithContext(ctx),
-		PackageProductAndTransportPIDMap:  q.PackageProductAndTransportPIDMap.WithContext(ctx),
-		PackageReceiveRecord:              q.PackageReceiveRecord.WithContext(ctx),
+		PaddingRequire:                    q.PaddingRequire.WithContext(ctx),
 		PastureAir:                        q.PastureAir.WithContext(ctx),
 		PastureFloorBedding:               q.PastureFloorBedding.WithContext(ctx),
 		PastureFloorBeddingBiohazard:      q.PastureFloorBeddingBiohazard.WithContext(ctx),
@@ -388,7 +787,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		PastureSoilBiohazard:              q.PastureSoilBiohazard.WithContext(ctx),
 		PastureSoilPhysicalHazard:         q.PastureSoilPhysicalHazard.WithContext(ctx),
 		PastureTruckDisinfectionRecord:    q.PastureTruckDisinfectionRecord.WithContext(ctx),
-		PastureWarehouse:                  q.PastureWarehouse.WithContext(ctx),
+		PastureWareHouse:                  q.PastureWareHouse.WithContext(ctx),
 		PastureWasteDischarge:             q.PastureWasteDischarge.WithContext(ctx),
 		PastureWater:                      q.PastureWater.WithContext(ctx),
 		PastureWaterBiohazard:             q.PastureWaterBiohazard.WithContext(ctx),
@@ -396,15 +795,32 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		PastureWaterPhysicalHazard:        q.PastureWaterPhysicalHazard.WithContext(ctx),
 		PastureWaterSensoryTraits:         q.PastureWaterSensoryTraits.WithContext(ctx),
 		PastureWorksuitDisinfectionRecord: q.PastureWorksuitDisinfectionRecord.WithContext(ctx),
+		Pb:                                q.Pb.WithContext(ctx),
+		PreSlaDietManage:                  q.PreSlaDietManage.WithContext(ctx),
+		PreSlaGerms:                       q.PreSlaGerms.WithContext(ctx),
+		PreSlaInfoRec:                     q.PreSlaInfoRec.WithContext(ctx),
+		PreSlaPicAndEn:                    q.PreSlaPicAndEn.WithContext(ctx),
+		PreSlaQuanPic:                     q.PreSlaQuanPic.WithContext(ctx),
 		Procedure:                         q.Procedure.WithContext(ctx),
-		SlaughterBatch:                    q.SlaughterBatch.WithContext(ctx),
+		SlaEnvLigRec:                      q.SlaEnvLigRec.WithContext(ctx),
+		SlaInfoMon:                        q.SlaInfoMon.WithContext(ctx),
+		SlaShop:                           q.SlaShop.WithContext(ctx),
 		SlaughterHouse:                    q.SlaughterHouse.WithContext(ctx),
-		SlaughterProduct:                  q.SlaughterProduct.WithContext(ctx),
-		SlaughterReceiveRecord:            q.SlaughterReceiveRecord.WithContext(ctx),
-		SlaughterWarehouse:                q.SlaughterWarehouse.WithContext(ctx),
-		TransportBatch:                    q.TransportBatch.WithContext(ctx),
+		SlaughterReceive:                  q.SlaughterReceive.WithContext(ctx),
+		SlaughterWareHouse:                q.SlaughterWareHouse.WithContext(ctx),
+		StaUni:                            q.StaUni.WithContext(ctx),
+		Stun:                              q.Stun.WithContext(ctx),
+		T2VomZea:                          q.T2VomZea.WithContext(ctx),
+		T2toxin:                           q.T2toxin.WithContext(ctx),
+		TempHumMon:                        q.TempHumMon.WithContext(ctx),
+		ToNumGermMon:                      q.ToNumGermMon.WithContext(ctx),
+		ToxIndex:                          q.ToxIndex.WithContext(ctx),
 		TransportProcedureData:            q.TransportProcedureData.WithContext(ctx),
 		TransportVehicle:                  q.TransportVehicle.WithContext(ctx),
+		WastedWaterIndex:                  q.WastedWaterIndex.WithContext(ctx),
+		WaterQualityMon:                   q.WaterQualityMon.WithContext(ctx),
+		WaterRecord:                       q.WaterRecord.WithContext(ctx),
+		WaterTempMoni:                     q.WaterTempMoni.WithContext(ctx),
 	}
 }
 

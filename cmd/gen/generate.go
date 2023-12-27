@@ -5,6 +5,7 @@ import (
 	"CN-EU-FSIMS/internal/app/models/coldchain"
 	"CN-EU-FSIMS/internal/app/models/pack"
 	"CN-EU-FSIMS/internal/app/models/pasture"
+	"CN-EU-FSIMS/internal/app/models/premortem"
 	"CN-EU-FSIMS/internal/app/models/product"
 	"CN-EU-FSIMS/internal/app/models/sell"
 	"CN-EU-FSIMS/internal/app/models/slaughter"
@@ -46,6 +47,18 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 	g.ApplyBasic(&product.Cow{}, &pasture.FeedingBatch{}, &warehouse.PastureWarehouse{},
 		&warehouse.SlaughterReceiveRecord{}, &slaughter.SlaughterBatch{}, &product.SlaughterProduct{}, &warehouse.SlaughterWarehouse{},
 		&warehouse.PackageReceiveRecord{}, &pack.PackageBatch{}, &product.PackageProduct{}, &warehouse.PackWarehouse{}, &coldchain.TransportBatch{}, &coldchain.PackageProductAndTransportPIDMap{}, &product.MallGood{})
+
+	//传感器数据
+	g.ApplyBasic(&pasture.Cass{}, &pasture.Afb1{}, &pasture.Don{}, &pasture.T2toxin{}, &pasture.T2VomZea{})
+	g.ApplyBasic(&pasture.FarmEnvironment{}, &pasture.Buffer{}, &pasture.CattleFarm{}, &pasture.CowHouse{}, &pasture.Environment{}, &pasture.PaddingRequire{}, &pasture.WastedWaterIndex{}, &pasture.FarmDisRecord{})
+	g.ApplyBasic(&pasture.HeavyMetal{}, &pasture.As{}, &pasture.Pb{}, &pasture.Cd{}, &pasture.Cr{})
+	g.ApplyBasic(&pasture.WaterRecord{}, &pasture.OapGci{}, &pasture.ToxIndex{}, &pasture.MicroIndex{})
+	g.ApplyBasic(&pasture.Cow{})
+	g.ApplyBasic(&premortem.PreSlaInfoRec{}, &premortem.Gps{}, &premortem.PreSlaGerms{}, &premortem.PreSlaDietManage{}, &premortem.PreSlaPicAndEn{})
+	g.ApplyBasic(&slaughter.ChiledFreshIndex{}, &slaughter.PaGerm{}, &slaughter.OtherIndex{}, &slaughter.DrugsResi{})
+	g.ApplyBasic(&slaughter.SlaInfoMon{}, &slaughter.Stun{}, &slaughter.BleedElectronic{}, &slaughter.AnalAfterSlaQuanCar{}, &slaughter.PreSlaQuanPic{}, &slaughter.WaterTempMoni{}, &slaughter.AnalCutWeight{}, &slaughter.AnalCutWeight{},
+		&slaughter.TempHumMon{}, &slaughter.FacDisMon{}, &slaughter.SlaEnvLigRec{}, &slaughter.ToNumGermMon{}, &slaughter.AirNumGermMon{}, &slaughter.WaterQualityMon{}, &slaughter.SlaShop{}, &slaughter.DivShop{}, &slaughter.AcidShop{}, &slaughter.FroShop{},
+		&slaughter.PackShop{}, &slaughter.StaUni{}, &slaughter.DisRecord{})
 
 	g.ApplyBasic(
 		&pasture.PastureProcedure{}, &pasture.PastureWater{}, &pasture.PastureFodder{}, &pasture.PastureSoil{}, &pasture.PastureFloorBedding{}, &pasture.PastureAir{},

@@ -128,7 +128,7 @@ func AddFsimsUser(user *request.ReqUser) error {
 	if err != nil {
 		return err
 	}
-	
+
 	passwordHash := crypto.CalculateSHA256(user.Password, PASSWORD_SALT)
 
 	fsimsUser := models.FSIMSUser{
@@ -328,7 +328,7 @@ func DeleteFsimUser(account *request.ReqAccount) error {
 	}
 	//Delete the corresponding records in the casbin table first
 
-	res, err := u.WithContext(context.Background()).Unscoped().Where(u.UUID.Eq(uuid)).Delete()
+	res, err := u.WithContext(context.Background()).Where(u.UUID.Eq(uuid)).Delete()
 	_ = res.RowsAffected
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
