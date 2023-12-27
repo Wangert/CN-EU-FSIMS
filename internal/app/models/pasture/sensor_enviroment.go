@@ -5,7 +5,8 @@ import "gorm.io/gorm"
 type FarmEnvironment struct {
 	//农场环境
 	gorm.Model
-	TimeRecordAt     string           `json:"time_record_at"`                                                        //记录时间
+	TimeRecordAt     string           `json:"time_record_at"` //记录时间
+	HouseNumber      string           `gorm:"not null; type:varchar(256)" json:"houseNumber"`
 	Buffer           Buffer           `gorm:"foreignKey:FarmEnvironmentID; references:ID" json:"buffer"`             //缓冲区环境
 	CattleFarm       CattleFarm       `gorm:"foreignKey:FarmEnvironmentID; references:ID" json:"cattle_farm"`        //场区环境
 	Environment      Environment      `gorm:"foreignKey:FarmEnvironmentID; references:ID" json:"environment"`        //光照等因素

@@ -9,14 +9,19 @@ import (
 
 type PastureHouse struct {
 	gorm.Model
-	HouseNumber   string                       `gorm:"not null; unique; type:varchar(256)" json:"house_number"`
-	Name          string                       `gorm:"not null; type:varchar(100)" json:"name"`
-	Address       string                       `gorm:"not null; type:varchar(256)" json:"address"`
-	State         uint                         `gorm:"not null" json:"state"`
-	LegalPerson   string                       `gorm:"not null; type:varchar(100)" json:"legal_person"`
-	Cows          []product.Cow                `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"cows"`
-	FeedingRecord []FeedingBatch               `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"feeding_record"`
-	PasHRecord    []warehouse.PastureWarehouse `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"pash_record"`
+	HouseNumber        string                       `gorm:"not null; unique; type:varchar(256)" json:"house_number"`
+	Name               string                       `gorm:"not null; type:varchar(100)" json:"name"`
+	Address            string                       `gorm:"not null; type:varchar(256)" json:"address"`
+	State              uint                         `gorm:"not null" json:"state"`
+	LegalPerson        string                       `gorm:"not null; type:varchar(100)" json:"legal_person"`
+	Cows               []product.Cow                `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"cows"`
+	FeedingRecord      []FeedingBatch               `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"feeding_record"`
+	PasHRecord         []warehouse.PastureWarehouse `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"pash_record"`
+	HeavyMetalRecords  []HeavyMetal                 `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"heavy_metal_records"`
+	CassRecords        []Cass                       `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"cass_records"`
+	WaterRecords       []WaterRecord                `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"water_records"`
+	EnvironmentRecords []FarmEnvironment            `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"environment_records"`
+	CowsInfoRecords    []Cow                        `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"cow_info_records"`
 }
 
 type PastureHouseInfo struct {

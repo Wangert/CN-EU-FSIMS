@@ -4,7 +4,8 @@ import "gorm.io/gorm"
 
 type WaterRecord struct {
 	gorm.Model
-	TimeRecordAt string     `json:"time_record_at"`                                             //时间记录
+	TimeRecordAt string     `json:"time_record_at"`
+	HouseNumber  string     `gorm:"not null; type:varchar(256)" json:"houseNumber"`             //时间记录
 	OapGci       OapGci     `gorm:"foreignKey:WaterRecordID; references:ID" json:"oap_gci"`     //感官性状和一般化学指标
 	ToxIndex     ToxIndex   `gorm:"foreignKey:WaterRecordID; references:ID" json:"tox_index"`   //毒理性指标
 	MicroIndex   MicroIndex `gorm:"foreignKey:WaterRecordID; references:ID" json:"micro_index"` //微生物指标

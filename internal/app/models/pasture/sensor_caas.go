@@ -5,7 +5,8 @@ import "gorm.io/gorm"
 type Cass struct {
 	////饲料中真菌毒素、农兽药残留
 	gorm.Model
-	TimeRecordAt string   `json:"time_record_at"`                                      //数据记录时间
+	TimeRecordAt string   `json:"time_record_at"` //数据记录时间
+	HouseNumber  string   `gorm:"not null; type:varchar(256)" json:"houseNumber"`
 	Afb1         Afb1     `gorm:"foreignKey:CassID; references:ID" json:"afb_1"`       //黄曲霉毒素B1
 	Don          Don      `gorm:"foreignKey:CassID; references:ID" json:"don"`         //玉米赤霉烯酮
 	T2toxin      T2toxin  `gorm:"foreignKey:CassID; references:ID" json:"t2Toxin"`     //脱氧雪腐镰刀菌烯醇（呕吐毒素）

@@ -6,6 +6,7 @@ import "CN-EU-FSIMS/internal/app/models/pasture"
 type SlaInfoMon struct {
 	//屠宰过程监控
 	gorm.Model
+	HouseNumber         string              `gorm:"not null; type:varchar(256)" json:"house_number"`
 	TimeRecordAt        string              `json:"time_record_at"`                                                        //时间记录
 	WeightMoni          float32             `json:"weight_moni"`                                                           //重量监控，毛重
 	Stun                Stun                `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"stun"`                    //击晕参数
@@ -16,16 +17,10 @@ type SlaInfoMon struct {
 	AnalCutWeight       AnalCutWeight       `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"anal_cut_weight"`         //胴体、冷鲜肉温度监控,屠宰到入排酸库的时间，记录排酸库胴体间隙,分割前胴体重量记录,分割前胴体温度,分割刀温度，记录,分割后肉称重
 	TempHumMon          TempHumMon          `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"temp_hum_mon"`            //温湿度监控
 	FacDisMon           FacDisMon           `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"fac_dis_mon"`
-	//SlaShop             SlaShop             `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"sla_shop"`                //屠宰车间
-	//DivShop             DivShop             `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"div_shop"`                //分割车间
-	//AcidShop            AcidShop            `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"acid_shop"`               //排酸车间
-	//FroShop             FroShop             `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"fro_shop"`                //冷冻车间
-	//PackShop            PackShop            `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"pack_shop"`               //包装车间
-	//StaUni              StaUni              `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"sta_uni"`                 //员工工作服
-	SlaEnvLigRec    SlaEnvLigRec    `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"sla_env_lig_rec"`   //屠宰环境光照记录
-	ToNumGermMon    ToNumGermMon    `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"to_num_germ_mon"`   //接触面菌落总数监控
-	AirNumGermMon   AirNumGermMon   `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"air_num_germ_mon"`  //空气菌落总数监控
-	WaterQualityMon WaterQualityMon `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"water_quality_mon"` //水质监控
+	SlaEnvLigRec        SlaEnvLigRec        `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"sla_env_lig_rec"`   //屠宰环境光照记录
+	ToNumGermMon        ToNumGermMon        `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"to_num_germ_mon"`   //接触面菌落总数监控
+	AirNumGermMon       AirNumGermMon       `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"air_num_germ_mon"`  //空气菌落总数监控
+	WaterQualityMon     WaterQualityMon     `gorm:"foreignKey:SlaInfoMonID; references:ID" json:"water_quality_mon"` //水质监控
 
 }
 type Stun struct {
