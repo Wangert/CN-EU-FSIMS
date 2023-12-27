@@ -36,10 +36,27 @@ func newSlaughterHouse(db *gorm.DB, opts ...gen.DOOption) slaughterHouse {
 	_slaughterHouse.Address = field.NewString(tableName, "address")
 	_slaughterHouse.State = field.NewUint(tableName, "state")
 	_slaughterHouse.LegalPerson = field.NewString(tableName, "legal_person")
-	_slaughterHouse.SWRecord = slaughterHouseHasOneSWRecord{
+	_slaughterHouse.ReceiveRecords = slaughterHouseHasManyReceiveRecords{
 		db: db.Session(&gorm.Session{}),
 
-		RelationField: field.NewRelation("SWRecord", "warehouse.SlaughterWareHouse"),
+		RelationField: field.NewRelation("ReceiveRecords", "warehouse.SlaughterReceiveRecord"),
+	}
+
+	_slaughterHouse.SlaughterRecords = slaughterHouseHasManySlaughterRecords{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("SlaughterRecords", "slaughter.SlaughterBatch"),
+		Products: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("SlaughterRecords.Products", "product.SlaughterProduct"),
+		},
+	}
+
+	_slaughterHouse.SWRecords = slaughterHouseHasManySWRecords{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("SWRecords", "warehouse.SlaughterWarehouse"),
 	}
 
 	_slaughterHouse.fillFieldMap()
@@ -50,17 +67,21 @@ func newSlaughterHouse(db *gorm.DB, opts ...gen.DOOption) slaughterHouse {
 type slaughterHouse struct {
 	slaughterHouseDo slaughterHouseDo
 
-	ALL         field.Asterisk
-	ID          field.Uint
-	CreatedAt   field.Time
-	UpdatedAt   field.Time
-	DeletedAt   field.Field
-	HouseNumber field.String
-	Name        field.String
-	Address     field.String
-	State       field.Uint
-	LegalPerson field.String
-	SWRecord    slaughterHouseHasOneSWRecord
+	ALL            field.Asterisk
+	ID             field.Uint
+	CreatedAt      field.Time
+	UpdatedAt      field.Time
+	DeletedAt      field.Field
+	HouseNumber    field.String
+	Name           field.String
+	Address        field.String
+	State          field.Uint
+	LegalPerson    field.String
+	ReceiveRecords slaughterHouseHasManyReceiveRecords
+
+	SlaughterRecords slaughterHouseHasManySlaughterRecords
+
+	SWRecords slaughterHouseHasManySWRecords
 
 	fieldMap map[string]field.Expr
 }
@@ -114,7 +135,7 @@ func (s *slaughterHouse) GetFieldByName(fieldName string) (field.OrderExpr, bool
 }
 
 func (s *slaughterHouse) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 10)
+	s.fieldMap = make(map[string]field.Expr, 12)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
@@ -137,13 +158,13 @@ func (s slaughterHouse) replaceDB(db *gorm.DB) slaughterHouse {
 	return s
 }
 
-type slaughterHouseHasOneSWRecord struct {
+type slaughterHouseHasManyReceiveRecords struct {
 	db *gorm.DB
 
 	field.RelationField
 }
 
-func (a slaughterHouseHasOneSWRecord) Where(conds ...field.Expr) *slaughterHouseHasOneSWRecord {
+func (a slaughterHouseHasManyReceiveRecords) Where(conds ...field.Expr) *slaughterHouseHasManyReceiveRecords {
 	if len(conds) == 0 {
 		return &a
 	}
@@ -156,27 +177,27 @@ func (a slaughterHouseHasOneSWRecord) Where(conds ...field.Expr) *slaughterHouse
 	return &a
 }
 
-func (a slaughterHouseHasOneSWRecord) WithContext(ctx context.Context) *slaughterHouseHasOneSWRecord {
+func (a slaughterHouseHasManyReceiveRecords) WithContext(ctx context.Context) *slaughterHouseHasManyReceiveRecords {
 	a.db = a.db.WithContext(ctx)
 	return &a
 }
 
-func (a slaughterHouseHasOneSWRecord) Session(session *gorm.Session) *slaughterHouseHasOneSWRecord {
+func (a slaughterHouseHasManyReceiveRecords) Session(session *gorm.Session) *slaughterHouseHasManyReceiveRecords {
 	a.db = a.db.Session(session)
 	return &a
 }
 
-func (a slaughterHouseHasOneSWRecord) Model(m *slaughter.SlaughterHouse) *slaughterHouseHasOneSWRecordTx {
-	return &slaughterHouseHasOneSWRecordTx{a.db.Model(m).Association(a.Name())}
+func (a slaughterHouseHasManyReceiveRecords) Model(m *slaughter.SlaughterHouse) *slaughterHouseHasManyReceiveRecordsTx {
+	return &slaughterHouseHasManyReceiveRecordsTx{a.db.Model(m).Association(a.Name())}
 }
 
-type slaughterHouseHasOneSWRecordTx struct{ tx *gorm.Association }
+type slaughterHouseHasManyReceiveRecordsTx struct{ tx *gorm.Association }
 
-func (a slaughterHouseHasOneSWRecordTx) Find() (result *warehouse.SlaughterWareHouse, err error) {
+func (a slaughterHouseHasManyReceiveRecordsTx) Find() (result []*warehouse.SlaughterReceiveRecord, err error) {
 	return result, a.tx.Find(&result)
 }
 
-func (a slaughterHouseHasOneSWRecordTx) Append(values ...*warehouse.SlaughterWareHouse) (err error) {
+func (a slaughterHouseHasManyReceiveRecordsTx) Append(values ...*warehouse.SlaughterReceiveRecord) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -184,7 +205,7 @@ func (a slaughterHouseHasOneSWRecordTx) Append(values ...*warehouse.SlaughterWar
 	return a.tx.Append(targetValues...)
 }
 
-func (a slaughterHouseHasOneSWRecordTx) Replace(values ...*warehouse.SlaughterWareHouse) (err error) {
+func (a slaughterHouseHasManyReceiveRecordsTx) Replace(values ...*warehouse.SlaughterReceiveRecord) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -192,7 +213,7 @@ func (a slaughterHouseHasOneSWRecordTx) Replace(values ...*warehouse.SlaughterWa
 	return a.tx.Replace(targetValues...)
 }
 
-func (a slaughterHouseHasOneSWRecordTx) Delete(values ...*warehouse.SlaughterWareHouse) (err error) {
+func (a slaughterHouseHasManyReceiveRecordsTx) Delete(values ...*warehouse.SlaughterReceiveRecord) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -200,11 +221,157 @@ func (a slaughterHouseHasOneSWRecordTx) Delete(values ...*warehouse.SlaughterWar
 	return a.tx.Delete(targetValues...)
 }
 
-func (a slaughterHouseHasOneSWRecordTx) Clear() error {
+func (a slaughterHouseHasManyReceiveRecordsTx) Clear() error {
 	return a.tx.Clear()
 }
 
-func (a slaughterHouseHasOneSWRecordTx) Count() int64 {
+func (a slaughterHouseHasManyReceiveRecordsTx) Count() int64 {
+	return a.tx.Count()
+}
+
+type slaughterHouseHasManySlaughterRecords struct {
+	db *gorm.DB
+
+	field.RelationField
+
+	Products struct {
+		field.RelationField
+	}
+}
+
+func (a slaughterHouseHasManySlaughterRecords) Where(conds ...field.Expr) *slaughterHouseHasManySlaughterRecords {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a slaughterHouseHasManySlaughterRecords) WithContext(ctx context.Context) *slaughterHouseHasManySlaughterRecords {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a slaughterHouseHasManySlaughterRecords) Session(session *gorm.Session) *slaughterHouseHasManySlaughterRecords {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a slaughterHouseHasManySlaughterRecords) Model(m *slaughter.SlaughterHouse) *slaughterHouseHasManySlaughterRecordsTx {
+	return &slaughterHouseHasManySlaughterRecordsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type slaughterHouseHasManySlaughterRecordsTx struct{ tx *gorm.Association }
+
+func (a slaughterHouseHasManySlaughterRecordsTx) Find() (result []*slaughter.SlaughterBatch, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a slaughterHouseHasManySlaughterRecordsTx) Append(values ...*slaughter.SlaughterBatch) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a slaughterHouseHasManySlaughterRecordsTx) Replace(values ...*slaughter.SlaughterBatch) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a slaughterHouseHasManySlaughterRecordsTx) Delete(values ...*slaughter.SlaughterBatch) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a slaughterHouseHasManySlaughterRecordsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a slaughterHouseHasManySlaughterRecordsTx) Count() int64 {
+	return a.tx.Count()
+}
+
+type slaughterHouseHasManySWRecords struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a slaughterHouseHasManySWRecords) Where(conds ...field.Expr) *slaughterHouseHasManySWRecords {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a slaughterHouseHasManySWRecords) WithContext(ctx context.Context) *slaughterHouseHasManySWRecords {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a slaughterHouseHasManySWRecords) Session(session *gorm.Session) *slaughterHouseHasManySWRecords {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a slaughterHouseHasManySWRecords) Model(m *slaughter.SlaughterHouse) *slaughterHouseHasManySWRecordsTx {
+	return &slaughterHouseHasManySWRecordsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type slaughterHouseHasManySWRecordsTx struct{ tx *gorm.Association }
+
+func (a slaughterHouseHasManySWRecordsTx) Find() (result []*warehouse.SlaughterWarehouse, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a slaughterHouseHasManySWRecordsTx) Append(values ...*warehouse.SlaughterWarehouse) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a slaughterHouseHasManySWRecordsTx) Replace(values ...*warehouse.SlaughterWarehouse) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a slaughterHouseHasManySWRecordsTx) Delete(values ...*warehouse.SlaughterWarehouse) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a slaughterHouseHasManySWRecordsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a slaughterHouseHasManySWRecordsTx) Count() int64 {
 	return a.tx.Count()
 }
 

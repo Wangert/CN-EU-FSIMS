@@ -156,39 +156,39 @@ func CommitPackProcedure(c *gin.Context) {
 	return
 }
 
-func TransportStart(c *gin.Context) {
-	var ctp request.TransportStart
-	if err := c.ShouldBind(&ctp); err != nil {
-		glog.Errorln(err.Error())
-		response.MakeFail(c, http.StatusNotAcceptable, err.Error())
-		return
-	}
-
-	if err := service.AddTransportProcedure(ctp); err != nil {
-		glog.Errorln("commit transport procedure error")
-		response.MakeFail(c, http.StatusBadRequest, err.Error())
-		return
-	}
-
-	response.MakeSuccess(c, http.StatusOK, "create transport start successful")
-	return
-}
-
-func TransportEnd(c *gin.Context) {
-	var te request.TransportEnd
-	if err := c.ShouldBind(&te); err != nil {
-		glog.Errorln(err.Error())
-		response.MakeFail(c, http.StatusNotAcceptable, err.Error())
-		return
-	}
-
-	checkcode, err := service.TransportEnd(te)
-	if err != nil {
-		glog.Errorln("commit transport end error")
-		response.MakeFail(c, http.StatusBadRequest, err.Error())
-		return
-	}
-
-	response.MakeSuccess(c, http.StatusOK, checkcode)
-	return
-}
+//func TransportStart(c *gin.Context) {
+//	var ctp request.TransportStart
+//	if err := c.ShouldBind(&ctp); err != nil {
+//		glog.Errorln(err.Error())
+//		response.MakeFail(c, http.StatusNotAcceptable, err.Error())
+//		return
+//	}
+//
+//	if err := service.AddTransportProcedure(ctp); err != nil {
+//		glog.Errorln("commit transport procedure error")
+//		response.MakeFail(c, http.StatusBadRequest, err.Error())
+//		return
+//	}
+//
+//	response.MakeSuccess(c, http.StatusOK, "create transport start successful")
+//	return
+//}
+//
+//func TransportEnd(c *gin.Context) {
+//	var te request.TransportEnd
+//	if err := c.ShouldBind(&te); err != nil {
+//		glog.Errorln(err.Error())
+//		response.MakeFail(c, http.StatusNotAcceptable, err.Error())
+//		return
+//	}
+//
+//	checkcode, err := service.TransportEnd(te)
+//	if err != nil {
+//		glog.Errorln("commit transport end error")
+//		response.MakeFail(c, http.StatusBadRequest, err.Error())
+//		return
+//	}
+//
+//	response.MakeSuccess(c, http.StatusOK, checkcode)
+//	return
+//}

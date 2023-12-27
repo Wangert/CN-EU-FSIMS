@@ -6,12 +6,6 @@ type ReqInPastureWarehouse struct {
 	InOperator  string `json:"in_operator" form:"in_operator"`
 }
 
-type ReqSendToSlaughter struct {
-	ProductNumber string `json:"product_number" form:"product_number"`
-	OutOperator   string `json:"out_operator" form:"out_operator"`
-	Destination   string `json:"destination" form:"destination"`
-}
-
 type SlaughterReceive struct {
 	ProductNumber string `json:"product_number" form:"product_number"`
 	ProductPID    string `json:"product_pid" form:"product_pid"`

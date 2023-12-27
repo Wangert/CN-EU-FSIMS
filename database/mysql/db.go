@@ -3,11 +3,11 @@ package mysql
 import (
 	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/app/models/coldchain"
-	"CN-EU-FSIMS/internal/app/models/fatten"
 	"CN-EU-FSIMS/internal/app/models/pack"
 	"CN-EU-FSIMS/internal/app/models/pasture"
 	"CN-EU-FSIMS/internal/app/models/product"
 	"CN-EU-FSIMS/internal/app/models/query"
+	"CN-EU-FSIMS/internal/app/models/sell"
 	"CN-EU-FSIMS/internal/app/models/slaughter"
 	"CN-EU-FSIMS/internal/app/models/warehouse"
 	"CN-EU-FSIMS/internal/config"
@@ -59,33 +59,28 @@ func AutoMigrate() {
 		&pasture.PastureWasteDischarge{}, &pasture.PastureWaterPhysicalHazard{}, &pasture.PastureWaterChemicalHazard{}, &pasture.PastureWaterSensoryTraits{}, &pasture.PastureWaterBiohazard{},
 		&pasture.PastureFodderPhysicalHazard{}, &pasture.PastureFodderBiohazard{}, &pasture.PastureSoilPhysicalHazard{}, &pasture.PastureSoilBiohazard{},
 		&pasture.PastureFloorBeddingPhysicalHazard{}, &pasture.PastureFloorBeddingBiohazard{}, &pasture.PastureSiteDisinfectionRecord{},
-		&pasture.PastureWorksuitDisinfectionRecord{}, &pasture.PastureTruckDisinfectionRecord{}, &fatten.FattenProcedure{}, &fatten.FattenWater{}, &fatten.FattenSoil{},
-		&fatten.FattenWaterPhysicalHazard{}, &fatten.FattenWaterChemicalHazard{}, &fatten.FattenWaterSensoryTraits{}, &fatten.FattenWaterBiohazard{},
-		&fatten.FattenSoilPhysicalHazard{}, &fatten.FattenSoilBiohazard{}, &warehouse.PastureWareHouse{}, &warehouse.SlaughterWareHouse{})
-
+		&pasture.PastureWorksuitDisinfectionRecord{}, &pasture.PastureTruckDisinfectionRecord{})
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	err = DB.AutoMigrate(&warehouse.SlaughterReceive{})
-	if err != nil {
-		fmt.Println(err)
-	}
-	err = DB.AutoMigrate(&warehouse.PackReceive{})
-	if err != nil {
-		fmt.Println(err)
-	}
-	err = DB.AutoMigrate(&warehouse.PackWareHouse{}, &coldchain.TransportProcedureData{})
+	//err = DB.AutoMigrate(&fatten.FattenProcedure{}, &fatten.FattenWater{}, &fatten.FattenSoil{},
+	//	&fatten.FattenWaterPhysicalHazard{}, &fatten.FattenWaterChemicalHazard{}, &fatten.FattenWaterSensoryTraits{}, &fatten.FattenWaterBiohazard{},
+	//	&fatten.FattenSoilPhysicalHazard{}, &fatten.FattenSoilBiohazard{})
+
+	err = DB.AutoMigrate(&coldchain.TransportProcedureData{})
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	err = DB.AutoMigrate(&pasture.PastureHouse{}, &slaughter.SlaughterHouse{}, &slaughter.SlaughterHouse{}, &pack.PackageHouse{}, &coldchain.TransportVehicle{})
+	err = DB.AutoMigrate(&pasture.PastureHouse{}, &slaughter.SlaughterHouse{}, &pack.PackageHouse{}, &coldchain.TransportVehicle{}, &sell.Mall{})
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	err = DB.AutoMigrate(&product.Cow{}, &pasture.FeedingBatch{})
+	err = DB.AutoMigrate(&product.Cow{}, &pasture.FeedingBatch{}, &warehouse.PastureWarehouse{},
+		&warehouse.SlaughterReceiveRecord{}, &slaughter.SlaughterBatch{}, &product.SlaughterProduct{}, &warehouse.SlaughterWarehouse{},
+		&warehouse.PackageReceiveRecord{}, &pack.PackageBatch{}, &product.PackageProduct{}, &warehouse.PackWarehouse{}, &coldchain.TransportBatch{}, &coldchain.PackageProductAndTransportPIDMap{}, &product.MallGood{})
 	if err != nil {
 		fmt.Println(err)
 	}

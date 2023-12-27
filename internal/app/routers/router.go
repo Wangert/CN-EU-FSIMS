@@ -34,6 +34,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		admin.POST("addslaughterhouse", handlers.AddSlaughterHouse)
 		admin.POST("addpackhouse", handlers.AddPackageHouse)
 		admin.POST("addtransportvehicle", handlers.AddTransportVehicle)
+		admin.POST("addmall", handlers.AddMall)
 
 		admin.GET("pastures", handlers.GetPastures)
 		admin.GET("searchpas", handlers.SearchPastures)
@@ -43,6 +44,8 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		admin.GET("searchpac", handlers.SearchPackageHouses)
 		admin.GET("transportvehicles", handlers.GetTransportVehicles)
 		admin.GET("searchtv", handlers.SearchTransportVehicles)
+		admin.GET("malls", handlers.GetMalls)
+		admin.GET("searchmall", handlers.SearchMalls)
 
 		admin.POST("addoperator", handlers.AddOperator)
 		admin.POST("adduser", handlers.AddUserByAdmin)
@@ -57,6 +60,14 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		admin.POST("newfeedingbatch", handlers.NewFeedingBatch)
 		admin.POST("addcow", handlers.AddCow)
 		admin.GET("getfeedingrecords", handlers.GetFeedingRecords)
+		admin.POST("endfeeding", handlers.EndFeeding)
+		admin.GET("warehouse", handlers.GetWarehouseInfos)
+		admin.POST("sendtoslaughter", handlers.SendToSlaughter)
+		admin.POST("confirmcow", handlers.ConfirmCowFromPasture)
+		admin.POST("newslaughterbatch", handlers.NewSlaughterBatch)
+		admin.POST("newslaughterproduct", handlers.NewSlaughterProduct)
+		admin.POST("endslaughterbatch", handlers.EndSlaughter)
+		admin.POST("sendtopackage", handlers.SendToPackage)
 	}
 
 	// industrial chain group
@@ -82,11 +93,13 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		//pop.POST("createproc", handlers.CreateProcedure)
 
 		pop.POST("addcow", handlers.AddCow)
+
 		pop.POST("newfeedingbatch", handlers.NewFeedingBatch)
 		pop.GET("getfeedingrecords", handlers.GetFeedingRecords)
-		pop.POST("commitproc", handlers.CommitPastureProcedure)
-		pop.POST("inwarehouse", handlers.PastureInWarehouse)
-		pop.POST("sendtonext", handlers.SendToSlaughter)
+		pop.POST("endfeeding", handlers.EndFeeding)
+		pop.GET("warehouse", handlers.GetWarehouseInfos)
+		//pop.POST("inwarehouse", handlers.PastureInWarehouse)
+		pop.POST("send", handlers.SendToSlaughter)
 	}
 
 	//slaughteroperator router group
@@ -96,28 +109,54 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		sop.GET("upload", handlers.SlaughterOperatorUpload)
 
 		sop.POST("commitproc", handlers.CommitSlaughterProcedure)
-		sop.POST("receive", handlers.SlaughterReceived)
-		sop.POST("inwarehouse", handlers.SlaughterInWarehouse)
-		sop.POST("sendtonext", handlers.SendToPack)
+
+		sop.GET("receiverecords", handlers.GetSlaughterReceiveRecords)
+		sop.GET("batches", handlers.GetSlaughterBatches)
+		sop.GET("warehouserecords", handlers.GetSlaughterWarehouseRecords)
+
+		sop.POST("receiveconfirm", handlers.ConfirmCowFromPasture)
+		sop.POST("newbatch", handlers.NewSlaughterBatch)
+		sop.POST("newproduct", handlers.NewSlaughterProduct)
+		sop.POST("endbatch", handlers.EndSlaughter)
+		sop.POST("send", handlers.SendToPackage)
 	}
 
 	//packoperator router group
 	kop := fsims.Group("/packoperator", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
 		kop.POST("commitproc", handlers.CommitPackProcedure)
-		kop.POST("receive", handlers.PackReceived)
-		kop.POST("inwarehouse", handlers.PackInWarehouse)
+
+		kop.GET("receiverecords", handlers.GetPackageReceiveRecords)
+		kop.GET("batches", handlers.GetPackageBatches)
+		kop.GET("warehouserecords", handlers.GetPackageWarehouseRecords)
+
+		kop.POST("receiveconfirm", handlers.ConfirmProductFromSlaughter)
+		kop.POST("newbatch", handlers.NewPackageBatch)
+		kop.POST("newproduct", handlers.NewPackageProduct)
+		kop.POST("endbatch", handlers.EndPackage)
+		kop.POST("pretransport", handlers.PreTransport)
 
 	}
 
 	//transportoperator router group
 	top := fsims.Group("/transportoperator", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
+<<<<<<< HEAD
 		top.POST("createproc", handlers.CreateProcedure)
 		top.GET("upload", handlers.TransportOperatorUpload)
 
 		top.POST("start", handlers.TransportStart)
 		top.POST("end", handlers.TransportEnd)
+=======
+		top.POST("start", handlers.StartTransport)
+		top.POST("end", handlers.EndTransport)
+	}
+
+	// mall
+	mop := fsims.Group("malloperator", middlewares.JwtAuth())
+	{
+		mop.GET("goods", handlers.GetMallGoods)
+>>>>>>> wangert
 	}
 	return e
 }

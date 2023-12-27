@@ -57,7 +57,7 @@ func newPastureHouse(db *gorm.DB, opts ...gen.DOOption) pastureHouse {
 	_pastureHouse.PasHRecord = pastureHouseHasManyPasHRecord{
 		db: db.Session(&gorm.Session{}),
 
-		RelationField: field.NewRelation("PasHRecord", "warehouse.PastureWareHouse"),
+		RelationField: field.NewRelation("PasHRecord", "warehouse.PastureWarehouse"),
 	}
 
 	_pastureHouse.fillFieldMap()
@@ -340,11 +340,11 @@ func (a pastureHouseHasManyPasHRecord) Model(m *pasture.PastureHouse) *pastureHo
 
 type pastureHouseHasManyPasHRecordTx struct{ tx *gorm.Association }
 
-func (a pastureHouseHasManyPasHRecordTx) Find() (result []*warehouse.PastureWareHouse, err error) {
+func (a pastureHouseHasManyPasHRecordTx) Find() (result []*warehouse.PastureWarehouse, err error) {
 	return result, a.tx.Find(&result)
 }
 
-func (a pastureHouseHasManyPasHRecordTx) Append(values ...*warehouse.PastureWareHouse) (err error) {
+func (a pastureHouseHasManyPasHRecordTx) Append(values ...*warehouse.PastureWarehouse) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -352,7 +352,7 @@ func (a pastureHouseHasManyPasHRecordTx) Append(values ...*warehouse.PastureWare
 	return a.tx.Append(targetValues...)
 }
 
-func (a pastureHouseHasManyPasHRecordTx) Replace(values ...*warehouse.PastureWareHouse) (err error) {
+func (a pastureHouseHasManyPasHRecordTx) Replace(values ...*warehouse.PastureWarehouse) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -360,7 +360,7 @@ func (a pastureHouseHasManyPasHRecordTx) Replace(values ...*warehouse.PastureWar
 	return a.tx.Replace(targetValues...)
 }
 
-func (a pastureHouseHasManyPasHRecordTx) Delete(values ...*warehouse.PastureWareHouse) (err error) {
+func (a pastureHouseHasManyPasHRecordTx) Delete(values ...*warehouse.PastureWarehouse) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v

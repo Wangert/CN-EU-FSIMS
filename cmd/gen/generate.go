@@ -3,11 +3,11 @@ package main
 import (
 	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/app/models/coldchain"
-	"CN-EU-FSIMS/internal/app/models/fatten"
 	"CN-EU-FSIMS/internal/app/models/pack"
 	"CN-EU-FSIMS/internal/app/models/pasture"
 	"CN-EU-FSIMS/internal/app/models/premortem"
 	"CN-EU-FSIMS/internal/app/models/product"
+	"CN-EU-FSIMS/internal/app/models/sell"
 	"CN-EU-FSIMS/internal/app/models/slaughter"
 	"CN-EU-FSIMS/internal/app/models/warehouse"
 	"CN-EU-FSIMS/internal/config"
@@ -41,11 +41,12 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 
 	g.ApplyBasic(&models.Log{})
 
-	g.ApplyBasic(&warehouse.PastureWareHouse{}, &warehouse.SlaughterWareHouse{})
-	g.ApplyBasic(&warehouse.SlaughterReceive{}, &warehouse.PackReceive{})
-	g.ApplyBasic(&warehouse.PackWareHouse{}, coldchain.TransportProcedureData{})
-	g.ApplyBasic(&pasture.PastureHouse{}, &slaughter.SlaughterHouse{}, &pack.PackageHouse{}, &coldchain.TransportVehicle{})
-	g.ApplyBasic(&product.Cow{}, &pasture.FeedingBatch{})
+	g.ApplyBasic(coldchain.TransportProcedureData{})
+
+	g.ApplyBasic(&pasture.PastureHouse{}, &slaughter.SlaughterHouse{}, &pack.PackageHouse{}, &coldchain.TransportVehicle{}, &sell.Mall{})
+	g.ApplyBasic(&product.Cow{}, &pasture.FeedingBatch{}, &warehouse.PastureWarehouse{},
+		&warehouse.SlaughterReceiveRecord{}, &slaughter.SlaughterBatch{}, &product.SlaughterProduct{}, &warehouse.SlaughterWarehouse{},
+		&warehouse.PackageReceiveRecord{}, &pack.PackageBatch{}, &product.PackageProduct{}, &warehouse.PackWarehouse{}, &coldchain.TransportBatch{}, &coldchain.PackageProductAndTransportPIDMap{}, &product.MallGood{})
 
 	//传感器数据
 	g.ApplyBasic(&pasture.Cass{}, &pasture.Afb1{}, &pasture.Don{}, &pasture.T2toxin{}, &pasture.T2VomZea{})
@@ -64,9 +65,11 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 		&pasture.PastureWasteDischarge{}, &pasture.PastureWaterPhysicalHazard{}, &pasture.PastureWaterChemicalHazard{}, &pasture.PastureWaterSensoryTraits{}, &pasture.PastureWaterBiohazard{},
 		&pasture.PastureFodderPhysicalHazard{}, &pasture.PastureFodderBiohazard{}, &pasture.PastureSoilPhysicalHazard{}, &pasture.PastureSoilBiohazard{},
 		&pasture.PastureFloorBeddingPhysicalHazard{}, &pasture.PastureFloorBeddingBiohazard{}, &pasture.PastureSiteDisinfectionRecord{},
-		&pasture.PastureWorksuitDisinfectionRecord{}, &pasture.PastureTruckDisinfectionRecord{}, &fatten.FattenProcedure{}, &fatten.FattenWater{}, &fatten.FattenSoil{},
-		&fatten.FattenWaterPhysicalHazard{}, &fatten.FattenWaterChemicalHazard{}, &fatten.FattenWaterSensoryTraits{}, &fatten.FattenWaterBiohazard{},
-		&fatten.FattenSoilPhysicalHazard{}, &fatten.FattenSoilBiohazard{})
+		&pasture.PastureWorksuitDisinfectionRecord{}, &pasture.PastureTruckDisinfectionRecord{})
+
+	//g.ApplyBasic( &fatten.FattenProcedure{}, &fatten.FattenWater{}, &fatten.FattenSoil{},
+	//	&fatten.FattenWaterPhysicalHazard{}, &fatten.FattenWaterChemicalHazard{}, &fatten.FattenWaterSensoryTraits{}, &fatten.FattenWaterBiohazard{},
+	//	&fatten.FattenSoilPhysicalHazard{}, &fatten.FattenSoilBiohazard{})
 	g.Execute()
 }
 

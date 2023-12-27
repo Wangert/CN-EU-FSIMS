@@ -12,7 +12,7 @@ type ReqAddOperator struct {
 
 type ReqSearchUser struct {
 	Name        string `json:"name" form:"name"`
-	Role        string `json:"role"`
+	Role        string `json:"role" form:"role"`
 	Company     string `json:"company" form:"company"`
 	HouseNumber string `json:"house_number" form:"house_number"`
 }
@@ -66,4 +66,17 @@ type ReqSearchVehicle struct {
 	LicenseNumber string `json:"license_number" form:"license_number"`
 	Driver        string `json:"driver" form:"driver"`
 	DriverPhone   string `json:"driver_phone" form:"driver_phone"`
+}
+
+type ReqAddMall struct {
+	Name        string `json:"name" form:"name"`
+	Address     string `json:"address" form:"address"`
+	State       uint   `json:"state" form:"state"`
+	LegalPerson string `json:"legal_person" form:"legal_person"`
+}
+
+type ReqSearchMall struct {
+	Name        string `json:"name" form:"name"`
+	Address     string `json:"address" form:"address"`
+	LegalPerson string `json:"legal_person" form:"legal_person"`
 }

@@ -16,7 +16,15 @@ type PastureHouse struct {
 	LegalPerson   string                       `gorm:"not null; type:varchar(100)" json:"legal_person"`
 	Cows          []product.Cow                `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"cows"`
 	FeedingRecord []FeedingBatch               `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"feeding_record"`
-	PasHRecord    []warehouse.PastureWareHouse `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"pash_record"`
+	PasHRecord    []warehouse.PastureWarehouse `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"pash_record"`
+}
+
+type PastureHouseInfo struct {
+	HouseNumber string `json:"house_number"`
+	Name        string `json:"name"`
+	Address     string `json:"address"`
+	State       uint   `json:"state"`
+	LegalPerson string `json:"legal_person"`
 }
 
 func PastureToRes(pas *PastureHouse) models.House {
@@ -26,5 +34,15 @@ func PastureToRes(pas *PastureHouse) models.House {
 		Address:     pas.Address,
 		State:       pas.State,
 		LegalPerson: pas.LegalPerson,
+	}
+}
+
+func ToPastureHouseInfo(house PastureHouse) PastureHouseInfo {
+	return PastureHouseInfo{
+		HouseNumber: house.HouseNumber,
+		Name:        house.Name,
+		Address:     house.Address,
+		State:       house.State,
+		LegalPerson: house.LegalPerson,
 	}
 }
