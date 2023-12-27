@@ -5,7 +5,8 @@ import "gorm.io/gorm"
 type HeavyMetal struct {
 	//牧场饲料重金属
 	gorm.Model
-	TimeRecordAt string `json:"time_record_at"`                                   //时间记录
+	TimeRecordAt string `json:"time_record_at"` //时间记录
+	HouseNumber  string `gorm:"not null; type:varchar(256)" json:"houseNumber"`
 	As           As     `gorm:"foreignKey:HeavyMetalID; references:ID" json:"as"` //砷元素
 	Pb           Pb     `gorm:"foreignKey:HeavyMetalID; references:ID" json:"pb"` //铅元素
 	Cd           Cd     `gorm:"foreignKey:HeavyMetalID; references:ID" json:"cd"` //镉元素

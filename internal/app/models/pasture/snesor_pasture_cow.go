@@ -4,6 +4,7 @@ import "gorm.io/gorm"
 
 type Cow struct {
 	gorm.Model
+	HouseNumber  string `gorm:"not null; type:varchar(256)" json:"houseNumber"`
 	TimeRecordAt string `json:"time_record_at"` //记录时间
 	Cow1         string `json:"cow_1"`          //入场时间
 	Cow2         string `json:"cow_2"`          //防疫记录
