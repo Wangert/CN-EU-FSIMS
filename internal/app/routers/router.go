@@ -51,8 +51,8 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		admin.POST("adduser", handlers.AddUserByAdmin)
 		admin.GET("allusers", handlers.GetAllUsers)
 		admin.GET("searchusers", handlers.SearchUsers)
-		admin.POST("deleteuser", handlers.DeleteUser)
-		admin.POST("reset", handlers.ResetPasswordByAdmin)
+		admin.GET("deleteuser", handlers.DeleteUser)
+		admin.GET("reset", handlers.ResetPasswordByAdmin)
 
 		admin.GET("viewlog", handlers.ViewLogs)
 
@@ -105,9 +105,6 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	//slaughteroperator router group
 	sop := fsims.Group("/slaughteroperator", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
-		pop.POST("createproc", handlers.CreateProcedure)
-		sop.GET("upload", handlers.SlaughterOperatorUpload)
-
 		sop.POST("commitproc", handlers.CommitSlaughterProcedure)
 
 		sop.GET("receiverecords", handlers.GetSlaughterReceiveRecords)
@@ -141,13 +138,6 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	//transportoperator router group
 	top := fsims.Group("/transportoperator", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
-<<<<<<< HEAD
-		top.POST("createproc", handlers.CreateProcedure)
-		top.GET("upload", handlers.TransportOperatorUpload)
-
-		top.POST("start", handlers.TransportStart)
-		top.POST("end", handlers.TransportEnd)
-=======
 		top.POST("start", handlers.StartTransport)
 		top.POST("end", handlers.EndTransport)
 	}
@@ -156,7 +146,6 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	mop := fsims.Group("malloperator", middlewares.JwtAuth())
 	{
 		mop.GET("goods", handlers.GetMallGoods)
->>>>>>> wangert
 	}
 	return e
 }
