@@ -128,7 +128,7 @@ func AddFsimsUser(user *request.ReqUser) error {
 	if err != nil {
 		return err
 	}
-
+	
 	passwordHash := crypto.CalculateSHA256(user.Password, PASSWORD_SALT)
 
 	fsimsUser := models.FSIMSUser{
@@ -340,4 +340,11 @@ func DeleteFsimUser(account *request.ReqAccount) error {
 		return errors.New("delete a user error")
 	}
 	return nil
+}
+
+func CheckUserIsExisted(uuid string) error {
+	//检查用户uuid是否已经存在
+	u := query.FSIMSUser
+	_, err := u.WithContext(context.Background()).Where(u.UUID.Eq(uuid)).First()
+	return err
 }

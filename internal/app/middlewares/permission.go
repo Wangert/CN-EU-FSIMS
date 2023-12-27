@@ -14,6 +14,7 @@ import (
 // CheckPermission
 func CheckPermission() func(c *gin.Context) {
 	return func(c *gin.Context) {
+		glog.Infoln("到达检查权限")
 		u, ok := c.Get("uuid")
 		uuid := u.(string)
 		if !ok {
