@@ -30,7 +30,6 @@ func newPreSlaQuanPic(db *gorm.DB, opts ...gen.DOOption) preSlaQuanPic {
 	_preSlaQuanPic.CreatedAt = field.NewTime(tableName, "created_at")
 	_preSlaQuanPic.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_preSlaQuanPic.DeletedAt = field.NewField(tableName, "deleted_at")
-	_preSlaQuanPic.SlaInfoMonID = field.NewUint(tableName, "sla_info_mon_id")
 	_preSlaQuanPic.PreSlaQuanPic1 = field.NewString(tableName, "pre_sla_quan_pic1")
 	_preSlaQuanPic.PreSlaQuanPic2 = field.NewString(tableName, "pre_sla_quan_pic2")
 	_preSlaQuanPic.PreSlaQuanPic3 = field.NewString(tableName, "pre_sla_quan_pic3")
@@ -54,7 +53,6 @@ type preSlaQuanPic struct {
 	CreatedAt      field.Time
 	UpdatedAt      field.Time
 	DeletedAt      field.Field
-	SlaInfoMonID   field.Uint
 	PreSlaQuanPic1 field.String
 	PreSlaQuanPic2 field.String
 	PreSlaQuanPic3 field.String
@@ -84,7 +82,6 @@ func (p *preSlaQuanPic) updateTableName(table string) *preSlaQuanPic {
 	p.CreatedAt = field.NewTime(table, "created_at")
 	p.UpdatedAt = field.NewTime(table, "updated_at")
 	p.DeletedAt = field.NewField(table, "deleted_at")
-	p.SlaInfoMonID = field.NewUint(table, "sla_info_mon_id")
 	p.PreSlaQuanPic1 = field.NewString(table, "pre_sla_quan_pic1")
 	p.PreSlaQuanPic2 = field.NewString(table, "pre_sla_quan_pic2")
 	p.PreSlaQuanPic3 = field.NewString(table, "pre_sla_quan_pic3")
@@ -122,12 +119,11 @@ func (p *preSlaQuanPic) GetFieldByName(fieldName string) (field.OrderExpr, bool)
 }
 
 func (p *preSlaQuanPic) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 14)
+	p.fieldMap = make(map[string]field.Expr, 13)
 	p.fieldMap["id"] = p.ID
 	p.fieldMap["created_at"] = p.CreatedAt
 	p.fieldMap["updated_at"] = p.UpdatedAt
 	p.fieldMap["deleted_at"] = p.DeletedAt
-	p.fieldMap["sla_info_mon_id"] = p.SlaInfoMonID
 	p.fieldMap["pre_sla_quan_pic1"] = p.PreSlaQuanPic1
 	p.fieldMap["pre_sla_quan_pic2"] = p.PreSlaQuanPic2
 	p.fieldMap["pre_sla_quan_pic3"] = p.PreSlaQuanPic3

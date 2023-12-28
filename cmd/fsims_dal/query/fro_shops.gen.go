@@ -30,7 +30,8 @@ func newFroShop(db *gorm.DB, opts ...gen.DOOption) froShop {
 	_froShop.CreatedAt = field.NewTime(tableName, "created_at")
 	_froShop.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_froShop.DeletedAt = field.NewField(tableName, "deleted_at")
-	_froShop.FacDisMonID = field.NewUint(tableName, "fac_dis_mon_id")
+	_froShop.HouseNumber = field.NewString(tableName, "house_number")
+	_froShop.TimeRecordAt = field.NewFloat32(tableName, "time_record_at")
 	_froShop.FroShop1 = field.NewFloat32(tableName, "fro_shop1")
 	_froShop.FroShop2 = field.NewFloat32(tableName, "fro_shop2")
 	_froShop.FroShop3 = field.NewFloat32(tableName, "fro_shop3")
@@ -38,13 +39,13 @@ func newFroShop(db *gorm.DB, opts ...gen.DOOption) froShop {
 	_froShop.FroShop5 = field.NewFloat32(tableName, "fro_shop5")
 	_froShop.FroShop6 = field.NewFloat32(tableName, "fro_shop6")
 	_froShop.FroShop7 = field.NewFloat32(tableName, "fro_shop7")
+	_froShop.FroShop8 = field.NewFloat32(tableName, "fro_shop8")
 	_froShop.FroShop9 = field.NewFloat32(tableName, "fro_shop9")
 	_froShop.FroShop10 = field.NewFloat32(tableName, "fro_shop10")
-	_froShop.FroShop8 = froShopHasOneFroShop8{
-		db: db.Session(&gorm.Session{}),
-
-		RelationField: field.NewRelation("FroShop8", "slaughter.DisRecord"),
-	}
+	_froShop.FroShop11 = field.NewFloat32(tableName, "fro_shop11")
+	_froShop.FroShop12 = field.NewFloat32(tableName, "fro_shop12")
+	_froShop.FroShop13 = field.NewFloat32(tableName, "fro_shop13")
+	_froShop.FroShop14 = field.NewFloat32(tableName, "fro_shop14")
 
 	_froShop.fillFieldMap()
 
@@ -54,22 +55,27 @@ func newFroShop(db *gorm.DB, opts ...gen.DOOption) froShop {
 type froShop struct {
 	froShopDo froShopDo
 
-	ALL         field.Asterisk
-	ID          field.Uint
-	CreatedAt   field.Time
-	UpdatedAt   field.Time
-	DeletedAt   field.Field
-	FacDisMonID field.Uint
-	FroShop1    field.Float32
-	FroShop2    field.Float32
-	FroShop3    field.Float32
-	FroShop4    field.Float32
-	FroShop5    field.Float32
-	FroShop6    field.Float32
-	FroShop7    field.Float32
-	FroShop9    field.Float32
-	FroShop10   field.Float32
-	FroShop8    froShopHasOneFroShop8
+	ALL          field.Asterisk
+	ID           field.Uint
+	CreatedAt    field.Time
+	UpdatedAt    field.Time
+	DeletedAt    field.Field
+	HouseNumber  field.String
+	TimeRecordAt field.Float32
+	FroShop1     field.Float32
+	FroShop2     field.Float32
+	FroShop3     field.Float32
+	FroShop4     field.Float32
+	FroShop5     field.Float32
+	FroShop6     field.Float32
+	FroShop7     field.Float32
+	FroShop8     field.Float32
+	FroShop9     field.Float32
+	FroShop10    field.Float32
+	FroShop11    field.Float32
+	FroShop12    field.Float32
+	FroShop13    field.Float32
+	FroShop14    field.Float32
 
 	fieldMap map[string]field.Expr
 }
@@ -90,7 +96,8 @@ func (f *froShop) updateTableName(table string) *froShop {
 	f.CreatedAt = field.NewTime(table, "created_at")
 	f.UpdatedAt = field.NewTime(table, "updated_at")
 	f.DeletedAt = field.NewField(table, "deleted_at")
-	f.FacDisMonID = field.NewUint(table, "fac_dis_mon_id")
+	f.HouseNumber = field.NewString(table, "house_number")
+	f.TimeRecordAt = field.NewFloat32(table, "time_record_at")
 	f.FroShop1 = field.NewFloat32(table, "fro_shop1")
 	f.FroShop2 = field.NewFloat32(table, "fro_shop2")
 	f.FroShop3 = field.NewFloat32(table, "fro_shop3")
@@ -98,8 +105,13 @@ func (f *froShop) updateTableName(table string) *froShop {
 	f.FroShop5 = field.NewFloat32(table, "fro_shop5")
 	f.FroShop6 = field.NewFloat32(table, "fro_shop6")
 	f.FroShop7 = field.NewFloat32(table, "fro_shop7")
+	f.FroShop8 = field.NewFloat32(table, "fro_shop8")
 	f.FroShop9 = field.NewFloat32(table, "fro_shop9")
 	f.FroShop10 = field.NewFloat32(table, "fro_shop10")
+	f.FroShop11 = field.NewFloat32(table, "fro_shop11")
+	f.FroShop12 = field.NewFloat32(table, "fro_shop12")
+	f.FroShop13 = field.NewFloat32(table, "fro_shop13")
+	f.FroShop14 = field.NewFloat32(table, "fro_shop14")
 
 	f.fillFieldMap()
 
@@ -124,12 +136,13 @@ func (f *froShop) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (f *froShop) fillFieldMap() {
-	f.fieldMap = make(map[string]field.Expr, 15)
+	f.fieldMap = make(map[string]field.Expr, 20)
 	f.fieldMap["id"] = f.ID
 	f.fieldMap["created_at"] = f.CreatedAt
 	f.fieldMap["updated_at"] = f.UpdatedAt
 	f.fieldMap["deleted_at"] = f.DeletedAt
-	f.fieldMap["fac_dis_mon_id"] = f.FacDisMonID
+	f.fieldMap["house_number"] = f.HouseNumber
+	f.fieldMap["time_record_at"] = f.TimeRecordAt
 	f.fieldMap["fro_shop1"] = f.FroShop1
 	f.fieldMap["fro_shop2"] = f.FroShop2
 	f.fieldMap["fro_shop3"] = f.FroShop3
@@ -137,9 +150,13 @@ func (f *froShop) fillFieldMap() {
 	f.fieldMap["fro_shop5"] = f.FroShop5
 	f.fieldMap["fro_shop6"] = f.FroShop6
 	f.fieldMap["fro_shop7"] = f.FroShop7
+	f.fieldMap["fro_shop8"] = f.FroShop8
 	f.fieldMap["fro_shop9"] = f.FroShop9
 	f.fieldMap["fro_shop10"] = f.FroShop10
-
+	f.fieldMap["fro_shop11"] = f.FroShop11
+	f.fieldMap["fro_shop12"] = f.FroShop12
+	f.fieldMap["fro_shop13"] = f.FroShop13
+	f.fieldMap["fro_shop14"] = f.FroShop14
 }
 
 func (f froShop) clone(db *gorm.DB) froShop {
@@ -150,77 +167,6 @@ func (f froShop) clone(db *gorm.DB) froShop {
 func (f froShop) replaceDB(db *gorm.DB) froShop {
 	f.froShopDo.ReplaceDB(db)
 	return f
-}
-
-type froShopHasOneFroShop8 struct {
-	db *gorm.DB
-
-	field.RelationField
-}
-
-func (a froShopHasOneFroShop8) Where(conds ...field.Expr) *froShopHasOneFroShop8 {
-	if len(conds) == 0 {
-		return &a
-	}
-
-	exprs := make([]clause.Expression, 0, len(conds))
-	for _, cond := range conds {
-		exprs = append(exprs, cond.BeCond().(clause.Expression))
-	}
-	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
-	return &a
-}
-
-func (a froShopHasOneFroShop8) WithContext(ctx context.Context) *froShopHasOneFroShop8 {
-	a.db = a.db.WithContext(ctx)
-	return &a
-}
-
-func (a froShopHasOneFroShop8) Session(session *gorm.Session) *froShopHasOneFroShop8 {
-	a.db = a.db.Session(session)
-	return &a
-}
-
-func (a froShopHasOneFroShop8) Model(m *slaughter.FroShop) *froShopHasOneFroShop8Tx {
-	return &froShopHasOneFroShop8Tx{a.db.Model(m).Association(a.Name())}
-}
-
-type froShopHasOneFroShop8Tx struct{ tx *gorm.Association }
-
-func (a froShopHasOneFroShop8Tx) Find() (result *slaughter.DisRecord, err error) {
-	return result, a.tx.Find(&result)
-}
-
-func (a froShopHasOneFroShop8Tx) Append(values ...*slaughter.DisRecord) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Append(targetValues...)
-}
-
-func (a froShopHasOneFroShop8Tx) Replace(values ...*slaughter.DisRecord) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Replace(targetValues...)
-}
-
-func (a froShopHasOneFroShop8Tx) Delete(values ...*slaughter.DisRecord) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Delete(targetValues...)
-}
-
-func (a froShopHasOneFroShop8Tx) Clear() error {
-	return a.tx.Clear()
-}
-
-func (a froShopHasOneFroShop8Tx) Count() int64 {
-	return a.tx.Count()
 }
 
 type froShopDo struct{ gen.DO }

@@ -31,7 +31,6 @@ func newGps(db *gorm.DB, opts ...gen.DOOption) gps {
 	_gps.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_gps.DeletedAt = field.NewField(tableName, "deleted_at")
 	_gps.PreSlaInfoRecID = field.NewUint(tableName, "pre_sla_info_rec_id")
-	_gps.ChiledFreshIndexID = field.NewUint(tableName, "chiled_fresh_index_id")
 	_gps.Gps1 = field.NewString(tableName, "gps1")
 	_gps.Gps2 = field.NewString(tableName, "gps2")
 
@@ -43,15 +42,14 @@ func newGps(db *gorm.DB, opts ...gen.DOOption) gps {
 type gps struct {
 	gpsDo gpsDo
 
-	ALL                field.Asterisk
-	ID                 field.Uint
-	CreatedAt          field.Time
-	UpdatedAt          field.Time
-	DeletedAt          field.Field
-	PreSlaInfoRecID    field.Uint
-	ChiledFreshIndexID field.Uint
-	Gps1               field.String
-	Gps2               field.String
+	ALL             field.Asterisk
+	ID              field.Uint
+	CreatedAt       field.Time
+	UpdatedAt       field.Time
+	DeletedAt       field.Field
+	PreSlaInfoRecID field.Uint
+	Gps1            field.String
+	Gps2            field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -73,7 +71,6 @@ func (g *gps) updateTableName(table string) *gps {
 	g.UpdatedAt = field.NewTime(table, "updated_at")
 	g.DeletedAt = field.NewField(table, "deleted_at")
 	g.PreSlaInfoRecID = field.NewUint(table, "pre_sla_info_rec_id")
-	g.ChiledFreshIndexID = field.NewUint(table, "chiled_fresh_index_id")
 	g.Gps1 = field.NewString(table, "gps1")
 	g.Gps2 = field.NewString(table, "gps2")
 
@@ -100,13 +97,12 @@ func (g *gps) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (g *gps) fillFieldMap() {
-	g.fieldMap = make(map[string]field.Expr, 8)
+	g.fieldMap = make(map[string]field.Expr, 7)
 	g.fieldMap["id"] = g.ID
 	g.fieldMap["created_at"] = g.CreatedAt
 	g.fieldMap["updated_at"] = g.UpdatedAt
 	g.fieldMap["deleted_at"] = g.DeletedAt
 	g.fieldMap["pre_sla_info_rec_id"] = g.PreSlaInfoRecID
-	g.fieldMap["chiled_fresh_index_id"] = g.ChiledFreshIndexID
 	g.fieldMap["gps1"] = g.Gps1
 	g.fieldMap["gps2"] = g.Gps2
 }

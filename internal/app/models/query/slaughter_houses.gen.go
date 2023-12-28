@@ -59,217 +59,84 @@ func newSlaughterHouse(db *gorm.DB, opts ...gen.DOOption) slaughterHouse {
 		RelationField: field.NewRelation("SWRecords", "warehouse.SlaughterWarehouse"),
 	}
 
-	_slaughterHouse.SlaInfoMonRecords = slaughterHouseHasManySlaInfoMonRecords{
+	_slaughterHouse.PreCoolShopRecords = slaughterHouseHasManyPreCoolShopRecords{
 		db: db.Session(&gorm.Session{}),
 
-		RelationField: field.NewRelation("SlaInfoMonRecords", "slaughter.SlaInfoMon"),
-		Stun: struct {
+		RelationField: field.NewRelation("PreCoolShopRecords", "slaughter.PreCoolShop"),
+	}
+
+	_slaughterHouse.SlaShopRecords = slaughterHouseHasManySlaShopRecords{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("SlaShopRecords", "slaughter.SlaShop"),
+	}
+
+	_slaughterHouse.DivShopRecords = slaughterHouseHasManyDivShopRecords{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("DivShopRecords", "slaughter.DivShop"),
+	}
+
+	_slaughterHouse.AcidShopRecords = slaughterHouseHasManyAcidShopRecords{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("AcidShopRecords", "slaughter.AcidShop"),
+	}
+
+	_slaughterHouse.FroShopRecords = slaughterHouseHasManyFroShopRecords{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("FroShopRecords", "slaughter.FroShop"),
+	}
+
+	_slaughterHouse.PackShopRecords = slaughterHouseHasManyPackShopRecords{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("PackShopRecords", "slaughter.PackShop"),
+	}
+
+	_slaughterHouse.StaUniRecords = slaughterHouseHasManyStaUniRecords{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("StaUniRecords", "slaughter.StaUni"),
+	}
+
+	_slaughterHouse.SlaEnvLigRecords = slaughterHouseHasManySlaEnvLigRecords{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("SlaEnvLigRecords", "slaughter.SlaEnvLigRec"),
+	}
+
+	_slaughterHouse.SlaughterWaterQualityMonRecords = slaughterHouseHasManySlaughterWaterQualityMonRecords{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("SlaughterWaterQualityMonRecords", "slaughter.SlaughterWaterQualityMon"),
+		SlaughterWaterMicroIndex: struct {
 			field.RelationField
 		}{
-			RelationField: field.NewRelation("SlaInfoMonRecords.Stun", "slaughter.Stun"),
+			RelationField: field.NewRelation("SlaughterWaterQualityMonRecords.SlaughterWaterMicroIndex", "slaughter.SlaughterWaterMicroIndex"),
 		},
-		BleedElectronic: struct {
+		OapGciSla: struct {
 			field.RelationField
 		}{
-			RelationField: field.NewRelation("SlaInfoMonRecords.BleedElectronic", "slaughter.BleedElectronic"),
+			RelationField: field.NewRelation("SlaughterWaterQualityMonRecords.OapGciSla", "slaughter.OapGciSla"),
 		},
-		AnalAfterSlaQuanCar: struct {
+		MicroIndexWaterMonSla: struct {
 			field.RelationField
 		}{
-			RelationField: field.NewRelation("SlaInfoMonRecords.AnalAfterSlaQuanCar", "slaughter.AnalAfterSlaQuanCar"),
+			RelationField: field.NewRelation("SlaughterWaterQualityMonRecords.MicroIndexWaterMonSla", "slaughter.MicroIndexWaterMonSla"),
 		},
-		PreSlaQuanPic: struct {
+		ToxinIndexSla: struct {
 			field.RelationField
-		}{
-			RelationField: field.NewRelation("SlaInfoMonRecords.PreSlaQuanPic", "slaughter.PreSlaQuanPic"),
-		},
-		AnalCutWeight: struct {
-			field.RelationField
-		}{
-			RelationField: field.NewRelation("SlaInfoMonRecords.AnalCutWeight", "slaughter.AnalCutWeight"),
-		},
-		TempHumMon: struct {
-			field.RelationField
-		}{
-			RelationField: field.NewRelation("SlaInfoMonRecords.TempHumMon", "slaughter.TempHumMon"),
-		},
-		FacDisMon: struct {
-			field.RelationField
-			SlaShop struct {
-				field.RelationField
-				SlaShop8 struct {
-					field.RelationField
-				}
-			}
-			DivShop struct {
-				field.RelationField
-				DivShop8 struct {
-					field.RelationField
-				}
-			}
-			AcidShop struct {
-				field.RelationField
-				AcidShop8 struct {
-					field.RelationField
-				}
-			}
-			FroShop struct {
-				field.RelationField
-				FroShop8 struct {
-					field.RelationField
-				}
-			}
-			PackShop struct {
-				field.RelationField
-				PackShop8 struct {
-					field.RelationField
-				}
-			}
-			StaUni struct {
-				field.RelationField
-				StaUni8 struct {
-					field.RelationField
-				}
-			}
-		}{
-			RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon", "slaughter.FacDisMon"),
-			SlaShop: struct {
-				field.RelationField
-				SlaShop8 struct {
-					field.RelationField
-				}
-			}{
-				RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.SlaShop", "slaughter.SlaShop"),
-				SlaShop8: struct {
-					field.RelationField
-				}{
-					RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.SlaShop.SlaShop8", "slaughter.DisRecord"),
-				},
-			},
-			DivShop: struct {
-				field.RelationField
-				DivShop8 struct {
-					field.RelationField
-				}
-			}{
-				RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.DivShop", "slaughter.DivShop"),
-				DivShop8: struct {
-					field.RelationField
-				}{
-					RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.DivShop.DivShop8", "slaughter.DisRecord"),
-				},
-			},
-			AcidShop: struct {
-				field.RelationField
-				AcidShop8 struct {
-					field.RelationField
-				}
-			}{
-				RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.AcidShop", "slaughter.AcidShop"),
-				AcidShop8: struct {
-					field.RelationField
-				}{
-					RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.AcidShop.AcidShop8", "slaughter.DisRecord"),
-				},
-			},
-			FroShop: struct {
-				field.RelationField
-				FroShop8 struct {
-					field.RelationField
-				}
-			}{
-				RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.FroShop", "slaughter.FroShop"),
-				FroShop8: struct {
-					field.RelationField
-				}{
-					RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.FroShop.FroShop8", "slaughter.DisRecord"),
-				},
-			},
-			PackShop: struct {
-				field.RelationField
-				PackShop8 struct {
-					field.RelationField
-				}
-			}{
-				RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.PackShop", "slaughter.PackShop"),
-				PackShop8: struct {
-					field.RelationField
-				}{
-					RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.PackShop.PackShop8", "slaughter.DisRecord"),
-				},
-			},
-			StaUni: struct {
-				field.RelationField
-				StaUni8 struct {
-					field.RelationField
-				}
-			}{
-				RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.StaUni", "slaughter.StaUni"),
-				StaUni8: struct {
-					field.RelationField
-				}{
-					RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.StaUni.StaUni8", "slaughter.DisRecord"),
-				},
-			},
-		},
-		SlaEnvLigRec: struct {
-			field.RelationField
-		}{
-			RelationField: field.NewRelation("SlaInfoMonRecords.SlaEnvLigRec", "slaughter.SlaEnvLigRec"),
-		},
-		ToNumGermMon: struct {
-			field.RelationField
-		}{
-			RelationField: field.NewRelation("SlaInfoMonRecords.ToNumGermMon", "slaughter.ToNumGermMon"),
-		},
-		AirNumGermMon: struct {
-			field.RelationField
-		}{
-			RelationField: field.NewRelation("SlaInfoMonRecords.AirNumGermMon", "slaughter.AirNumGermMon"),
-		},
-		WaterQualityMon: struct {
-			field.RelationField
-			MicroIndex struct {
-				field.RelationField
-			}
-			ToxIndex struct {
-				field.RelationField
-			}
-			OapGciSla struct {
-				field.RelationField
-			}
-			MicroIndexWaterMonSla struct {
-				field.RelationField
-			}
-			ToxinIndexSla struct {
+			SlaughterWaterToxinIndex struct {
 				field.RelationField
 			}
 		}{
-			RelationField: field.NewRelation("SlaInfoMonRecords.WaterQualityMon", "slaughter.WaterQualityMon"),
-			MicroIndex: struct {
+			RelationField: field.NewRelation("SlaughterWaterQualityMonRecords.ToxinIndexSla", "slaughter.SlaughterToxinIndex"),
+			SlaughterWaterToxinIndex: struct {
 				field.RelationField
 			}{
-				RelationField: field.NewRelation("SlaInfoMonRecords.WaterQualityMon.MicroIndex", "slaughter.SlaughterWaterMicroIndex"),
-			},
-			ToxIndex: struct {
-				field.RelationField
-			}{
-				RelationField: field.NewRelation("SlaInfoMonRecords.WaterQualityMon.ToxIndex", "slaughter.SlaughterWaterToxIndex"),
-			},
-			OapGciSla: struct {
-				field.RelationField
-			}{
-				RelationField: field.NewRelation("SlaInfoMonRecords.WaterQualityMon.OapGciSla", "slaughter.OapGciSla"),
-			},
-			MicroIndexWaterMonSla: struct {
-				field.RelationField
-			}{
-				RelationField: field.NewRelation("SlaInfoMonRecords.WaterQualityMon.MicroIndexWaterMonSla", "slaughter.MicroIndexWaterMonSla"),
-			},
-			ToxinIndexSla: struct {
-				field.RelationField
-			}{
-				RelationField: field.NewRelation("SlaInfoMonRecords.WaterQualityMon.ToxinIndexSla", "slaughter.ToxinIndexSla"),
+				RelationField: field.NewRelation("SlaughterWaterQualityMonRecords.ToxinIndexSla.SlaughterWaterToxinIndex", "slaughter.SlaughterWaterToxinIndex"),
 			},
 		},
 	}
@@ -298,7 +165,23 @@ type slaughterHouse struct {
 
 	SWRecords slaughterHouseHasManySWRecords
 
-	SlaInfoMonRecords slaughterHouseHasManySlaInfoMonRecords
+	PreCoolShopRecords slaughterHouseHasManyPreCoolShopRecords
+
+	SlaShopRecords slaughterHouseHasManySlaShopRecords
+
+	DivShopRecords slaughterHouseHasManyDivShopRecords
+
+	AcidShopRecords slaughterHouseHasManyAcidShopRecords
+
+	FroShopRecords slaughterHouseHasManyFroShopRecords
+
+	PackShopRecords slaughterHouseHasManyPackShopRecords
+
+	StaUniRecords slaughterHouseHasManyStaUniRecords
+
+	SlaEnvLigRecords slaughterHouseHasManySlaEnvLigRecords
+
+	SlaughterWaterQualityMonRecords slaughterHouseHasManySlaughterWaterQualityMonRecords
 
 	fieldMap map[string]field.Expr
 }
@@ -352,7 +235,7 @@ func (s *slaughterHouse) GetFieldByName(fieldName string) (field.OrderExpr, bool
 }
 
 func (s *slaughterHouse) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 13)
+	s.fieldMap = make(map[string]field.Expr, 21)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
@@ -592,98 +475,13 @@ func (a slaughterHouseHasManySWRecordsTx) Count() int64 {
 	return a.tx.Count()
 }
 
-type slaughterHouseHasManySlaInfoMonRecords struct {
+type slaughterHouseHasManyPreCoolShopRecords struct {
 	db *gorm.DB
 
 	field.RelationField
-
-	Stun struct {
-		field.RelationField
-	}
-	BleedElectronic struct {
-		field.RelationField
-	}
-	AnalAfterSlaQuanCar struct {
-		field.RelationField
-	}
-	PreSlaQuanPic struct {
-		field.RelationField
-	}
-	AnalCutWeight struct {
-		field.RelationField
-	}
-	TempHumMon struct {
-		field.RelationField
-	}
-	FacDisMon struct {
-		field.RelationField
-		SlaShop struct {
-			field.RelationField
-			SlaShop8 struct {
-				field.RelationField
-			}
-		}
-		DivShop struct {
-			field.RelationField
-			DivShop8 struct {
-				field.RelationField
-			}
-		}
-		AcidShop struct {
-			field.RelationField
-			AcidShop8 struct {
-				field.RelationField
-			}
-		}
-		FroShop struct {
-			field.RelationField
-			FroShop8 struct {
-				field.RelationField
-			}
-		}
-		PackShop struct {
-			field.RelationField
-			PackShop8 struct {
-				field.RelationField
-			}
-		}
-		StaUni struct {
-			field.RelationField
-			StaUni8 struct {
-				field.RelationField
-			}
-		}
-	}
-	SlaEnvLigRec struct {
-		field.RelationField
-	}
-	ToNumGermMon struct {
-		field.RelationField
-	}
-	AirNumGermMon struct {
-		field.RelationField
-	}
-	WaterQualityMon struct {
-		field.RelationField
-		MicroIndex struct {
-			field.RelationField
-		}
-		ToxIndex struct {
-			field.RelationField
-		}
-		OapGciSla struct {
-			field.RelationField
-		}
-		MicroIndexWaterMonSla struct {
-			field.RelationField
-		}
-		ToxinIndexSla struct {
-			field.RelationField
-		}
-	}
 }
 
-func (a slaughterHouseHasManySlaInfoMonRecords) Where(conds ...field.Expr) *slaughterHouseHasManySlaInfoMonRecords {
+func (a slaughterHouseHasManyPreCoolShopRecords) Where(conds ...field.Expr) *slaughterHouseHasManyPreCoolShopRecords {
 	if len(conds) == 0 {
 		return &a
 	}
@@ -696,27 +494,27 @@ func (a slaughterHouseHasManySlaInfoMonRecords) Where(conds ...field.Expr) *slau
 	return &a
 }
 
-func (a slaughterHouseHasManySlaInfoMonRecords) WithContext(ctx context.Context) *slaughterHouseHasManySlaInfoMonRecords {
+func (a slaughterHouseHasManyPreCoolShopRecords) WithContext(ctx context.Context) *slaughterHouseHasManyPreCoolShopRecords {
 	a.db = a.db.WithContext(ctx)
 	return &a
 }
 
-func (a slaughterHouseHasManySlaInfoMonRecords) Session(session *gorm.Session) *slaughterHouseHasManySlaInfoMonRecords {
+func (a slaughterHouseHasManyPreCoolShopRecords) Session(session *gorm.Session) *slaughterHouseHasManyPreCoolShopRecords {
 	a.db = a.db.Session(session)
 	return &a
 }
 
-func (a slaughterHouseHasManySlaInfoMonRecords) Model(m *slaughter.SlaughterHouse) *slaughterHouseHasManySlaInfoMonRecordsTx {
-	return &slaughterHouseHasManySlaInfoMonRecordsTx{a.db.Model(m).Association(a.Name())}
+func (a slaughterHouseHasManyPreCoolShopRecords) Model(m *slaughter.SlaughterHouse) *slaughterHouseHasManyPreCoolShopRecordsTx {
+	return &slaughterHouseHasManyPreCoolShopRecordsTx{a.db.Model(m).Association(a.Name())}
 }
 
-type slaughterHouseHasManySlaInfoMonRecordsTx struct{ tx *gorm.Association }
+type slaughterHouseHasManyPreCoolShopRecordsTx struct{ tx *gorm.Association }
 
-func (a slaughterHouseHasManySlaInfoMonRecordsTx) Find() (result []*slaughter.SlaInfoMon, err error) {
+func (a slaughterHouseHasManyPreCoolShopRecordsTx) Find() (result []*slaughter.PreCoolShop, err error) {
 	return result, a.tx.Find(&result)
 }
 
-func (a slaughterHouseHasManySlaInfoMonRecordsTx) Append(values ...*slaughter.SlaInfoMon) (err error) {
+func (a slaughterHouseHasManyPreCoolShopRecordsTx) Append(values ...*slaughter.PreCoolShop) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -724,7 +522,7 @@ func (a slaughterHouseHasManySlaInfoMonRecordsTx) Append(values ...*slaughter.Sl
 	return a.tx.Append(targetValues...)
 }
 
-func (a slaughterHouseHasManySlaInfoMonRecordsTx) Replace(values ...*slaughter.SlaInfoMon) (err error) {
+func (a slaughterHouseHasManyPreCoolShopRecordsTx) Replace(values ...*slaughter.PreCoolShop) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -732,7 +530,7 @@ func (a slaughterHouseHasManySlaInfoMonRecordsTx) Replace(values ...*slaughter.S
 	return a.tx.Replace(targetValues...)
 }
 
-func (a slaughterHouseHasManySlaInfoMonRecordsTx) Delete(values ...*slaughter.SlaInfoMon) (err error) {
+func (a slaughterHouseHasManyPreCoolShopRecordsTx) Delete(values ...*slaughter.PreCoolShop) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -740,11 +538,595 @@ func (a slaughterHouseHasManySlaInfoMonRecordsTx) Delete(values ...*slaughter.Sl
 	return a.tx.Delete(targetValues...)
 }
 
-func (a slaughterHouseHasManySlaInfoMonRecordsTx) Clear() error {
+func (a slaughterHouseHasManyPreCoolShopRecordsTx) Clear() error {
 	return a.tx.Clear()
 }
 
-func (a slaughterHouseHasManySlaInfoMonRecordsTx) Count() int64 {
+func (a slaughterHouseHasManyPreCoolShopRecordsTx) Count() int64 {
+	return a.tx.Count()
+}
+
+type slaughterHouseHasManySlaShopRecords struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a slaughterHouseHasManySlaShopRecords) Where(conds ...field.Expr) *slaughterHouseHasManySlaShopRecords {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a slaughterHouseHasManySlaShopRecords) WithContext(ctx context.Context) *slaughterHouseHasManySlaShopRecords {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a slaughterHouseHasManySlaShopRecords) Session(session *gorm.Session) *slaughterHouseHasManySlaShopRecords {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a slaughterHouseHasManySlaShopRecords) Model(m *slaughter.SlaughterHouse) *slaughterHouseHasManySlaShopRecordsTx {
+	return &slaughterHouseHasManySlaShopRecordsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type slaughterHouseHasManySlaShopRecordsTx struct{ tx *gorm.Association }
+
+func (a slaughterHouseHasManySlaShopRecordsTx) Find() (result []*slaughter.SlaShop, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a slaughterHouseHasManySlaShopRecordsTx) Append(values ...*slaughter.SlaShop) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a slaughterHouseHasManySlaShopRecordsTx) Replace(values ...*slaughter.SlaShop) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a slaughterHouseHasManySlaShopRecordsTx) Delete(values ...*slaughter.SlaShop) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a slaughterHouseHasManySlaShopRecordsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a slaughterHouseHasManySlaShopRecordsTx) Count() int64 {
+	return a.tx.Count()
+}
+
+type slaughterHouseHasManyDivShopRecords struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a slaughterHouseHasManyDivShopRecords) Where(conds ...field.Expr) *slaughterHouseHasManyDivShopRecords {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a slaughterHouseHasManyDivShopRecords) WithContext(ctx context.Context) *slaughterHouseHasManyDivShopRecords {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a slaughterHouseHasManyDivShopRecords) Session(session *gorm.Session) *slaughterHouseHasManyDivShopRecords {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a slaughterHouseHasManyDivShopRecords) Model(m *slaughter.SlaughterHouse) *slaughterHouseHasManyDivShopRecordsTx {
+	return &slaughterHouseHasManyDivShopRecordsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type slaughterHouseHasManyDivShopRecordsTx struct{ tx *gorm.Association }
+
+func (a slaughterHouseHasManyDivShopRecordsTx) Find() (result []*slaughter.DivShop, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a slaughterHouseHasManyDivShopRecordsTx) Append(values ...*slaughter.DivShop) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a slaughterHouseHasManyDivShopRecordsTx) Replace(values ...*slaughter.DivShop) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a slaughterHouseHasManyDivShopRecordsTx) Delete(values ...*slaughter.DivShop) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a slaughterHouseHasManyDivShopRecordsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a slaughterHouseHasManyDivShopRecordsTx) Count() int64 {
+	return a.tx.Count()
+}
+
+type slaughterHouseHasManyAcidShopRecords struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a slaughterHouseHasManyAcidShopRecords) Where(conds ...field.Expr) *slaughterHouseHasManyAcidShopRecords {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a slaughterHouseHasManyAcidShopRecords) WithContext(ctx context.Context) *slaughterHouseHasManyAcidShopRecords {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a slaughterHouseHasManyAcidShopRecords) Session(session *gorm.Session) *slaughterHouseHasManyAcidShopRecords {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a slaughterHouseHasManyAcidShopRecords) Model(m *slaughter.SlaughterHouse) *slaughterHouseHasManyAcidShopRecordsTx {
+	return &slaughterHouseHasManyAcidShopRecordsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type slaughterHouseHasManyAcidShopRecordsTx struct{ tx *gorm.Association }
+
+func (a slaughterHouseHasManyAcidShopRecordsTx) Find() (result []*slaughter.AcidShop, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a slaughterHouseHasManyAcidShopRecordsTx) Append(values ...*slaughter.AcidShop) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a slaughterHouseHasManyAcidShopRecordsTx) Replace(values ...*slaughter.AcidShop) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a slaughterHouseHasManyAcidShopRecordsTx) Delete(values ...*slaughter.AcidShop) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a slaughterHouseHasManyAcidShopRecordsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a slaughterHouseHasManyAcidShopRecordsTx) Count() int64 {
+	return a.tx.Count()
+}
+
+type slaughterHouseHasManyFroShopRecords struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a slaughterHouseHasManyFroShopRecords) Where(conds ...field.Expr) *slaughterHouseHasManyFroShopRecords {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a slaughterHouseHasManyFroShopRecords) WithContext(ctx context.Context) *slaughterHouseHasManyFroShopRecords {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a slaughterHouseHasManyFroShopRecords) Session(session *gorm.Session) *slaughterHouseHasManyFroShopRecords {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a slaughterHouseHasManyFroShopRecords) Model(m *slaughter.SlaughterHouse) *slaughterHouseHasManyFroShopRecordsTx {
+	return &slaughterHouseHasManyFroShopRecordsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type slaughterHouseHasManyFroShopRecordsTx struct{ tx *gorm.Association }
+
+func (a slaughterHouseHasManyFroShopRecordsTx) Find() (result []*slaughter.FroShop, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a slaughterHouseHasManyFroShopRecordsTx) Append(values ...*slaughter.FroShop) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a slaughterHouseHasManyFroShopRecordsTx) Replace(values ...*slaughter.FroShop) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a slaughterHouseHasManyFroShopRecordsTx) Delete(values ...*slaughter.FroShop) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a slaughterHouseHasManyFroShopRecordsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a slaughterHouseHasManyFroShopRecordsTx) Count() int64 {
+	return a.tx.Count()
+}
+
+type slaughterHouseHasManyPackShopRecords struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a slaughterHouseHasManyPackShopRecords) Where(conds ...field.Expr) *slaughterHouseHasManyPackShopRecords {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a slaughterHouseHasManyPackShopRecords) WithContext(ctx context.Context) *slaughterHouseHasManyPackShopRecords {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a slaughterHouseHasManyPackShopRecords) Session(session *gorm.Session) *slaughterHouseHasManyPackShopRecords {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a slaughterHouseHasManyPackShopRecords) Model(m *slaughter.SlaughterHouse) *slaughterHouseHasManyPackShopRecordsTx {
+	return &slaughterHouseHasManyPackShopRecordsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type slaughterHouseHasManyPackShopRecordsTx struct{ tx *gorm.Association }
+
+func (a slaughterHouseHasManyPackShopRecordsTx) Find() (result []*slaughter.PackShop, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a slaughterHouseHasManyPackShopRecordsTx) Append(values ...*slaughter.PackShop) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a slaughterHouseHasManyPackShopRecordsTx) Replace(values ...*slaughter.PackShop) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a slaughterHouseHasManyPackShopRecordsTx) Delete(values ...*slaughter.PackShop) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a slaughterHouseHasManyPackShopRecordsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a slaughterHouseHasManyPackShopRecordsTx) Count() int64 {
+	return a.tx.Count()
+}
+
+type slaughterHouseHasManyStaUniRecords struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a slaughterHouseHasManyStaUniRecords) Where(conds ...field.Expr) *slaughterHouseHasManyStaUniRecords {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a slaughterHouseHasManyStaUniRecords) WithContext(ctx context.Context) *slaughterHouseHasManyStaUniRecords {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a slaughterHouseHasManyStaUniRecords) Session(session *gorm.Session) *slaughterHouseHasManyStaUniRecords {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a slaughterHouseHasManyStaUniRecords) Model(m *slaughter.SlaughterHouse) *slaughterHouseHasManyStaUniRecordsTx {
+	return &slaughterHouseHasManyStaUniRecordsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type slaughterHouseHasManyStaUniRecordsTx struct{ tx *gorm.Association }
+
+func (a slaughterHouseHasManyStaUniRecordsTx) Find() (result []*slaughter.StaUni, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a slaughterHouseHasManyStaUniRecordsTx) Append(values ...*slaughter.StaUni) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a slaughterHouseHasManyStaUniRecordsTx) Replace(values ...*slaughter.StaUni) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a slaughterHouseHasManyStaUniRecordsTx) Delete(values ...*slaughter.StaUni) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a slaughterHouseHasManyStaUniRecordsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a slaughterHouseHasManyStaUniRecordsTx) Count() int64 {
+	return a.tx.Count()
+}
+
+type slaughterHouseHasManySlaEnvLigRecords struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a slaughterHouseHasManySlaEnvLigRecords) Where(conds ...field.Expr) *slaughterHouseHasManySlaEnvLigRecords {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a slaughterHouseHasManySlaEnvLigRecords) WithContext(ctx context.Context) *slaughterHouseHasManySlaEnvLigRecords {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a slaughterHouseHasManySlaEnvLigRecords) Session(session *gorm.Session) *slaughterHouseHasManySlaEnvLigRecords {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a slaughterHouseHasManySlaEnvLigRecords) Model(m *slaughter.SlaughterHouse) *slaughterHouseHasManySlaEnvLigRecordsTx {
+	return &slaughterHouseHasManySlaEnvLigRecordsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type slaughterHouseHasManySlaEnvLigRecordsTx struct{ tx *gorm.Association }
+
+func (a slaughterHouseHasManySlaEnvLigRecordsTx) Find() (result []*slaughter.SlaEnvLigRec, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a slaughterHouseHasManySlaEnvLigRecordsTx) Append(values ...*slaughter.SlaEnvLigRec) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a slaughterHouseHasManySlaEnvLigRecordsTx) Replace(values ...*slaughter.SlaEnvLigRec) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a slaughterHouseHasManySlaEnvLigRecordsTx) Delete(values ...*slaughter.SlaEnvLigRec) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a slaughterHouseHasManySlaEnvLigRecordsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a slaughterHouseHasManySlaEnvLigRecordsTx) Count() int64 {
+	return a.tx.Count()
+}
+
+type slaughterHouseHasManySlaughterWaterQualityMonRecords struct {
+	db *gorm.DB
+
+	field.RelationField
+
+	SlaughterWaterMicroIndex struct {
+		field.RelationField
+	}
+	OapGciSla struct {
+		field.RelationField
+	}
+	MicroIndexWaterMonSla struct {
+		field.RelationField
+	}
+	ToxinIndexSla struct {
+		field.RelationField
+		SlaughterWaterToxinIndex struct {
+			field.RelationField
+		}
+	}
+}
+
+func (a slaughterHouseHasManySlaughterWaterQualityMonRecords) Where(conds ...field.Expr) *slaughterHouseHasManySlaughterWaterQualityMonRecords {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a slaughterHouseHasManySlaughterWaterQualityMonRecords) WithContext(ctx context.Context) *slaughterHouseHasManySlaughterWaterQualityMonRecords {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a slaughterHouseHasManySlaughterWaterQualityMonRecords) Session(session *gorm.Session) *slaughterHouseHasManySlaughterWaterQualityMonRecords {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a slaughterHouseHasManySlaughterWaterQualityMonRecords) Model(m *slaughter.SlaughterHouse) *slaughterHouseHasManySlaughterWaterQualityMonRecordsTx {
+	return &slaughterHouseHasManySlaughterWaterQualityMonRecordsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type slaughterHouseHasManySlaughterWaterQualityMonRecordsTx struct{ tx *gorm.Association }
+
+func (a slaughterHouseHasManySlaughterWaterQualityMonRecordsTx) Find() (result []*slaughter.SlaughterWaterQualityMon, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a slaughterHouseHasManySlaughterWaterQualityMonRecordsTx) Append(values ...*slaughter.SlaughterWaterQualityMon) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a slaughterHouseHasManySlaughterWaterQualityMonRecordsTx) Replace(values ...*slaughter.SlaughterWaterQualityMon) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a slaughterHouseHasManySlaughterWaterQualityMonRecordsTx) Delete(values ...*slaughter.SlaughterWaterQualityMon) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a slaughterHouseHasManySlaughterWaterQualityMonRecordsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a slaughterHouseHasManySlaughterWaterQualityMonRecordsTx) Count() int64 {
 	return a.tx.Count()
 }
 

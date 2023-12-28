@@ -16,7 +16,7 @@ type PastureHouse struct {
 	LegalPerson             string                       `gorm:"not null; type:varchar(100)" json:"legal_person"`
 	Cows                    []product.Cow                `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"cows"`
 	FeedingRecord           []FeedingBatch               `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"feeding_record"`
-	PasHRecord              []warehouse.PastureWarehouse `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"pash_record"`
+	PasHRecord              []warehouse.PastureWarehouse `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"pas_h_record"`
 	HeavyMetalRecords       []PastureFeedHeavyMetal      `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"heavy_metal_records"`
 	PastureAreaRecords      []PastureArea                `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"pasture_area_records"`
 	WaterRecords            []PastureWaterRecord         `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"water_records"`

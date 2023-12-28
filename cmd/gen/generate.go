@@ -55,12 +55,15 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 		&pasture.PastureWastedWaterIndex{}, &pasture.PastureDisinfectionRecord{}, &pasture.PastureWaterRecord{}, &pasture.PastureOapGci{},
 		&pasture.PastureToxIndex{}, &pasture.PastureMicroIndex{})
 
+	//宰前传感器数据
+	g.ApplyBasic(&premortem.WaitingSlaughterCircle{}, &premortem.Gps{}, &premortem.WaitingSlaughterCircleGerms{})
+
 	// 屠宰场传感器数据
-	g.ApplyBasic(&premortem.PreSlaInfoRec{}, &premortem.Gps{}, &premortem.PreSlaGerms{}, &premortem.PreSlaDietManage{}, &premortem.PreSlaPicAndEn{})
-	g.ApplyBasic(&slaughter.ChiledFreshIndex{}, &slaughter.PaGerm{}, &slaughter.OtherIndex{}, &slaughter.DrugsResi{})
-	g.ApplyBasic(&slaughter.SlaInfoMon{}, &slaughter.SlaughterWaterMicroIndex{}, &slaughter.SlaughterWaterToxIndex{}, &slaughter.Stun{}, &slaughter.BleedElectronic{}, &slaughter.AnalAfterSlaQuanCar{}, &slaughter.PreSlaQuanPic{}, &slaughter.WaterTempMoni{}, &slaughter.AnalCutWeight{}, &slaughter.AnalCutWeight{},
-		&slaughter.TempHumMon{}, &slaughter.FacDisMon{}, &slaughter.SlaEnvLigRec{}, &slaughter.ToNumGermMon{}, &slaughter.AirNumGermMon{}, &slaughter.WaterQualityMon{}, &slaughter.SlaShop{}, &slaughter.DivShop{}, &slaughter.AcidShop{}, &slaughter.FroShop{},
-		&slaughter.PackShop{}, &slaughter.StaUni{}, &slaughter.DisRecord{})
+	g.ApplyBasic(&slaughter.PreCoolShop{}, &slaughter.SlaShop{}, &slaughter.DivShop{}, &slaughter.AcidShop{}, &slaughter.FroShop{}, &slaughter.PackShop{}, &slaughter.StaUni{}, &slaughter.SlaEnvLigRec{},
+		&slaughter.SlaughterWaterQualityMon{}, &slaughter.SlaughterWaterMicroIndex{}, &slaughter.OapGciSla{}, &slaughter.MicroIndexWaterMonSla{}, &slaughter.SlaughterToxinIndex{}, &slaughter.SlaughterWaterToxinIndex{})
+	//以牛为对象的数据，暂时不用
+	g.ApplyBasic(&slaughter.SlaughterDisinfectHotWaterTempMoni{}, &slaughter.SlaughterStun{}, &slaughter.BleedElectronic{}, &slaughter.PreSlaQuanPic{}, &slaughter.SlaughterAnalAfterSlaQuanCar{}, &slaughter.AnalMeatPhMoni{}, &slaughter.AnalCutWeight{},
+		&slaughter.ToNumGermMon{}, &slaughter.AirNumGermMon{})
 
 	g.ApplyBasic(
 		&pasture.PastureProcedure{}, &pasture.PastureWater{}, &pasture.PastureFodder{}, &pasture.PastureSoil{}, &pasture.PastureFloorBedding{}, &pasture.PastureAir{},

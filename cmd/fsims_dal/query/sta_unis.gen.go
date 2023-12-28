@@ -30,7 +30,8 @@ func newStaUni(db *gorm.DB, opts ...gen.DOOption) staUni {
 	_staUni.CreatedAt = field.NewTime(tableName, "created_at")
 	_staUni.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_staUni.DeletedAt = field.NewField(tableName, "deleted_at")
-	_staUni.FacDisMonID = field.NewUint(tableName, "fac_dis_mon_id")
+	_staUni.HouseNumber = field.NewString(tableName, "house_number")
+	_staUni.TimeRecordAt = field.NewFloat32(tableName, "time_record_at")
 	_staUni.StaUni1 = field.NewFloat32(tableName, "sta_uni1")
 	_staUni.StaUni2 = field.NewFloat32(tableName, "sta_uni2")
 	_staUni.StaUni3 = field.NewFloat32(tableName, "sta_uni3")
@@ -38,13 +39,13 @@ func newStaUni(db *gorm.DB, opts ...gen.DOOption) staUni {
 	_staUni.StaUni5 = field.NewFloat32(tableName, "sta_uni5")
 	_staUni.StaUni6 = field.NewFloat32(tableName, "sta_uni6")
 	_staUni.StaUni7 = field.NewFloat32(tableName, "sta_uni7")
+	_staUni.StaUni8 = field.NewFloat32(tableName, "sta_uni8")
 	_staUni.StaUni9 = field.NewFloat32(tableName, "sta_uni9")
 	_staUni.StaUni10 = field.NewFloat32(tableName, "sta_uni10")
-	_staUni.StaUni8 = staUniHasOneStaUni8{
-		db: db.Session(&gorm.Session{}),
-
-		RelationField: field.NewRelation("StaUni8", "slaughter.DisRecord"),
-	}
+	_staUni.StaUni11 = field.NewFloat32(tableName, "sta_uni11")
+	_staUni.StaUni12 = field.NewFloat32(tableName, "sta_uni12")
+	_staUni.StaUni13 = field.NewFloat32(tableName, "sta_uni13")
+	_staUni.StaUni14 = field.NewFloat32(tableName, "sta_uni14")
 
 	_staUni.fillFieldMap()
 
@@ -54,22 +55,27 @@ func newStaUni(db *gorm.DB, opts ...gen.DOOption) staUni {
 type staUni struct {
 	staUniDo staUniDo
 
-	ALL         field.Asterisk
-	ID          field.Uint
-	CreatedAt   field.Time
-	UpdatedAt   field.Time
-	DeletedAt   field.Field
-	FacDisMonID field.Uint
-	StaUni1     field.Float32
-	StaUni2     field.Float32
-	StaUni3     field.Float32
-	StaUni4     field.Float32
-	StaUni5     field.Float32
-	StaUni6     field.Float32
-	StaUni7     field.Float32
-	StaUni9     field.Float32
-	StaUni10    field.Float32
-	StaUni8     staUniHasOneStaUni8
+	ALL          field.Asterisk
+	ID           field.Uint
+	CreatedAt    field.Time
+	UpdatedAt    field.Time
+	DeletedAt    field.Field
+	HouseNumber  field.String
+	TimeRecordAt field.Float32
+	StaUni1      field.Float32
+	StaUni2      field.Float32
+	StaUni3      field.Float32
+	StaUni4      field.Float32
+	StaUni5      field.Float32
+	StaUni6      field.Float32
+	StaUni7      field.Float32
+	StaUni8      field.Float32
+	StaUni9      field.Float32
+	StaUni10     field.Float32
+	StaUni11     field.Float32
+	StaUni12     field.Float32
+	StaUni13     field.Float32
+	StaUni14     field.Float32
 
 	fieldMap map[string]field.Expr
 }
@@ -90,7 +96,8 @@ func (s *staUni) updateTableName(table string) *staUni {
 	s.CreatedAt = field.NewTime(table, "created_at")
 	s.UpdatedAt = field.NewTime(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
-	s.FacDisMonID = field.NewUint(table, "fac_dis_mon_id")
+	s.HouseNumber = field.NewString(table, "house_number")
+	s.TimeRecordAt = field.NewFloat32(table, "time_record_at")
 	s.StaUni1 = field.NewFloat32(table, "sta_uni1")
 	s.StaUni2 = field.NewFloat32(table, "sta_uni2")
 	s.StaUni3 = field.NewFloat32(table, "sta_uni3")
@@ -98,8 +105,13 @@ func (s *staUni) updateTableName(table string) *staUni {
 	s.StaUni5 = field.NewFloat32(table, "sta_uni5")
 	s.StaUni6 = field.NewFloat32(table, "sta_uni6")
 	s.StaUni7 = field.NewFloat32(table, "sta_uni7")
+	s.StaUni8 = field.NewFloat32(table, "sta_uni8")
 	s.StaUni9 = field.NewFloat32(table, "sta_uni9")
 	s.StaUni10 = field.NewFloat32(table, "sta_uni10")
+	s.StaUni11 = field.NewFloat32(table, "sta_uni11")
+	s.StaUni12 = field.NewFloat32(table, "sta_uni12")
+	s.StaUni13 = field.NewFloat32(table, "sta_uni13")
+	s.StaUni14 = field.NewFloat32(table, "sta_uni14")
 
 	s.fillFieldMap()
 
@@ -124,12 +136,13 @@ func (s *staUni) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *staUni) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 15)
+	s.fieldMap = make(map[string]field.Expr, 20)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
 	s.fieldMap["deleted_at"] = s.DeletedAt
-	s.fieldMap["fac_dis_mon_id"] = s.FacDisMonID
+	s.fieldMap["house_number"] = s.HouseNumber
+	s.fieldMap["time_record_at"] = s.TimeRecordAt
 	s.fieldMap["sta_uni1"] = s.StaUni1
 	s.fieldMap["sta_uni2"] = s.StaUni2
 	s.fieldMap["sta_uni3"] = s.StaUni3
@@ -137,9 +150,13 @@ func (s *staUni) fillFieldMap() {
 	s.fieldMap["sta_uni5"] = s.StaUni5
 	s.fieldMap["sta_uni6"] = s.StaUni6
 	s.fieldMap["sta_uni7"] = s.StaUni7
+	s.fieldMap["sta_uni8"] = s.StaUni8
 	s.fieldMap["sta_uni9"] = s.StaUni9
 	s.fieldMap["sta_uni10"] = s.StaUni10
-
+	s.fieldMap["sta_uni11"] = s.StaUni11
+	s.fieldMap["sta_uni12"] = s.StaUni12
+	s.fieldMap["sta_uni13"] = s.StaUni13
+	s.fieldMap["sta_uni14"] = s.StaUni14
 }
 
 func (s staUni) clone(db *gorm.DB) staUni {
@@ -150,77 +167,6 @@ func (s staUni) clone(db *gorm.DB) staUni {
 func (s staUni) replaceDB(db *gorm.DB) staUni {
 	s.staUniDo.ReplaceDB(db)
 	return s
-}
-
-type staUniHasOneStaUni8 struct {
-	db *gorm.DB
-
-	field.RelationField
-}
-
-func (a staUniHasOneStaUni8) Where(conds ...field.Expr) *staUniHasOneStaUni8 {
-	if len(conds) == 0 {
-		return &a
-	}
-
-	exprs := make([]clause.Expression, 0, len(conds))
-	for _, cond := range conds {
-		exprs = append(exprs, cond.BeCond().(clause.Expression))
-	}
-	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
-	return &a
-}
-
-func (a staUniHasOneStaUni8) WithContext(ctx context.Context) *staUniHasOneStaUni8 {
-	a.db = a.db.WithContext(ctx)
-	return &a
-}
-
-func (a staUniHasOneStaUni8) Session(session *gorm.Session) *staUniHasOneStaUni8 {
-	a.db = a.db.Session(session)
-	return &a
-}
-
-func (a staUniHasOneStaUni8) Model(m *slaughter.StaUni) *staUniHasOneStaUni8Tx {
-	return &staUniHasOneStaUni8Tx{a.db.Model(m).Association(a.Name())}
-}
-
-type staUniHasOneStaUni8Tx struct{ tx *gorm.Association }
-
-func (a staUniHasOneStaUni8Tx) Find() (result *slaughter.DisRecord, err error) {
-	return result, a.tx.Find(&result)
-}
-
-func (a staUniHasOneStaUni8Tx) Append(values ...*slaughter.DisRecord) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Append(targetValues...)
-}
-
-func (a staUniHasOneStaUni8Tx) Replace(values ...*slaughter.DisRecord) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Replace(targetValues...)
-}
-
-func (a staUniHasOneStaUni8Tx) Delete(values ...*slaughter.DisRecord) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Delete(targetValues...)
-}
-
-func (a staUniHasOneStaUni8Tx) Clear() error {
-	return a.tx.Clear()
-}
-
-func (a staUniHasOneStaUni8Tx) Count() int64 {
-	return a.tx.Count()
 }
 
 type staUniDo struct{ gen.DO }

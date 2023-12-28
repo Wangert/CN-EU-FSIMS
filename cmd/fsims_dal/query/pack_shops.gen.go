@@ -30,7 +30,8 @@ func newPackShop(db *gorm.DB, opts ...gen.DOOption) packShop {
 	_packShop.CreatedAt = field.NewTime(tableName, "created_at")
 	_packShop.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_packShop.DeletedAt = field.NewField(tableName, "deleted_at")
-	_packShop.FacDisMonID = field.NewUint(tableName, "fac_dis_mon_id")
+	_packShop.HouseNumber = field.NewString(tableName, "house_number")
+	_packShop.TimeRecordAt = field.NewFloat32(tableName, "time_record_at")
 	_packShop.PackShop1 = field.NewFloat32(tableName, "pack_shop1")
 	_packShop.PackShop2 = field.NewFloat32(tableName, "pack_shop2")
 	_packShop.PackShop3 = field.NewFloat32(tableName, "pack_shop3")
@@ -38,13 +39,13 @@ func newPackShop(db *gorm.DB, opts ...gen.DOOption) packShop {
 	_packShop.PackShop5 = field.NewFloat32(tableName, "pack_shop5")
 	_packShop.PackShop6 = field.NewFloat32(tableName, "pack_shop6")
 	_packShop.PackShop7 = field.NewFloat32(tableName, "pack_shop7")
+	_packShop.PackShop8 = field.NewFloat32(tableName, "pack_shop8")
 	_packShop.PackShop9 = field.NewFloat32(tableName, "pack_shop9")
 	_packShop.PackShop10 = field.NewFloat32(tableName, "pack_shop10")
-	_packShop.PackShop8 = packShopHasOnePackShop8{
-		db: db.Session(&gorm.Session{}),
-
-		RelationField: field.NewRelation("PackShop8", "slaughter.DisRecord"),
-	}
+	_packShop.PackShop11 = field.NewFloat32(tableName, "pack_shop11")
+	_packShop.PackShop12 = field.NewFloat32(tableName, "pack_shop12")
+	_packShop.PackShop13 = field.NewFloat32(tableName, "pack_shop13")
+	_packShop.PackShop14 = field.NewFloat32(tableName, "pack_shop14")
 
 	_packShop.fillFieldMap()
 
@@ -54,22 +55,27 @@ func newPackShop(db *gorm.DB, opts ...gen.DOOption) packShop {
 type packShop struct {
 	packShopDo packShopDo
 
-	ALL         field.Asterisk
-	ID          field.Uint
-	CreatedAt   field.Time
-	UpdatedAt   field.Time
-	DeletedAt   field.Field
-	FacDisMonID field.Uint
-	PackShop1   field.Float32
-	PackShop2   field.Float32
-	PackShop3   field.Float32
-	PackShop4   field.Float32
-	PackShop5   field.Float32
-	PackShop6   field.Float32
-	PackShop7   field.Float32
-	PackShop9   field.Float32
-	PackShop10  field.Float32
-	PackShop8   packShopHasOnePackShop8
+	ALL          field.Asterisk
+	ID           field.Uint
+	CreatedAt    field.Time
+	UpdatedAt    field.Time
+	DeletedAt    field.Field
+	HouseNumber  field.String
+	TimeRecordAt field.Float32
+	PackShop1    field.Float32
+	PackShop2    field.Float32
+	PackShop3    field.Float32
+	PackShop4    field.Float32
+	PackShop5    field.Float32
+	PackShop6    field.Float32
+	PackShop7    field.Float32
+	PackShop8    field.Float32
+	PackShop9    field.Float32
+	PackShop10   field.Float32
+	PackShop11   field.Float32
+	PackShop12   field.Float32
+	PackShop13   field.Float32
+	PackShop14   field.Float32
 
 	fieldMap map[string]field.Expr
 }
@@ -90,7 +96,8 @@ func (p *packShop) updateTableName(table string) *packShop {
 	p.CreatedAt = field.NewTime(table, "created_at")
 	p.UpdatedAt = field.NewTime(table, "updated_at")
 	p.DeletedAt = field.NewField(table, "deleted_at")
-	p.FacDisMonID = field.NewUint(table, "fac_dis_mon_id")
+	p.HouseNumber = field.NewString(table, "house_number")
+	p.TimeRecordAt = field.NewFloat32(table, "time_record_at")
 	p.PackShop1 = field.NewFloat32(table, "pack_shop1")
 	p.PackShop2 = field.NewFloat32(table, "pack_shop2")
 	p.PackShop3 = field.NewFloat32(table, "pack_shop3")
@@ -98,8 +105,13 @@ func (p *packShop) updateTableName(table string) *packShop {
 	p.PackShop5 = field.NewFloat32(table, "pack_shop5")
 	p.PackShop6 = field.NewFloat32(table, "pack_shop6")
 	p.PackShop7 = field.NewFloat32(table, "pack_shop7")
+	p.PackShop8 = field.NewFloat32(table, "pack_shop8")
 	p.PackShop9 = field.NewFloat32(table, "pack_shop9")
 	p.PackShop10 = field.NewFloat32(table, "pack_shop10")
+	p.PackShop11 = field.NewFloat32(table, "pack_shop11")
+	p.PackShop12 = field.NewFloat32(table, "pack_shop12")
+	p.PackShop13 = field.NewFloat32(table, "pack_shop13")
+	p.PackShop14 = field.NewFloat32(table, "pack_shop14")
 
 	p.fillFieldMap()
 
@@ -124,12 +136,13 @@ func (p *packShop) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (p *packShop) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 15)
+	p.fieldMap = make(map[string]field.Expr, 20)
 	p.fieldMap["id"] = p.ID
 	p.fieldMap["created_at"] = p.CreatedAt
 	p.fieldMap["updated_at"] = p.UpdatedAt
 	p.fieldMap["deleted_at"] = p.DeletedAt
-	p.fieldMap["fac_dis_mon_id"] = p.FacDisMonID
+	p.fieldMap["house_number"] = p.HouseNumber
+	p.fieldMap["time_record_at"] = p.TimeRecordAt
 	p.fieldMap["pack_shop1"] = p.PackShop1
 	p.fieldMap["pack_shop2"] = p.PackShop2
 	p.fieldMap["pack_shop3"] = p.PackShop3
@@ -137,9 +150,13 @@ func (p *packShop) fillFieldMap() {
 	p.fieldMap["pack_shop5"] = p.PackShop5
 	p.fieldMap["pack_shop6"] = p.PackShop6
 	p.fieldMap["pack_shop7"] = p.PackShop7
+	p.fieldMap["pack_shop8"] = p.PackShop8
 	p.fieldMap["pack_shop9"] = p.PackShop9
 	p.fieldMap["pack_shop10"] = p.PackShop10
-
+	p.fieldMap["pack_shop11"] = p.PackShop11
+	p.fieldMap["pack_shop12"] = p.PackShop12
+	p.fieldMap["pack_shop13"] = p.PackShop13
+	p.fieldMap["pack_shop14"] = p.PackShop14
 }
 
 func (p packShop) clone(db *gorm.DB) packShop {
@@ -150,77 +167,6 @@ func (p packShop) clone(db *gorm.DB) packShop {
 func (p packShop) replaceDB(db *gorm.DB) packShop {
 	p.packShopDo.ReplaceDB(db)
 	return p
-}
-
-type packShopHasOnePackShop8 struct {
-	db *gorm.DB
-
-	field.RelationField
-}
-
-func (a packShopHasOnePackShop8) Where(conds ...field.Expr) *packShopHasOnePackShop8 {
-	if len(conds) == 0 {
-		return &a
-	}
-
-	exprs := make([]clause.Expression, 0, len(conds))
-	for _, cond := range conds {
-		exprs = append(exprs, cond.BeCond().(clause.Expression))
-	}
-	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
-	return &a
-}
-
-func (a packShopHasOnePackShop8) WithContext(ctx context.Context) *packShopHasOnePackShop8 {
-	a.db = a.db.WithContext(ctx)
-	return &a
-}
-
-func (a packShopHasOnePackShop8) Session(session *gorm.Session) *packShopHasOnePackShop8 {
-	a.db = a.db.Session(session)
-	return &a
-}
-
-func (a packShopHasOnePackShop8) Model(m *slaughter.PackShop) *packShopHasOnePackShop8Tx {
-	return &packShopHasOnePackShop8Tx{a.db.Model(m).Association(a.Name())}
-}
-
-type packShopHasOnePackShop8Tx struct{ tx *gorm.Association }
-
-func (a packShopHasOnePackShop8Tx) Find() (result *slaughter.DisRecord, err error) {
-	return result, a.tx.Find(&result)
-}
-
-func (a packShopHasOnePackShop8Tx) Append(values ...*slaughter.DisRecord) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Append(targetValues...)
-}
-
-func (a packShopHasOnePackShop8Tx) Replace(values ...*slaughter.DisRecord) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Replace(targetValues...)
-}
-
-func (a packShopHasOnePackShop8Tx) Delete(values ...*slaughter.DisRecord) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Delete(targetValues...)
-}
-
-func (a packShopHasOnePackShop8Tx) Clear() error {
-	return a.tx.Clear()
-}
-
-func (a packShopHasOnePackShop8Tx) Count() int64 {
-	return a.tx.Count()
 }
 
 type packShopDo struct{ gen.DO }

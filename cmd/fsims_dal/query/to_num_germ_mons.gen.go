@@ -30,7 +30,6 @@ func newToNumGermMon(db *gorm.DB, opts ...gen.DOOption) toNumGermMon {
 	_toNumGermMon.CreatedAt = field.NewTime(tableName, "created_at")
 	_toNumGermMon.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_toNumGermMon.DeletedAt = field.NewField(tableName, "deleted_at")
-	_toNumGermMon.SlaInfoMonID = field.NewUint(tableName, "sla_info_mon_id")
 	_toNumGermMon.ToNumGermMon1 = field.NewFloat32(tableName, "to_num_germ_mon1")
 	_toNumGermMon.ToNumGermMon2 = field.NewFloat32(tableName, "to_num_germ_mon2")
 	_toNumGermMon.ToNumGermMon3 = field.NewFloat32(tableName, "to_num_germ_mon3")
@@ -53,7 +52,6 @@ type toNumGermMon struct {
 	CreatedAt     field.Time
 	UpdatedAt     field.Time
 	DeletedAt     field.Field
-	SlaInfoMonID  field.Uint
 	ToNumGermMon1 field.Float32
 	ToNumGermMon2 field.Float32
 	ToNumGermMon3 field.Float32
@@ -82,7 +80,6 @@ func (t *toNumGermMon) updateTableName(table string) *toNumGermMon {
 	t.CreatedAt = field.NewTime(table, "created_at")
 	t.UpdatedAt = field.NewTime(table, "updated_at")
 	t.DeletedAt = field.NewField(table, "deleted_at")
-	t.SlaInfoMonID = field.NewUint(table, "sla_info_mon_id")
 	t.ToNumGermMon1 = field.NewFloat32(table, "to_num_germ_mon1")
 	t.ToNumGermMon2 = field.NewFloat32(table, "to_num_germ_mon2")
 	t.ToNumGermMon3 = field.NewFloat32(table, "to_num_germ_mon3")
@@ -119,12 +116,11 @@ func (t *toNumGermMon) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 }
 
 func (t *toNumGermMon) fillFieldMap() {
-	t.fieldMap = make(map[string]field.Expr, 13)
+	t.fieldMap = make(map[string]field.Expr, 12)
 	t.fieldMap["id"] = t.ID
 	t.fieldMap["created_at"] = t.CreatedAt
 	t.fieldMap["updated_at"] = t.UpdatedAt
 	t.fieldMap["deleted_at"] = t.DeletedAt
-	t.fieldMap["sla_info_mon_id"] = t.SlaInfoMonID
 	t.fieldMap["to_num_germ_mon1"] = t.ToNumGermMon1
 	t.fieldMap["to_num_germ_mon2"] = t.ToNumGermMon2
 	t.fieldMap["to_num_germ_mon3"] = t.ToNumGermMon3

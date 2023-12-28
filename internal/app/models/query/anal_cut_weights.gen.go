@@ -30,7 +30,6 @@ func newAnalCutWeight(db *gorm.DB, opts ...gen.DOOption) analCutWeight {
 	_analCutWeight.CreatedAt = field.NewTime(tableName, "created_at")
 	_analCutWeight.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_analCutWeight.DeletedAt = field.NewField(tableName, "deleted_at")
-	_analCutWeight.SlaInfoMonID = field.NewUint(tableName, "sla_info_mon_id")
 	_analCutWeight.AnalCutWeight1 = field.NewFloat32(tableName, "anal_cut_weight1")
 	_analCutWeight.AnalCutWeight2 = field.NewFloat32(tableName, "anal_cut_weight2")
 	_analCutWeight.AnalCutWeight3 = field.NewFloat32(tableName, "anal_cut_weight3")
@@ -57,7 +56,6 @@ type analCutWeight struct {
 	CreatedAt       field.Time
 	UpdatedAt       field.Time
 	DeletedAt       field.Field
-	SlaInfoMonID    field.Uint
 	AnalCutWeight1  field.Float32
 	AnalCutWeight2  field.Float32
 	AnalCutWeight3  field.Float32
@@ -90,7 +88,6 @@ func (a *analCutWeight) updateTableName(table string) *analCutWeight {
 	a.CreatedAt = field.NewTime(table, "created_at")
 	a.UpdatedAt = field.NewTime(table, "updated_at")
 	a.DeletedAt = field.NewField(table, "deleted_at")
-	a.SlaInfoMonID = field.NewUint(table, "sla_info_mon_id")
 	a.AnalCutWeight1 = field.NewFloat32(table, "anal_cut_weight1")
 	a.AnalCutWeight2 = field.NewFloat32(table, "anal_cut_weight2")
 	a.AnalCutWeight3 = field.NewFloat32(table, "anal_cut_weight3")
@@ -131,12 +128,11 @@ func (a *analCutWeight) GetFieldByName(fieldName string) (field.OrderExpr, bool)
 }
 
 func (a *analCutWeight) fillFieldMap() {
-	a.fieldMap = make(map[string]field.Expr, 17)
+	a.fieldMap = make(map[string]field.Expr, 16)
 	a.fieldMap["id"] = a.ID
 	a.fieldMap["created_at"] = a.CreatedAt
 	a.fieldMap["updated_at"] = a.UpdatedAt
 	a.fieldMap["deleted_at"] = a.DeletedAt
-	a.fieldMap["sla_info_mon_id"] = a.SlaInfoMonID
 	a.fieldMap["anal_cut_weight1"] = a.AnalCutWeight1
 	a.fieldMap["anal_cut_weight2"] = a.AnalCutWeight2
 	a.fieldMap["anal_cut_weight3"] = a.AnalCutWeight3

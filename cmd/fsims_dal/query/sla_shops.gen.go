@@ -30,7 +30,8 @@ func newSlaShop(db *gorm.DB, opts ...gen.DOOption) slaShop {
 	_slaShop.CreatedAt = field.NewTime(tableName, "created_at")
 	_slaShop.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_slaShop.DeletedAt = field.NewField(tableName, "deleted_at")
-	_slaShop.FacDisMonID = field.NewUint(tableName, "fac_dis_mon_id")
+	_slaShop.HouseNumber = field.NewString(tableName, "house_number")
+	_slaShop.TimeRecordAt = field.NewFloat32(tableName, "time_record_at")
 	_slaShop.SlaShop1 = field.NewFloat32(tableName, "sla_shop1")
 	_slaShop.SlaShop2 = field.NewFloat32(tableName, "sla_shop2")
 	_slaShop.SlaShop3 = field.NewFloat32(tableName, "sla_shop3")
@@ -38,13 +39,13 @@ func newSlaShop(db *gorm.DB, opts ...gen.DOOption) slaShop {
 	_slaShop.SlaShop5 = field.NewFloat32(tableName, "sla_shop5")
 	_slaShop.SlaShop6 = field.NewFloat32(tableName, "sla_shop6")
 	_slaShop.SlaShop7 = field.NewFloat32(tableName, "sla_shop7")
+	_slaShop.SlaShop8 = field.NewFloat32(tableName, "sla_shop8")
 	_slaShop.SlaShop9 = field.NewFloat32(tableName, "sla_shop9")
 	_slaShop.SlaShop10 = field.NewFloat32(tableName, "sla_shop10")
-	_slaShop.SlaShop8 = slaShopHasOneSlaShop8{
-		db: db.Session(&gorm.Session{}),
-
-		RelationField: field.NewRelation("SlaShop8", "slaughter.DisRecord"),
-	}
+	_slaShop.SlaShop11 = field.NewFloat32(tableName, "sla_shop11")
+	_slaShop.SlaShop12 = field.NewFloat32(tableName, "sla_shop12")
+	_slaShop.SlaShop13 = field.NewFloat32(tableName, "sla_shop13")
+	_slaShop.SlaShop14 = field.NewFloat32(tableName, "sla_shop14")
 
 	_slaShop.fillFieldMap()
 
@@ -54,22 +55,27 @@ func newSlaShop(db *gorm.DB, opts ...gen.DOOption) slaShop {
 type slaShop struct {
 	slaShopDo slaShopDo
 
-	ALL         field.Asterisk
-	ID          field.Uint
-	CreatedAt   field.Time
-	UpdatedAt   field.Time
-	DeletedAt   field.Field
-	FacDisMonID field.Uint
-	SlaShop1    field.Float32
-	SlaShop2    field.Float32
-	SlaShop3    field.Float32
-	SlaShop4    field.Float32
-	SlaShop5    field.Float32
-	SlaShop6    field.Float32
-	SlaShop7    field.Float32
-	SlaShop9    field.Float32
-	SlaShop10   field.Float32
-	SlaShop8    slaShopHasOneSlaShop8
+	ALL          field.Asterisk
+	ID           field.Uint
+	CreatedAt    field.Time
+	UpdatedAt    field.Time
+	DeletedAt    field.Field
+	HouseNumber  field.String
+	TimeRecordAt field.Float32
+	SlaShop1     field.Float32
+	SlaShop2     field.Float32
+	SlaShop3     field.Float32
+	SlaShop4     field.Float32
+	SlaShop5     field.Float32
+	SlaShop6     field.Float32
+	SlaShop7     field.Float32
+	SlaShop8     field.Float32
+	SlaShop9     field.Float32
+	SlaShop10    field.Float32
+	SlaShop11    field.Float32
+	SlaShop12    field.Float32
+	SlaShop13    field.Float32
+	SlaShop14    field.Float32
 
 	fieldMap map[string]field.Expr
 }
@@ -90,7 +96,8 @@ func (s *slaShop) updateTableName(table string) *slaShop {
 	s.CreatedAt = field.NewTime(table, "created_at")
 	s.UpdatedAt = field.NewTime(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
-	s.FacDisMonID = field.NewUint(table, "fac_dis_mon_id")
+	s.HouseNumber = field.NewString(table, "house_number")
+	s.TimeRecordAt = field.NewFloat32(table, "time_record_at")
 	s.SlaShop1 = field.NewFloat32(table, "sla_shop1")
 	s.SlaShop2 = field.NewFloat32(table, "sla_shop2")
 	s.SlaShop3 = field.NewFloat32(table, "sla_shop3")
@@ -98,8 +105,13 @@ func (s *slaShop) updateTableName(table string) *slaShop {
 	s.SlaShop5 = field.NewFloat32(table, "sla_shop5")
 	s.SlaShop6 = field.NewFloat32(table, "sla_shop6")
 	s.SlaShop7 = field.NewFloat32(table, "sla_shop7")
+	s.SlaShop8 = field.NewFloat32(table, "sla_shop8")
 	s.SlaShop9 = field.NewFloat32(table, "sla_shop9")
 	s.SlaShop10 = field.NewFloat32(table, "sla_shop10")
+	s.SlaShop11 = field.NewFloat32(table, "sla_shop11")
+	s.SlaShop12 = field.NewFloat32(table, "sla_shop12")
+	s.SlaShop13 = field.NewFloat32(table, "sla_shop13")
+	s.SlaShop14 = field.NewFloat32(table, "sla_shop14")
 
 	s.fillFieldMap()
 
@@ -124,12 +136,13 @@ func (s *slaShop) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *slaShop) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 15)
+	s.fieldMap = make(map[string]field.Expr, 20)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
 	s.fieldMap["deleted_at"] = s.DeletedAt
-	s.fieldMap["fac_dis_mon_id"] = s.FacDisMonID
+	s.fieldMap["house_number"] = s.HouseNumber
+	s.fieldMap["time_record_at"] = s.TimeRecordAt
 	s.fieldMap["sla_shop1"] = s.SlaShop1
 	s.fieldMap["sla_shop2"] = s.SlaShop2
 	s.fieldMap["sla_shop3"] = s.SlaShop3
@@ -137,9 +150,13 @@ func (s *slaShop) fillFieldMap() {
 	s.fieldMap["sla_shop5"] = s.SlaShop5
 	s.fieldMap["sla_shop6"] = s.SlaShop6
 	s.fieldMap["sla_shop7"] = s.SlaShop7
+	s.fieldMap["sla_shop8"] = s.SlaShop8
 	s.fieldMap["sla_shop9"] = s.SlaShop9
 	s.fieldMap["sla_shop10"] = s.SlaShop10
-
+	s.fieldMap["sla_shop11"] = s.SlaShop11
+	s.fieldMap["sla_shop12"] = s.SlaShop12
+	s.fieldMap["sla_shop13"] = s.SlaShop13
+	s.fieldMap["sla_shop14"] = s.SlaShop14
 }
 
 func (s slaShop) clone(db *gorm.DB) slaShop {
@@ -150,77 +167,6 @@ func (s slaShop) clone(db *gorm.DB) slaShop {
 func (s slaShop) replaceDB(db *gorm.DB) slaShop {
 	s.slaShopDo.ReplaceDB(db)
 	return s
-}
-
-type slaShopHasOneSlaShop8 struct {
-	db *gorm.DB
-
-	field.RelationField
-}
-
-func (a slaShopHasOneSlaShop8) Where(conds ...field.Expr) *slaShopHasOneSlaShop8 {
-	if len(conds) == 0 {
-		return &a
-	}
-
-	exprs := make([]clause.Expression, 0, len(conds))
-	for _, cond := range conds {
-		exprs = append(exprs, cond.BeCond().(clause.Expression))
-	}
-	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
-	return &a
-}
-
-func (a slaShopHasOneSlaShop8) WithContext(ctx context.Context) *slaShopHasOneSlaShop8 {
-	a.db = a.db.WithContext(ctx)
-	return &a
-}
-
-func (a slaShopHasOneSlaShop8) Session(session *gorm.Session) *slaShopHasOneSlaShop8 {
-	a.db = a.db.Session(session)
-	return &a
-}
-
-func (a slaShopHasOneSlaShop8) Model(m *slaughter.SlaShop) *slaShopHasOneSlaShop8Tx {
-	return &slaShopHasOneSlaShop8Tx{a.db.Model(m).Association(a.Name())}
-}
-
-type slaShopHasOneSlaShop8Tx struct{ tx *gorm.Association }
-
-func (a slaShopHasOneSlaShop8Tx) Find() (result *slaughter.DisRecord, err error) {
-	return result, a.tx.Find(&result)
-}
-
-func (a slaShopHasOneSlaShop8Tx) Append(values ...*slaughter.DisRecord) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Append(targetValues...)
-}
-
-func (a slaShopHasOneSlaShop8Tx) Replace(values ...*slaughter.DisRecord) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Replace(targetValues...)
-}
-
-func (a slaShopHasOneSlaShop8Tx) Delete(values ...*slaughter.DisRecord) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Delete(targetValues...)
-}
-
-func (a slaShopHasOneSlaShop8Tx) Clear() error {
-	return a.tx.Clear()
-}
-
-func (a slaShopHasOneSlaShop8Tx) Count() int64 {
-	return a.tx.Count()
 }
 
 type slaShopDo struct{ gen.DO }

@@ -30,7 +30,6 @@ func newAirNumGermMon(db *gorm.DB, opts ...gen.DOOption) airNumGermMon {
 	_airNumGermMon.CreatedAt = field.NewTime(tableName, "created_at")
 	_airNumGermMon.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_airNumGermMon.DeletedAt = field.NewField(tableName, "deleted_at")
-	_airNumGermMon.SlaInfoMonID = field.NewUint(tableName, "sla_info_mon_id")
 	_airNumGermMon.AirNumGermMon1 = field.NewFloat32(tableName, "air_num_germ_mon1")
 	_airNumGermMon.AirNumGermMon2 = field.NewFloat32(tableName, "air_num_germ_mon2")
 	_airNumGermMon.AirNumGermMon3 = field.NewFloat32(tableName, "air_num_germ_mon3")
@@ -48,7 +47,6 @@ type airNumGermMon struct {
 	CreatedAt      field.Time
 	UpdatedAt      field.Time
 	DeletedAt      field.Field
-	SlaInfoMonID   field.Uint
 	AirNumGermMon1 field.Float32
 	AirNumGermMon2 field.Float32
 	AirNumGermMon3 field.Float32
@@ -72,7 +70,6 @@ func (a *airNumGermMon) updateTableName(table string) *airNumGermMon {
 	a.CreatedAt = field.NewTime(table, "created_at")
 	a.UpdatedAt = field.NewTime(table, "updated_at")
 	a.DeletedAt = field.NewField(table, "deleted_at")
-	a.SlaInfoMonID = field.NewUint(table, "sla_info_mon_id")
 	a.AirNumGermMon1 = field.NewFloat32(table, "air_num_germ_mon1")
 	a.AirNumGermMon2 = field.NewFloat32(table, "air_num_germ_mon2")
 	a.AirNumGermMon3 = field.NewFloat32(table, "air_num_germ_mon3")
@@ -104,12 +101,11 @@ func (a *airNumGermMon) GetFieldByName(fieldName string) (field.OrderExpr, bool)
 }
 
 func (a *airNumGermMon) fillFieldMap() {
-	a.fieldMap = make(map[string]field.Expr, 8)
+	a.fieldMap = make(map[string]field.Expr, 7)
 	a.fieldMap["id"] = a.ID
 	a.fieldMap["created_at"] = a.CreatedAt
 	a.fieldMap["updated_at"] = a.UpdatedAt
 	a.fieldMap["deleted_at"] = a.DeletedAt
-	a.fieldMap["sla_info_mon_id"] = a.SlaInfoMonID
 	a.fieldMap["air_num_germ_mon1"] = a.AirNumGermMon1
 	a.fieldMap["air_num_germ_mon2"] = a.AirNumGermMon2
 	a.fieldMap["air_num_germ_mon3"] = a.AirNumGermMon3

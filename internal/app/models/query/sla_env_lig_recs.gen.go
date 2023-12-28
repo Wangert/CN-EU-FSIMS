@@ -30,7 +30,8 @@ func newSlaEnvLigRec(db *gorm.DB, opts ...gen.DOOption) slaEnvLigRec {
 	_slaEnvLigRec.CreatedAt = field.NewTime(tableName, "created_at")
 	_slaEnvLigRec.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_slaEnvLigRec.DeletedAt = field.NewField(tableName, "deleted_at")
-	_slaEnvLigRec.SlaInfoMonID = field.NewUint(tableName, "sla_info_mon_id")
+	_slaEnvLigRec.HouseNumber = field.NewString(tableName, "house_number")
+	_slaEnvLigRec.TimeRecordAt = field.NewFloat32(tableName, "time_record_at")
 	_slaEnvLigRec.SlaEnvLigRec1 = field.NewFloat32(tableName, "sla_env_lig_rec1")
 	_slaEnvLigRec.SlaEnvLigRec2 = field.NewFloat32(tableName, "sla_env_lig_rec2")
 	_slaEnvLigRec.SlaEnvLigRec3 = field.NewFloat32(tableName, "sla_env_lig_rec3")
@@ -49,7 +50,8 @@ type slaEnvLigRec struct {
 	CreatedAt     field.Time
 	UpdatedAt     field.Time
 	DeletedAt     field.Field
-	SlaInfoMonID  field.Uint
+	HouseNumber   field.String
+	TimeRecordAt  field.Float32
 	SlaEnvLigRec1 field.Float32
 	SlaEnvLigRec2 field.Float32
 	SlaEnvLigRec3 field.Float32
@@ -74,7 +76,8 @@ func (s *slaEnvLigRec) updateTableName(table string) *slaEnvLigRec {
 	s.CreatedAt = field.NewTime(table, "created_at")
 	s.UpdatedAt = field.NewTime(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
-	s.SlaInfoMonID = field.NewUint(table, "sla_info_mon_id")
+	s.HouseNumber = field.NewString(table, "house_number")
+	s.TimeRecordAt = field.NewFloat32(table, "time_record_at")
 	s.SlaEnvLigRec1 = field.NewFloat32(table, "sla_env_lig_rec1")
 	s.SlaEnvLigRec2 = field.NewFloat32(table, "sla_env_lig_rec2")
 	s.SlaEnvLigRec3 = field.NewFloat32(table, "sla_env_lig_rec3")
@@ -107,12 +110,13 @@ func (s *slaEnvLigRec) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 }
 
 func (s *slaEnvLigRec) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 9)
+	s.fieldMap = make(map[string]field.Expr, 10)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
 	s.fieldMap["deleted_at"] = s.DeletedAt
-	s.fieldMap["sla_info_mon_id"] = s.SlaInfoMonID
+	s.fieldMap["house_number"] = s.HouseNumber
+	s.fieldMap["time_record_at"] = s.TimeRecordAt
 	s.fieldMap["sla_env_lig_rec1"] = s.SlaEnvLigRec1
 	s.fieldMap["sla_env_lig_rec2"] = s.SlaEnvLigRec2
 	s.fieldMap["sla_env_lig_rec3"] = s.SlaEnvLigRec3

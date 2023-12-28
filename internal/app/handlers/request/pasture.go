@@ -33,11 +33,11 @@ type ReqSendToSlaughter struct {
 }
 
 type ReqAddPastureFeedHeavyMetal struct {
-	HouseNumber string         `json:"house_number"`
-	Ass         pasture.AsInfo `json:"aas"` //砷元素
-	Pb          pasture.PbInfo `json:"pb"`  //铅元素
-	Cd          pasture.CdInfo `json:"cd"`  //镉元素
-	Cr          pasture.CrInfo `json:"cr"`  //铬元素
+	HouseNumber string                    `json:"house_number"`
+	Ass         pasture.PastureFeedAsInfo `json:"aas"` //砷元素
+	Pb          pasture.PastureFeedPbInfo `json:"pb"`  //铅元素
+	Cd          pasture.PastureFeedCdInfo `json:"cd"`  //镉元素
+	Cr          pasture.PastureFeedCrInfo `json:"cr"`  //铬元素
 }
 
 type ReqAddPastureFeedCass struct {
@@ -50,8 +50,8 @@ type ReqAddPastureFeedCass struct {
 }
 
 type ReqAddPastureWaterRecord struct {
-	HouseNumber string                 `json:"house_number"` //时间记录
-	OapGci      pasture.OapGciInfo     `json:"oap_gci"`      //感官性状和一般化学指标
-	ToxIndex    pasture.ToxIndexInfo   `json:"tox_index"`    //毒理性指标
-	MicroIndex  pasture.MicroIndexInfo `json:"micro_index"`  //微生物指标
+	HouseNumber string                        `json:"house_number"` //时间记录
+	OapGci      pasture.PastureOapGciInfo     `json:"oap_gci"`      //感官性状和一般化学指标
+	ToxIndex    pasture.PastureToxIndexInfo   `json:"tox_index"`    //毒理性指标
+	MicroIndex  pasture.PastureMicroIndexInfo `json:"micro_index"`  //微生物指标
 }

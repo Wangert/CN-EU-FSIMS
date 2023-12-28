@@ -30,7 +30,8 @@ func newAcidShop(db *gorm.DB, opts ...gen.DOOption) acidShop {
 	_acidShop.CreatedAt = field.NewTime(tableName, "created_at")
 	_acidShop.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_acidShop.DeletedAt = field.NewField(tableName, "deleted_at")
-	_acidShop.FacDisMonID = field.NewUint(tableName, "fac_dis_mon_id")
+	_acidShop.HouseNumber = field.NewString(tableName, "house_number")
+	_acidShop.TimeRecordAt = field.NewFloat32(tableName, "time_record_at")
 	_acidShop.AcidShop1 = field.NewFloat32(tableName, "acid_shop1")
 	_acidShop.AcidShop2 = field.NewFloat32(tableName, "acid_shop2")
 	_acidShop.AcidShop3 = field.NewFloat32(tableName, "acid_shop3")
@@ -38,13 +39,13 @@ func newAcidShop(db *gorm.DB, opts ...gen.DOOption) acidShop {
 	_acidShop.AcidShop5 = field.NewFloat32(tableName, "acid_shop5")
 	_acidShop.AcidShop6 = field.NewFloat32(tableName, "acid_shop6")
 	_acidShop.AcidShop7 = field.NewFloat32(tableName, "acid_shop7")
+	_acidShop.AcidShop8 = field.NewFloat32(tableName, "acid_shop8")
 	_acidShop.AcidShop9 = field.NewFloat32(tableName, "acid_shop9")
 	_acidShop.AcidShop10 = field.NewFloat32(tableName, "acid_shop10")
-	_acidShop.AcidShop8 = acidShopHasOneAcidShop8{
-		db: db.Session(&gorm.Session{}),
-
-		RelationField: field.NewRelation("AcidShop8", "slaughter.DisRecord"),
-	}
+	_acidShop.AcidShop11 = field.NewFloat32(tableName, "acid_shop11")
+	_acidShop.AcidShop12 = field.NewFloat32(tableName, "acid_shop12")
+	_acidShop.AcidShop13 = field.NewFloat32(tableName, "acid_shop13")
+	_acidShop.AcidShop14 = field.NewFloat32(tableName, "acid_shop14")
 
 	_acidShop.fillFieldMap()
 
@@ -54,22 +55,27 @@ func newAcidShop(db *gorm.DB, opts ...gen.DOOption) acidShop {
 type acidShop struct {
 	acidShopDo acidShopDo
 
-	ALL         field.Asterisk
-	ID          field.Uint
-	CreatedAt   field.Time
-	UpdatedAt   field.Time
-	DeletedAt   field.Field
-	FacDisMonID field.Uint
-	AcidShop1   field.Float32
-	AcidShop2   field.Float32
-	AcidShop3   field.Float32
-	AcidShop4   field.Float32
-	AcidShop5   field.Float32
-	AcidShop6   field.Float32
-	AcidShop7   field.Float32
-	AcidShop9   field.Float32
-	AcidShop10  field.Float32
-	AcidShop8   acidShopHasOneAcidShop8
+	ALL          field.Asterisk
+	ID           field.Uint
+	CreatedAt    field.Time
+	UpdatedAt    field.Time
+	DeletedAt    field.Field
+	HouseNumber  field.String
+	TimeRecordAt field.Float32
+	AcidShop1    field.Float32
+	AcidShop2    field.Float32
+	AcidShop3    field.Float32
+	AcidShop4    field.Float32
+	AcidShop5    field.Float32
+	AcidShop6    field.Float32
+	AcidShop7    field.Float32
+	AcidShop8    field.Float32
+	AcidShop9    field.Float32
+	AcidShop10   field.Float32
+	AcidShop11   field.Float32
+	AcidShop12   field.Float32
+	AcidShop13   field.Float32
+	AcidShop14   field.Float32
 
 	fieldMap map[string]field.Expr
 }
@@ -90,7 +96,8 @@ func (a *acidShop) updateTableName(table string) *acidShop {
 	a.CreatedAt = field.NewTime(table, "created_at")
 	a.UpdatedAt = field.NewTime(table, "updated_at")
 	a.DeletedAt = field.NewField(table, "deleted_at")
-	a.FacDisMonID = field.NewUint(table, "fac_dis_mon_id")
+	a.HouseNumber = field.NewString(table, "house_number")
+	a.TimeRecordAt = field.NewFloat32(table, "time_record_at")
 	a.AcidShop1 = field.NewFloat32(table, "acid_shop1")
 	a.AcidShop2 = field.NewFloat32(table, "acid_shop2")
 	a.AcidShop3 = field.NewFloat32(table, "acid_shop3")
@@ -98,8 +105,13 @@ func (a *acidShop) updateTableName(table string) *acidShop {
 	a.AcidShop5 = field.NewFloat32(table, "acid_shop5")
 	a.AcidShop6 = field.NewFloat32(table, "acid_shop6")
 	a.AcidShop7 = field.NewFloat32(table, "acid_shop7")
+	a.AcidShop8 = field.NewFloat32(table, "acid_shop8")
 	a.AcidShop9 = field.NewFloat32(table, "acid_shop9")
 	a.AcidShop10 = field.NewFloat32(table, "acid_shop10")
+	a.AcidShop11 = field.NewFloat32(table, "acid_shop11")
+	a.AcidShop12 = field.NewFloat32(table, "acid_shop12")
+	a.AcidShop13 = field.NewFloat32(table, "acid_shop13")
+	a.AcidShop14 = field.NewFloat32(table, "acid_shop14")
 
 	a.fillFieldMap()
 
@@ -124,12 +136,13 @@ func (a *acidShop) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (a *acidShop) fillFieldMap() {
-	a.fieldMap = make(map[string]field.Expr, 15)
+	a.fieldMap = make(map[string]field.Expr, 20)
 	a.fieldMap["id"] = a.ID
 	a.fieldMap["created_at"] = a.CreatedAt
 	a.fieldMap["updated_at"] = a.UpdatedAt
 	a.fieldMap["deleted_at"] = a.DeletedAt
-	a.fieldMap["fac_dis_mon_id"] = a.FacDisMonID
+	a.fieldMap["house_number"] = a.HouseNumber
+	a.fieldMap["time_record_at"] = a.TimeRecordAt
 	a.fieldMap["acid_shop1"] = a.AcidShop1
 	a.fieldMap["acid_shop2"] = a.AcidShop2
 	a.fieldMap["acid_shop3"] = a.AcidShop3
@@ -137,9 +150,13 @@ func (a *acidShop) fillFieldMap() {
 	a.fieldMap["acid_shop5"] = a.AcidShop5
 	a.fieldMap["acid_shop6"] = a.AcidShop6
 	a.fieldMap["acid_shop7"] = a.AcidShop7
+	a.fieldMap["acid_shop8"] = a.AcidShop8
 	a.fieldMap["acid_shop9"] = a.AcidShop9
 	a.fieldMap["acid_shop10"] = a.AcidShop10
-
+	a.fieldMap["acid_shop11"] = a.AcidShop11
+	a.fieldMap["acid_shop12"] = a.AcidShop12
+	a.fieldMap["acid_shop13"] = a.AcidShop13
+	a.fieldMap["acid_shop14"] = a.AcidShop14
 }
 
 func (a acidShop) clone(db *gorm.DB) acidShop {
@@ -150,77 +167,6 @@ func (a acidShop) clone(db *gorm.DB) acidShop {
 func (a acidShop) replaceDB(db *gorm.DB) acidShop {
 	a.acidShopDo.ReplaceDB(db)
 	return a
-}
-
-type acidShopHasOneAcidShop8 struct {
-	db *gorm.DB
-
-	field.RelationField
-}
-
-func (a acidShopHasOneAcidShop8) Where(conds ...field.Expr) *acidShopHasOneAcidShop8 {
-	if len(conds) == 0 {
-		return &a
-	}
-
-	exprs := make([]clause.Expression, 0, len(conds))
-	for _, cond := range conds {
-		exprs = append(exprs, cond.BeCond().(clause.Expression))
-	}
-	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
-	return &a
-}
-
-func (a acidShopHasOneAcidShop8) WithContext(ctx context.Context) *acidShopHasOneAcidShop8 {
-	a.db = a.db.WithContext(ctx)
-	return &a
-}
-
-func (a acidShopHasOneAcidShop8) Session(session *gorm.Session) *acidShopHasOneAcidShop8 {
-	a.db = a.db.Session(session)
-	return &a
-}
-
-func (a acidShopHasOneAcidShop8) Model(m *slaughter.AcidShop) *acidShopHasOneAcidShop8Tx {
-	return &acidShopHasOneAcidShop8Tx{a.db.Model(m).Association(a.Name())}
-}
-
-type acidShopHasOneAcidShop8Tx struct{ tx *gorm.Association }
-
-func (a acidShopHasOneAcidShop8Tx) Find() (result *slaughter.DisRecord, err error) {
-	return result, a.tx.Find(&result)
-}
-
-func (a acidShopHasOneAcidShop8Tx) Append(values ...*slaughter.DisRecord) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Append(targetValues...)
-}
-
-func (a acidShopHasOneAcidShop8Tx) Replace(values ...*slaughter.DisRecord) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Replace(targetValues...)
-}
-
-func (a acidShopHasOneAcidShop8Tx) Delete(values ...*slaughter.DisRecord) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Delete(targetValues...)
-}
-
-func (a acidShopHasOneAcidShop8Tx) Clear() error {
-	return a.tx.Clear()
-}
-
-func (a acidShopHasOneAcidShop8Tx) Count() int64 {
-	return a.tx.Count()
 }
 
 type acidShopDo struct{ gen.DO }

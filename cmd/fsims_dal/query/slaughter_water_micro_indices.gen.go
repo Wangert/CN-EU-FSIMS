@@ -30,10 +30,11 @@ func newSlaughterWaterMicroIndex(db *gorm.DB, opts ...gen.DOOption) slaughterWat
 	_slaughterWaterMicroIndex.CreatedAt = field.NewTime(tableName, "created_at")
 	_slaughterWaterMicroIndex.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_slaughterWaterMicroIndex.DeletedAt = field.NewField(tableName, "deleted_at")
-	_slaughterWaterMicroIndex.WaterQualityMonID = field.NewUint(tableName, "water_quality_mon_id")
-	_slaughterWaterMicroIndex.MicroIndex1 = field.NewFloat64(tableName, "micro_index1")
-	_slaughterWaterMicroIndex.MicroIndex2 = field.NewFloat64(tableName, "micro_index2")
-	_slaughterWaterMicroIndex.MicroIndex3 = field.NewFloat64(tableName, "micro_index3")
+	_slaughterWaterMicroIndex.SlaughterWaterQualityMonID = field.NewUint(tableName, "slaughter_water_quality_mon_id")
+	_slaughterWaterMicroIndex.TimeRecordAt = field.NewFloat32(tableName, "time_record_at")
+	_slaughterWaterMicroIndex.SlaughterWaterMicroIndex1 = field.NewFloat32(tableName, "slaughter_water_micro_index1")
+	_slaughterWaterMicroIndex.SlaughterWaterMicroIndex2 = field.NewFloat32(tableName, "slaughter_water_micro_index2")
+	_slaughterWaterMicroIndex.SlaughterWaterMicroIndex3 = field.NewFloat32(tableName, "slaughter_water_micro_index3")
 
 	_slaughterWaterMicroIndex.fillFieldMap()
 
@@ -43,15 +44,16 @@ func newSlaughterWaterMicroIndex(db *gorm.DB, opts ...gen.DOOption) slaughterWat
 type slaughterWaterMicroIndex struct {
 	slaughterWaterMicroIndexDo slaughterWaterMicroIndexDo
 
-	ALL               field.Asterisk
-	ID                field.Uint
-	CreatedAt         field.Time
-	UpdatedAt         field.Time
-	DeletedAt         field.Field
-	WaterQualityMonID field.Uint
-	MicroIndex1       field.Float64
-	MicroIndex2       field.Float64
-	MicroIndex3       field.Float64
+	ALL                        field.Asterisk
+	ID                         field.Uint
+	CreatedAt                  field.Time
+	UpdatedAt                  field.Time
+	DeletedAt                  field.Field
+	SlaughterWaterQualityMonID field.Uint
+	TimeRecordAt               field.Float32
+	SlaughterWaterMicroIndex1  field.Float32
+	SlaughterWaterMicroIndex2  field.Float32
+	SlaughterWaterMicroIndex3  field.Float32
 
 	fieldMap map[string]field.Expr
 }
@@ -72,10 +74,11 @@ func (s *slaughterWaterMicroIndex) updateTableName(table string) *slaughterWater
 	s.CreatedAt = field.NewTime(table, "created_at")
 	s.UpdatedAt = field.NewTime(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
-	s.WaterQualityMonID = field.NewUint(table, "water_quality_mon_id")
-	s.MicroIndex1 = field.NewFloat64(table, "micro_index1")
-	s.MicroIndex2 = field.NewFloat64(table, "micro_index2")
-	s.MicroIndex3 = field.NewFloat64(table, "micro_index3")
+	s.SlaughterWaterQualityMonID = field.NewUint(table, "slaughter_water_quality_mon_id")
+	s.TimeRecordAt = field.NewFloat32(table, "time_record_at")
+	s.SlaughterWaterMicroIndex1 = field.NewFloat32(table, "slaughter_water_micro_index1")
+	s.SlaughterWaterMicroIndex2 = field.NewFloat32(table, "slaughter_water_micro_index2")
+	s.SlaughterWaterMicroIndex3 = field.NewFloat32(table, "slaughter_water_micro_index3")
 
 	s.fillFieldMap()
 
@@ -104,15 +107,16 @@ func (s *slaughterWaterMicroIndex) GetFieldByName(fieldName string) (field.Order
 }
 
 func (s *slaughterWaterMicroIndex) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 8)
+	s.fieldMap = make(map[string]field.Expr, 9)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
 	s.fieldMap["deleted_at"] = s.DeletedAt
-	s.fieldMap["water_quality_mon_id"] = s.WaterQualityMonID
-	s.fieldMap["micro_index1"] = s.MicroIndex1
-	s.fieldMap["micro_index2"] = s.MicroIndex2
-	s.fieldMap["micro_index3"] = s.MicroIndex3
+	s.fieldMap["slaughter_water_quality_mon_id"] = s.SlaughterWaterQualityMonID
+	s.fieldMap["time_record_at"] = s.TimeRecordAt
+	s.fieldMap["slaughter_water_micro_index1"] = s.SlaughterWaterMicroIndex1
+	s.fieldMap["slaughter_water_micro_index2"] = s.SlaughterWaterMicroIndex2
+	s.fieldMap["slaughter_water_micro_index3"] = s.SlaughterWaterMicroIndex3
 }
 
 func (s slaughterWaterMicroIndex) clone(db *gorm.DB) slaughterWaterMicroIndex {

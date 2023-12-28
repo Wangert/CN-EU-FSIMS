@@ -2,6 +2,20 @@ package slaughter
 
 import "gorm.io/gorm"
 
+/*
+本文件结构是以牛为对象
+*/
+
+type SlaughterDisinfectHotWaterTempMoni struct {
+	//消毒热水温度监控
+	gorm.Model
+	SlaughterDisinfectHotWaterTempMoni1 float32 `json:"slaughter_disinfect_hot_water_temp_moni_1"` //预剥皮
+	SlaughterDisinfectHotWaterTempMoni2 float32 `json:"slaughter_disinfect_hot_water_temp_moni_2"` //检疫台
+	SlaughterDisinfectHotWaterTempMoni3 float32 `json:"slaughter_disinfect_hot_water_temp_moni_3"` //去皮后修正
+	SlaughterDisinfectHotWaterTempMoni4 float32 `json:"slaughter_disinfect_hot_water_temp_moni_4"` //去脏后
+	SlaughterDisinfectHotWaterTempMoni5 float32 `json:"slaughter_disinfect_hot_water_temp_moni_5"` //剔骨台
+	SlaughterDisinfectHotWaterTempMoni6 float32 `json:"slaughter_disinfect_hot_water_temp_moni_6"` //洗手台
+}
 type SlaughterStun struct {
 	//击晕参数
 	gorm.Model
@@ -13,7 +27,6 @@ type SlaughterStun struct {
 type BleedElectronic struct {
 	//放血和电刺激参数
 	gorm.Model
-	SlaInfoMonID     uint    `json:"sla_info_mon_id"`
 	BleedElectronic1 float32 `json:"bleed_electronic_1"` //放血刀热水消毒
 	BleedElectronic2 float32 `json:"bleed_electronic_2"` //电流
 	BleedElectronic3 float32 `json:"bleed_electronic_3"` //作用时间
@@ -25,7 +38,6 @@ type PreSlaQuanPic struct {
 	//宰前检疫工位照片
 	//照片类型未定，先记录
 	gorm.Model
-	SlaInfoMonID   uint   `json:"sla_info_mon_id"`
 	PreSlaQuanPic1 string `json:"pre_sla_quan_pic_1"` //咬肌照片
 	PreSlaQuanPic2 string `json:"pre_sla_quan_pic_2"` //舌头
 	PreSlaQuanPic3 string `json:"pre_sla_quan_pic_3"` //额下
@@ -78,4 +90,48 @@ type AnalCutWeight struct {
 	AnalCutWeight10 float32 `json:"anal_cut_weight_10"` //分割刀温度
 	AnalCutWeight11 float32 `json:"anal_cut_weight_11"` //分割刀记录
 	AnalCutWeight12 float32 `json:"anal_cut_weight_12"` //温湿度监控
+}
+
+type ToNumGermMon struct {
+	//接触面菌落总数监控
+	gorm.Model
+	ToNumGermMon1 float32 `json:"to_num_germ_mon_1"` //喷淋后胴体
+	ToNumGermMon2 float32 `json:"to_num_germ_mon_2"` //剔骨案板
+	ToNumGermMon3 float32 `json:"to_num_germ_mon_3"` //传送带
+	ToNumGermMon4 float32 `json:"to_num_germ_mon_4"` //围裙
+	ToNumGermMon5 float32 `json:"to_num_germ_mon_5"` //手套
+	ToNumGermMon6 float32 `json:"to_num_germ_mon_6"` //锯骨机
+	ToNumGermMon7 float32 `json:"to_num_germ_mon_7"` //刀具
+	ToNumGermMon8 float32 `json:"to_num_germ_mon_8"` //地面与墙面
+}
+
+type AirNumGermMon struct {
+	//空气菌落总数监控
+	gorm.Model
+	AirNumGermMon1 float32 `json:"air_num_germ_mon_1"` //屠宰车间
+	AirNumGermMon2 float32 `json:"air_num_germ_mon_2"` //分割车间
+	AirNumGermMon3 float32 `json:"air_num_germ_mon_3"` //排酸车间
+}
+
+type PreSlaDietManage struct {
+	//宰前饮食管理
+	gorm.Model
+	PreSlaDietManage1 string `json:"pre_sla_diet_manage_1"` //牛进场时间
+	PreSlaDietManage2 string `json:"pre_sla_diet_manage_2"` //牛停水时间
+	PreSlaDietManage3 string `json:"pre_sla_diet_manage_3"` //牛禁食时间
+	PreSlaDietManage4 string `json:"pre_sla_diet_manage_4"` //饮水时间
+	PreSlaDietManage5 string `json:"pre_sla_diet_manage_5"` //送宰时间
+}
+
+type PreSlaPicAndEn struct {
+	//类型后续调整，先做标记
+	//宰前视频，图片，环境
+	gorm.Model
+	PreSlaInfoRecID uint   `json:"pre_sla_info_rec_id"`
+	PreSlaPicAndEn1 string `json:"pre_sla_pic_and_en_1"` //待宰动物视频
+	PreSlaPicAndEn2 string `json:"pre_sla_pic_and_en_2"` //待宰动物头部
+	PreSlaPicAndEn3 string `json:"pre_sla_pic_and_en_3"` //待宰动物皮毛相片采集
+	PreSlaPicAndEn4 string `json:"pre_sla_pic_and_en_4"` //照度
+	PreSlaPicAndEn5 string `json:"pre_sla_pic_and_en_5"` //噪声
+	PreSlaPicAndEn6 string `json:"pre_sla_pic_and_en_6"` //光照时间
 }

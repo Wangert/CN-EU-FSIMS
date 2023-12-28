@@ -87,15 +87,14 @@ func AutoMigrate() {
 	}
 
 	//传感器数据
-	err = DB.AutoMigrate(&pasture.Cass{}, &pasture.Afb1{}, &pasture.Don{}, &pasture.T2toxin{}, &pasture.T2VomZea{},
-		&pasture.FarmEnvironment{}, &pasture.Buffer{}, &pasture.CattleFarm{}, &pasture.CowHouse{}, &pasture.Environment{}, &pasture.PaddingRequire{}, &pasture.WastedWaterIndex{}, &pasture.FarmDisRecord{},
-		&pasture.HeavyMetal{}, &pasture.As{}, &pasture.Pb{}, &pasture.Cd{}, &pasture.Cr{},
-		&pasture.WaterRecord{}, &pasture.OapGci{}, &pasture.ToxIndex{}, &pasture.MicroIndex{},
-		&premortem.PreSlaInfoRec{}, &premortem.Gps{}, &premortem.PreSlaGerms{}, &premortem.PreSlaDietManage{}, &premortem.PreSlaPicAndEn{},
-		&slaughter.ChiledFreshIndex{}, &slaughter.PaGerm{}, &slaughter.OtherIndex{}, &slaughter.DrugsResi{},
-		&slaughter.SlaInfoMon{}, &slaughter.SlaughterWaterMicroIndex{}, &slaughter.SlaughterWaterToxIndex{}, &slaughter.Stun{}, &slaughter.BleedElectronic{}, &slaughter.AnalAfterSlaQuanCar{}, &slaughter.PreSlaQuanPic{}, &slaughter.WaterTempMoni{}, &slaughter.AnalCutWeight{}, &slaughter.AnalCutWeight{},
-		&slaughter.TempHumMon{}, &slaughter.FacDisMon{}, &slaughter.SlaEnvLigRec{}, &slaughter.ToNumGermMon{}, &slaughter.AirNumGermMon{}, &slaughter.WaterQualityMon{}, &slaughter.SlaShop{}, &slaughter.DivShop{}, &slaughter.AcidShop{}, &slaughter.FroShop{},
-		&slaughter.PackShop{}, &slaughter.StaUni{}, &slaughter.DisRecord{})
+	err = DB.AutoMigrate(&pasture.PastureFeedMycotoxins{}, &pasture.Afb1{}, &pasture.Don{}, &pasture.T2toxin{}, &pasture.T2VomZea{},
+		&pasture.PastureBuffer{}, &pasture.PastureArea{}, &pasture.CowHouse{}, &pasture.PastureBasicEnvironment{}, &pasture.PasturePaddingRequire{}, &pasture.PastureWastedWaterIndex{},
+		&pasture.PastureDisinfectionRecord{}, &pasture.PastureFeedHeavyMetal{}, &pasture.PastureFeedAs{}, &pasture.PastureFeedPb{}, &pasture.PastureFeedCd{}, &pasture.PastureFeedCr{},
+		&pasture.PastureWaterRecord{}, &pasture.PastureOapGci{}, &pasture.PastureToxIndex{}, &pasture.PastureMicroIndex{},
+		&premortem.WaitingSlaughterCircle{}, &premortem.Gps{}, &premortem.WaitingSlaughterCircleGerms{},
+		&slaughter.PreCoolShop{}, &slaughter.SlaShop{}, &slaughter.DivShop{}, &slaughter.AcidShop{}, &slaughter.FroShop{}, &slaughter.PackShop{}, &slaughter.StaUni{}, &slaughter.SlaEnvLigRec{}, &slaughter.SlaughterWaterQualityMon{},
+		&slaughter.SlaughterWaterMicroIndex{}, &slaughter.OapGciSla{}, &slaughter.MicroIndexWaterMonSla{}, &slaughter.SlaughterToxinIndex{}, &slaughter.SlaughterWaterToxinIndex{},
+	)
 
 	err = DB.AutoMigrate(&models.Notification{})
 
@@ -103,6 +102,12 @@ func AutoMigrate() {
 		fmt.Println(err)
 	}
 
+	//以牛为对象数据
+	err = DB.AutoMigrate(&slaughter.SlaughterDisinfectHotWaterTempMoni{}, &slaughter.SlaughterStun{}, &slaughter.BleedElectronic{}, &slaughter.PreSlaQuanPic{}, &slaughter.SlaughterAnalAfterSlaQuanCar{}, &slaughter.AnalMeatPhMoni{}, &slaughter.AnalCutWeight{},
+		&slaughter.ToNumGermMon{}, &slaughter.AirNumGermMon{}, &slaughter.PreSlaDietManage{}, &slaughter.PreSlaPicAndEn{})
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 //func NewNotification(safetyResult string, reason string, time string, id string, company string, user string, detail models.FoodChainNode) bool {

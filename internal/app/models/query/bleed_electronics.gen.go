@@ -30,7 +30,6 @@ func newBleedElectronic(db *gorm.DB, opts ...gen.DOOption) bleedElectronic {
 	_bleedElectronic.CreatedAt = field.NewTime(tableName, "created_at")
 	_bleedElectronic.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_bleedElectronic.DeletedAt = field.NewField(tableName, "deleted_at")
-	_bleedElectronic.SlaInfoMonID = field.NewUint(tableName, "sla_info_mon_id")
 	_bleedElectronic.BleedElectronic1 = field.NewFloat32(tableName, "bleed_electronic1")
 	_bleedElectronic.BleedElectronic2 = field.NewFloat32(tableName, "bleed_electronic2")
 	_bleedElectronic.BleedElectronic3 = field.NewFloat32(tableName, "bleed_electronic3")
@@ -50,7 +49,6 @@ type bleedElectronic struct {
 	CreatedAt        field.Time
 	UpdatedAt        field.Time
 	DeletedAt        field.Field
-	SlaInfoMonID     field.Uint
 	BleedElectronic1 field.Float32
 	BleedElectronic2 field.Float32
 	BleedElectronic3 field.Float32
@@ -76,7 +74,6 @@ func (b *bleedElectronic) updateTableName(table string) *bleedElectronic {
 	b.CreatedAt = field.NewTime(table, "created_at")
 	b.UpdatedAt = field.NewTime(table, "updated_at")
 	b.DeletedAt = field.NewField(table, "deleted_at")
-	b.SlaInfoMonID = field.NewUint(table, "sla_info_mon_id")
 	b.BleedElectronic1 = field.NewFloat32(table, "bleed_electronic1")
 	b.BleedElectronic2 = field.NewFloat32(table, "bleed_electronic2")
 	b.BleedElectronic3 = field.NewFloat32(table, "bleed_electronic3")
@@ -110,12 +107,11 @@ func (b *bleedElectronic) GetFieldByName(fieldName string) (field.OrderExpr, boo
 }
 
 func (b *bleedElectronic) fillFieldMap() {
-	b.fieldMap = make(map[string]field.Expr, 10)
+	b.fieldMap = make(map[string]field.Expr, 9)
 	b.fieldMap["id"] = b.ID
 	b.fieldMap["created_at"] = b.CreatedAt
 	b.fieldMap["updated_at"] = b.UpdatedAt
 	b.fieldMap["deleted_at"] = b.DeletedAt
-	b.fieldMap["sla_info_mon_id"] = b.SlaInfoMonID
 	b.fieldMap["bleed_electronic1"] = b.BleedElectronic1
 	b.fieldMap["bleed_electronic2"] = b.BleedElectronic2
 	b.fieldMap["bleed_electronic3"] = b.BleedElectronic3

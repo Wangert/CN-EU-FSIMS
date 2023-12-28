@@ -30,7 +30,8 @@ func newDivShop(db *gorm.DB, opts ...gen.DOOption) divShop {
 	_divShop.CreatedAt = field.NewTime(tableName, "created_at")
 	_divShop.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_divShop.DeletedAt = field.NewField(tableName, "deleted_at")
-	_divShop.FacDisMonID = field.NewUint(tableName, "fac_dis_mon_id")
+	_divShop.HouseNumber = field.NewString(tableName, "house_number")
+	_divShop.TimeRecordAt = field.NewFloat32(tableName, "time_record_at")
 	_divShop.DivShop1 = field.NewFloat32(tableName, "div_shop1")
 	_divShop.DivShop2 = field.NewFloat32(tableName, "div_shop2")
 	_divShop.DivShop3 = field.NewFloat32(tableName, "div_shop3")
@@ -38,13 +39,13 @@ func newDivShop(db *gorm.DB, opts ...gen.DOOption) divShop {
 	_divShop.DivShop5 = field.NewFloat32(tableName, "div_shop5")
 	_divShop.DivShop6 = field.NewFloat32(tableName, "div_shop6")
 	_divShop.DivShop7 = field.NewFloat32(tableName, "div_shop7")
+	_divShop.DivShop8 = field.NewFloat32(tableName, "div_shop8")
 	_divShop.DivShop9 = field.NewFloat32(tableName, "div_shop9")
 	_divShop.DivShop10 = field.NewFloat32(tableName, "div_shop10")
-	_divShop.DivShop8 = divShopHasOneDivShop8{
-		db: db.Session(&gorm.Session{}),
-
-		RelationField: field.NewRelation("DivShop8", "slaughter.DisRecord"),
-	}
+	_divShop.DivShop11 = field.NewFloat32(tableName, "div_shop11")
+	_divShop.DivShop12 = field.NewFloat32(tableName, "div_shop12")
+	_divShop.DivShop13 = field.NewFloat32(tableName, "div_shop13")
+	_divShop.DivShop14 = field.NewFloat32(tableName, "div_shop14")
 
 	_divShop.fillFieldMap()
 
@@ -54,22 +55,27 @@ func newDivShop(db *gorm.DB, opts ...gen.DOOption) divShop {
 type divShop struct {
 	divShopDo divShopDo
 
-	ALL         field.Asterisk
-	ID          field.Uint
-	CreatedAt   field.Time
-	UpdatedAt   field.Time
-	DeletedAt   field.Field
-	FacDisMonID field.Uint
-	DivShop1    field.Float32
-	DivShop2    field.Float32
-	DivShop3    field.Float32
-	DivShop4    field.Float32
-	DivShop5    field.Float32
-	DivShop6    field.Float32
-	DivShop7    field.Float32
-	DivShop9    field.Float32
-	DivShop10   field.Float32
-	DivShop8    divShopHasOneDivShop8
+	ALL          field.Asterisk
+	ID           field.Uint
+	CreatedAt    field.Time
+	UpdatedAt    field.Time
+	DeletedAt    field.Field
+	HouseNumber  field.String
+	TimeRecordAt field.Float32
+	DivShop1     field.Float32
+	DivShop2     field.Float32
+	DivShop3     field.Float32
+	DivShop4     field.Float32
+	DivShop5     field.Float32
+	DivShop6     field.Float32
+	DivShop7     field.Float32
+	DivShop8     field.Float32
+	DivShop9     field.Float32
+	DivShop10    field.Float32
+	DivShop11    field.Float32
+	DivShop12    field.Float32
+	DivShop13    field.Float32
+	DivShop14    field.Float32
 
 	fieldMap map[string]field.Expr
 }
@@ -90,7 +96,8 @@ func (d *divShop) updateTableName(table string) *divShop {
 	d.CreatedAt = field.NewTime(table, "created_at")
 	d.UpdatedAt = field.NewTime(table, "updated_at")
 	d.DeletedAt = field.NewField(table, "deleted_at")
-	d.FacDisMonID = field.NewUint(table, "fac_dis_mon_id")
+	d.HouseNumber = field.NewString(table, "house_number")
+	d.TimeRecordAt = field.NewFloat32(table, "time_record_at")
 	d.DivShop1 = field.NewFloat32(table, "div_shop1")
 	d.DivShop2 = field.NewFloat32(table, "div_shop2")
 	d.DivShop3 = field.NewFloat32(table, "div_shop3")
@@ -98,8 +105,13 @@ func (d *divShop) updateTableName(table string) *divShop {
 	d.DivShop5 = field.NewFloat32(table, "div_shop5")
 	d.DivShop6 = field.NewFloat32(table, "div_shop6")
 	d.DivShop7 = field.NewFloat32(table, "div_shop7")
+	d.DivShop8 = field.NewFloat32(table, "div_shop8")
 	d.DivShop9 = field.NewFloat32(table, "div_shop9")
 	d.DivShop10 = field.NewFloat32(table, "div_shop10")
+	d.DivShop11 = field.NewFloat32(table, "div_shop11")
+	d.DivShop12 = field.NewFloat32(table, "div_shop12")
+	d.DivShop13 = field.NewFloat32(table, "div_shop13")
+	d.DivShop14 = field.NewFloat32(table, "div_shop14")
 
 	d.fillFieldMap()
 
@@ -124,12 +136,13 @@ func (d *divShop) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (d *divShop) fillFieldMap() {
-	d.fieldMap = make(map[string]field.Expr, 15)
+	d.fieldMap = make(map[string]field.Expr, 20)
 	d.fieldMap["id"] = d.ID
 	d.fieldMap["created_at"] = d.CreatedAt
 	d.fieldMap["updated_at"] = d.UpdatedAt
 	d.fieldMap["deleted_at"] = d.DeletedAt
-	d.fieldMap["fac_dis_mon_id"] = d.FacDisMonID
+	d.fieldMap["house_number"] = d.HouseNumber
+	d.fieldMap["time_record_at"] = d.TimeRecordAt
 	d.fieldMap["div_shop1"] = d.DivShop1
 	d.fieldMap["div_shop2"] = d.DivShop2
 	d.fieldMap["div_shop3"] = d.DivShop3
@@ -137,9 +150,13 @@ func (d *divShop) fillFieldMap() {
 	d.fieldMap["div_shop5"] = d.DivShop5
 	d.fieldMap["div_shop6"] = d.DivShop6
 	d.fieldMap["div_shop7"] = d.DivShop7
+	d.fieldMap["div_shop8"] = d.DivShop8
 	d.fieldMap["div_shop9"] = d.DivShop9
 	d.fieldMap["div_shop10"] = d.DivShop10
-
+	d.fieldMap["div_shop11"] = d.DivShop11
+	d.fieldMap["div_shop12"] = d.DivShop12
+	d.fieldMap["div_shop13"] = d.DivShop13
+	d.fieldMap["div_shop14"] = d.DivShop14
 }
 
 func (d divShop) clone(db *gorm.DB) divShop {
@@ -150,77 +167,6 @@ func (d divShop) clone(db *gorm.DB) divShop {
 func (d divShop) replaceDB(db *gorm.DB) divShop {
 	d.divShopDo.ReplaceDB(db)
 	return d
-}
-
-type divShopHasOneDivShop8 struct {
-	db *gorm.DB
-
-	field.RelationField
-}
-
-func (a divShopHasOneDivShop8) Where(conds ...field.Expr) *divShopHasOneDivShop8 {
-	if len(conds) == 0 {
-		return &a
-	}
-
-	exprs := make([]clause.Expression, 0, len(conds))
-	for _, cond := range conds {
-		exprs = append(exprs, cond.BeCond().(clause.Expression))
-	}
-	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
-	return &a
-}
-
-func (a divShopHasOneDivShop8) WithContext(ctx context.Context) *divShopHasOneDivShop8 {
-	a.db = a.db.WithContext(ctx)
-	return &a
-}
-
-func (a divShopHasOneDivShop8) Session(session *gorm.Session) *divShopHasOneDivShop8 {
-	a.db = a.db.Session(session)
-	return &a
-}
-
-func (a divShopHasOneDivShop8) Model(m *slaughter.DivShop) *divShopHasOneDivShop8Tx {
-	return &divShopHasOneDivShop8Tx{a.db.Model(m).Association(a.Name())}
-}
-
-type divShopHasOneDivShop8Tx struct{ tx *gorm.Association }
-
-func (a divShopHasOneDivShop8Tx) Find() (result *slaughter.DisRecord, err error) {
-	return result, a.tx.Find(&result)
-}
-
-func (a divShopHasOneDivShop8Tx) Append(values ...*slaughter.DisRecord) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Append(targetValues...)
-}
-
-func (a divShopHasOneDivShop8Tx) Replace(values ...*slaughter.DisRecord) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Replace(targetValues...)
-}
-
-func (a divShopHasOneDivShop8Tx) Delete(values ...*slaughter.DisRecord) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Delete(targetValues...)
-}
-
-func (a divShopHasOneDivShop8Tx) Clear() error {
-	return a.tx.Clear()
-}
-
-func (a divShopHasOneDivShop8Tx) Count() int64 {
-	return a.tx.Count()
 }
 
 type divShopDo struct{ gen.DO }
