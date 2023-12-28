@@ -1,19 +1,26 @@
 package slaughter
 
 import "gorm.io/gorm"
-import "CN-EU-FSIMS/internal/app/models/premortem"
 
 type ChiledFreshIndex struct {
 	//冷鲜肉相关指标
 	gorm.Model
-	TimeRecordAt string        `json:"time_record_at"`                                                  //记录时间
-	PaGerm       PaGerm        `gorm:"foreignKey:ChiledFreshIndexID; references:ID" json:"pa_germ"`     ////致病菌监测
-	OtherIndex   OtherIndex    `gorm:"foreignKey:ChiledFreshIndexID; references:ID" json:"other_index"` //其他指标
-	DrugsResi    DrugsResi     `gorm:"foreignKey:ChiledFreshIndexID; references:ID" json:"drugs_resi"`  //农兽药残留
-	Gps          premortem.Gps `gorm:"foreignKey:ChiledFreshIndexID; references:ID" json:"gps"`         //gps信息
-	TranTemp     float32       `json:"tran_temp"`                                                       //运输温度
+	TimeRecordAt        string              `json:"time_record_at"`                                                            //记录时间
+	SlaughterPaGerm     SlaughterPaGerm     `gorm:"foreignKey:ChiledFreshIndexID; references:ID" json:"slaughter_pa_germ"`     ////致病菌监测
+	SlaughterOtherIndex SlaughterOtherIndex `gorm:"foreignKey:ChiledFreshIndexID; references:ID" json:"slaughter_other_index"` //其他指标
+	SlaughterDrugsResi  SlaughterDrugsResi  `gorm:"foreignKey:ChiledFreshIndexID; references:ID" json:"slaughter_drugs_resi"`  //农兽药残留
+	SlaughterGps        SlaughterGps        `gorm:"foreignKey:ChiledFreshIndexID; references:ID" json:"slaughter_gps"`
+	TranTemp            float32             `json:"tran_temp"` //运输温度
 }
-type PaGerm struct {
+
+type SlaughterGps struct {
+	//GPS
+	gorm.Model
+	ChiledFreshIndexID uint   `json:"chiled_fresh_index_id"` //外键
+	Gps1               string `json:"gps_1"`                 //gps坐标
+	Gps2               string `json:"gps_2"`                 //时间
+}
+type SlaughterPaGerm struct {
 	//致病菌监测
 	gorm.Model
 	ChiledFreshIndexID uint    `json:"chiled_fresh_index_id"`
@@ -24,7 +31,7 @@ type PaGerm struct {
 	PaGerm5            float32 `json:"pa_germ_5"` //金葡
 }
 
-type OtherIndex struct {
+type SlaughterOtherIndex struct {
 	//其他指标
 	gorm.Model
 	ChiledFreshIndexID uint    `json:"chiled_fresh_index_id"`
@@ -39,7 +46,7 @@ type OtherIndex struct {
 	OtherIndex9        float32 `json:"other_index_9"` //牛肉蛋白质
 }
 
-type DrugsResi struct {
+type SlaughterDrugsResi struct {
 	//农兽药残留
 	gorm.Model
 	ChiledFreshIndexID uint    `json:"chiled_fresh_index_id"`

@@ -53,7 +53,6 @@ type ToxIndex struct {
 	ToxIndex19        float64 `json:"tox_index_19"` //溴酸盐
 	ToxIndex20        float64 `json:"tox_index_20"` //亚氯酸盐
 	ToxIndex21        float64 `json:"tox_index_21"` //氯酸盐
-	ToxIndex22        float64 `json:"tox_index_22"` //化学耗氧量
 }
 
 type MicroIndex struct {
