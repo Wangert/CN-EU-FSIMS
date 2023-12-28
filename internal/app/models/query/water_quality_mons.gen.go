@@ -5,7 +5,6 @@
 package query
 
 import (
-	"CN-EU-FSIMS/internal/app/models/pasture"
 	"CN-EU-FSIMS/internal/app/models/slaughter"
 	"context"
 
@@ -35,13 +34,13 @@ func newWaterQualityMon(db *gorm.DB, opts ...gen.DOOption) waterQualityMon {
 	_waterQualityMon.MicroIndex = waterQualityMonHasOneMicroIndex{
 		db: db.Session(&gorm.Session{}),
 
-		RelationField: field.NewRelation("MicroIndex", "pasture.MicroIndex"),
+		RelationField: field.NewRelation("MicroIndex", "slaughter.SlaughterWaterMicroIndex"),
 	}
 
 	_waterQualityMon.ToxIndex = waterQualityMonHasOneToxIndex{
 		db: db.Session(&gorm.Session{}),
 
-		RelationField: field.NewRelation("ToxIndex", "pasture.ToxIndex"),
+		RelationField: field.NewRelation("ToxIndex", "slaughter.SlaughterWaterToxIndex"),
 	}
 
 	_waterQualityMon.OapGciSla = waterQualityMonHasOneOapGciSla{
@@ -188,11 +187,11 @@ func (a waterQualityMonHasOneMicroIndex) Model(m *slaughter.WaterQualityMon) *wa
 
 type waterQualityMonHasOneMicroIndexTx struct{ tx *gorm.Association }
 
-func (a waterQualityMonHasOneMicroIndexTx) Find() (result *pasture.MicroIndex, err error) {
+func (a waterQualityMonHasOneMicroIndexTx) Find() (result *slaughter.SlaughterWaterMicroIndex, err error) {
 	return result, a.tx.Find(&result)
 }
 
-func (a waterQualityMonHasOneMicroIndexTx) Append(values ...*pasture.MicroIndex) (err error) {
+func (a waterQualityMonHasOneMicroIndexTx) Append(values ...*slaughter.SlaughterWaterMicroIndex) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -200,7 +199,7 @@ func (a waterQualityMonHasOneMicroIndexTx) Append(values ...*pasture.MicroIndex)
 	return a.tx.Append(targetValues...)
 }
 
-func (a waterQualityMonHasOneMicroIndexTx) Replace(values ...*pasture.MicroIndex) (err error) {
+func (a waterQualityMonHasOneMicroIndexTx) Replace(values ...*slaughter.SlaughterWaterMicroIndex) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -208,7 +207,7 @@ func (a waterQualityMonHasOneMicroIndexTx) Replace(values ...*pasture.MicroIndex
 	return a.tx.Replace(targetValues...)
 }
 
-func (a waterQualityMonHasOneMicroIndexTx) Delete(values ...*pasture.MicroIndex) (err error) {
+func (a waterQualityMonHasOneMicroIndexTx) Delete(values ...*slaughter.SlaughterWaterMicroIndex) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -259,11 +258,11 @@ func (a waterQualityMonHasOneToxIndex) Model(m *slaughter.WaterQualityMon) *wate
 
 type waterQualityMonHasOneToxIndexTx struct{ tx *gorm.Association }
 
-func (a waterQualityMonHasOneToxIndexTx) Find() (result *pasture.ToxIndex, err error) {
+func (a waterQualityMonHasOneToxIndexTx) Find() (result *slaughter.SlaughterWaterToxIndex, err error) {
 	return result, a.tx.Find(&result)
 }
 
-func (a waterQualityMonHasOneToxIndexTx) Append(values ...*pasture.ToxIndex) (err error) {
+func (a waterQualityMonHasOneToxIndexTx) Append(values ...*slaughter.SlaughterWaterToxIndex) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -271,7 +270,7 @@ func (a waterQualityMonHasOneToxIndexTx) Append(values ...*pasture.ToxIndex) (er
 	return a.tx.Append(targetValues...)
 }
 
-func (a waterQualityMonHasOneToxIndexTx) Replace(values ...*pasture.ToxIndex) (err error) {
+func (a waterQualityMonHasOneToxIndexTx) Replace(values ...*slaughter.SlaughterWaterToxIndex) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -279,7 +278,7 @@ func (a waterQualityMonHasOneToxIndexTx) Replace(values ...*pasture.ToxIndex) (e
 	return a.tx.Replace(targetValues...)
 }
 
-func (a waterQualityMonHasOneToxIndexTx) Delete(values ...*pasture.ToxIndex) (err error) {
+func (a waterQualityMonHasOneToxIndexTx) Delete(values ...*slaughter.SlaughterWaterToxIndex) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v

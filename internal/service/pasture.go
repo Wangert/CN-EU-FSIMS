@@ -42,12 +42,12 @@ func AddPastureFeedHeavyMetal(r *request.ReqAddPastureFeedHeavyMetal) error {
 	}()
 
 	t := time.Now()
-	hm := pasture.HeavyMetal{
+	hm := pasture.PastureFeedHeavyMetal{
 		TimeRecordAt: t,
 		HouseNumber:  r.HouseNumber,
 	}
 
-	err = tx.HeavyMetal.WithContext(context.Background()).Create(&hm)
+	err = tx.PastureFeedHeavyMetal.WithContext(context.Background()).Create(&hm)
 	if err != nil {
 		_ = tx.Rollback()
 		return err

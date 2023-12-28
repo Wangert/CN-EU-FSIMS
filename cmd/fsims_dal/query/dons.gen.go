@@ -30,7 +30,7 @@ func newDon(db *gorm.DB, opts ...gen.DOOption) don {
 	_don.CreatedAt = field.NewTime(tableName, "created_at")
 	_don.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_don.DeletedAt = field.NewField(tableName, "deleted_at")
-	_don.CassID = field.NewUint(tableName, "cass_id")
+	_don.PastureFeedMycotoxinsID = field.NewUint(tableName, "pasture_feed_mycotoxins_id")
 	_don.Don1 = field.NewFloat64(tableName, "don1")
 	_don.Don2 = field.NewFloat64(tableName, "don2")
 	_don.Don3 = field.NewFloat64(tableName, "don3")
@@ -44,16 +44,16 @@ func newDon(db *gorm.DB, opts ...gen.DOOption) don {
 type don struct {
 	donDo donDo
 
-	ALL       field.Asterisk
-	ID        field.Uint
-	CreatedAt field.Time
-	UpdatedAt field.Time
-	DeletedAt field.Field
-	CassID    field.Uint
-	Don1      field.Float64
-	Don2      field.Float64
-	Don3      field.Float64
-	Don4      field.Float64
+	ALL                     field.Asterisk
+	ID                      field.Uint
+	CreatedAt               field.Time
+	UpdatedAt               field.Time
+	DeletedAt               field.Field
+	PastureFeedMycotoxinsID field.Uint
+	Don1                    field.Float64
+	Don2                    field.Float64
+	Don3                    field.Float64
+	Don4                    field.Float64
 
 	fieldMap map[string]field.Expr
 }
@@ -74,7 +74,7 @@ func (d *don) updateTableName(table string) *don {
 	d.CreatedAt = field.NewTime(table, "created_at")
 	d.UpdatedAt = field.NewTime(table, "updated_at")
 	d.DeletedAt = field.NewField(table, "deleted_at")
-	d.CassID = field.NewUint(table, "cass_id")
+	d.PastureFeedMycotoxinsID = field.NewUint(table, "pasture_feed_mycotoxins_id")
 	d.Don1 = field.NewFloat64(table, "don1")
 	d.Don2 = field.NewFloat64(table, "don2")
 	d.Don3 = field.NewFloat64(table, "don3")
@@ -108,7 +108,7 @@ func (d *don) fillFieldMap() {
 	d.fieldMap["created_at"] = d.CreatedAt
 	d.fieldMap["updated_at"] = d.UpdatedAt
 	d.fieldMap["deleted_at"] = d.DeletedAt
-	d.fieldMap["cass_id"] = d.CassID
+	d.fieldMap["pasture_feed_mycotoxins_id"] = d.PastureFeedMycotoxinsID
 	d.fieldMap["don1"] = d.Don1
 	d.fieldMap["don2"] = d.Don2
 	d.fieldMap["don3"] = d.Don3

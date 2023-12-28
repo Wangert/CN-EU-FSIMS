@@ -30,7 +30,7 @@ func newAfb1(db *gorm.DB, opts ...gen.DOOption) afb1 {
 	_afb1.CreatedAt = field.NewTime(tableName, "created_at")
 	_afb1.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_afb1.DeletedAt = field.NewField(tableName, "deleted_at")
-	_afb1.CassID = field.NewUint(tableName, "cass_id")
+	_afb1.PastureFeedMycotoxinsID = field.NewUint(tableName, "pasture_feed_mycotoxins_id")
 	_afb1.Afb11 = field.NewFloat64(tableName, "afb11")
 	_afb1.Afb12 = field.NewFloat64(tableName, "afb12")
 	_afb1.Afb13 = field.NewFloat64(tableName, "afb13")
@@ -47,19 +47,19 @@ func newAfb1(db *gorm.DB, opts ...gen.DOOption) afb1 {
 type afb1 struct {
 	afb1Do afb1Do
 
-	ALL       field.Asterisk
-	ID        field.Uint
-	CreatedAt field.Time
-	UpdatedAt field.Time
-	DeletedAt field.Field
-	CassID    field.Uint
-	Afb11     field.Float64
-	Afb12     field.Float64
-	Afb13     field.Float64
-	Afb14     field.Float64
-	Afb15     field.Float64
-	Afb16     field.Float64
-	Afb17     field.Float64
+	ALL                     field.Asterisk
+	ID                      field.Uint
+	CreatedAt               field.Time
+	UpdatedAt               field.Time
+	DeletedAt               field.Field
+	PastureFeedMycotoxinsID field.Uint
+	Afb11                   field.Float64
+	Afb12                   field.Float64
+	Afb13                   field.Float64
+	Afb14                   field.Float64
+	Afb15                   field.Float64
+	Afb16                   field.Float64
+	Afb17                   field.Float64
 
 	fieldMap map[string]field.Expr
 }
@@ -80,7 +80,7 @@ func (a *afb1) updateTableName(table string) *afb1 {
 	a.CreatedAt = field.NewTime(table, "created_at")
 	a.UpdatedAt = field.NewTime(table, "updated_at")
 	a.DeletedAt = field.NewField(table, "deleted_at")
-	a.CassID = field.NewUint(table, "cass_id")
+	a.PastureFeedMycotoxinsID = field.NewUint(table, "pasture_feed_mycotoxins_id")
 	a.Afb11 = field.NewFloat64(table, "afb11")
 	a.Afb12 = field.NewFloat64(table, "afb12")
 	a.Afb13 = field.NewFloat64(table, "afb13")
@@ -117,7 +117,7 @@ func (a *afb1) fillFieldMap() {
 	a.fieldMap["created_at"] = a.CreatedAt
 	a.fieldMap["updated_at"] = a.UpdatedAt
 	a.fieldMap["deleted_at"] = a.DeletedAt
-	a.fieldMap["cass_id"] = a.CassID
+	a.fieldMap["pasture_feed_mycotoxins_id"] = a.PastureFeedMycotoxinsID
 	a.fieldMap["afb11"] = a.Afb11
 	a.fieldMap["afb12"] = a.Afb12
 	a.fieldMap["afb13"] = a.Afb13

@@ -83,11 +83,6 @@ func newSlaughterHouse(db *gorm.DB, opts ...gen.DOOption) slaughterHouse {
 		}{
 			RelationField: field.NewRelation("SlaInfoMonRecords.PreSlaQuanPic", "slaughter.PreSlaQuanPic"),
 		},
-		WaterTempMoni: struct {
-			field.RelationField
-		}{
-			RelationField: field.NewRelation("SlaInfoMonRecords.WaterTempMoni", "slaughter.WaterTempMoni"),
-		},
 		AnalCutWeight: struct {
 			field.RelationField
 		}{
@@ -254,12 +249,12 @@ func newSlaughterHouse(db *gorm.DB, opts ...gen.DOOption) slaughterHouse {
 			MicroIndex: struct {
 				field.RelationField
 			}{
-				RelationField: field.NewRelation("SlaInfoMonRecords.WaterQualityMon.MicroIndex", "pasture.MicroIndex"),
+				RelationField: field.NewRelation("SlaInfoMonRecords.WaterQualityMon.MicroIndex", "slaughter.SlaughterWaterMicroIndex"),
 			},
 			ToxIndex: struct {
 				field.RelationField
 			}{
-				RelationField: field.NewRelation("SlaInfoMonRecords.WaterQualityMon.ToxIndex", "pasture.ToxIndex"),
+				RelationField: field.NewRelation("SlaInfoMonRecords.WaterQualityMon.ToxIndex", "slaughter.SlaughterWaterToxIndex"),
 			},
 			OapGciSla: struct {
 				field.RelationField
@@ -612,9 +607,6 @@ type slaughterHouseHasManySlaInfoMonRecords struct {
 		field.RelationField
 	}
 	PreSlaQuanPic struct {
-		field.RelationField
-	}
-	WaterTempMoni struct {
 		field.RelationField
 	}
 	AnalCutWeight struct {

@@ -30,7 +30,7 @@ func newT2VomZea(db *gorm.DB, opts ...gen.DOOption) t2VomZea {
 	_t2VomZea.CreatedAt = field.NewTime(tableName, "created_at")
 	_t2VomZea.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_t2VomZea.DeletedAt = field.NewField(tableName, "deleted_at")
-	_t2VomZea.CassID = field.NewUint(tableName, "cass_id")
+	_t2VomZea.PastureFeedMycotoxinsID = field.NewUint(tableName, "pasture_feed_mycotoxins_id")
 	_t2VomZea.T2AVomZea1 = field.NewFloat64(tableName, "t2_a_vom_zea1")
 	_t2VomZea.T2AVomZea2 = field.NewFloat64(tableName, "t2_a_vom_zea2")
 	_t2VomZea.T2AVomZea3 = field.NewFloat64(tableName, "t2_a_vom_zea3")
@@ -43,15 +43,15 @@ func newT2VomZea(db *gorm.DB, opts ...gen.DOOption) t2VomZea {
 type t2VomZea struct {
 	t2VomZeaDo t2VomZeaDo
 
-	ALL        field.Asterisk
-	ID         field.Uint
-	CreatedAt  field.Time
-	UpdatedAt  field.Time
-	DeletedAt  field.Field
-	CassID     field.Uint
-	T2AVomZea1 field.Float64
-	T2AVomZea2 field.Float64
-	T2AVomZea3 field.Float64
+	ALL                     field.Asterisk
+	ID                      field.Uint
+	CreatedAt               field.Time
+	UpdatedAt               field.Time
+	DeletedAt               field.Field
+	PastureFeedMycotoxinsID field.Uint
+	T2AVomZea1              field.Float64
+	T2AVomZea2              field.Float64
+	T2AVomZea3              field.Float64
 
 	fieldMap map[string]field.Expr
 }
@@ -72,7 +72,7 @@ func (t *t2VomZea) updateTableName(table string) *t2VomZea {
 	t.CreatedAt = field.NewTime(table, "created_at")
 	t.UpdatedAt = field.NewTime(table, "updated_at")
 	t.DeletedAt = field.NewField(table, "deleted_at")
-	t.CassID = field.NewUint(table, "cass_id")
+	t.PastureFeedMycotoxinsID = field.NewUint(table, "pasture_feed_mycotoxins_id")
 	t.T2AVomZea1 = field.NewFloat64(table, "t2_a_vom_zea1")
 	t.T2AVomZea2 = field.NewFloat64(table, "t2_a_vom_zea2")
 	t.T2AVomZea3 = field.NewFloat64(table, "t2_a_vom_zea3")
@@ -105,7 +105,7 @@ func (t *t2VomZea) fillFieldMap() {
 	t.fieldMap["created_at"] = t.CreatedAt
 	t.fieldMap["updated_at"] = t.UpdatedAt
 	t.fieldMap["deleted_at"] = t.DeletedAt
-	t.fieldMap["cass_id"] = t.CassID
+	t.fieldMap["pasture_feed_mycotoxins_id"] = t.PastureFeedMycotoxinsID
 	t.fieldMap["t2_a_vom_zea1"] = t.T2AVomZea1
 	t.fieldMap["t2_a_vom_zea2"] = t.T2AVomZea2
 	t.fieldMap["t2_a_vom_zea3"] = t.T2AVomZea3

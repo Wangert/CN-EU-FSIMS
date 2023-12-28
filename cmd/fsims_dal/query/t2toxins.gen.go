@@ -30,7 +30,7 @@ func newT2toxin(db *gorm.DB, opts ...gen.DOOption) t2toxin {
 	_t2toxin.CreatedAt = field.NewTime(tableName, "created_at")
 	_t2toxin.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_t2toxin.DeletedAt = field.NewField(tableName, "deleted_at")
-	_t2toxin.CassID = field.NewUint(tableName, "cass_id")
+	_t2toxin.PastureFeedMycotoxinsID = field.NewUint(tableName, "pasture_feed_mycotoxins_id")
 	_t2toxin.T2toxin1 = field.NewFloat64(tableName, "t2toxin1")
 	_t2toxin.T2toxin2 = field.NewFloat64(tableName, "t2toxin2")
 	_t2toxin.T2toxin3 = field.NewFloat64(tableName, "t2toxin3")
@@ -43,15 +43,15 @@ func newT2toxin(db *gorm.DB, opts ...gen.DOOption) t2toxin {
 type t2toxin struct {
 	t2toxinDo t2toxinDo
 
-	ALL       field.Asterisk
-	ID        field.Uint
-	CreatedAt field.Time
-	UpdatedAt field.Time
-	DeletedAt field.Field
-	CassID    field.Uint
-	T2toxin1  field.Float64
-	T2toxin2  field.Float64
-	T2toxin3  field.Float64
+	ALL                     field.Asterisk
+	ID                      field.Uint
+	CreatedAt               field.Time
+	UpdatedAt               field.Time
+	DeletedAt               field.Field
+	PastureFeedMycotoxinsID field.Uint
+	T2toxin1                field.Float64
+	T2toxin2                field.Float64
+	T2toxin3                field.Float64
 
 	fieldMap map[string]field.Expr
 }
@@ -72,7 +72,7 @@ func (t *t2toxin) updateTableName(table string) *t2toxin {
 	t.CreatedAt = field.NewTime(table, "created_at")
 	t.UpdatedAt = field.NewTime(table, "updated_at")
 	t.DeletedAt = field.NewField(table, "deleted_at")
-	t.CassID = field.NewUint(table, "cass_id")
+	t.PastureFeedMycotoxinsID = field.NewUint(table, "pasture_feed_mycotoxins_id")
 	t.T2toxin1 = field.NewFloat64(table, "t2toxin1")
 	t.T2toxin2 = field.NewFloat64(table, "t2toxin2")
 	t.T2toxin3 = field.NewFloat64(table, "t2toxin3")
@@ -105,7 +105,7 @@ func (t *t2toxin) fillFieldMap() {
 	t.fieldMap["created_at"] = t.CreatedAt
 	t.fieldMap["updated_at"] = t.UpdatedAt
 	t.fieldMap["deleted_at"] = t.DeletedAt
-	t.fieldMap["cass_id"] = t.CassID
+	t.fieldMap["pasture_feed_mycotoxins_id"] = t.PastureFeedMycotoxinsID
 	t.fieldMap["t2toxin1"] = t.T2toxin1
 	t.fieldMap["t2toxin2"] = t.T2toxin2
 	t.fieldMap["t2toxin3"] = t.T2toxin3

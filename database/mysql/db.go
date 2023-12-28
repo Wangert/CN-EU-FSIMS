@@ -69,10 +69,10 @@ func AutoMigrate() {
 	//	&fatten.FattenWaterPhysicalHazard{}, &fatten.FattenWaterChemicalHazard{}, &fatten.FattenWaterSensoryTraits{}, &fatten.FattenWaterBiohazard{},
 	//	&fatten.FattenSoilPhysicalHazard{}, &fatten.FattenSoilBiohazard{})
 
-	err = DB.AutoMigrate(&coldchain.TransportProcedureData{})
-	if err != nil {
-		fmt.Println(err)
-	}
+	//err = DB.AutoMigrate(&coldchain.TransportProcedureData{})
+	//if err != nil {
+	//	fmt.Println(err)
+	//}
 
 	err = DB.AutoMigrate(&pasture.PastureHouse{}, &slaughter.SlaughterHouse{}, &pack.PackageHouse{}, &coldchain.TransportVehicle{}, &sell.Mall{})
 	if err != nil {
@@ -96,6 +96,9 @@ func AutoMigrate() {
 		&slaughter.SlaInfoMon{}, &slaughter.SlaughterWaterMicroIndex{}, &slaughter.SlaughterWaterToxIndex{}, &slaughter.Stun{}, &slaughter.BleedElectronic{}, &slaughter.AnalAfterSlaQuanCar{}, &slaughter.PreSlaQuanPic{}, &slaughter.WaterTempMoni{}, &slaughter.AnalCutWeight{}, &slaughter.AnalCutWeight{},
 		&slaughter.TempHumMon{}, &slaughter.FacDisMon{}, &slaughter.SlaEnvLigRec{}, &slaughter.ToNumGermMon{}, &slaughter.AirNumGermMon{}, &slaughter.WaterQualityMon{}, &slaughter.SlaShop{}, &slaughter.DivShop{}, &slaughter.AcidShop{}, &slaughter.FroShop{},
 		&slaughter.PackShop{}, &slaughter.StaUni{}, &slaughter.DisRecord{})
+
+	err = DB.AutoMigrate(&models.Notification{})
+
 	if err != nil {
 		fmt.Println(err)
 	}

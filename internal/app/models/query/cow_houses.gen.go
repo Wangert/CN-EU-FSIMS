@@ -30,7 +30,8 @@ func newCowHouse(db *gorm.DB, opts ...gen.DOOption) cowHouse {
 	_cowHouse.CreatedAt = field.NewTime(tableName, "created_at")
 	_cowHouse.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_cowHouse.DeletedAt = field.NewField(tableName, "deleted_at")
-	_cowHouse.FarmEnvironmentID = field.NewUint(tableName, "farm_environment_id")
+	_cowHouse.TimeRecordAt = field.NewTime(tableName, "time_record_at")
+	_cowHouse.HouseNumber = field.NewString(tableName, "house_number")
 	_cowHouse.CowHouse1 = field.NewFloat32(tableName, "cow_house1")
 	_cowHouse.CowHouse2 = field.NewFloat32(tableName, "cow_house2")
 	_cowHouse.CowHouse3 = field.NewFloat32(tableName, "cow_house3")
@@ -52,24 +53,25 @@ func newCowHouse(db *gorm.DB, opts ...gen.DOOption) cowHouse {
 type cowHouse struct {
 	cowHouseDo cowHouseDo
 
-	ALL               field.Asterisk
-	ID                field.Uint
-	CreatedAt         field.Time
-	UpdatedAt         field.Time
-	DeletedAt         field.Field
-	FarmEnvironmentID field.Uint
-	CowHouse1         field.Float32
-	CowHouse2         field.Float32
-	CowHouse3         field.Float32
-	CowHouse4         field.Float32
-	CowHouse5         field.Float32
-	CowHouse6         field.Float32
-	CowHouse7         field.Float32
-	CowHouse8         field.Float32
-	CowHouse9         field.Float32
-	CowHouse10        field.Float32
-	CowHouse11        field.Float32
-	CowHouse12        field.Float32
+	ALL          field.Asterisk
+	ID           field.Uint
+	CreatedAt    field.Time
+	UpdatedAt    field.Time
+	DeletedAt    field.Field
+	TimeRecordAt field.Time
+	HouseNumber  field.String
+	CowHouse1    field.Float32
+	CowHouse2    field.Float32
+	CowHouse3    field.Float32
+	CowHouse4    field.Float32
+	CowHouse5    field.Float32
+	CowHouse6    field.Float32
+	CowHouse7    field.Float32
+	CowHouse8    field.Float32
+	CowHouse9    field.Float32
+	CowHouse10   field.Float32
+	CowHouse11   field.Float32
+	CowHouse12   field.Float32
 
 	fieldMap map[string]field.Expr
 }
@@ -90,7 +92,8 @@ func (c *cowHouse) updateTableName(table string) *cowHouse {
 	c.CreatedAt = field.NewTime(table, "created_at")
 	c.UpdatedAt = field.NewTime(table, "updated_at")
 	c.DeletedAt = field.NewField(table, "deleted_at")
-	c.FarmEnvironmentID = field.NewUint(table, "farm_environment_id")
+	c.TimeRecordAt = field.NewTime(table, "time_record_at")
+	c.HouseNumber = field.NewString(table, "house_number")
 	c.CowHouse1 = field.NewFloat32(table, "cow_house1")
 	c.CowHouse2 = field.NewFloat32(table, "cow_house2")
 	c.CowHouse3 = field.NewFloat32(table, "cow_house3")
@@ -127,12 +130,13 @@ func (c *cowHouse) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (c *cowHouse) fillFieldMap() {
-	c.fieldMap = make(map[string]field.Expr, 17)
+	c.fieldMap = make(map[string]field.Expr, 18)
 	c.fieldMap["id"] = c.ID
 	c.fieldMap["created_at"] = c.CreatedAt
 	c.fieldMap["updated_at"] = c.UpdatedAt
 	c.fieldMap["deleted_at"] = c.DeletedAt
-	c.fieldMap["farm_environment_id"] = c.FarmEnvironmentID
+	c.fieldMap["time_record_at"] = c.TimeRecordAt
+	c.fieldMap["house_number"] = c.HouseNumber
 	c.fieldMap["cow_house1"] = c.CowHouse1
 	c.fieldMap["cow_house2"] = c.CowHouse2
 	c.fieldMap["cow_house3"] = c.CowHouse3

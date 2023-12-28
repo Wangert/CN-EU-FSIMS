@@ -57,12 +57,6 @@ func newSlaInfoMon(db *gorm.DB, opts ...gen.DOOption) slaInfoMon {
 		RelationField: field.NewRelation("PreSlaQuanPic", "slaughter.PreSlaQuanPic"),
 	}
 
-	_slaInfoMon.WaterTempMoni = slaInfoMonHasOneWaterTempMoni{
-		db: db.Session(&gorm.Session{}),
-
-		RelationField: field.NewRelation("WaterTempMoni", "slaughter.WaterTempMoni"),
-	}
-
 	_slaInfoMon.AnalCutWeight = slaInfoMonHasOneAnalCutWeight{
 		db: db.Session(&gorm.Session{}),
 
@@ -184,12 +178,12 @@ func newSlaInfoMon(db *gorm.DB, opts ...gen.DOOption) slaInfoMon {
 		MicroIndex: struct {
 			field.RelationField
 		}{
-			RelationField: field.NewRelation("WaterQualityMon.MicroIndex", "pasture.MicroIndex"),
+			RelationField: field.NewRelation("WaterQualityMon.MicroIndex", "slaughter.SlaughterWaterMicroIndex"),
 		},
 		ToxIndex: struct {
 			field.RelationField
 		}{
-			RelationField: field.NewRelation("WaterQualityMon.ToxIndex", "pasture.ToxIndex"),
+			RelationField: field.NewRelation("WaterQualityMon.ToxIndex", "slaughter.SlaughterWaterToxIndex"),
 		},
 		OapGciSla: struct {
 			field.RelationField
@@ -231,8 +225,6 @@ type slaInfoMon struct {
 	AnalAfterSlaQuanCar slaInfoMonHasOneAnalAfterSlaQuanCar
 
 	PreSlaQuanPic slaInfoMonHasOnePreSlaQuanPic
-
-	WaterTempMoni slaInfoMonHasOneWaterTempMoni
 
 	AnalCutWeight slaInfoMonHasOneAnalCutWeight
 
@@ -296,7 +288,7 @@ func (s *slaInfoMon) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *slaInfoMon) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 19)
+	s.fieldMap = make(map[string]field.Expr, 18)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
@@ -598,77 +590,6 @@ func (a slaInfoMonHasOnePreSlaQuanPicTx) Clear() error {
 }
 
 func (a slaInfoMonHasOnePreSlaQuanPicTx) Count() int64 {
-	return a.tx.Count()
-}
-
-type slaInfoMonHasOneWaterTempMoni struct {
-	db *gorm.DB
-
-	field.RelationField
-}
-
-func (a slaInfoMonHasOneWaterTempMoni) Where(conds ...field.Expr) *slaInfoMonHasOneWaterTempMoni {
-	if len(conds) == 0 {
-		return &a
-	}
-
-	exprs := make([]clause.Expression, 0, len(conds))
-	for _, cond := range conds {
-		exprs = append(exprs, cond.BeCond().(clause.Expression))
-	}
-	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
-	return &a
-}
-
-func (a slaInfoMonHasOneWaterTempMoni) WithContext(ctx context.Context) *slaInfoMonHasOneWaterTempMoni {
-	a.db = a.db.WithContext(ctx)
-	return &a
-}
-
-func (a slaInfoMonHasOneWaterTempMoni) Session(session *gorm.Session) *slaInfoMonHasOneWaterTempMoni {
-	a.db = a.db.Session(session)
-	return &a
-}
-
-func (a slaInfoMonHasOneWaterTempMoni) Model(m *slaughter.SlaInfoMon) *slaInfoMonHasOneWaterTempMoniTx {
-	return &slaInfoMonHasOneWaterTempMoniTx{a.db.Model(m).Association(a.Name())}
-}
-
-type slaInfoMonHasOneWaterTempMoniTx struct{ tx *gorm.Association }
-
-func (a slaInfoMonHasOneWaterTempMoniTx) Find() (result *slaughter.WaterTempMoni, err error) {
-	return result, a.tx.Find(&result)
-}
-
-func (a slaInfoMonHasOneWaterTempMoniTx) Append(values ...*slaughter.WaterTempMoni) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Append(targetValues...)
-}
-
-func (a slaInfoMonHasOneWaterTempMoniTx) Replace(values ...*slaughter.WaterTempMoni) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Replace(targetValues...)
-}
-
-func (a slaInfoMonHasOneWaterTempMoniTx) Delete(values ...*slaughter.WaterTempMoni) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Delete(targetValues...)
-}
-
-func (a slaInfoMonHasOneWaterTempMoniTx) Clear() error {
-	return a.tx.Clear()
-}
-
-func (a slaInfoMonHasOneWaterTempMoniTx) Count() int64 {
 	return a.tx.Count()
 }
 

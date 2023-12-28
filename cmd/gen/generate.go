@@ -48,12 +48,14 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 		&warehouse.SlaughterReceiveRecord{}, &slaughter.SlaughterBatch{}, &product.SlaughterProduct{}, &warehouse.SlaughterWarehouse{},
 		&warehouse.PackageReceiveRecord{}, &pack.PackageBatch{}, &product.PackageProduct{}, &warehouse.PackWarehouse{}, &coldchain.TransportBatch{}, &coldchain.PackageProductAndTransportPIDMap{}, &product.MallGood{})
 
-	//传感器数据
-	g.ApplyBasic(&pasture.Cass{}, &pasture.Afb1{}, &pasture.Don{}, &pasture.T2toxin{}, &pasture.T2VomZea{})
-	g.ApplyBasic(&pasture.FarmEnvironment{}, &pasture.Buffer{}, &pasture.CattleFarm{}, &pasture.CowHouse{}, &pasture.Environment{}, &pasture.PaddingRequire{}, &pasture.WastedWaterIndex{}, &pasture.FarmDisRecord{})
-	g.ApplyBasic(&pasture.HeavyMetal{}, &pasture.As{}, &pasture.Pb{}, &pasture.Cd{}, &pasture.Cr{})
-	g.ApplyBasic(&pasture.WaterRecord{}, &pasture.OapGci{}, &pasture.ToxIndex{}, &pasture.MicroIndex{})
+	// 牧场传感器数据
+	g.ApplyBasic(&pasture.PastureFeedMycotoxins{}, &pasture.Afb1{}, &pasture.Don{}, &pasture.T2toxin{}, &pasture.T2VomZea{},
+		&pasture.PastureBuffer{}, &pasture.PastureArea{}, &pasture.CowHouse{}, &pasture.PastureBasicEnvironment{}, &pasture.PasturePaddingRequire{},
+		&pasture.PastureFeedHeavyMetal{}, &pasture.PastureFeedAs{}, &pasture.PastureFeedPb{}, &pasture.PastureFeedCd{}, &pasture.PastureFeedCr{},
+		&pasture.PastureWastedWaterIndex{}, &pasture.PastureDisinfectionRecord{}, &pasture.PastureWaterRecord{}, &pasture.PastureOapGci{},
+		&pasture.PastureToxIndex{}, &pasture.PastureMicroIndex{})
 
+	// 屠宰场传感器数据
 	g.ApplyBasic(&premortem.PreSlaInfoRec{}, &premortem.Gps{}, &premortem.PreSlaGerms{}, &premortem.PreSlaDietManage{}, &premortem.PreSlaPicAndEn{})
 	g.ApplyBasic(&slaughter.ChiledFreshIndex{}, &slaughter.PaGerm{}, &slaughter.OtherIndex{}, &slaughter.DrugsResi{})
 	g.ApplyBasic(&slaughter.SlaInfoMon{}, &slaughter.SlaughterWaterMicroIndex{}, &slaughter.SlaughterWaterToxIndex{}, &slaughter.Stun{}, &slaughter.BleedElectronic{}, &slaughter.AnalAfterSlaQuanCar{}, &slaughter.PreSlaQuanPic{}, &slaughter.WaterTempMoni{}, &slaughter.AnalCutWeight{}, &slaughter.AnalCutWeight{},
@@ -70,6 +72,8 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 	//g.ApplyBasic( &fatten.FattenProcedure{}, &fatten.FattenWater{}, &fatten.FattenSoil{},
 	//	&fatten.FattenWaterPhysicalHazard{}, &fatten.FattenWaterChemicalHazard{}, &fatten.FattenWaterSensoryTraits{}, &fatten.FattenWaterBiohazard{},
 	//	&fatten.FattenSoilPhysicalHazard{}, &fatten.FattenSoilBiohazard{})
+
+	g.ApplyBasic(&models.Notification{})
 	g.Execute()
 }
 

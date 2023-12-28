@@ -17,10 +17,9 @@ type PastureHouse struct {
 	Cows               []product.Cow                `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"cows"`
 	FeedingRecord      []FeedingBatch               `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"feeding_record"`
 	PasHRecord         []warehouse.PastureWarehouse `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"pash_record"`
-	HeavyMetalRecords  []HeavyMetal                 `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"heavy_metal_records"`
-	CassRecords        []Cass                       `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"cass_records"`
-	WaterRecords       []WaterRecord                `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"water_records"`
-	EnvironmentRecords []FarmEnvironment            `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"environment_records"`
+	HeavyMetalRecords  []PastureFeedHeavyMetal      `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"heavy_metal_records"`
+	PastureAreaRecords []PastureArea                `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"pasture_area_records"`
+	WaterRecords       []PastureWaterRecord         `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"water_records"`
 }
 
 type PastureHouseInfo struct {
