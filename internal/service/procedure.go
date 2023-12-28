@@ -298,11 +298,11 @@ func CommitPackProcedure(cpp request.CommitPackProcedure) (string, error) {
 //}
 
 // 计算checkcode并更新procedure
-func BasicCommitProcedureWithTx(tx *query.QueryTx, pid string, data interface{}) (string, error) {
+func BasicCommitProcedureWithTx(tx *query.QueryTx, pid string, data interface{}) (string, string, error) {
 	// 获取当前Procedure的前Procedure PID
 	p, err := QueryProcedureWithPID(pid)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 
 	cts := time.Now()
@@ -317,7 +317,7 @@ func BasicCommitProcedureWithTx(tx *query.QueryTx, pid string, data interface{})
 	// 计算PHash
 	pHash, err := generatePHash(&pHeader, data)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 
 	// 计算CheckCode
@@ -328,7 +328,7 @@ func BasicCommitProcedureWithTx(tx *query.QueryTx, pid string, data interface{})
 	} else {
 		precc, err = QueryProcedureCheckcode(p.PrePID)
 		if err != nil {
-			return "", err
+			return "", "", err
 		}
 	}
 	fmt.Println("pHash:", pHash)
@@ -340,12 +340,12 @@ func BasicCommitProcedureWithTx(tx *query.QueryTx, pid string, data interface{})
 	params := map[string]interface{}{"p_hash": pHash, "check_code": ncc, "completed_timestamp": cts}
 	err = UpdateProcedureWithPIDWithTx(tx, pid, params)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 
 	//// 更新链上Procedure的pHash
 	//_, err = fabric.UpdateProcedure(pid, pHash)
-	return ncc, nil
+	return ncc, pHash, nil
 }
 
 // 计算checkcode并更新procedure

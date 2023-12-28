@@ -1,6 +1,7 @@
 package service
 
 import (
+	"CN-EU-FSIMS/fabric"
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/models/coldchain"
 	"CN-EU-FSIMS/internal/app/models/product"
@@ -70,7 +71,13 @@ func EndTransport(r *request.ReqEndTransport) (string, error) {
 			return "", err
 		}
 
-		checkcode, err := BasicCommitProcedureWithTx(tx, m.TransportPID, data)
+		checkcode, phash, err := BasicCommitProcedureWithTx(tx, m.TransportPID, data)
+		if err != nil {
+			_ = tx.Rollback()
+			return "", err
+		}
+
+		_, err = fabric.UpdateProcedure(m.TransportPID, phash)
 		if err != nil {
 			_ = tx.Rollback()
 			return "", err
@@ -188,6 +195,12 @@ func StartTransport(r *request.ReqStartTransport) error {
 		_, err = tx.PackWarehouse.WithContext(context.Background()).
 			Where(tx.PackWarehouse.ProductNumber.Eq(p.Number)).
 			Updates(map[string]interface{}{"state": TRANSPORT_PH})
+		if err != nil {
+			_ = tx.Rollback()
+			return err
+		}
+
+		_, err = fabric.UploadProcedure(procedure.PID, procedure.PrePID)
 		if err != nil {
 			_ = tx.Rollback()
 			return err

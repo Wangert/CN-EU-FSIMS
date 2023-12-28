@@ -1,6 +1,7 @@
 package service
 
 import (
+	"CN-EU-FSIMS/fabric"
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/models/pasture"
 	"CN-EU-FSIMS/internal/app/models/product"
@@ -208,7 +209,12 @@ func EndFeeding(r *request.ReqEndFeeding) (string, []string, error) {
 		Stench: r.Stench,
 	}
 
-	checkcode, err := BasicCommitProcedureWithTx(tx, pid, data)
+	checkcode, pHash, err := BasicCommitProcedureWithTx(tx, pid, data)
+	if err != nil {
+		_ = tx.Rollback()
+		return "", nil, err
+	}
+	_, err = fabric.UpdateProcedure(pid, pHash)
 	if err != nil {
 		_ = tx.Rollback()
 		return "", nil, err
@@ -315,6 +321,12 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 			_ = tx.Rollback()
 			return "", err
 		}
+	}
+	//上链
+	_, err = fabric.UploadProcedure(procedure.PID, procedure.PrePID)
+	if err != nil {
+		_ = tx.Rollback()
+		return "", err
 	}
 
 	err = tx.Commit()

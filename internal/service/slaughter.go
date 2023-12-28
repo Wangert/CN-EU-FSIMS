@@ -1,6 +1,7 @@
 package service
 
 import (
+	"CN-EU-FSIMS/fabric"
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/models/product"
 	"CN-EU-FSIMS/internal/app/models/query"
@@ -220,7 +221,12 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 		KnifeDisinfectionTime: r.KnifeDisinfectionTime,
 	}
 
-	checkcode, err := BasicCommitProcedureWithTx(tx, pid, data)
+	checkcode, phash, err := BasicCommitProcedureWithTx(tx, pid, data)
+	if err != nil {
+		_ = tx.Rollback()
+		return "", nil, err
+	}
+	_, err = fabric.UpdateProcedure(pid, phash)
 	if err != nil {
 		_ = tx.Rollback()
 		return "", nil, err
@@ -334,6 +340,13 @@ func NewSlaughterBatch(r *request.ReqNewSlaughterBatch) (string, error) {
 	_, err = tx.SlaughterReceiveRecord.WithContext(context.Background()).
 		Where(tx.SlaughterReceiveRecord.CowNumber.Eq(r.CowNumber)).
 		Updates(map[string]interface{}{"state": SLAUGHTER_STATE_REC_SLA})
+	if err != nil {
+		_ = tx.Rollback()
+		return "", err
+	}
+
+	//上链
+	_, err = fabric.UploadProcedure(procedure.PID, procedure.PrePID)
 	if err != nil {
 		_ = tx.Rollback()
 		return "", err

@@ -159,6 +159,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		top.GET("mall", handlers.GetMall)
 		top.POST("end", handlers.EndTransport)
 		top.GET("goods", handlers.GetMallGoods)
+		top.GET("verify", handlers.VerifyWithCheckcode)
 	}
 
 	// mall
