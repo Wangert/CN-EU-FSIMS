@@ -10,8 +10,8 @@ type TransportProcedure struct {
 }
 
 type TransportProcedureData struct {
-	Temperature string `gorm:"not null; type:varchar(100)" json:"temperature"`
-	Source      string `gorm:"not null; type:varchar(100)" json:"source"`
-	Destination string `gorm:"type:varchar(100)" json:"destination"`
-	Humidity    string `gorm:"not null; type:varchar(100)" json:"humidity"`
+	Temperature string `json:"temperature"`
+	Source      string `json:"source"`
+	Destination string `json:"destination"`
+	Humidity    string `json:"humidity"`
 }

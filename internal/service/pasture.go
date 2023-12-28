@@ -32,6 +32,31 @@ const (
 	CONFIRM_STATE_PH = 3
 )
 
+func AddPastureFeedHeavyMetal(r *request.ReqAddPastureFeedHeavyMetal) error {
+	var err error
+	tx := query.Q.Begin()
+	defer func() {
+		if recover() != nil {
+			_ = tx.Rollback()
+		}
+	}()
+
+	t := time.Now()
+	hm := pasture.PastureFeedHeavyMetal{
+		TimeRecordAt: t,
+		HouseNumber:  r.HouseNumber,
+	}
+
+	err = tx.PastureFeedHeavyMetal.WithContext(context.Background()).Create(&hm)
+	if err != nil {
+		_ = tx.Rollback()
+		return err
+	}
+
+	return nil
+	//h, err := tx.HeavyMetal.WithContext(context.Background()).Where(tx.HeavyMetal.TimeRecordAt.)
+}
+
 func SendToSlaughter(r *request.ReqSendToSlaughter) error {
 	var err error
 	tx := query.Q.Begin()

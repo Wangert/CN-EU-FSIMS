@@ -9,11 +9,23 @@ import (
 	"net/http"
 )
 
+func AddPastureFeedHeavyMetal(c *gin.Context) {
+	var r request.ReqAddPastureFeedHeavyMetal
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		glog.Errorln("add pasture feed heavy metal params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "add pasture feed heavy metal params error!")
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, "add pasture feed heavy metal successful!")
+	return
+}
+
 func SendToSlaughter(c *gin.Context) {
 	var r request.ReqSendToSlaughter
 	if err := c.ShouldBind(&r); err != nil || !checkSendToSlaughterParams(&r) {
-		glog.Errorln(err.Error())
-		response.MakeFail(c, http.StatusNotAcceptable, err.Error())
+		glog.Errorln("send to slaughter params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "send to slaughter params error!")
 		return
 	}
 

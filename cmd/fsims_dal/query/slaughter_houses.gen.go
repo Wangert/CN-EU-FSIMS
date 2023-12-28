@@ -59,6 +59,221 @@ func newSlaughterHouse(db *gorm.DB, opts ...gen.DOOption) slaughterHouse {
 		RelationField: field.NewRelation("SWRecords", "warehouse.SlaughterWarehouse"),
 	}
 
+	_slaughterHouse.SlaInfoMonRecords = slaughterHouseHasManySlaInfoMonRecords{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("SlaInfoMonRecords", "slaughter.SlaInfoMon"),
+		Stun: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("SlaInfoMonRecords.Stun", "slaughter.Stun"),
+		},
+		BleedElectronic: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("SlaInfoMonRecords.BleedElectronic", "slaughter.BleedElectronic"),
+		},
+		AnalAfterSlaQuanCar: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("SlaInfoMonRecords.AnalAfterSlaQuanCar", "slaughter.AnalAfterSlaQuanCar"),
+		},
+		PreSlaQuanPic: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("SlaInfoMonRecords.PreSlaQuanPic", "slaughter.PreSlaQuanPic"),
+		},
+		AnalCutWeight: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("SlaInfoMonRecords.AnalCutWeight", "slaughter.AnalCutWeight"),
+		},
+		TempHumMon: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("SlaInfoMonRecords.TempHumMon", "slaughter.TempHumMon"),
+		},
+		FacDisMon: struct {
+			field.RelationField
+			SlaShop struct {
+				field.RelationField
+				SlaShop8 struct {
+					field.RelationField
+				}
+			}
+			DivShop struct {
+				field.RelationField
+				DivShop8 struct {
+					field.RelationField
+				}
+			}
+			AcidShop struct {
+				field.RelationField
+				AcidShop8 struct {
+					field.RelationField
+				}
+			}
+			FroShop struct {
+				field.RelationField
+				FroShop8 struct {
+					field.RelationField
+				}
+			}
+			PackShop struct {
+				field.RelationField
+				PackShop8 struct {
+					field.RelationField
+				}
+			}
+			StaUni struct {
+				field.RelationField
+				StaUni8 struct {
+					field.RelationField
+				}
+			}
+		}{
+			RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon", "slaughter.FacDisMon"),
+			SlaShop: struct {
+				field.RelationField
+				SlaShop8 struct {
+					field.RelationField
+				}
+			}{
+				RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.SlaShop", "slaughter.SlaShop"),
+				SlaShop8: struct {
+					field.RelationField
+				}{
+					RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.SlaShop.SlaShop8", "slaughter.DisRecord"),
+				},
+			},
+			DivShop: struct {
+				field.RelationField
+				DivShop8 struct {
+					field.RelationField
+				}
+			}{
+				RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.DivShop", "slaughter.DivShop"),
+				DivShop8: struct {
+					field.RelationField
+				}{
+					RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.DivShop.DivShop8", "slaughter.DisRecord"),
+				},
+			},
+			AcidShop: struct {
+				field.RelationField
+				AcidShop8 struct {
+					field.RelationField
+				}
+			}{
+				RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.AcidShop", "slaughter.AcidShop"),
+				AcidShop8: struct {
+					field.RelationField
+				}{
+					RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.AcidShop.AcidShop8", "slaughter.DisRecord"),
+				},
+			},
+			FroShop: struct {
+				field.RelationField
+				FroShop8 struct {
+					field.RelationField
+				}
+			}{
+				RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.FroShop", "slaughter.FroShop"),
+				FroShop8: struct {
+					field.RelationField
+				}{
+					RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.FroShop.FroShop8", "slaughter.DisRecord"),
+				},
+			},
+			PackShop: struct {
+				field.RelationField
+				PackShop8 struct {
+					field.RelationField
+				}
+			}{
+				RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.PackShop", "slaughter.PackShop"),
+				PackShop8: struct {
+					field.RelationField
+				}{
+					RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.PackShop.PackShop8", "slaughter.DisRecord"),
+				},
+			},
+			StaUni: struct {
+				field.RelationField
+				StaUni8 struct {
+					field.RelationField
+				}
+			}{
+				RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.StaUni", "slaughter.StaUni"),
+				StaUni8: struct {
+					field.RelationField
+				}{
+					RelationField: field.NewRelation("SlaInfoMonRecords.FacDisMon.StaUni.StaUni8", "slaughter.DisRecord"),
+				},
+			},
+		},
+		SlaEnvLigRec: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("SlaInfoMonRecords.SlaEnvLigRec", "slaughter.SlaEnvLigRec"),
+		},
+		ToNumGermMon: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("SlaInfoMonRecords.ToNumGermMon", "slaughter.ToNumGermMon"),
+		},
+		AirNumGermMon: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("SlaInfoMonRecords.AirNumGermMon", "slaughter.AirNumGermMon"),
+		},
+		WaterQualityMon: struct {
+			field.RelationField
+			MicroIndex struct {
+				field.RelationField
+			}
+			ToxIndex struct {
+				field.RelationField
+			}
+			OapGciSla struct {
+				field.RelationField
+			}
+			MicroIndexWaterMonSla struct {
+				field.RelationField
+			}
+			ToxinIndexSla struct {
+				field.RelationField
+			}
+		}{
+			RelationField: field.NewRelation("SlaInfoMonRecords.WaterQualityMon", "slaughter.WaterQualityMon"),
+			MicroIndex: struct {
+				field.RelationField
+			}{
+				RelationField: field.NewRelation("SlaInfoMonRecords.WaterQualityMon.MicroIndex", "slaughter.SlaughterWaterMicroIndex"),
+			},
+			ToxIndex: struct {
+				field.RelationField
+			}{
+				RelationField: field.NewRelation("SlaInfoMonRecords.WaterQualityMon.ToxIndex", "slaughter.SlaughterWaterToxIndex"),
+			},
+			OapGciSla: struct {
+				field.RelationField
+			}{
+				RelationField: field.NewRelation("SlaInfoMonRecords.WaterQualityMon.OapGciSla", "slaughter.OapGciSla"),
+			},
+			MicroIndexWaterMonSla: struct {
+				field.RelationField
+			}{
+				RelationField: field.NewRelation("SlaInfoMonRecords.WaterQualityMon.MicroIndexWaterMonSla", "slaughter.MicroIndexWaterMonSla"),
+			},
+			ToxinIndexSla: struct {
+				field.RelationField
+			}{
+				RelationField: field.NewRelation("SlaInfoMonRecords.WaterQualityMon.ToxinIndexSla", "slaughter.ToxinIndexSla"),
+			},
+		},
+	}
+
 	_slaughterHouse.fillFieldMap()
 
 	return _slaughterHouse
@@ -82,6 +297,8 @@ type slaughterHouse struct {
 	SlaughterRecords slaughterHouseHasManySlaughterRecords
 
 	SWRecords slaughterHouseHasManySWRecords
+
+	SlaInfoMonRecords slaughterHouseHasManySlaInfoMonRecords
 
 	fieldMap map[string]field.Expr
 }
@@ -135,7 +352,7 @@ func (s *slaughterHouse) GetFieldByName(fieldName string) (field.OrderExpr, bool
 }
 
 func (s *slaughterHouse) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 12)
+	s.fieldMap = make(map[string]field.Expr, 13)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
@@ -372,6 +589,162 @@ func (a slaughterHouseHasManySWRecordsTx) Clear() error {
 }
 
 func (a slaughterHouseHasManySWRecordsTx) Count() int64 {
+	return a.tx.Count()
+}
+
+type slaughterHouseHasManySlaInfoMonRecords struct {
+	db *gorm.DB
+
+	field.RelationField
+
+	Stun struct {
+		field.RelationField
+	}
+	BleedElectronic struct {
+		field.RelationField
+	}
+	AnalAfterSlaQuanCar struct {
+		field.RelationField
+	}
+	PreSlaQuanPic struct {
+		field.RelationField
+	}
+	AnalCutWeight struct {
+		field.RelationField
+	}
+	TempHumMon struct {
+		field.RelationField
+	}
+	FacDisMon struct {
+		field.RelationField
+		SlaShop struct {
+			field.RelationField
+			SlaShop8 struct {
+				field.RelationField
+			}
+		}
+		DivShop struct {
+			field.RelationField
+			DivShop8 struct {
+				field.RelationField
+			}
+		}
+		AcidShop struct {
+			field.RelationField
+			AcidShop8 struct {
+				field.RelationField
+			}
+		}
+		FroShop struct {
+			field.RelationField
+			FroShop8 struct {
+				field.RelationField
+			}
+		}
+		PackShop struct {
+			field.RelationField
+			PackShop8 struct {
+				field.RelationField
+			}
+		}
+		StaUni struct {
+			field.RelationField
+			StaUni8 struct {
+				field.RelationField
+			}
+		}
+	}
+	SlaEnvLigRec struct {
+		field.RelationField
+	}
+	ToNumGermMon struct {
+		field.RelationField
+	}
+	AirNumGermMon struct {
+		field.RelationField
+	}
+	WaterQualityMon struct {
+		field.RelationField
+		MicroIndex struct {
+			field.RelationField
+		}
+		ToxIndex struct {
+			field.RelationField
+		}
+		OapGciSla struct {
+			field.RelationField
+		}
+		MicroIndexWaterMonSla struct {
+			field.RelationField
+		}
+		ToxinIndexSla struct {
+			field.RelationField
+		}
+	}
+}
+
+func (a slaughterHouseHasManySlaInfoMonRecords) Where(conds ...field.Expr) *slaughterHouseHasManySlaInfoMonRecords {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a slaughterHouseHasManySlaInfoMonRecords) WithContext(ctx context.Context) *slaughterHouseHasManySlaInfoMonRecords {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a slaughterHouseHasManySlaInfoMonRecords) Session(session *gorm.Session) *slaughterHouseHasManySlaInfoMonRecords {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a slaughterHouseHasManySlaInfoMonRecords) Model(m *slaughter.SlaughterHouse) *slaughterHouseHasManySlaInfoMonRecordsTx {
+	return &slaughterHouseHasManySlaInfoMonRecordsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type slaughterHouseHasManySlaInfoMonRecordsTx struct{ tx *gorm.Association }
+
+func (a slaughterHouseHasManySlaInfoMonRecordsTx) Find() (result []*slaughter.SlaInfoMon, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a slaughterHouseHasManySlaInfoMonRecordsTx) Append(values ...*slaughter.SlaInfoMon) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a slaughterHouseHasManySlaInfoMonRecordsTx) Replace(values ...*slaughter.SlaInfoMon) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a slaughterHouseHasManySlaInfoMonRecordsTx) Delete(values ...*slaughter.SlaInfoMon) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a slaughterHouseHasManySlaInfoMonRecordsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a slaughterHouseHasManySlaInfoMonRecordsTx) Count() int64 {
 	return a.tx.Count()
 }
 

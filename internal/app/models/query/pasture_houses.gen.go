@@ -60,6 +60,59 @@ func newPastureHouse(db *gorm.DB, opts ...gen.DOOption) pastureHouse {
 		RelationField: field.NewRelation("PasHRecord", "warehouse.PastureWarehouse"),
 	}
 
+	_pastureHouse.HeavyMetalRecords = pastureHouseHasManyHeavyMetalRecords{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("HeavyMetalRecords", "pasture.PastureFeedHeavyMetal"),
+		PastureFeedAs: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("HeavyMetalRecords.PastureFeedAs", "pasture.PastureFeedAs"),
+		},
+		PastureFeedPb: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("HeavyMetalRecords.PastureFeedPb", "pasture.PastureFeedPb"),
+		},
+		PastureFeedCd: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("HeavyMetalRecords.PastureFeedCd", "pasture.PastureFeedCd"),
+		},
+		PastureFeedCr: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("HeavyMetalRecords.PastureFeedCr", "pasture.PastureFeedCr"),
+		},
+	}
+
+	_pastureHouse.PastureAreaRecords = pastureHouseHasManyPastureAreaRecords{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("PastureAreaRecords", "pasture.PastureArea"),
+	}
+
+	_pastureHouse.WaterRecords = pastureHouseHasManyWaterRecords{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("WaterRecords", "pasture.PastureWaterRecord"),
+		OapGci: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("WaterRecords.OapGci", "pasture.PastureOapGci"),
+		},
+		ToxIndex: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("WaterRecords.ToxIndex", "pasture.PastureToxIndex"),
+		},
+		MicroIndex: struct {
+			field.RelationField
+		}{
+			RelationField: field.NewRelation("WaterRecords.MicroIndex", "pasture.PastureMicroIndex"),
+		},
+	}
+
 	_pastureHouse.fillFieldMap()
 
 	return _pastureHouse
@@ -83,6 +136,12 @@ type pastureHouse struct {
 	FeedingRecord pastureHouseHasManyFeedingRecord
 
 	PasHRecord pastureHouseHasManyPasHRecord
+
+	HeavyMetalRecords pastureHouseHasManyHeavyMetalRecords
+
+	PastureAreaRecords pastureHouseHasManyPastureAreaRecords
+
+	WaterRecords pastureHouseHasManyWaterRecords
 
 	fieldMap map[string]field.Expr
 }
@@ -136,7 +195,7 @@ func (p *pastureHouse) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 }
 
 func (p *pastureHouse) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 12)
+	p.fieldMap = make(map[string]field.Expr, 15)
 	p.fieldMap["id"] = p.ID
 	p.fieldMap["created_at"] = p.CreatedAt
 	p.fieldMap["updated_at"] = p.UpdatedAt
@@ -373,6 +432,242 @@ func (a pastureHouseHasManyPasHRecordTx) Clear() error {
 }
 
 func (a pastureHouseHasManyPasHRecordTx) Count() int64 {
+	return a.tx.Count()
+}
+
+type pastureHouseHasManyHeavyMetalRecords struct {
+	db *gorm.DB
+
+	field.RelationField
+
+	PastureFeedAs struct {
+		field.RelationField
+	}
+	PastureFeedPb struct {
+		field.RelationField
+	}
+	PastureFeedCd struct {
+		field.RelationField
+	}
+	PastureFeedCr struct {
+		field.RelationField
+	}
+}
+
+func (a pastureHouseHasManyHeavyMetalRecords) Where(conds ...field.Expr) *pastureHouseHasManyHeavyMetalRecords {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a pastureHouseHasManyHeavyMetalRecords) WithContext(ctx context.Context) *pastureHouseHasManyHeavyMetalRecords {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a pastureHouseHasManyHeavyMetalRecords) Session(session *gorm.Session) *pastureHouseHasManyHeavyMetalRecords {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a pastureHouseHasManyHeavyMetalRecords) Model(m *pasture.PastureHouse) *pastureHouseHasManyHeavyMetalRecordsTx {
+	return &pastureHouseHasManyHeavyMetalRecordsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type pastureHouseHasManyHeavyMetalRecordsTx struct{ tx *gorm.Association }
+
+func (a pastureHouseHasManyHeavyMetalRecordsTx) Find() (result []*pasture.PastureFeedHeavyMetal, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a pastureHouseHasManyHeavyMetalRecordsTx) Append(values ...*pasture.PastureFeedHeavyMetal) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a pastureHouseHasManyHeavyMetalRecordsTx) Replace(values ...*pasture.PastureFeedHeavyMetal) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a pastureHouseHasManyHeavyMetalRecordsTx) Delete(values ...*pasture.PastureFeedHeavyMetal) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a pastureHouseHasManyHeavyMetalRecordsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a pastureHouseHasManyHeavyMetalRecordsTx) Count() int64 {
+	return a.tx.Count()
+}
+
+type pastureHouseHasManyPastureAreaRecords struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a pastureHouseHasManyPastureAreaRecords) Where(conds ...field.Expr) *pastureHouseHasManyPastureAreaRecords {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a pastureHouseHasManyPastureAreaRecords) WithContext(ctx context.Context) *pastureHouseHasManyPastureAreaRecords {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a pastureHouseHasManyPastureAreaRecords) Session(session *gorm.Session) *pastureHouseHasManyPastureAreaRecords {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a pastureHouseHasManyPastureAreaRecords) Model(m *pasture.PastureHouse) *pastureHouseHasManyPastureAreaRecordsTx {
+	return &pastureHouseHasManyPastureAreaRecordsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type pastureHouseHasManyPastureAreaRecordsTx struct{ tx *gorm.Association }
+
+func (a pastureHouseHasManyPastureAreaRecordsTx) Find() (result []*pasture.PastureArea, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a pastureHouseHasManyPastureAreaRecordsTx) Append(values ...*pasture.PastureArea) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a pastureHouseHasManyPastureAreaRecordsTx) Replace(values ...*pasture.PastureArea) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a pastureHouseHasManyPastureAreaRecordsTx) Delete(values ...*pasture.PastureArea) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a pastureHouseHasManyPastureAreaRecordsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a pastureHouseHasManyPastureAreaRecordsTx) Count() int64 {
+	return a.tx.Count()
+}
+
+type pastureHouseHasManyWaterRecords struct {
+	db *gorm.DB
+
+	field.RelationField
+
+	OapGci struct {
+		field.RelationField
+	}
+	ToxIndex struct {
+		field.RelationField
+	}
+	MicroIndex struct {
+		field.RelationField
+	}
+}
+
+func (a pastureHouseHasManyWaterRecords) Where(conds ...field.Expr) *pastureHouseHasManyWaterRecords {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a pastureHouseHasManyWaterRecords) WithContext(ctx context.Context) *pastureHouseHasManyWaterRecords {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a pastureHouseHasManyWaterRecords) Session(session *gorm.Session) *pastureHouseHasManyWaterRecords {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a pastureHouseHasManyWaterRecords) Model(m *pasture.PastureHouse) *pastureHouseHasManyWaterRecordsTx {
+	return &pastureHouseHasManyWaterRecordsTx{a.db.Model(m).Association(a.Name())}
+}
+
+type pastureHouseHasManyWaterRecordsTx struct{ tx *gorm.Association }
+
+func (a pastureHouseHasManyWaterRecordsTx) Find() (result []*pasture.PastureWaterRecord, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a pastureHouseHasManyWaterRecordsTx) Append(values ...*pasture.PastureWaterRecord) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a pastureHouseHasManyWaterRecordsTx) Replace(values ...*pasture.PastureWaterRecord) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a pastureHouseHasManyWaterRecordsTx) Delete(values ...*pasture.PastureWaterRecord) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a pastureHouseHasManyWaterRecordsTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a pastureHouseHasManyWaterRecordsTx) Count() int64 {
 	return a.tx.Count()
 }
 
