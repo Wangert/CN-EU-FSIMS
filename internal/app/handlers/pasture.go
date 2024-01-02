@@ -4,6 +4,7 @@ import (
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/handlers/response"
 	"CN-EU-FSIMS/internal/service"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
 	"net/http"
@@ -11,12 +12,18 @@ import (
 
 func AddPastureFeedHeavyMetal(c *gin.Context) {
 	var r request.ReqAddPastureFeedHeavyMetal
+	fmt.Println(r.HouseNumber)
 	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
 		glog.Errorln("add pasture feed heavy metal params error!")
 		response.MakeFail(c, http.StatusNotAcceptable, "add pasture feed heavy metal params error!")
 		return
 	}
 
+	err := service.AddPastureFeedHeavyMetal(&r)
+	if err != nil {
+		return
+	}
+	//err = service
 	response.MakeSuccess(c, http.StatusOK, "add pasture feed heavy metal successful!")
 	return
 }

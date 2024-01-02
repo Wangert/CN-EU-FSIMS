@@ -93,7 +93,6 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		//pop.POST("createproc", handlers.CreateProcedure)
 
 		pop.POST("addcow", handlers.AddCow)
-
 		pop.POST("newfeedingbatch", handlers.NewFeedingBatch)
 		pop.GET("getfeedingrecords", handlers.GetFeedingRecords)
 		pop.POST("endfeeding", handlers.EndFeeding)
@@ -101,6 +100,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		//pop.POST("inwarehouse", handlers.PastureInWarehouse)
 		pop.POST("send", handlers.SendToSlaughter)
 
+		//上传传感器数据
 		pop.POST("addfeedheavymetal", handlers.AddPastureFeedHeavyMetal)
 	}
 

@@ -18,7 +18,7 @@ type PastureFeedHeavyMetal struct {
 
 type PastureFeedAs struct {
 	gorm.Model
-	PastureFeedHeavyMetalID uint    `json:"pasture_feed_heavy_metal_id"`
+	PastureFeedHeavyMetalID *uint   `json:"pasture_feed_heavy_metal_id"`
 	As1                     float64 `json:"as_1"` //干草
 	As2                     float64 `json:"as_2"` //棕榈仁饼
 	As3                     float64 `json:"as_3"` //藻类及其加工产品
@@ -31,7 +31,7 @@ type PastureFeedAs struct {
 
 type PastureFeedPb struct {
 	gorm.Model
-	PastureFeedHeavyMetalID uint    `json:"pasture_feed_heavy_metal_id"`
+	PastureFeedHeavyMetalID *uint   `json:"pasture_feed_heavy_metal_id"`
 	Pb1                     float64 `json:"pb_1"` //单细胞蛋白饲料原料
 	Pb2                     float64 `json:"pb_2"` //矿物质饲料原料
 	Pb3                     float64 `json:"pb_3"` //饲草、粗饲料及其加工产品
@@ -43,7 +43,7 @@ type PastureFeedPb struct {
 
 type PastureFeedCd struct {
 	gorm.Model
-	PastureFeedHeavyMetalID uint    `json:"pasture_feed_heavy_metal_id"`
+	PastureFeedHeavyMetalID *uint   `json:"pasture_feed_heavy_metal_id"`
 	Cd1                     float64 `json:"cd_1"` //藻类及其加工产品
 	Cd2                     float64 `json:"cd_2"` //其他动物源性饲料原料
 	Cd3                     float64 `json:"cd_3"` //其他矿物质饲料原料
@@ -55,7 +55,7 @@ type PastureFeedCd struct {
 
 type PastureFeedCr struct {
 	gorm.Model
-	PastureFeedHeavyMetalID uint    `json:"pasture_feed_heavy_metal_id"`
+	PastureFeedHeavyMetalID *uint   `json:"pasture_feed_heavy_metal_id"`
 	Cr1                     float64 `json:"cr_1"` //其他添加剂预混合饲料
 	Cr2                     float64 `json:"cr_2"` //配合饲料
 	Cr3                     float64 `json:"cr_3"` //其他浓缩饲料

@@ -41,13 +41,65 @@ func AddPastureFeedHeavyMetal(r *request.ReqAddPastureFeedHeavyMetal) error {
 		}
 	}()
 
+	as := pasture.PastureFeedAs{
+		PastureFeedHeavyMetalID: nil,
+		As1:                     r.As.As1,
+		As2:                     r.As.As2,
+		As3:                     r.As.As3,
+		As4:                     r.As.As4,
+		As5:                     r.As.As5,
+		As6:                     r.As.As6,
+		As7:                     r.As.As7,
+		As8:                     r.As.As8,
+	}
+
+	pb := pasture.PastureFeedPb{
+		PastureFeedHeavyMetalID: nil,
+		Pb1:                     r.Pb.Pb1,
+		Pb2:                     r.Pb.Pb2,
+		Pb3:                     r.Pb.Pb3,
+		Pb4:                     r.Pb.Pb4,
+		Pb5:                     r.Pb.Pb5,
+		Pb6:                     r.Pb.Pb6,
+		Pb7:                     r.Pb.Pb7,
+	}
+
+	cd := pasture.PastureFeedCd{
+		PastureFeedHeavyMetalID: nil,
+		Cd1:                     r.Cd.Cd1,
+		Cd2:                     r.Cd.Cd2,
+		Cd3:                     r.Cd.Cd3,
+		Cd4:                     r.Cd.Cd4,
+		Cd5:                     r.Cd.Cd5,
+		Cd6:                     r.Cd.Cd6,
+		Cd7:                     r.Cd.Cd7,
+	}
+
+	cr := pasture.PastureFeedCr{
+		PastureFeedHeavyMetalID: nil,
+		Cr1:                     r.Cr.Cr1,
+		Cr2:                     r.Cr.Cr2,
+		Cr3:                     r.Cr.Cr3,
+		Cr4:                     r.Cr.Cr4,
+	}
+
 	t := time.Now()
 	hm := pasture.PastureFeedHeavyMetal{
-		TimeRecordAt: t,
-		HouseNumber:  r.HouseNumber,
+		TimeRecordAt:  t,
+		HouseNumber:   r.HouseNumber,
+		PastureFeedAs: as,
+		PastureFeedPb: pb,
+		PastureFeedCd: cd,
+		PastureFeedCr: cr,
 	}
 
 	err = tx.PastureFeedHeavyMetal.WithContext(context.Background()).Create(&hm)
+	if err != nil {
+		_ = tx.Rollback()
+		return err
+	}
+
+	err = tx.Commit()
 	if err != nil {
 		_ = tx.Rollback()
 		return err
@@ -450,4 +502,9 @@ func createPastureProcedure(pasPID string) pasture.PastureProcedure {
 	}
 
 	return pastureProcedure
+}
+
+// UploadHeavyMetal sensor data
+func UploadHeavyMetal(HouseNumber string) error {
+	return nil
 }

@@ -34,10 +34,10 @@ type ReqSendToSlaughter struct {
 
 type ReqAddPastureFeedHeavyMetal struct {
 	HouseNumber string                    `json:"house_number"`
-	Ass         pasture.PastureFeedAsInfo `json:"aas"` //砷元素
-	Pb          pasture.PastureFeedPbInfo `json:"pb"`  //铅元素
-	Cd          pasture.PastureFeedCdInfo `json:"cd"`  //镉元素
-	Cr          pasture.PastureFeedCrInfo `json:"cr"`  //铬元素
+	As          pasture.PastureFeedAsInfo `json:"as"` //砷元素
+	Pb          pasture.PastureFeedPbInfo `json:"pb"` //铅元素
+	Cd          pasture.PastureFeedCdInfo `json:"cd"` //镉元素
+	Cr          pasture.PastureFeedCrInfo `json:"cr"` //铬元素
 }
 
 type ReqAddPastureFeedCass struct {
