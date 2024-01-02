@@ -31,7 +31,7 @@ func newStaUni(db *gorm.DB, opts ...gen.DOOption) staUni {
 	_staUni.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_staUni.DeletedAt = field.NewField(tableName, "deleted_at")
 	_staUni.HouseNumber = field.NewString(tableName, "house_number")
-	_staUni.TimeRecordAt = field.NewFloat32(tableName, "time_record_at")
+	_staUni.TimeRecordAt = field.NewTime(tableName, "time_record_at")
 	_staUni.StaUni1 = field.NewFloat32(tableName, "sta_uni1")
 	_staUni.StaUni2 = field.NewFloat32(tableName, "sta_uni2")
 	_staUni.StaUni3 = field.NewFloat32(tableName, "sta_uni3")
@@ -61,7 +61,7 @@ type staUni struct {
 	UpdatedAt    field.Time
 	DeletedAt    field.Field
 	HouseNumber  field.String
-	TimeRecordAt field.Float32
+	TimeRecordAt field.Time
 	StaUni1      field.Float32
 	StaUni2      field.Float32
 	StaUni3      field.Float32
@@ -97,7 +97,7 @@ func (s *staUni) updateTableName(table string) *staUni {
 	s.UpdatedAt = field.NewTime(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
 	s.HouseNumber = field.NewString(table, "house_number")
-	s.TimeRecordAt = field.NewFloat32(table, "time_record_at")
+	s.TimeRecordAt = field.NewTime(table, "time_record_at")
 	s.StaUni1 = field.NewFloat32(table, "sta_uni1")
 	s.StaUni2 = field.NewFloat32(table, "sta_uni2")
 	s.StaUni3 = field.NewFloat32(table, "sta_uni3")

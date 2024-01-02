@@ -5,19 +5,6 @@ import (
 	"time"
 )
 
-//type FarmEnvironment struct {
-//	//农场环境
-//	gorm.Model
-//	TimeRecordAt     string           `json:"time_record_at"` //记录时间
-//	HouseNumber      string           `gorm:"not null; type:varchar(256)" json:"houseNumber"`
-//	Buffer           Buffer           `gorm:"foreignKey:FarmEnvironmentID; references:ID" json:"buffer"`             //缓冲区环境
-//	CattleFarm       CattleFarm       `gorm:"foreignKey:FarmEnvironmentID; references:ID" json:"cattle_farm"`        //场区环境
-//	Environment      Environment      `gorm:"foreignKey:FarmEnvironmentID; references:ID" json:"environment"`        //光照等因素
-//	PaddingRequire   PaddingRequire   `gorm:"foreignKey:FarmEnvironmentID; references:ID" json:"padding_require"`    //牧场垫料要求
-//	WastedWaterIndex WastedWaterIndex `gorm:"foreignKey:FarmEnvironmentID; references:ID" json:"wasted_water_index"` //废水相关指标
-//	FarmDisRecord    FarmDisRecord    `gorm:"foreignKey:FarmEnvironmentID; references:ID" json:"farm_dis_record"`    //牧场消毒记录
-//}
-
 type PastureBuffer struct {
 	//缓冲区各参数
 	gorm.Model

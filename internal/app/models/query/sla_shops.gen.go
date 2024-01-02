@@ -31,7 +31,7 @@ func newSlaShop(db *gorm.DB, opts ...gen.DOOption) slaShop {
 	_slaShop.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_slaShop.DeletedAt = field.NewField(tableName, "deleted_at")
 	_slaShop.HouseNumber = field.NewString(tableName, "house_number")
-	_slaShop.TimeRecordAt = field.NewFloat32(tableName, "time_record_at")
+	_slaShop.TimeRecordAt = field.NewTime(tableName, "time_record_at")
 	_slaShop.SlaShop1 = field.NewFloat32(tableName, "sla_shop1")
 	_slaShop.SlaShop2 = field.NewFloat32(tableName, "sla_shop2")
 	_slaShop.SlaShop3 = field.NewFloat32(tableName, "sla_shop3")
@@ -61,7 +61,7 @@ type slaShop struct {
 	UpdatedAt    field.Time
 	DeletedAt    field.Field
 	HouseNumber  field.String
-	TimeRecordAt field.Float32
+	TimeRecordAt field.Time
 	SlaShop1     field.Float32
 	SlaShop2     field.Float32
 	SlaShop3     field.Float32
@@ -97,7 +97,7 @@ func (s *slaShop) updateTableName(table string) *slaShop {
 	s.UpdatedAt = field.NewTime(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
 	s.HouseNumber = field.NewString(table, "house_number")
-	s.TimeRecordAt = field.NewFloat32(table, "time_record_at")
+	s.TimeRecordAt = field.NewTime(table, "time_record_at")
 	s.SlaShop1 = field.NewFloat32(table, "sla_shop1")
 	s.SlaShop2 = field.NewFloat32(table, "sla_shop2")
 	s.SlaShop3 = field.NewFloat32(table, "sla_shop3")

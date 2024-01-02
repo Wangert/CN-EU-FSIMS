@@ -31,7 +31,7 @@ func newAcidShop(db *gorm.DB, opts ...gen.DOOption) acidShop {
 	_acidShop.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_acidShop.DeletedAt = field.NewField(tableName, "deleted_at")
 	_acidShop.HouseNumber = field.NewString(tableName, "house_number")
-	_acidShop.TimeRecordAt = field.NewFloat32(tableName, "time_record_at")
+	_acidShop.TimeRecordAt = field.NewTime(tableName, "time_record_at")
 	_acidShop.AcidShop1 = field.NewFloat32(tableName, "acid_shop1")
 	_acidShop.AcidShop2 = field.NewFloat32(tableName, "acid_shop2")
 	_acidShop.AcidShop3 = field.NewFloat32(tableName, "acid_shop3")
@@ -61,7 +61,7 @@ type acidShop struct {
 	UpdatedAt    field.Time
 	DeletedAt    field.Field
 	HouseNumber  field.String
-	TimeRecordAt field.Float32
+	TimeRecordAt field.Time
 	AcidShop1    field.Float32
 	AcidShop2    field.Float32
 	AcidShop3    field.Float32
@@ -97,7 +97,7 @@ func (a *acidShop) updateTableName(table string) *acidShop {
 	a.UpdatedAt = field.NewTime(table, "updated_at")
 	a.DeletedAt = field.NewField(table, "deleted_at")
 	a.HouseNumber = field.NewString(table, "house_number")
-	a.TimeRecordAt = field.NewFloat32(table, "time_record_at")
+	a.TimeRecordAt = field.NewTime(table, "time_record_at")
 	a.AcidShop1 = field.NewFloat32(table, "acid_shop1")
 	a.AcidShop2 = field.NewFloat32(table, "acid_shop2")
 	a.AcidShop3 = field.NewFloat32(table, "acid_shop3")

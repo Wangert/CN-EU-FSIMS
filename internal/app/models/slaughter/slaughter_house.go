@@ -23,7 +23,7 @@ type SlaughterHouse struct {
 	FroShopRecords                  []FroShop                          `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"fro_shop_records"`
 	PackShopRecords                 []PackShop                         `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"pack_shop_records"`
 	StaUniRecords                   []StaUni                           `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"sta_uni_records"`
-	SlaEnvLigRecords                []SlaEnvLigRec                     `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"sla_env_lig_records"`
+	SlaEnvLigRecords                []SlaughterLightRecord             `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"sla_env_lig_records"`
 	SlaughterWaterQualityMonRecords []SlaughterWaterQualityMon         `gorm:"foreignKey:HouseNumber; references:HouseNumber" json:"slaughter_water_quality_mon_records"`
 }
 

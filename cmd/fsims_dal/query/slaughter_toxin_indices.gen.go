@@ -31,7 +31,6 @@ func newSlaughterToxinIndex(db *gorm.DB, opts ...gen.DOOption) slaughterToxinInd
 	_slaughterToxinIndex.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_slaughterToxinIndex.DeletedAt = field.NewField(tableName, "deleted_at")
 	_slaughterToxinIndex.SlaughterWaterQualityMonID = field.NewUint(tableName, "slaughter_water_quality_mon_id")
-	_slaughterToxinIndex.TimeRecordAt = field.NewFloat32(tableName, "time_record_at")
 	_slaughterToxinIndex.ToxinIndexSla1 = field.NewFloat32(tableName, "toxin_index_sla1")
 	_slaughterToxinIndex.ToxinIndexSla2 = field.NewFloat32(tableName, "toxin_index_sla2")
 	_slaughterToxinIndex.ToxinIndexSla3 = field.NewFloat32(tableName, "toxin_index_sla3")
@@ -99,7 +98,6 @@ type slaughterToxinIndex struct {
 	UpdatedAt                  field.Time
 	DeletedAt                  field.Field
 	SlaughterWaterQualityMonID field.Uint
-	TimeRecordAt               field.Float32
 	ToxinIndexSla1             field.Float32
 	ToxinIndexSla2             field.Float32
 	ToxinIndexSla3             field.Float32
@@ -169,7 +167,6 @@ func (s *slaughterToxinIndex) updateTableName(table string) *slaughterToxinIndex
 	s.UpdatedAt = field.NewTime(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
 	s.SlaughterWaterQualityMonID = field.NewUint(table, "slaughter_water_quality_mon_id")
-	s.TimeRecordAt = field.NewFloat32(table, "time_record_at")
 	s.ToxinIndexSla1 = field.NewFloat32(table, "toxin_index_sla1")
 	s.ToxinIndexSla2 = field.NewFloat32(table, "toxin_index_sla2")
 	s.ToxinIndexSla3 = field.NewFloat32(table, "toxin_index_sla3")
@@ -245,13 +242,12 @@ func (s *slaughterToxinIndex) GetFieldByName(fieldName string) (field.OrderExpr,
 }
 
 func (s *slaughterToxinIndex) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 54)
+	s.fieldMap = make(map[string]field.Expr, 53)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
 	s.fieldMap["deleted_at"] = s.DeletedAt
 	s.fieldMap["slaughter_water_quality_mon_id"] = s.SlaughterWaterQualityMonID
-	s.fieldMap["time_record_at"] = s.TimeRecordAt
 	s.fieldMap["toxin_index_sla1"] = s.ToxinIndexSla1
 	s.fieldMap["toxin_index_sla2"] = s.ToxinIndexSla2
 	s.fieldMap["toxin_index_sla3"] = s.ToxinIndexSla3

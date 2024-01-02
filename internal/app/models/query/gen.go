@@ -85,12 +85,12 @@ var (
 	PreCoolShop                        *preCoolShop
 	PreSlaQuanPic                      *preSlaQuanPic
 	Procedure                          *procedure
-	SlaEnvLigRec                       *slaEnvLigRec
 	SlaShop                            *slaShop
 	SlaughterAnalAfterSlaQuanCar       *slaughterAnalAfterSlaQuanCar
 	SlaughterBatch                     *slaughterBatch
 	SlaughterDisinfectHotWaterTempMoni *slaughterDisinfectHotWaterTempMoni
 	SlaughterHouse                     *slaughterHouse
+	SlaughterLightRecord               *slaughterLightRecord
 	SlaughterProduct                   *slaughterProduct
 	SlaughterReceiveRecord             *slaughterReceiveRecord
 	SlaughterStun                      *slaughterStun
@@ -179,12 +179,12 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	PreCoolShop = &Q.PreCoolShop
 	PreSlaQuanPic = &Q.PreSlaQuanPic
 	Procedure = &Q.Procedure
-	SlaEnvLigRec = &Q.SlaEnvLigRec
 	SlaShop = &Q.SlaShop
 	SlaughterAnalAfterSlaQuanCar = &Q.SlaughterAnalAfterSlaQuanCar
 	SlaughterBatch = &Q.SlaughterBatch
 	SlaughterDisinfectHotWaterTempMoni = &Q.SlaughterDisinfectHotWaterTempMoni
 	SlaughterHouse = &Q.SlaughterHouse
+	SlaughterLightRecord = &Q.SlaughterLightRecord
 	SlaughterProduct = &Q.SlaughterProduct
 	SlaughterReceiveRecord = &Q.SlaughterReceiveRecord
 	SlaughterStun = &Q.SlaughterStun
@@ -274,12 +274,12 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		PreCoolShop:                        newPreCoolShop(db, opts...),
 		PreSlaQuanPic:                      newPreSlaQuanPic(db, opts...),
 		Procedure:                          newProcedure(db, opts...),
-		SlaEnvLigRec:                       newSlaEnvLigRec(db, opts...),
 		SlaShop:                            newSlaShop(db, opts...),
 		SlaughterAnalAfterSlaQuanCar:       newSlaughterAnalAfterSlaQuanCar(db, opts...),
 		SlaughterBatch:                     newSlaughterBatch(db, opts...),
 		SlaughterDisinfectHotWaterTempMoni: newSlaughterDisinfectHotWaterTempMoni(db, opts...),
 		SlaughterHouse:                     newSlaughterHouse(db, opts...),
+		SlaughterLightRecord:               newSlaughterLightRecord(db, opts...),
 		SlaughterProduct:                   newSlaughterProduct(db, opts...),
 		SlaughterReceiveRecord:             newSlaughterReceiveRecord(db, opts...),
 		SlaughterStun:                      newSlaughterStun(db, opts...),
@@ -370,12 +370,12 @@ type Query struct {
 	PreCoolShop                        preCoolShop
 	PreSlaQuanPic                      preSlaQuanPic
 	Procedure                          procedure
-	SlaEnvLigRec                       slaEnvLigRec
 	SlaShop                            slaShop
 	SlaughterAnalAfterSlaQuanCar       slaughterAnalAfterSlaQuanCar
 	SlaughterBatch                     slaughterBatch
 	SlaughterDisinfectHotWaterTempMoni slaughterDisinfectHotWaterTempMoni
 	SlaughterHouse                     slaughterHouse
+	SlaughterLightRecord               slaughterLightRecord
 	SlaughterProduct                   slaughterProduct
 	SlaughterReceiveRecord             slaughterReceiveRecord
 	SlaughterStun                      slaughterStun
@@ -467,12 +467,12 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		PreCoolShop:                        q.PreCoolShop.clone(db),
 		PreSlaQuanPic:                      q.PreSlaQuanPic.clone(db),
 		Procedure:                          q.Procedure.clone(db),
-		SlaEnvLigRec:                       q.SlaEnvLigRec.clone(db),
 		SlaShop:                            q.SlaShop.clone(db),
 		SlaughterAnalAfterSlaQuanCar:       q.SlaughterAnalAfterSlaQuanCar.clone(db),
 		SlaughterBatch:                     q.SlaughterBatch.clone(db),
 		SlaughterDisinfectHotWaterTempMoni: q.SlaughterDisinfectHotWaterTempMoni.clone(db),
 		SlaughterHouse:                     q.SlaughterHouse.clone(db),
+		SlaughterLightRecord:               q.SlaughterLightRecord.clone(db),
 		SlaughterProduct:                   q.SlaughterProduct.clone(db),
 		SlaughterReceiveRecord:             q.SlaughterReceiveRecord.clone(db),
 		SlaughterStun:                      q.SlaughterStun.clone(db),
@@ -571,12 +571,12 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		PreCoolShop:                        q.PreCoolShop.replaceDB(db),
 		PreSlaQuanPic:                      q.PreSlaQuanPic.replaceDB(db),
 		Procedure:                          q.Procedure.replaceDB(db),
-		SlaEnvLigRec:                       q.SlaEnvLigRec.replaceDB(db),
 		SlaShop:                            q.SlaShop.replaceDB(db),
 		SlaughterAnalAfterSlaQuanCar:       q.SlaughterAnalAfterSlaQuanCar.replaceDB(db),
 		SlaughterBatch:                     q.SlaughterBatch.replaceDB(db),
 		SlaughterDisinfectHotWaterTempMoni: q.SlaughterDisinfectHotWaterTempMoni.replaceDB(db),
 		SlaughterHouse:                     q.SlaughterHouse.replaceDB(db),
+		SlaughterLightRecord:               q.SlaughterLightRecord.replaceDB(db),
 		SlaughterProduct:                   q.SlaughterProduct.replaceDB(db),
 		SlaughterReceiveRecord:             q.SlaughterReceiveRecord.replaceDB(db),
 		SlaughterStun:                      q.SlaughterStun.replaceDB(db),
@@ -665,12 +665,12 @@ type queryCtx struct {
 	PreCoolShop                        IPreCoolShopDo
 	PreSlaQuanPic                      IPreSlaQuanPicDo
 	Procedure                          IProcedureDo
-	SlaEnvLigRec                       ISlaEnvLigRecDo
 	SlaShop                            ISlaShopDo
 	SlaughterAnalAfterSlaQuanCar       ISlaughterAnalAfterSlaQuanCarDo
 	SlaughterBatch                     ISlaughterBatchDo
 	SlaughterDisinfectHotWaterTempMoni ISlaughterDisinfectHotWaterTempMoniDo
 	SlaughterHouse                     ISlaughterHouseDo
+	SlaughterLightRecord               ISlaughterLightRecordDo
 	SlaughterProduct                   ISlaughterProductDo
 	SlaughterReceiveRecord             ISlaughterReceiveRecordDo
 	SlaughterStun                      ISlaughterStunDo
@@ -759,12 +759,12 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		PreCoolShop:                        q.PreCoolShop.WithContext(ctx),
 		PreSlaQuanPic:                      q.PreSlaQuanPic.WithContext(ctx),
 		Procedure:                          q.Procedure.WithContext(ctx),
-		SlaEnvLigRec:                       q.SlaEnvLigRec.WithContext(ctx),
 		SlaShop:                            q.SlaShop.WithContext(ctx),
 		SlaughterAnalAfterSlaQuanCar:       q.SlaughterAnalAfterSlaQuanCar.WithContext(ctx),
 		SlaughterBatch:                     q.SlaughterBatch.WithContext(ctx),
 		SlaughterDisinfectHotWaterTempMoni: q.SlaughterDisinfectHotWaterTempMoni.WithContext(ctx),
 		SlaughterHouse:                     q.SlaughterHouse.WithContext(ctx),
+		SlaughterLightRecord:               q.SlaughterLightRecord.WithContext(ctx),
 		SlaughterProduct:                   q.SlaughterProduct.WithContext(ctx),
 		SlaughterReceiveRecord:             q.SlaughterReceiveRecord.WithContext(ctx),
 		SlaughterStun:                      q.SlaughterStun.WithContext(ctx),

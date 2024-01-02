@@ -31,7 +31,6 @@ func newMicroIndexWaterMonSla(db *gorm.DB, opts ...gen.DOOption) microIndexWater
 	_microIndexWaterMonSla.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_microIndexWaterMonSla.DeletedAt = field.NewField(tableName, "deleted_at")
 	_microIndexWaterMonSla.SlaughterWaterQualityMonID = field.NewUint(tableName, "slaughter_water_quality_mon_id")
-	_microIndexWaterMonSla.TimeRecordAt = field.NewFloat32(tableName, "time_record_at")
 	_microIndexWaterMonSla.MicroIndexWaterMonSla1 = field.NewFloat32(tableName, "micro_index_water_mon_sla1")
 	_microIndexWaterMonSla.MicroIndexWaterMonSla2 = field.NewFloat32(tableName, "micro_index_water_mon_sla2")
 	_microIndexWaterMonSla.MicroIndexWaterMonSla3 = field.NewFloat32(tableName, "micro_index_water_mon_sla3")
@@ -51,7 +50,6 @@ type microIndexWaterMonSla struct {
 	UpdatedAt                  field.Time
 	DeletedAt                  field.Field
 	SlaughterWaterQualityMonID field.Uint
-	TimeRecordAt               field.Float32
 	MicroIndexWaterMonSla1     field.Float32
 	MicroIndexWaterMonSla2     field.Float32
 	MicroIndexWaterMonSla3     field.Float32
@@ -77,7 +75,6 @@ func (m *microIndexWaterMonSla) updateTableName(table string) *microIndexWaterMo
 	m.UpdatedAt = field.NewTime(table, "updated_at")
 	m.DeletedAt = field.NewField(table, "deleted_at")
 	m.SlaughterWaterQualityMonID = field.NewUint(table, "slaughter_water_quality_mon_id")
-	m.TimeRecordAt = field.NewFloat32(table, "time_record_at")
 	m.MicroIndexWaterMonSla1 = field.NewFloat32(table, "micro_index_water_mon_sla1")
 	m.MicroIndexWaterMonSla2 = field.NewFloat32(table, "micro_index_water_mon_sla2")
 	m.MicroIndexWaterMonSla3 = field.NewFloat32(table, "micro_index_water_mon_sla3")
@@ -110,13 +107,12 @@ func (m *microIndexWaterMonSla) GetFieldByName(fieldName string) (field.OrderExp
 }
 
 func (m *microIndexWaterMonSla) fillFieldMap() {
-	m.fieldMap = make(map[string]field.Expr, 10)
+	m.fieldMap = make(map[string]field.Expr, 9)
 	m.fieldMap["id"] = m.ID
 	m.fieldMap["created_at"] = m.CreatedAt
 	m.fieldMap["updated_at"] = m.UpdatedAt
 	m.fieldMap["deleted_at"] = m.DeletedAt
 	m.fieldMap["slaughter_water_quality_mon_id"] = m.SlaughterWaterQualityMonID
-	m.fieldMap["time_record_at"] = m.TimeRecordAt
 	m.fieldMap["micro_index_water_mon_sla1"] = m.MicroIndexWaterMonSla1
 	m.fieldMap["micro_index_water_mon_sla2"] = m.MicroIndexWaterMonSla2
 	m.fieldMap["micro_index_water_mon_sla3"] = m.MicroIndexWaterMonSla3
