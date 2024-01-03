@@ -18,7 +18,7 @@ type PastureFeedHeavyMetal struct {
 
 type PastureFeedAs struct {
 	gorm.Model
-	PastureFeedHeavyMetalID uint    `json:"pasture_feed_heavy_metal_id"`
+	PastureFeedHeavyMetalID *uint   `json:"pasture_feed_heavy_metal_id"`
 	As1                     float64 `json:"as_1"` //干草
 	As2                     float64 `json:"as_2"` //棕榈仁饼
 	As3                     float64 `json:"as_3"` //藻类及其加工产品
@@ -31,7 +31,7 @@ type PastureFeedAs struct {
 
 type PastureFeedPb struct {
 	gorm.Model
-	PastureFeedHeavyMetalID uint    `json:"pasture_feed_heavy_metal_id"`
+	PastureFeedHeavyMetalID *uint   `json:"pasture_feed_heavy_metal_id"`
 	Pb1                     float64 `json:"pb_1"` //单细胞蛋白饲料原料
 	Pb2                     float64 `json:"pb_2"` //矿物质饲料原料
 	Pb3                     float64 `json:"pb_3"` //饲草、粗饲料及其加工产品
@@ -43,7 +43,7 @@ type PastureFeedPb struct {
 
 type PastureFeedCd struct {
 	gorm.Model
-	PastureFeedHeavyMetalID uint    `json:"pasture_feed_heavy_metal_id"`
+	PastureFeedHeavyMetalID *uint   `json:"pasture_feed_heavy_metal_id"`
 	Cd1                     float64 `json:"cd_1"` //藻类及其加工产品
 	Cd2                     float64 `json:"cd_2"` //其他动物源性饲料原料
 	Cd3                     float64 `json:"cd_3"` //其他矿物质饲料原料
@@ -55,7 +55,7 @@ type PastureFeedCd struct {
 
 type PastureFeedCr struct {
 	gorm.Model
-	PastureFeedHeavyMetalID uint    `json:"pasture_feed_heavy_metal_id"`
+	PastureFeedHeavyMetalID *uint   `json:"pasture_feed_heavy_metal_id"`
 	Cr1                     float64 `json:"cr_1"` //其他添加剂预混合饲料
 	Cr2                     float64 `json:"cr_2"` //配合饲料
 	Cr3                     float64 `json:"cr_3"` //其他浓缩饲料
@@ -72,6 +72,17 @@ type PastureFeedHeavyMetalInfo struct {
 	PastureFeedCrInfo PastureFeedCrInfo `json:"pasture_feed_cr_info"` //铬元素
 }
 
+func ToPastureFeedHeavyMetalInfo(hm *PastureFeedHeavyMetal) PastureFeedHeavyMetalInfo {
+	return PastureFeedHeavyMetalInfo{
+		TimeRecordAt:      hm.TimeRecordAt,
+		HouseNumber:       hm.HouseNumber,
+		PastureFeedAsInfo: ToPastureFeedAsInfo(&hm.PastureFeedAs),
+		PastureFeedPbInfo: ToPastureFeedPbInfo(&hm.PastureFeedPb),
+		PastureFeedCdInfo: ToPastureFeedCdInfo(&hm.PastureFeedCd),
+		PastureFeedCrInfo: ToPastureFeedCrInfo(&hm.PastureFeedCr),
+	}
+}
+
 type PastureFeedAsInfo struct {
 	As1 float64 `json:"as_1"` //干草
 	As2 float64 `json:"as_2"` //棕榈仁饼
@@ -81,6 +92,19 @@ type PastureFeedAsInfo struct {
 	As6 float64 `json:"as_6"` //添加剂
 	As7 float64 `json:"as_7"` //浓缩
 	As8 float64 `json:"as_8"` //精料
+}
+
+func ToPastureFeedAsInfo(as *PastureFeedAs) PastureFeedAsInfo {
+	return PastureFeedAsInfo{
+		As1: as.As1,
+		As2: as.As2,
+		As3: as.As3,
+		As4: as.As4,
+		As5: as.As5,
+		As6: as.As6,
+		As7: as.As7,
+		As8: as.As8,
+	}
 }
 
 type PastureFeedPbInfo struct {
@@ -93,6 +117,18 @@ type PastureFeedPbInfo struct {
 	Pb7 float64 `json:"pb_7"` //其他饲料原料
 }
 
+func ToPastureFeedPbInfo(pb *PastureFeedPb) PastureFeedPbInfo {
+	return PastureFeedPbInfo{
+		Pb1: pb.Pb1,
+		Pb2: pb.Pb2,
+		Pb3: pb.Pb3,
+		Pb4: pb.Pb4,
+		Pb5: pb.Pb5,
+		Pb6: pb.Pb6,
+		Pb7: pb.Pb7,
+	}
+}
+
 type PastureFeedCdInfo struct {
 	Cd1 float64 `json:"cd_1"` //藻类及其加工产品
 	Cd2 float64 `json:"cd_2"` //其他动物源性饲料原料
@@ -103,9 +139,30 @@ type PastureFeedCdInfo struct {
 	Cd7 float64 `json:"cd_7"` //其他精料补充料
 }
 
+func ToPastureFeedCdInfo(fcd *PastureFeedCd) PastureFeedCdInfo {
+	return PastureFeedCdInfo{
+		Cd1: fcd.Cd1,
+		Cd2: fcd.Cd2,
+		Cd3: fcd.Cd3,
+		Cd4: fcd.Cd4,
+		Cd5: fcd.Cd5,
+		Cd6: fcd.Cd6,
+		Cd7: fcd.Cd7,
+	}
+}
+
 type PastureFeedCrInfo struct {
 	Cr1 float64 `json:"cr_1"` //其他添加剂预混合饲料
 	Cr2 float64 `json:"cr_2"` //配合饲料
 	Cr3 float64 `json:"cr_3"` //其他浓缩饲料
 	Cr4 float64 `json:"cr_4"` //配合饲料
+}
+
+func ToPastureFeedCrInfo(fc *PastureFeedCr) PastureFeedCrInfo {
+	return PastureFeedCrInfo{
+		Cr1: fc.Cr1,
+		Cr2: fc.Cr2,
+		Cr3: fc.Cr3,
+		Cr4: fc.Cr4,
+	}
 }

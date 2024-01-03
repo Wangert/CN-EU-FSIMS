@@ -93,7 +93,6 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		//pop.POST("createproc", handlers.CreateProcedure)
 
 		pop.POST("addcow", handlers.AddCow)
-
 		pop.POST("newfeedingbatch", handlers.NewFeedingBatch)
 		pop.GET("getfeedingrecords", handlers.GetFeedingRecords)
 		pop.POST("endfeeding", handlers.EndFeeding)
@@ -101,7 +100,29 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		//pop.POST("inwarehouse", handlers.PastureInWarehouse)
 		pop.POST("send", handlers.SendToSlaughter)
 
+		//上传传感器数据
 		pop.POST("addfeedheavymetal", handlers.AddPastureFeedHeavyMetal)
+		pop.POST("addfeedmycotoxins", handlers.UploadPastureFeedMycotoxins)
+		pop.POST("addpasturewaterrecord", handlers.UploadPastureWaterRecord)
+		pop.POST("addpasturebuffer", handlers.UploadPastureBuffer)
+		pop.POST("addpasturearea", handlers.UploadPastureArea)
+		pop.POST("addpasturecowhouse", handlers.UploadPastureCowHouse)
+		pop.POST("addpasturebasicenvironment", handlers.UploadPastureBasicEnvironment)
+		pop.POST("addpasturepaddingrequire", handlers.UploadPasturePaddingRequire)
+		pop.POST("addpasturewastedwaterindex", handlers.UploadPastureWastedWaterIndex)
+		pop.POST("addpasturedisinfectionrecord", handlers.UploadPastureDisinfectionRecord)
+
+		//查询传感器数据
+		pop.GET("/query/sensor/heavymetal", handlers.QueryFeedHeavyMetalData)
+		pop.GET("/query/sensor/mycotoxins", handlers.QueryPastureFeedMycotoxinsData)
+		pop.GET("/query/sensor/waterrecord", handlers.QueryPastureWaterRecordData)
+		pop.GET("/query/sensor/buffer", handlers.QueryPastureBufferData)
+		pop.GET("/query/sensor/area", handlers.QueryPastureAreaData)
+		pop.GET("/query/sensor/cowhouse", handlers.QueryPastureCowHouseData)
+		pop.GET("/query/sensor/basicenvironment", handlers.QueryPastureBasicEnvironmentData)
+		pop.GET("/query/sensor/paddingrequire", handlers.QueryPasturePaddingRequireData)
+		pop.GET("/query/sensor/wastedwaterindex", handlers.QueryPastureWastedWaterIndexData)
+		pop.GET("/query/sensor/disinfectionrecord", handlers.QueryPastureDisinfectionRecordData)
 	}
 
 	//slaughteroperator router group

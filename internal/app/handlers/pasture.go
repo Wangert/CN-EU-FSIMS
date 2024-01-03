@@ -9,6 +9,369 @@ import (
 	"net/http"
 )
 
+func QueryPastureBufferData(c *gin.Context) {
+	var r request.ReqPastureSensorData
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture buffer data records!")
+		return
+	}
+
+	infos, count, err := service.QueryPastureBuffer(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture buffer data records!")
+		return
+	}
+
+	res := response.ResPastureBufferRecords{
+		Count:                count,
+		PastureBufferRecords: infos,
+	}
+
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func QueryPastureAreaData(c *gin.Context) {
+	var r request.ReqPastureSensorData
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture area data records!")
+		return
+	}
+
+	infos, count, err := service.QueryPastureArea(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture area data records!")
+		return
+	}
+
+	res := response.ResPastureAreaRecords{
+		Count:              count,
+		PastureAreaRecords: infos,
+	}
+
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func QueryPastureCowHouseData(c *gin.Context) {
+	var r request.ReqPastureSensorData
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture cow house records!")
+		return
+	}
+
+	infos, count, err := service.QueryPastureCowHouse(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture cow house records!")
+		return
+	}
+
+	res := response.ResPastureCowHouseRecords{
+		Count:                  count,
+		PastureCowHouseRecords: infos,
+	}
+
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func QueryPastureBasicEnvironmentData(c *gin.Context) {
+	var r request.ReqPastureSensorData
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture basic environment records!")
+		return
+	}
+
+	infos, count, err := service.QueryPastureBasicEnvironment(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture basic environment records!")
+		return
+	}
+
+	res := response.ResPastureBasicEnvironmentRecords{
+		Count:                          count,
+		PastureBasicEnvironmentRecords: infos,
+	}
+
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func QueryPasturePaddingRequireData(c *gin.Context) {
+	var r request.ReqPastureSensorData
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture wasted water index records!")
+		return
+	}
+
+	infos, count, err := service.QueryPasturePaddingRequire(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture wasted water index records!")
+		return
+	}
+
+	res := response.ResPasturePaddingRequireRecords{
+		Count:                        count,
+		PasturePaddingRequireRecords: infos,
+	}
+
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func QueryPastureWastedWaterIndexData(c *gin.Context) {
+	var r request.ReqPastureSensorData
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture wasted water index records!")
+		return
+	}
+
+	infos, count, err := service.QueryPastureWastedWaterIndex(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture wasted water index records!")
+		return
+	}
+
+	res := response.ResPastureWastedWaterIndexRecords{
+		Count:                          count,
+		PastureWastedWaterIndexRecords: infos,
+	}
+
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func QueryPastureDisinfectionRecordData(c *gin.Context) {
+	var r request.ReqPastureSensorData
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture disinfection records!")
+		return
+	}
+
+	infos, count, err := service.QueryPastureDisinfectionRecord(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture disinfection records!")
+		return
+	}
+
+	res := response.ResPastureDisinfectionRecords{
+		Count:                      count,
+		PastureDisinfectionRecords: infos,
+	}
+
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func QueryPastureWaterRecordData(c *gin.Context) {
+	var r request.ReqPastureSensorData
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture water records!")
+		return
+	}
+
+	infos, count, err := service.QueryPastureWaterRecord(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture water records!")
+		return
+	}
+
+	res := response.ResPastureWaterRecords{
+		Count:               count,
+		PastureWaterRecords: infos,
+	}
+
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func QueryPastureFeedMycotoxinsData(c *gin.Context) {
+	var r request.ReqPastureSensorData
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture feed mico toxins error!")
+		return
+	}
+
+	infos, count, err := service.QueryPastureFeedMycotoxins(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture feed mico toxins error!")
+		return
+	}
+
+	res := response.ResFeedMycotoxinsRecords{
+		Count:                 count,
+		FeedMycotoxinsRecords: infos,
+	}
+
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func QueryFeedHeavyMetalData(c *gin.Context) {
+	var r request.ReqPastureSensorData
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture feed heavy metal data parameters error!")
+		return
+	}
+
+	infos, count, err := service.QueryPastureFeedHeavyMetal(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture feed heavy metal data error!")
+		return
+	}
+
+	res := response.ResFeedHeavyMetalRecords{
+		Count:                 count,
+		FeedHeavyMetalRecords: infos,
+	}
+
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func UploadPastureBuffer(c *gin.Context) {
+	var r request.ReqAddPastureBuffer
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		glog.Errorln("add pasture buffer  params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "add pasture pasture buffer params error!")
+		return
+	}
+	err := service.UploadPastureBuffer(&r)
+	if err != nil {
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, "add pasture basic environment successful!")
+	return
+}
+
+func UploadPastureArea(c *gin.Context) {
+	var r request.ReqAddPastureArea
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		glog.Errorln("add pasture area  params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "add pasture pasture area params error!")
+		return
+	}
+	err := service.UploadPastureArea(&r)
+	if err != nil {
+		return
+	}
+	response.MakeSuccess(c, http.StatusOK, "add pasture basic environment successful!")
+	return
+}
+
+func UploadPastureCowHouse(c *gin.Context) {
+	var r request.ReqAddCowHouse
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		glog.Errorln("add pasture cow house  params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "add cow house params error!")
+		return
+	}
+
+	err := service.UploadCowHouse(&r)
+	if err != nil {
+		return
+	}
+	response.MakeSuccess(c, http.StatusOK, "add cow house successful!")
+	return
+}
+
+func UploadPastureBasicEnvironment(c *gin.Context) {
+	var r request.ReqAddPastureBasicEnvironment
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		glog.Errorln("add pasture basic environment  params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "add pasture pasture basic environment params error!")
+		return
+	}
+	err := service.UploadPastureBasicEnvironment(&r)
+	if err != nil {
+		return
+	}
+	response.MakeSuccess(c, http.StatusOK, "add pasture basic environment successful!")
+	return
+}
+
+func UploadPasturePaddingRequire(c *gin.Context) {
+	var r request.ReqAddPasturePaddingRequire
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		glog.Errorln("add pasture wasted water record params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "add pasture wasted water record params error!")
+		return
+	}
+
+	err := service.UploadPasturePaddingRequire(&r)
+	if err != nil {
+		return
+	}
+	response.MakeSuccess(c, http.StatusOK, "add pasture padding require record successful!")
+	return
+}
+
+func UploadPastureWastedWaterIndex(c *gin.Context) {
+	var r request.ReqAddPastureWastedWaterIndex
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		glog.Errorln("add pasture wasted water record params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "add pasture wasted water record params error!")
+		return
+	}
+
+	err := service.UploadPastureWastedWaterIndex(&r)
+	if err != nil {
+		return
+	}
+	response.MakeSuccess(c, http.StatusOK, "add pasture wasted water record successful!")
+	return
+}
+
+func UploadPastureDisinfectionRecord(c *gin.Context) {
+	var r request.ReqAddPastureDisinfectionRecord
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		glog.Errorln("add pasture disinfection record params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "add pasture disinfection record params error!")
+		return
+	}
+
+	err := service.UploadPastureDisinfectionRecord(&r)
+	if err != nil {
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, "add pasture disinfection record successful!")
+	return
+}
+
+func UploadPastureWaterRecord(c *gin.Context) {
+	var r request.ReqAddPastureWaterRecord
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		glog.Errorln("add pasture water record params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "add pasture water record params error!")
+		return
+	}
+
+	err := service.UploadPastureWaterRecord(&r)
+	if err != nil {
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, "add pasture water record successful!")
+	return
+}
+func UploadPastureFeedMycotoxins(c *gin.Context) {
+	var r request.ReqAddPastureFeedCass
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		glog.Errorln("add pasture feed micro and toxins params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "add pasture feed micro and toxins params error!")
+		return
+	}
+	err := service.UploadPastureFeedMycotoxins(&r)
+	if err != nil {
+		return
+	}
+
+	//err = service
+	response.MakeSuccess(c, http.StatusOK, "add pasture feed micro and toxins successful!")
+	return
+}
 func AddPastureFeedHeavyMetal(c *gin.Context) {
 	var r request.ReqAddPastureFeedHeavyMetal
 	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
@@ -17,6 +380,11 @@ func AddPastureFeedHeavyMetal(c *gin.Context) {
 		return
 	}
 
+	err := service.AddPastureFeedHeavyMetal(&r)
+	if err != nil {
+		return
+	}
+	//err = service
 	response.MakeSuccess(c, http.StatusOK, "add pasture feed heavy metal successful!")
 	return
 }
