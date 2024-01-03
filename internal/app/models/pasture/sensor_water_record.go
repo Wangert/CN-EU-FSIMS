@@ -17,7 +17,7 @@ type PastureWaterRecord struct {
 type PastureOapGci struct {
 	//感官性状和一般化学指标
 	gorm.Model
-	PastureWaterRecordID uint    `json:"pasture_water_record_id"`
+	PastureWaterRecordID *uint   `json:"pasture_water_record_id"`
 	OapGci1              float64 `json:"oap_gci_1"`  //浑浊度
 	OapGci2              float64 `json:"oap_gci_2"`  //总硬度（以CaCO3)计
 	OapGci3              float64 `json:"oap_gci_3"`  //PH值
@@ -33,7 +33,7 @@ type PastureOapGci struct {
 type PastureToxIndex struct {
 	//毒理性指标
 	gorm.Model
-	PastureWaterRecordID uint    `json:"pasture_water_record_id"`
+	PastureWaterRecordID *uint   `json:"pasture_water_record_id"`
 	ToxIndex1            float64 `json:"tox_index_1"`  //氰化物
 	ToxIndex2            float64 `json:"tox_index_2"`  //总砷
 	ToxIndex3            float64 `json:"tox_index_3"`  //总汞
@@ -61,7 +61,7 @@ type PastureToxIndex struct {
 type PastureMicroIndex struct {
 	//微生物指标
 	gorm.Model
-	PastureWaterRecordID uint    `json:"pasture_water_record_id"`
+	PastureWaterRecordID *uint   `json:"pasture_water_record_id"`
 	MicroIndex1          float64 `json:"micro_index_1"` //总大肠菌群
 	MicroIndex2          float64 `json:"micro_index_2"` //粪大肠菌群
 	MicroIndex3          float64 `json:"micro_index_3"` //菌落总数

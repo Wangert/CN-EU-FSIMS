@@ -4,15 +4,161 @@ import (
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/handlers/response"
 	"CN-EU-FSIMS/internal/service"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
 	"net/http"
 )
 
+func UploadPastureBuffer(c *gin.Context) {
+	var r request.ReqAddPastureBuffer
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		glog.Errorln("add pasture buffer  params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "add pasture pasture buffer params error!")
+		return
+	}
+	err := service.UploadPastureBuffer(&r)
+	if err != nil {
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, "add pasture basic environment successful!")
+	return
+}
+
+func UploadPastureArea(c *gin.Context) {
+	var r request.ReqAddPastureArea
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		glog.Errorln("add pasture area  params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "add pasture pasture area params error!")
+		return
+	}
+	err := service.UploadPastureArea(&r)
+	if err != nil {
+		return
+	}
+	response.MakeSuccess(c, http.StatusOK, "add pasture basic environment successful!")
+	return
+}
+
+func UploadPastureCowHouse(c *gin.Context) {
+	return
+}
+
+func UploadPastureBasicEnvironment(c *gin.Context) {
+	var r request.ReqAddPastureBasicEnvironment
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		glog.Errorln("add pasture basic environment  params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "add pasture pasture basic environment params error!")
+		return
+	}
+	err := service.UploadPastureBasicEnvironment(&r)
+	if err != nil {
+		return
+	}
+	response.MakeSuccess(c, http.StatusOK, "add pasture basic environment successful!")
+	return
+}
+
+func UploadPasturePaddingRequire(c *gin.Context) {
+	var r request.ReqAddPasturePaddingRequire
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		glog.Errorln("add pasture wasted water record params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "add pasture wasted water record params error!")
+		return
+	}
+
+	err := service.UploadPasturePaddingRequire(&r)
+	if err != nil {
+		return
+	}
+	response.MakeSuccess(c, http.StatusOK, "add pasture padding require record successful!")
+	return
+}
+
+func UploadPastureWastedWaterIndex(c *gin.Context) {
+	var r request.ReqAddPastureWastedWaterIndex
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		glog.Errorln("add pasture wasted water record params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "add pasture wasted water record params error!")
+		return
+	}
+
+	err := service.UploadPastureWastedWaterIndex(&r)
+	if err != nil {
+		return
+	}
+	response.MakeSuccess(c, http.StatusOK, "add pasture wasted water record successful!")
+	return
+}
+
+func UploadCowHouse(c *gin.Context) {
+	var r request.ReqAddCowHouse
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		glog.Errorln("add pasture cow house params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "add cow house params error!")
+		return
+	}
+
+	err := service.UploadCowHouse(&r)
+	if err != nil {
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, "add cow house record successful!")
+	return
+}
+
+func UploadPastureDisinfectionRecord(c *gin.Context) {
+	var r request.ReqAddPastureDisinfectionRecord
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		glog.Errorln("add pasture disinfection record params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "add pasture disinfection record params error!")
+		return
+	}
+
+	err := service.UploadPastureDisinfectionRecord(&r)
+	if err != nil {
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, "add pasture disinfection record successful!")
+	return
+}
+
+func UploadPastureWaterRecord(c *gin.Context) {
+	var r request.ReqAddPastureWaterRecord
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		glog.Errorln("add pasture water record params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "add pasture water record params error!")
+		return
+	}
+
+	err := service.UploadPastureWaterRecord(&r)
+	if err != nil {
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, "add pasture water record successful!")
+	return
+}
+func UploadPastureFeedMycotoxins(c *gin.Context) {
+	var r request.ReqAddPastureFeedCass
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		glog.Errorln("add pasture feed micro and toxins params error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "add pasture feed micro and toxins params error!")
+		return
+	}
+	err := service.UploadPastureFeedMycotoxins(&r)
+	if err != nil {
+		return
+	}
+
+	//err = service
+	response.MakeSuccess(c, http.StatusOK, "add pasture feed micro and toxins successful!")
+	return
+}
 func AddPastureFeedHeavyMetal(c *gin.Context) {
 	var r request.ReqAddPastureFeedHeavyMetal
-	fmt.Println(r.HouseNumber)
 	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
 		glog.Errorln("add pasture feed heavy metal params error!")
 		response.MakeFail(c, http.StatusNotAcceptable, "add pasture feed heavy metal params error!")

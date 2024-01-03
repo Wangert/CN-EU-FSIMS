@@ -18,7 +18,7 @@ type PastureFeedMycotoxins struct {
 
 type Afb1 struct {
 	gorm.Model
-	PastureFeedMycotoxinsID uint    `json:"pasture_feed_mycotoxins_id"`
+	PastureFeedMycotoxinsID *uint   `json:"pasture_feed_mycotoxins_id"`
 	Afb11                   float64 `json:"afb_11"` //玉米加工产品、花生饼(粕)
 	Afb12                   float64 `json:"afb_12"` //植物油脂(玉米油花生油除外)
 	Afb13                   float64 `json:"afb_13"` //玉米油 、花生油
@@ -30,7 +30,7 @@ type Afb1 struct {
 
 type Don struct {
 	gorm.Model
-	PastureFeedMycotoxinsID uint    `json:"pasture_feed_mycotoxins_id"`
+	PastureFeedMycotoxinsID *uint   `json:"pasture_feed_mycotoxins_id"`
 	Don1                    float64 `json:"don_1"` //玉米及其加工产品 (玉米皮、喷浆玉米皮、玉米浆干粉除外)
 	Don2                    float64 `json:"don_2"` //玉米皮、喷浆玉米皮.玉米浆干粉、玉米酒糟
 	Don3                    float64 `json:"don_3"` //其他植物性饲料原料
@@ -39,7 +39,7 @@ type Don struct {
 
 type T2toxin struct {
 	gorm.Model
-	PastureFeedMycotoxinsID uint    `json:"pasture_feed_mycotoxins_id"`
+	PastureFeedMycotoxinsID *uint   `json:"pasture_feed_mycotoxins_id"`
 	T2toxin1                float64 `json:"t_2_toxin_1"` //植物性饲料原料
 	T2toxin2                float64 `json:"t_2_toxin_2"` //其他精料补充料
 	T2toxin3                float64 `json:"t_2_toxin_3"` //其他配合饲料
@@ -47,7 +47,7 @@ type T2toxin struct {
 
 type T2VomZea struct {
 	gorm.Model
-	PastureFeedMycotoxinsID uint    `json:"pasture_feed_mycotoxins_id"`
+	PastureFeedMycotoxinsID *uint   `json:"pasture_feed_mycotoxins_id"`
 	T2AVomZea1              float64 `json:"t_2_a_vom_zea_1"` //Zea 配合饲料
 	T2AVomZea2              float64 `json:"t_2_a_vom_zea_2"` //Vom 其他反刍动物精料补充料
 	T2AVomZea3              float64 `json:"t_2_a_vom_zea_3"` //T2	植物性饲料原料

@@ -102,6 +102,16 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 
 		//上传传感器数据
 		pop.POST("addfeedheavymetal", handlers.AddPastureFeedHeavyMetal)
+		pop.POST("addfeedmycotoxins", handlers.UploadPastureFeedMycotoxins)
+		pop.POST("addpasturewaterrecord", handlers.UploadPastureWaterRecord)
+		pop.POST("addpasturebuffer", handlers.UploadPastureBuffer)
+		pop.POST("addpasturearea", handlers.UploadPastureArea)
+		pop.POST("addpasturecowhouse", handlers.UploadPastureCowHouse)
+		pop.POST("addpasturebasicenvironment", handlers.UploadPastureBasicEnvironment)
+		pop.POST("addpasturepaddingrequire", handlers.UploadPasturePaddingRequire)
+		pop.POST("addpasturewastedwaterindex", handlers.UploadPastureWastedWaterIndex)
+		pop.POST("addpasturedisinfectionrecord", handlers.UploadPastureDisinfectionRecord)
+		pop.POST("addpasturecowhouse", handlers.UploadCowHouse)
 	}
 
 	//slaughteroperator router group

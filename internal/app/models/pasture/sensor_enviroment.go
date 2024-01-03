@@ -5,19 +5,6 @@ import (
 	"time"
 )
 
-//type FarmEnvironment struct {
-//	//农场环境
-//	gorm.Model
-//	TimeRecordAt     string           `json:"time_record_at"` //记录时间
-//	HouseNumber      string           `gorm:"not null; type:varchar(256)" json:"houseNumber"`
-//	Buffer           Buffer           `gorm:"foreignKey:FarmEnvironmentID; references:ID" json:"buffer"`             //缓冲区环境
-//	CattleFarm       CattleFarm       `gorm:"foreignKey:FarmEnvironmentID; references:ID" json:"cattle_farm"`        //场区环境
-//	Environment      Environment      `gorm:"foreignKey:FarmEnvironmentID; references:ID" json:"environment"`        //光照等因素
-//	PaddingRequire   PaddingRequire   `gorm:"foreignKey:FarmEnvironmentID; references:ID" json:"padding_require"`    //牧场垫料要求
-//	WastedWaterIndex WastedWaterIndex `gorm:"foreignKey:FarmEnvironmentID; references:ID" json:"wasted_water_index"` //废水相关指标
-//	FarmDisRecord    FarmDisRecord    `gorm:"foreignKey:FarmEnvironmentID; references:ID" json:"farm_dis_record"`    //牧场消毒记录
-//}
-
 type PastureBuffer struct {
 	//缓冲区各参数
 	gorm.Model
@@ -59,6 +46,23 @@ type PastureArea struct {
 type CowHouse struct {
 	//牛舍
 	gorm.Model
+	TimeRecordAt time.Time `json:"time_record_at"`
+	HouseNumber  string    `gorm:"not null; type:varchar(256)" json:"house_number"`
+	CowHouse1    float32   `json:"cow_house_1"`  //NH3氨气
+	CowHouse2    float32   `json:"cow_house_2"`  //H2S硫化氢
+	CowHouse3    float32   `json:"cow_house_3"`  //CO2二氧化碳
+	CowHouse4    float32   `json:"cow_house_4"`  //PM10
+	CowHouse5    float32   `json:"cow_house_5"`  //TSP
+	CowHouse6    float32   `json:"cow_house_6"`  //ODO 恶臭
+	CowHouse7    float32   `json:"cow_house_7"`  //Cd(镉)
+	CowHouse8    float32   `json:"cow_house_8"`  //As（砷）
+	CowHouse9    float32   `json:"cow_house_9"`  //Cu（铜）
+	CowHouse10   float32   `json:"cow_house_10"` //Pb（铅）
+	CowHouse11   float32   `json:"cow_house_11"` //Cr(铬)
+	CowHouse12   float32   `json:"cow_house_12"` //Zn(锌）
+}
+
+type CowHouseInfo struct {
 	TimeRecordAt time.Time `json:"time_record_at"`
 	HouseNumber  string    `gorm:"not null; type:varchar(256)" json:"house_number"`
 	CowHouse1    float32   `json:"cow_house_1"`  //NH3氨气
