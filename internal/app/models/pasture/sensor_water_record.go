@@ -68,12 +68,11 @@ type PastureMicroIndex struct {
 }
 
 type PastureWaterRecordInfo struct {
-	gorm.Model
-	TimeRecordAt time.Time         `json:"time_record_at"`
-	HouseNumber  string            `json:"house_number"` //时间记录
-	OapGci       PastureOapGci     `json:"oap_gci"`      //感官性状和一般化学指标
-	ToxIndex     PastureToxIndex   `json:"tox_index"`    //毒理性指标
-	MicroIndex   PastureMicroIndex `json:"micro_index"`  //微生物指标
+	TimeRecordAt time.Time             `json:"time_record_at"`
+	HouseNumber  string                `json:"house_number"` //时间记录
+	OapGci       PastureOapGciInfo     `json:"oap_gci"`      //感官性状和一般化学指标
+	ToxIndex     PastureToxIndexInfo   `json:"tox_index"`    //毒理性指标
+	MicroIndex   PastureMicroIndexInfo `json:"micro_index"`  //微生物指标
 }
 
 type PastureOapGciInfo struct {
@@ -88,6 +87,21 @@ type PastureOapGciInfo struct {
 	OapGci8  float64 `json:"oap_gci_8"`  //六六六
 	OapGci9  float64 `json:"oap_gci_9"`  //滴滴涕
 	OapGci10 float64 `json:"oap_gci_10"` //氨氮
+}
+
+func ToPastureOapGciInfo(ogi *PastureOapGci) PastureOapGciInfo {
+	return PastureOapGciInfo{
+		OapGci1:  ogi.OapGci1,
+		OapGci2:  ogi.OapGci2,
+		OapGci3:  ogi.OapGci3,
+		OapGci4:  ogi.OapGci4,
+		OapGci5:  ogi.OapGci5,
+		OapGci6:  ogi.OapGci6,
+		OapGci7:  ogi.OapGci7,
+		OapGci8:  ogi.OapGci8,
+		OapGci9:  ogi.OapGci9,
+		OapGci10: ogi.OapGci10,
+	}
 }
 
 type PastureToxIndexInfo struct {
@@ -116,9 +130,54 @@ type PastureToxIndexInfo struct {
 	ToxIndex22 float64 `json:"tox_index_22"` //化学耗氧量
 }
 
+func ToPastureToxIndexInfo(tii *PastureToxIndex) PastureToxIndexInfo {
+	return PastureToxIndexInfo{
+		ToxIndex1:  tii.ToxIndex1,
+		ToxIndex2:  tii.ToxIndex2,
+		ToxIndex3:  tii.ToxIndex3,
+		ToxIndex4:  tii.ToxIndex4,
+		ToxIndex5:  tii.ToxIndex5,
+		ToxIndex6:  tii.ToxIndex6,
+		ToxIndex7:  tii.ToxIndex7,
+		ToxIndex8:  tii.ToxIndex8,
+		ToxIndex9:  tii.ToxIndex9,
+		ToxIndex10: tii.ToxIndex10,
+		ToxIndex11: tii.ToxIndex11,
+		ToxIndex12: tii.ToxIndex12,
+		ToxIndex13: tii.ToxIndex13,
+		ToxIndex14: tii.ToxIndex14,
+		ToxIndex15: tii.ToxIndex15,
+		ToxIndex16: tii.ToxIndex16,
+		ToxIndex17: tii.ToxIndex17,
+		ToxIndex18: tii.ToxIndex18,
+		ToxIndex19: tii.ToxIndex19,
+		ToxIndex20: tii.ToxIndex20,
+		ToxIndex21: tii.ToxIndex21,
+		ToxIndex22: tii.ToxIndex22,
+	}
+}
+
 type PastureMicroIndexInfo struct {
 	//微生物指标
 	MicroIndex1 float64 `json:"micro_index_1"` //总大肠菌群
 	MicroIndex2 float64 `json:"micro_index_2"` //粪大肠菌群
 	MicroIndex3 float64 `json:"micro_index_3"` //菌落总数
+}
+
+func ToPastureMicroIndexInfo(mii *PastureMicroIndex) PastureMicroIndexInfo {
+	return PastureMicroIndexInfo{
+		MicroIndex1: mii.MicroIndex1,
+		MicroIndex2: mii.MicroIndex2,
+		MicroIndex3: mii.MicroIndex3,
+	}
+}
+
+func ToPastureWaterRecordInfo(wr *PastureWaterRecord) PastureWaterRecordInfo {
+	return PastureWaterRecordInfo{
+		TimeRecordAt: wr.TimeRecordAt,
+		HouseNumber:  wr.HouseNumber,
+		OapGci:       ToPastureOapGciInfo(&wr.OapGci),
+		ToxIndex:     ToPastureToxIndexInfo(&wr.ToxIndex),
+		MicroIndex:   ToPastureMicroIndexInfo(&wr.MicroIndex),
+	}
 }

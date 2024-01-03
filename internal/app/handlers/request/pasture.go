@@ -155,3 +155,9 @@ type ReqAddPastureDisinfectionRecord struct {
 	FarmDisRecord2 string `json:"farm_dis_record_2"` //消毒剂种类
 	FarmDisRecord3 string `json:"farm_dis_record_3"` //消毒剂浓度
 }
+
+type ReqPastureSensorData struct {
+	HouseNumber    string `json:"house_number"`
+	StartTimestamp int64  `json:"start_timestamp"`
+	EndTimestamp   int64  `json:"end_timestamp"`
+}

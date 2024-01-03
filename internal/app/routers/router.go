@@ -111,7 +111,18 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		pop.POST("addpasturepaddingrequire", handlers.UploadPasturePaddingRequire)
 		pop.POST("addpasturewastedwaterindex", handlers.UploadPastureWastedWaterIndex)
 		pop.POST("addpasturedisinfectionrecord", handlers.UploadPastureDisinfectionRecord)
-		pop.POST("addpasturecowhouse", handlers.UploadCowHouse)
+
+		//查询传感器数据
+		pop.GET("/query/sensor/heavymetal", handlers.QueryFeedHeavyMetalData)
+		pop.GET("/query/sensor/mycotoxins", handlers.QueryPastureFeedMycotoxinsData)
+		pop.GET("/query/sensor/waterrecord", handlers.QueryPastureWaterRecordData)
+		pop.GET("/query/sensor/buffer", handlers.QueryPastureBufferData)
+		pop.GET("/query/sensor/area", handlers.QueryPastureAreaData)
+		pop.GET("/query/sensor/cowhouse", handlers.QueryPastureCowHouseData)
+		pop.GET("/query/sensor/basicenvironment", handlers.QueryPastureBasicEnvironmentData)
+		pop.GET("/query/sensor/paddingrequire", handlers.QueryPasturePaddingRequireData)
+		pop.GET("/query/sensor/wastedwaterindex", handlers.QueryPastureWastedWaterIndexData)
+		pop.GET("/query/sensor/disinfectionrecord", handlers.QueryPastureDisinfectionRecordData)
 	}
 
 	//slaughteroperator router group

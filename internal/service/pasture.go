@@ -7,6 +7,7 @@ import (
 	"CN-EU-FSIMS/internal/app/models/query"
 	"CN-EU-FSIMS/internal/app/models/warehouse"
 	"context"
+	"errors"
 	"github.com/golang/glog"
 	"time"
 )
@@ -31,6 +32,248 @@ const (
 	SENDING_STATE_PH = 2
 	CONFIRM_STATE_PH = 3
 )
+
+func QueryPastureBuffer(r *request.ReqPastureSensorData) ([]pasture.PastureBufferInfo, int64, error) {
+	ok, err := PastureHouseIsExisted(r.HouseNumber)
+	if !ok {
+		return nil, 0, err
+	}
+
+	startTime := time.Unix(r.StartTimestamp, 0).UTC().Local()
+	endTime := time.Unix(r.EndTimestamp, 0).UTC().Local()
+
+	q := query.Q.PastureBuffer
+	results, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(r.HouseNumber)).
+		Where(q.TimeRecordAt.Between(startTime, endTime)).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(results)
+	infos := make([]pasture.PastureBufferInfo, count)
+	for i, result := range results {
+		infos[i] = pasture.ToPastureBufferInfo(result)
+	}
+	return infos, int64(count), nil
+}
+
+func QueryPastureCowHouse(r *request.ReqPastureSensorData) ([]pasture.CowHouseInfo, int64, error) {
+	ok, err := PastureHouseIsExisted(r.HouseNumber)
+	if !ok {
+		return nil, 0, err
+	}
+
+	startTime := time.Unix(r.StartTimestamp, 0).UTC().Local()
+	endTime := time.Unix(r.EndTimestamp, 0).UTC().Local()
+
+	q := query.Q.CowHouse
+	results, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(r.HouseNumber)).
+		Where(q.TimeRecordAt.Between(startTime, endTime)).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(results)
+	infos := make([]pasture.CowHouseInfo, count)
+	for i, result := range results {
+		infos[i] = pasture.ToCowHouseInfo(result)
+	}
+	return infos, int64(count), nil
+}
+
+func QueryPastureArea(r *request.ReqPastureSensorData) ([]pasture.PastureAreaInfo, int64, error) {
+	ok, err := PastureHouseIsExisted(r.HouseNumber)
+	if !ok {
+		return nil, 0, err
+	}
+
+	startTime := time.Unix(r.StartTimestamp, 0).UTC().Local()
+	endTime := time.Unix(r.EndTimestamp, 0).UTC().Local()
+
+	q := query.Q.PastureArea
+	results, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(r.HouseNumber)).
+		Where(q.TimeRecordAt.Between(startTime, endTime)).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(results)
+	infos := make([]pasture.PastureAreaInfo, count)
+	for i, result := range results {
+		infos[i] = pasture.ToPastureAreaInfo(result)
+	}
+	return infos, int64(count), nil
+}
+
+func QueryPastureBasicEnvironment(r *request.ReqPastureSensorData) ([]pasture.PastureBasicEnvironmentInfo, int64, error) {
+	ok, err := PastureHouseIsExisted(r.HouseNumber)
+	if !ok {
+		return nil, 0, err
+	}
+
+	startTime := time.Unix(r.StartTimestamp, 0).UTC().Local()
+	endTime := time.Unix(r.EndTimestamp, 0).UTC().Local()
+
+	q := query.Q.PastureBasicEnvironment
+	results, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(r.HouseNumber)).
+		Where(q.TimeRecordAt.Between(startTime, endTime)).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(results)
+	infos := make([]pasture.PastureBasicEnvironmentInfo, count)
+	for i, result := range results {
+		infos[i] = pasture.ToPastureBasicEnvironmentInfo(result)
+	}
+	return infos, int64(count), nil
+}
+
+func QueryPasturePaddingRequire(r *request.ReqPastureSensorData) ([]pasture.PasturePaddingRequireInfo, int64, error) {
+	ok, err := PastureHouseIsExisted(r.HouseNumber)
+	if !ok {
+		return nil, 0, err
+	}
+
+	startTime := time.Unix(r.StartTimestamp, 0).UTC().Local()
+	endTime := time.Unix(r.EndTimestamp, 0).UTC().Local()
+
+	q := query.Q.PasturePaddingRequire
+	results, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(r.HouseNumber)).
+		Where(q.TimeRecordAt.Between(startTime, endTime)).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(results)
+	infos := make([]pasture.PasturePaddingRequireInfo, count)
+	for i, result := range results {
+		infos[i] = pasture.ToPasturePaddingRequireInfo(result)
+	}
+	return infos, int64(count), nil
+}
+
+func QueryPastureWastedWaterIndex(r *request.ReqPastureSensorData) ([]pasture.PastureWastedWaterIndexInfo, int64, error) {
+	ok, err := PastureHouseIsExisted(r.HouseNumber)
+	if !ok {
+		return nil, 0, err
+	}
+
+	startTime := time.Unix(r.StartTimestamp, 0).UTC().Local()
+	endTime := time.Unix(r.EndTimestamp, 0).UTC().Local()
+
+	q := query.Q.PastureWastedWaterIndex
+	results, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(r.HouseNumber)).
+		Where(q.TimeRecordAt.Between(startTime, endTime)).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(results)
+	infos := make([]pasture.PastureWastedWaterIndexInfo, count)
+	for i, result := range results {
+		infos[i] = pasture.ToPastureWastedWaterIndexInfo(result)
+	}
+	return infos, int64(count), nil
+}
+
+func QueryPastureDisinfectionRecord(r *request.ReqPastureSensorData) ([]pasture.PastureDisinfectionRecordInfo, int64, error) {
+	ok, err := PastureHouseIsExisted(r.HouseNumber)
+	if !ok {
+		return nil, 0, err
+	}
+
+	startTime := time.Unix(r.StartTimestamp, 0).UTC().Local()
+	endTime := time.Unix(r.EndTimestamp, 0).UTC().Local()
+
+	q := query.Q.PastureDisinfectionRecord
+	results, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(r.HouseNumber)).
+		Where(q.TimeRecordAt.Between(startTime, endTime)).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(results)
+	infos := make([]pasture.PastureDisinfectionRecordInfo, count)
+	for i, result := range results {
+		infos[i] = pasture.ToPastureDisinfectionRecordInfo(result)
+	}
+	return infos, int64(count), nil
+}
+
+func QueryPastureFeedHeavyMetal(r *request.ReqPastureSensorData) ([]pasture.PastureFeedHeavyMetalInfo, int64, error) {
+	ok, err := PastureHouseIsExisted(r.HouseNumber)
+	if !ok {
+		return nil, 0, err
+	}
+
+	startTime := time.Unix(r.StartTimestamp, 0).UTC().Local()
+	endTime := time.Unix(r.EndTimestamp, 0).UTC().Local()
+
+	q := query.Q.PastureFeedHeavyMetal
+	results, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(r.HouseNumber)).
+		Where(q.TimeRecordAt.Between(startTime, endTime)).Preload(q.PastureFeedAs).
+		Preload(q.PastureFeedPb).Preload(q.PastureFeedCr).Preload(q.PastureFeedCd).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(results)
+	infos := make([]pasture.PastureFeedHeavyMetalInfo, count)
+	for i, result := range results {
+		infos[i] = pasture.ToPastureFeedHeavyMetalInfo(result)
+	}
+	return infos, int64(count), nil
+}
+
+func QueryPastureFeedMycotoxins(r *request.ReqPastureSensorData) ([]pasture.PastureFeedMycotoxinsInfo, int64, error) {
+	ok, err := PastureHouseIsExisted(r.HouseNumber)
+	if !ok {
+		return nil, 0, err
+	}
+
+	startTime := time.Unix(r.StartTimestamp, 0).UTC().Local()
+	endTime := time.Unix(r.EndTimestamp, 0).UTC().Local()
+
+	q := query.Q.PastureFeedMycotoxins
+	results, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(r.HouseNumber)).
+		Where(q.TimeRecordAt.Between(startTime, endTime)).Preload(q.Don).Preload(q.Afb1).Preload(q.T2VomZea).
+		Preload(q.T2toxin).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(results)
+	infos := make([]pasture.PastureFeedMycotoxinsInfo, count)
+	for i, result := range results {
+		infos[i] = pasture.ToPastureFeedMycotoxinsInfo(result)
+	}
+	return infos, int64(count), nil
+}
+
+func QueryPastureWaterRecord(r *request.ReqPastureSensorData) ([]pasture.PastureWaterRecordInfo, int64, error) {
+	ok, err := PastureHouseIsExisted(r.HouseNumber)
+	if !ok {
+		return nil, 0, err
+	}
+
+	startTime := time.Unix(r.StartTimestamp, 0).UTC().Local()
+	endTime := time.Unix(r.EndTimestamp, 0).UTC().Local()
+
+	q := query.Q.PastureWaterRecord
+	results, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(r.HouseNumber)).
+		Where(q.TimeRecordAt.Between(startTime, endTime)).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(results)
+	infos := make([]pasture.PastureWaterRecordInfo, count)
+	for i, result := range results {
+		infos[i] = pasture.ToPastureWaterRecordInfo(result)
+	}
+	return infos, int64(count), nil
+}
 
 func UploadPastureBuffer(r *request.ReqAddPastureBuffer) error {
 	var err error
@@ -818,7 +1061,16 @@ func createPastureProcedure(pasPID string) pasture.PastureProcedure {
 	return pastureProcedure
 }
 
-// UploadHeavyMetal sensor data
-func UploadHeavyMetal(HouseNumber string) error {
-	return nil
+func PastureHouseIsExisted(number string) (bool, error) {
+	q := query.Q.PastureHouse
+	pas, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(number)).Find()
+	if err != nil {
+		return false, err
+	}
+
+	if len(pas) == 0 {
+		return false, errors.New("pastur house is not existed")
+	}
+
+	return true, nil
 }
