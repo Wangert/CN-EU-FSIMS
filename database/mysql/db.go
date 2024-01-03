@@ -88,9 +88,9 @@ func AutoMigrate() {
 
 	//传感器数据
 	err = DB.AutoMigrate(&pasture.PastureFeedMycotoxins{}, &pasture.Afb1{}, &pasture.Don{}, &pasture.T2toxin{}, &pasture.T2VomZea{},
-		&pasture.PastureBuffer{}, &pasture.PastureArea{}, &pasture.CowHouse{}, &pasture.PastureBasicEnvironment{}, &pasture.PasturePaddingRequire{}, &pasture.PastureWastedWaterIndex{},
+		&pasture.PastureBuffer{}, &pasture.PastureArea{}, &pasture.PastureBasicEnvironment{}, &pasture.PasturePaddingRequire{}, &pasture.PastureWastedWaterIndex{},
 		&pasture.PastureDisinfectionRecord{}, &pasture.PastureFeedHeavyMetal{}, &pasture.PastureFeedAs{}, &pasture.PastureFeedPb{}, &pasture.PastureFeedCd{}, &pasture.PastureFeedCr{},
-		&pasture.PastureWaterRecord{}, &pasture.PastureOapGci{}, &pasture.PastureToxIndex{}, &pasture.PastureMicroIndex{},
+		&pasture.PastureWaterRecord{}, &pasture.PastureOapGci{}, &pasture.PastureToxIndex{}, &pasture.PastureMicroIndex{}, &pasture.CowHouse{},
 		&premortem.WaitingSlaughterCircle{}, &premortem.Gps{}, &premortem.WaitingSlaughterCircleGerms{},
 		&slaughter.PreCoolShop{}, &slaughter.SlaShop{}, &slaughter.DivShop{}, &slaughter.AcidShop{}, &slaughter.FroShop{}, &slaughter.PackShop{}, &slaughter.StaUni{}, &slaughter.SlaEnvLigRec{}, &slaughter.SlaughterWaterQualityMon{},
 		&slaughter.SlaughterWaterMicroIndex{}, &slaughter.OapGciSla{}, &slaughter.MicroIndexWaterMonSla{}, &slaughter.SlaughterToxinIndex{}, &slaughter.SlaughterWaterToxinIndex{},

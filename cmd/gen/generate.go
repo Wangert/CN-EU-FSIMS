@@ -50,10 +50,10 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 
 	// 牧场传感器数据
 	g.ApplyBasic(&pasture.PastureFeedMycotoxins{}, &pasture.Afb1{}, &pasture.Don{}, &pasture.T2toxin{}, &pasture.T2VomZea{},
-		&pasture.PastureBuffer{}, &pasture.PastureArea{}, &pasture.CowHouse{}, &pasture.PastureBasicEnvironment{}, &pasture.PasturePaddingRequire{},
+		&pasture.PastureBuffer{}, &pasture.PastureArea{}, &pasture.PastureBasicEnvironment{}, &pasture.PasturePaddingRequire{},
 		&pasture.PastureFeedHeavyMetal{}, &pasture.PastureFeedAs{}, &pasture.PastureFeedPb{}, &pasture.PastureFeedCd{}, &pasture.PastureFeedCr{},
 		&pasture.PastureWastedWaterIndex{}, &pasture.PastureDisinfectionRecord{}, &pasture.PastureWaterRecord{}, &pasture.PastureOapGci{},
-		&pasture.PastureToxIndex{}, &pasture.PastureMicroIndex{})
+		&pasture.PastureToxIndex{}, &pasture.PastureMicroIndex{}, &pasture.CowHouse{})
 
 	//宰前传感器数据
 	g.ApplyBasic(&premortem.WaitingSlaughterCircle{}, &premortem.Gps{}, &premortem.WaitingSlaughterCircleGerms{})
