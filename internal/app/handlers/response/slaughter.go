@@ -25,3 +25,33 @@ type ResEndSlaughter struct {
 	ProductsNum []string `json:"products_num"`
 	Count       int64    `json:"count"`
 }
+
+type ResPreCoolShopData struct {
+	ShopInfos []slaughter.PreCoolShopInfo `json:"shop_infos"`
+	Count     int64                       `json:"count"`
+}
+
+type ResSlaughterShopData struct {
+	ShopInfos []slaughter.SlaShopInfo `json:"shop_infos"`
+	Count     int64                   `json:"count"`
+}
+
+type ResDivisionShopData struct {
+	ShopInfos []slaughter.DivShopInfo `json:"shop_infos"`
+	Count     int64                   `json:"count"`
+}
+
+type ResAcidShopData struct {
+	ShopInfos []slaughter.AcidShopInfo `json:"shop_infos"`
+	Count     int64                    `json:"count"`
+}
+
+type ResFrozenShopData struct {
+	ShopInfos []slaughter.FroShopInfo `json:"shop_infos"`
+	Count     int64                   `json:"count"`
+}
+
+type ResSlaughterWaterQualityData struct {
+	Infos []slaughter.SlaughterWaterQualityMonInfo `json:"infos"`
+	Count int64                                    `json:"count"`
+}

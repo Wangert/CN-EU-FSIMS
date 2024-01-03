@@ -128,6 +128,24 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		sop.POST("newproduct", handlers.NewSlaughterProduct)
 		sop.POST("endbatch", handlers.EndSlaughter)
 		sop.POST("send", handlers.SendToPackage)
+
+		sop.POST("/upload/sensor/precoolshop", handlers.UploadPreCoolShopData)
+		sop.POST("/upload/sensor/slashop", handlers.UploadSlaughterShopData)
+		sop.POST("/upload/sensor/divshop", handlers.UploadDivisionShopData)
+		sop.POST("/upload/sensor/acidshop", handlers.UploadAcidShopData)
+		sop.POST("/upload/sensor/frozenshop", handlers.UploadFrozenShopData)
+
+		sop.GET("/query/sensor/precoolshop", handlers.QueryPreCoolShopData)
+		sop.GET("/query/sensor/slashop", handlers.QuerySlaughterShopData)
+		sop.GET("/query/sensor/divshop", handlers.QueryDivisionShopData)
+		sop.GET("/query/sensor/acidshop", handlers.QueryAcidShopData)
+		sop.GET("/query/sensor/frozenshop", handlers.QueryFrozenShopData)
+
+		sop.POST("/upload/sensor/waterquality", handlers.UploadSlaughterWaterQualityData)
+		sop.GET("/query/sensor/waterquality", handlers.QuerySlaughterWaterQualityData)
+
+		//sop.POST("/upload/staffuniform", handlers.UploadStaffUniformData)
+		//sop.POST("/upload/disinfect", handlers.UploadSlaughterDisinfectRecord)
 	}
 
 	//packoperator router group

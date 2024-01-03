@@ -104,7 +104,7 @@ func newSlaughterHouse(db *gorm.DB, opts ...gen.DOOption) slaughterHouse {
 	_slaughterHouse.SlaEnvLigRecords = slaughterHouseHasManySlaEnvLigRecords{
 		db: db.Session(&gorm.Session{}),
 
-		RelationField: field.NewRelation("SlaEnvLigRecords", "slaughter.SlaEnvLigRec"),
+		RelationField: field.NewRelation("SlaEnvLigRecords", "slaughter.SlaughterLightRecord"),
 	}
 
 	_slaughterHouse.SlaughterWaterQualityMonRecords = slaughterHouseHasManySlaughterWaterQualityMonRecords{
@@ -1007,11 +1007,11 @@ func (a slaughterHouseHasManySlaEnvLigRecords) Model(m *slaughter.SlaughterHouse
 
 type slaughterHouseHasManySlaEnvLigRecordsTx struct{ tx *gorm.Association }
 
-func (a slaughterHouseHasManySlaEnvLigRecordsTx) Find() (result []*slaughter.SlaEnvLigRec, err error) {
+func (a slaughterHouseHasManySlaEnvLigRecordsTx) Find() (result []*slaughter.SlaughterLightRecord, err error) {
 	return result, a.tx.Find(&result)
 }
 
-func (a slaughterHouseHasManySlaEnvLigRecordsTx) Append(values ...*slaughter.SlaEnvLigRec) (err error) {
+func (a slaughterHouseHasManySlaEnvLigRecordsTx) Append(values ...*slaughter.SlaughterLightRecord) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -1019,7 +1019,7 @@ func (a slaughterHouseHasManySlaEnvLigRecordsTx) Append(values ...*slaughter.Sla
 	return a.tx.Append(targetValues...)
 }
 
-func (a slaughterHouseHasManySlaEnvLigRecordsTx) Replace(values ...*slaughter.SlaEnvLigRec) (err error) {
+func (a slaughterHouseHasManySlaEnvLigRecordsTx) Replace(values ...*slaughter.SlaughterLightRecord) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v
@@ -1027,7 +1027,7 @@ func (a slaughterHouseHasManySlaEnvLigRecordsTx) Replace(values ...*slaughter.Sl
 	return a.tx.Replace(targetValues...)
 }
 
-func (a slaughterHouseHasManySlaEnvLigRecordsTx) Delete(values ...*slaughter.SlaEnvLigRec) (err error) {
+func (a slaughterHouseHasManySlaEnvLigRecordsTx) Delete(values ...*slaughter.SlaughterLightRecord) (err error) {
 	targetValues := make([]interface{}, len(values))
 	for i, v := range values {
 		targetValues[i] = v

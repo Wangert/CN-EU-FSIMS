@@ -31,7 +31,6 @@ func newOapGciSla(db *gorm.DB, opts ...gen.DOOption) oapGciSla {
 	_oapGciSla.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_oapGciSla.DeletedAt = field.NewField(tableName, "deleted_at")
 	_oapGciSla.SlaughterWaterQualityMonID = field.NewUint(tableName, "slaughter_water_quality_mon_id")
-	_oapGciSla.TimeRecordAt = field.NewFloat32(tableName, "time_record_at")
 	_oapGciSla.OapGciSla1 = field.NewFloat32(tableName, "oap_gci_sla1")
 	_oapGciSla.OapGciSla2 = field.NewFloat32(tableName, "oap_gci_sla2")
 	_oapGciSla.OapGciSla3 = field.NewFloat32(tableName, "oap_gci_sla3")
@@ -68,7 +67,6 @@ type oapGciSla struct {
 	UpdatedAt                  field.Time
 	DeletedAt                  field.Field
 	SlaughterWaterQualityMonID field.Uint
-	TimeRecordAt               field.Float32
 	OapGciSla1                 field.Float32
 	OapGciSla2                 field.Float32
 	OapGciSla3                 field.Float32
@@ -111,7 +109,6 @@ func (o *oapGciSla) updateTableName(table string) *oapGciSla {
 	o.UpdatedAt = field.NewTime(table, "updated_at")
 	o.DeletedAt = field.NewField(table, "deleted_at")
 	o.SlaughterWaterQualityMonID = field.NewUint(table, "slaughter_water_quality_mon_id")
-	o.TimeRecordAt = field.NewFloat32(table, "time_record_at")
 	o.OapGciSla1 = field.NewFloat32(table, "oap_gci_sla1")
 	o.OapGciSla2 = field.NewFloat32(table, "oap_gci_sla2")
 	o.OapGciSla3 = field.NewFloat32(table, "oap_gci_sla3")
@@ -159,13 +156,12 @@ func (o *oapGciSla) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (o *oapGciSla) fillFieldMap() {
-	o.fieldMap = make(map[string]field.Expr, 27)
+	o.fieldMap = make(map[string]field.Expr, 26)
 	o.fieldMap["id"] = o.ID
 	o.fieldMap["created_at"] = o.CreatedAt
 	o.fieldMap["updated_at"] = o.UpdatedAt
 	o.fieldMap["deleted_at"] = o.DeletedAt
 	o.fieldMap["slaughter_water_quality_mon_id"] = o.SlaughterWaterQualityMonID
-	o.fieldMap["time_record_at"] = o.TimeRecordAt
 	o.fieldMap["oap_gci_sla1"] = o.OapGciSla1
 	o.fieldMap["oap_gci_sla2"] = o.OapGciSla2
 	o.fieldMap["oap_gci_sla3"] = o.OapGciSla3

@@ -26,6 +26,10 @@ func newSlaughterWaterToxinIndex(db *gorm.DB, opts ...gen.DOOption) slaughterWat
 
 	tableName := _slaughterWaterToxinIndex.slaughterWaterToxinIndexDo.TableName()
 	_slaughterWaterToxinIndex.ALL = field.NewAsterisk(tableName)
+	_slaughterWaterToxinIndex.ID = field.NewUint(tableName, "id")
+	_slaughterWaterToxinIndex.CreatedAt = field.NewTime(tableName, "created_at")
+	_slaughterWaterToxinIndex.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_slaughterWaterToxinIndex.DeletedAt = field.NewField(tableName, "deleted_at")
 	_slaughterWaterToxinIndex.SlaughterToxinIndexID = field.NewUint(tableName, "slaughter_toxin_index_id")
 	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex1 = field.NewFloat32(tableName, "slaughter_water_toxin_index1")
 	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex2 = field.NewFloat32(tableName, "slaughter_water_toxin_index2")
@@ -58,6 +62,10 @@ type slaughterWaterToxinIndex struct {
 	slaughterWaterToxinIndexDo slaughterWaterToxinIndexDo
 
 	ALL                        field.Asterisk
+	ID                         field.Uint
+	CreatedAt                  field.Time
+	UpdatedAt                  field.Time
+	DeletedAt                  field.Field
 	SlaughterToxinIndexID      field.Uint
 	SlaughterWaterToxinIndex1  field.Float32
 	SlaughterWaterToxinIndex2  field.Float32
@@ -96,6 +104,10 @@ func (s slaughterWaterToxinIndex) As(alias string) *slaughterWaterToxinIndex {
 
 func (s *slaughterWaterToxinIndex) updateTableName(table string) *slaughterWaterToxinIndex {
 	s.ALL = field.NewAsterisk(table)
+	s.ID = field.NewUint(table, "id")
+	s.CreatedAt = field.NewTime(table, "created_at")
+	s.UpdatedAt = field.NewTime(table, "updated_at")
+	s.DeletedAt = field.NewField(table, "deleted_at")
 	s.SlaughterToxinIndexID = field.NewUint(table, "slaughter_toxin_index_id")
 	s.SlaughterWaterToxinIndex1 = field.NewFloat32(table, "slaughter_water_toxin_index1")
 	s.SlaughterWaterToxinIndex2 = field.NewFloat32(table, "slaughter_water_toxin_index2")
@@ -146,7 +158,11 @@ func (s *slaughterWaterToxinIndex) GetFieldByName(fieldName string) (field.Order
 }
 
 func (s *slaughterWaterToxinIndex) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 22)
+	s.fieldMap = make(map[string]field.Expr, 26)
+	s.fieldMap["id"] = s.ID
+	s.fieldMap["created_at"] = s.CreatedAt
+	s.fieldMap["updated_at"] = s.UpdatedAt
+	s.fieldMap["deleted_at"] = s.DeletedAt
 	s.fieldMap["slaughter_toxin_index_id"] = s.SlaughterToxinIndexID
 	s.fieldMap["slaughter_water_toxin_index1"] = s.SlaughterWaterToxinIndex1
 	s.fieldMap["slaughter_water_toxin_index2"] = s.SlaughterWaterToxinIndex2

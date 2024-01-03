@@ -31,7 +31,7 @@ func newDivShop(db *gorm.DB, opts ...gen.DOOption) divShop {
 	_divShop.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_divShop.DeletedAt = field.NewField(tableName, "deleted_at")
 	_divShop.HouseNumber = field.NewString(tableName, "house_number")
-	_divShop.TimeRecordAt = field.NewFloat32(tableName, "time_record_at")
+	_divShop.TimeRecordAt = field.NewTime(tableName, "time_record_at")
 	_divShop.DivShop1 = field.NewFloat32(tableName, "div_shop1")
 	_divShop.DivShop2 = field.NewFloat32(tableName, "div_shop2")
 	_divShop.DivShop3 = field.NewFloat32(tableName, "div_shop3")
@@ -61,7 +61,7 @@ type divShop struct {
 	UpdatedAt    field.Time
 	DeletedAt    field.Field
 	HouseNumber  field.String
-	TimeRecordAt field.Float32
+	TimeRecordAt field.Time
 	DivShop1     field.Float32
 	DivShop2     field.Float32
 	DivShop3     field.Float32
@@ -97,7 +97,7 @@ func (d *divShop) updateTableName(table string) *divShop {
 	d.UpdatedAt = field.NewTime(table, "updated_at")
 	d.DeletedAt = field.NewField(table, "deleted_at")
 	d.HouseNumber = field.NewString(table, "house_number")
-	d.TimeRecordAt = field.NewFloat32(table, "time_record_at")
+	d.TimeRecordAt = field.NewTime(table, "time_record_at")
 	d.DivShop1 = field.NewFloat32(table, "div_shop1")
 	d.DivShop2 = field.NewFloat32(table, "div_shop2")
 	d.DivShop3 = field.NewFloat32(table, "div_shop3")

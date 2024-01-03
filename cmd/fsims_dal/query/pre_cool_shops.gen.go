@@ -31,7 +31,7 @@ func newPreCoolShop(db *gorm.DB, opts ...gen.DOOption) preCoolShop {
 	_preCoolShop.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_preCoolShop.DeletedAt = field.NewField(tableName, "deleted_at")
 	_preCoolShop.HouseNumber = field.NewString(tableName, "house_number")
-	_preCoolShop.TimeRecordAt = field.NewFloat32(tableName, "time_record_at")
+	_preCoolShop.TimeRecordAt = field.NewTime(tableName, "time_record_at")
 	_preCoolShop.PreCoolShop1 = field.NewFloat32(tableName, "pre_cool_shop1")
 	_preCoolShop.PreCoolShop2 = field.NewFloat32(tableName, "pre_cool_shop2")
 	_preCoolShop.PreCoolShop3 = field.NewFloat32(tableName, "pre_cool_shop3")
@@ -50,7 +50,7 @@ type preCoolShop struct {
 	UpdatedAt    field.Time
 	DeletedAt    field.Field
 	HouseNumber  field.String
-	TimeRecordAt field.Float32
+	TimeRecordAt field.Time
 	PreCoolShop1 field.Float32
 	PreCoolShop2 field.Float32
 	PreCoolShop3 field.Float32
@@ -75,7 +75,7 @@ func (p *preCoolShop) updateTableName(table string) *preCoolShop {
 	p.UpdatedAt = field.NewTime(table, "updated_at")
 	p.DeletedAt = field.NewField(table, "deleted_at")
 	p.HouseNumber = field.NewString(table, "house_number")
-	p.TimeRecordAt = field.NewFloat32(table, "time_record_at")
+	p.TimeRecordAt = field.NewTime(table, "time_record_at")
 	p.PreCoolShop1 = field.NewFloat32(table, "pre_cool_shop1")
 	p.PreCoolShop2 = field.NewFloat32(table, "pre_cool_shop2")
 	p.PreCoolShop3 = field.NewFloat32(table, "pre_cool_shop3")

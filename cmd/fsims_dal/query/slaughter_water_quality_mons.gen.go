@@ -31,6 +31,7 @@ func newSlaughterWaterQualityMon(db *gorm.DB, opts ...gen.DOOption) slaughterWat
 	_slaughterWaterQualityMon.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_slaughterWaterQualityMon.DeletedAt = field.NewField(tableName, "deleted_at")
 	_slaughterWaterQualityMon.HouseNumber = field.NewString(tableName, "house_number")
+	_slaughterWaterQualityMon.TimeRecordAt = field.NewTime(tableName, "time_record_at")
 	_slaughterWaterQualityMon.SlaughterWaterMicroIndex = slaughterWaterQualityMonHasOneSlaughterWaterMicroIndex{
 		db: db.Session(&gorm.Session{}),
 
@@ -74,6 +75,7 @@ type slaughterWaterQualityMon struct {
 	UpdatedAt                field.Time
 	DeletedAt                field.Field
 	HouseNumber              field.String
+	TimeRecordAt             field.Time
 	SlaughterWaterMicroIndex slaughterWaterQualityMonHasOneSlaughterWaterMicroIndex
 
 	OapGciSla slaughterWaterQualityMonHasOneOapGciSla
@@ -102,6 +104,7 @@ func (s *slaughterWaterQualityMon) updateTableName(table string) *slaughterWater
 	s.UpdatedAt = field.NewTime(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
 	s.HouseNumber = field.NewString(table, "house_number")
+	s.TimeRecordAt = field.NewTime(table, "time_record_at")
 
 	s.fillFieldMap()
 
@@ -130,12 +133,13 @@ func (s *slaughterWaterQualityMon) GetFieldByName(fieldName string) (field.Order
 }
 
 func (s *slaughterWaterQualityMon) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 9)
+	s.fieldMap = make(map[string]field.Expr, 10)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
 	s.fieldMap["deleted_at"] = s.DeletedAt
 	s.fieldMap["house_number"] = s.HouseNumber
+	s.fieldMap["time_record_at"] = s.TimeRecordAt
 
 }
 
