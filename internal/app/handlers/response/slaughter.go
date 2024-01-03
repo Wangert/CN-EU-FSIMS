@@ -55,3 +55,13 @@ type ResSlaughterWaterQualityData struct {
 	Infos []slaughter.SlaughterWaterQualityMonInfo `json:"infos"`
 	Count int64                                    `json:"count"`
 }
+
+type ResSlaughterStaffUniformData struct {
+	Infos []slaughter.StaUniInfo `json:"infos"`
+	Count int64
+}
+
+type ResSlaughterLightRecord struct {
+	Infos []slaughter.SlaughterLightRecordInfo `json:"infos"`
+	Count int64
+}
