@@ -907,11 +907,15 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 		}
 	}()
 
+	bNum := BATCH_NUMBER_PREFIX + GenerateNumber(r)
+
 	pp := NewProcedureParams{
-		Type:     PASTURE_TYPE,
-		Operator: r.Worker,
-		PrePID:   r.PrePID,
+		Type:        PASTURE_TYPE,
+		Operator:    r.Worker,
+		PrePID:      r.PrePID,
+		BatchNumber: bNum,
 	}
+
 	procedure, err := NewProcedure(&pp)
 
 	glog.Infoln("CowNumbers:")
@@ -921,7 +925,6 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 	glog.Infoln("Cows:")
 	glog.Infoln(cows)
 
-	bNum := BATCH_NUMBER_PREFIX + GenerateNumber(r)
 	fb := pasture.FeedingBatch{
 		BatchNumber: bNum,
 		HouseNumber: r.HouseNumber,

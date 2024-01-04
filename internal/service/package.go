@@ -270,14 +270,15 @@ func NewPackageBatch(r *request.ReqNewPackageBatch) (string, error) {
 		}
 	}()
 
+	bNum := BATCH_NUMBER_PREFIX + GenerateNumber(r)
+
 	pp := NewProcedureParams{
-		Type:     PACKAGE_TYPE,
-		Operator: r.Worker,
-		PrePID:   r.PrePID,
+		Type:        PACKAGE_TYPE,
+		Operator:    r.Worker,
+		PrePID:      r.PrePID,
+		BatchNumber: bNum,
 	}
 	procedure, err := NewProcedure(&pp)
-
-	bNum := BATCH_NUMBER_PREFIX + GenerateNumber(r)
 
 	pb := pack.PackageBatch{
 		BatchNumber:   bNum,

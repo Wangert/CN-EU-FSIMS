@@ -20,4 +20,5 @@ type Procedure struct {
 	CompletedTimestamp *time.Time `json:"completed_timestamp"`
 	PrePID             string     `gorm:"not null; type:varchar(256)" json:"pre_pid"`
 	ICID               string     `gorm:"not null; type:varchar(256)" json:"icid"`
+	BatchNumber        *string    `gorm:"type:varchar(256)" json:"batch_number"`
 }

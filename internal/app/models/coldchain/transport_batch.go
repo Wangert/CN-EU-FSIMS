@@ -1,6 +1,7 @@
 package coldchain
 
 import (
+	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/app/models/product"
 	"gorm.io/gorm"
 )
@@ -13,6 +14,7 @@ type TransportBatch struct {
 	Worker      string                   `gorm:"not null; type:varchar(100)" json:"worker"`
 	MallNumber  string                   `gorm:"not null; type:varchar(256)" json:"mall_number"`
 	Products    []product.PackageProduct `gorm:"foreignKey:TransportBatchNumber; references:BatchNumber" json:"products"`
+	Procedure   models.Procedure         `gorm:"foreignKey:BatchNumber; references:BatchNumber" json:"procedure"`
 }
 
 type TransportBatchInfo struct {

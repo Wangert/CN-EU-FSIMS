@@ -150,9 +150,10 @@ func StartTransport(r *request.ReqStartTransport) error {
 		}
 
 		pp := NewProcedureParams{
-			Type:     COLDCHAIN_TRANSPORT_TYPE,
-			Operator: r.Operator,
-			PrePID:   packBatch.PID,
+			Type:        COLDCHAIN_TRANSPORT_TYPE,
+			Operator:    r.Operator,
+			PrePID:      packBatch.PID,
+			BatchNumber: r.BatchNumber,
 		}
 		procedure, err := NewProcedure(&pp)
 		if err != nil {

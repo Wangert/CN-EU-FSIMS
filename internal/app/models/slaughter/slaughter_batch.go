@@ -1,6 +1,7 @@
 package slaughter
 
 import (
+	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/app/models/product"
 	"gorm.io/gorm"
 )
@@ -14,6 +15,7 @@ type SlaughterBatch struct {
 	Worker      string                     `gorm:"not null; type:varchar(100)" json:"worker"`
 	CowNumber   string                     `gorm:"not null; type:varchar(256)" json:"cow_number"`
 	Products    []product.SlaughterProduct `gorm:"foreignKey:BatchNumber; references:BatchNumber" json:"products"`
+	Procedure   models.Procedure           `gorm:"foreignKey:BatchNumber; references:BatchNumber" json:"procedure"`
 }
 
 type SlaughterBatchInfo struct {

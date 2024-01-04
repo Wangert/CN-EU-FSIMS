@@ -96,7 +96,7 @@ func AutoMigrate() {
 		&slaughter.SlaughterWaterMicroIndex{}, &slaughter.OapGciSla{}, &slaughter.MicroIndexWaterMonSla{}, &slaughter.SlaughterToxinIndex{}, &slaughter.SlaughterWaterToxinIndex{},
 	)
 
-	err = DB.AutoMigrate(&models.Notification{})
+	err = DB.AutoMigrate(&models.Notification{}, &models.MonitoringTimeRecord{})
 
 	if err != nil {
 		fmt.Println(err)

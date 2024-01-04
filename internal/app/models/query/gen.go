@@ -35,6 +35,7 @@ var (
 	Mall                               *mall
 	MallGood                           *mallGood
 	MicroIndexWaterMonSla              *microIndexWaterMonSla
+	MonitoringTimeRecord               *monitoringTimeRecord
 	Notification                       *notification
 	OapGciSla                          *oapGciSla
 	PackShop                           *packShop
@@ -129,6 +130,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	Mall = &Q.Mall
 	MallGood = &Q.MallGood
 	MicroIndexWaterMonSla = &Q.MicroIndexWaterMonSla
+	MonitoringTimeRecord = &Q.MonitoringTimeRecord
 	Notification = &Q.Notification
 	OapGciSla = &Q.OapGciSla
 	PackShop = &Q.PackShop
@@ -224,6 +226,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		Mall:                               newMall(db, opts...),
 		MallGood:                           newMallGood(db, opts...),
 		MicroIndexWaterMonSla:              newMicroIndexWaterMonSla(db, opts...),
+		MonitoringTimeRecord:               newMonitoringTimeRecord(db, opts...),
 		Notification:                       newNotification(db, opts...),
 		OapGciSla:                          newOapGciSla(db, opts...),
 		PackShop:                           newPackShop(db, opts...),
@@ -320,6 +323,7 @@ type Query struct {
 	Mall                               mall
 	MallGood                           mallGood
 	MicroIndexWaterMonSla              microIndexWaterMonSla
+	MonitoringTimeRecord               monitoringTimeRecord
 	Notification                       notification
 	OapGciSla                          oapGciSla
 	PackShop                           packShop
@@ -417,6 +421,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		Mall:                               q.Mall.clone(db),
 		MallGood:                           q.MallGood.clone(db),
 		MicroIndexWaterMonSla:              q.MicroIndexWaterMonSla.clone(db),
+		MonitoringTimeRecord:               q.MonitoringTimeRecord.clone(db),
 		Notification:                       q.Notification.clone(db),
 		OapGciSla:                          q.OapGciSla.clone(db),
 		PackShop:                           q.PackShop.clone(db),
@@ -521,6 +526,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		Mall:                               q.Mall.replaceDB(db),
 		MallGood:                           q.MallGood.replaceDB(db),
 		MicroIndexWaterMonSla:              q.MicroIndexWaterMonSla.replaceDB(db),
+		MonitoringTimeRecord:               q.MonitoringTimeRecord.replaceDB(db),
 		Notification:                       q.Notification.replaceDB(db),
 		OapGciSla:                          q.OapGciSla.replaceDB(db),
 		PackShop:                           q.PackShop.replaceDB(db),
@@ -615,6 +621,7 @@ type queryCtx struct {
 	Mall                               IMallDo
 	MallGood                           IMallGoodDo
 	MicroIndexWaterMonSla              IMicroIndexWaterMonSlaDo
+	MonitoringTimeRecord               IMonitoringTimeRecordDo
 	Notification                       INotificationDo
 	OapGciSla                          IOapGciSlaDo
 	PackShop                           IPackShopDo
@@ -709,6 +716,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		Mall:                               q.Mall.WithContext(ctx),
 		MallGood:                           q.MallGood.WithContext(ctx),
 		MicroIndexWaterMonSla:              q.MicroIndexWaterMonSla.WithContext(ctx),
+		MonitoringTimeRecord:               q.MonitoringTimeRecord.WithContext(ctx),
 		Notification:                       q.Notification.WithContext(ctx),
 		OapGciSla:                          q.OapGciSla.WithContext(ctx),
 		PackShop:                           q.PackShop.WithContext(ctx),

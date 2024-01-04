@@ -64,7 +64,7 @@ type PastureFeedCr struct {
 
 type PastureFeedHeavyMetalInfo struct {
 	//牧场饲料重金属
-	TimeRecordAt      time.Time         `json:"time_record_at"` //时间记录
+	TimeRecordAt      string            `json:"time_record_at"` //时间记录
 	HouseNumber       string            `json:"house_number"`
 	PastureFeedAsInfo PastureFeedAsInfo `json:"pasture_feed_as_info"` //砷元素
 	PastureFeedPbInfo PastureFeedPbInfo `json:"pasture_feed_pb_info"` //铅元素
@@ -74,7 +74,7 @@ type PastureFeedHeavyMetalInfo struct {
 
 func ToPastureFeedHeavyMetalInfo(hm *PastureFeedHeavyMetal) PastureFeedHeavyMetalInfo {
 	return PastureFeedHeavyMetalInfo{
-		TimeRecordAt:      hm.TimeRecordAt,
+		TimeRecordAt:      hm.TimeRecordAt.Format("2006-01-02 15:04:05"),
 		HouseNumber:       hm.HouseNumber,
 		PastureFeedAsInfo: ToPastureFeedAsInfo(&hm.PastureFeedAs),
 		PastureFeedPbInfo: ToPastureFeedPbInfo(&hm.PastureFeedPb),

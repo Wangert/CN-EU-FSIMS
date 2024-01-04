@@ -858,14 +858,15 @@ func NewSlaughterBatch(r *request.ReqNewSlaughterBatch) (string, error) {
 		}
 	}()
 
+	bNum := BATCH_NUMBER_PREFIX + GenerateNumber(r)
+
 	pp := NewProcedureParams{
-		Type:     SLAUGHTER_TYPE,
-		Operator: r.Worker,
-		PrePID:   r.PrePID,
+		Type:        SLAUGHTER_TYPE,
+		Operator:    r.Worker,
+		PrePID:      r.PrePID,
+		BatchNumber: bNum,
 	}
 	procedure, err := NewProcedure(&pp)
-
-	bNum := BATCH_NUMBER_PREFIX + GenerateNumber(r)
 
 	sb := slaughter.SlaughterBatch{
 		BatchNumber: bNum,

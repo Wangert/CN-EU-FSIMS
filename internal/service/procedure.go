@@ -55,9 +55,10 @@ type ProcedureHeader struct {
 }
 
 type NewProcedureParams struct {
-	Type     uint
-	Operator string
-	PrePID   string
+	Type        uint
+	Operator    string
+	PrePID      string
+	BatchNumber string
 }
 
 func NewProcedure(params *NewProcedureParams) (models.Procedure, error) {
@@ -86,6 +87,7 @@ func NewProcedure(params *NewProcedureParams) (models.Procedure, error) {
 		CompletedTimestamp: nil,
 		PrePID:             prepid,
 		ICID:               "",
+		BatchNumber:        &params.BatchNumber,
 	}
 
 	return p, nil
