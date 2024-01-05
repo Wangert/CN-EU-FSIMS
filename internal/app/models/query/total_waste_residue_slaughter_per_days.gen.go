@@ -31,6 +31,7 @@ func newTotalWasteResidueSlaughterPerDay(db *gorm.DB, opts ...gen.DOOption) tota
 	_totalWasteResidueSlaughterPerDay.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_totalWasteResidueSlaughterPerDay.DeletedAt = field.NewField(tableName, "deleted_at")
 	_totalWasteResidueSlaughterPerDay.TimeStamp = field.NewTime(tableName, "time_stamp")
+	_totalWasteResidueSlaughterPerDay.HouseNumber = field.NewString(tableName, "house_number")
 	_totalWasteResidueSlaughterPerDay.TotalWasteResidueSlaughterPerDay1 = field.NewFloat32(tableName, "total_waste_residue_slaughter_per_day1")
 	_totalWasteResidueSlaughterPerDay.TotalWasteResidueSlaughterPerDay2 = field.NewFloat32(tableName, "total_waste_residue_slaughter_per_day2")
 	_totalWasteResidueSlaughterPerDay.TotalWasteResidueSlaughterPerDay3 = field.NewFloat32(tableName, "total_waste_residue_slaughter_per_day3")
@@ -50,6 +51,7 @@ type totalWasteResidueSlaughterPerDay struct {
 	UpdatedAt                         field.Time
 	DeletedAt                         field.Field
 	TimeStamp                         field.Time
+	HouseNumber                       field.String
 	TotalWasteResidueSlaughterPerDay1 field.Float32
 	TotalWasteResidueSlaughterPerDay2 field.Float32
 	TotalWasteResidueSlaughterPerDay3 field.Float32
@@ -75,6 +77,7 @@ func (t *totalWasteResidueSlaughterPerDay) updateTableName(table string) *totalW
 	t.UpdatedAt = field.NewTime(table, "updated_at")
 	t.DeletedAt = field.NewField(table, "deleted_at")
 	t.TimeStamp = field.NewTime(table, "time_stamp")
+	t.HouseNumber = field.NewString(table, "house_number")
 	t.TotalWasteResidueSlaughterPerDay1 = field.NewFloat32(table, "total_waste_residue_slaughter_per_day1")
 	t.TotalWasteResidueSlaughterPerDay2 = field.NewFloat32(table, "total_waste_residue_slaughter_per_day2")
 	t.TotalWasteResidueSlaughterPerDay3 = field.NewFloat32(table, "total_waste_residue_slaughter_per_day3")
@@ -111,12 +114,13 @@ func (t *totalWasteResidueSlaughterPerDay) GetFieldByName(fieldName string) (fie
 }
 
 func (t *totalWasteResidueSlaughterPerDay) fillFieldMap() {
-	t.fieldMap = make(map[string]field.Expr, 9)
+	t.fieldMap = make(map[string]field.Expr, 10)
 	t.fieldMap["id"] = t.ID
 	t.fieldMap["created_at"] = t.CreatedAt
 	t.fieldMap["updated_at"] = t.UpdatedAt
 	t.fieldMap["deleted_at"] = t.DeletedAt
 	t.fieldMap["time_stamp"] = t.TimeStamp
+	t.fieldMap["house_number"] = t.HouseNumber
 	t.fieldMap["total_waste_residue_slaughter_per_day1"] = t.TotalWasteResidueSlaughterPerDay1
 	t.fieldMap["total_waste_residue_slaughter_per_day2"] = t.TotalWasteResidueSlaughterPerDay2
 	t.fieldMap["total_waste_residue_slaughter_per_day3"] = t.TotalWasteResidueSlaughterPerDay3

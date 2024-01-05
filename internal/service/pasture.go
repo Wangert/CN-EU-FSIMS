@@ -33,10 +33,6 @@ const (
 	CONFIRM_STATE_PH = 3
 )
 
-func QueryTotalWasteResidueOdorPerDay(r *request.ReqWasteResidueOdor) (pasture.TotalWasteResiduePasturePerDay, pasture.TotalOdorPollutantsPasturePerDay, error) {
-
-}
-
 func QueryPastureBuffer(r *request.ReqPastureSensorData) ([]pasture.PastureBufferInfo, int64, error) {
 	ok, err := PastureHouseIsExisted(r.HouseNumber)
 	if !ok {
@@ -452,39 +448,162 @@ func UploadPastureDisinfectionRecord(r *request.ReqAddPastureDisinfectionRecord)
 }
 
 func UploadPastureOdorPollutantsPerDay(r *request.ReqPastureOdorPollutantsPerDay) error {
-	var err error
 	q := query.TotalOdorPollutantsPasturePerDay
-
+	qall := query.Q.AllPasturesTrashDisposal
+	//根据t去搜索总表，若已创建表，则直接更新，否则创建
+	t := time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour)
+	ok, err := PastureAllTrashTimeExisted(t)
+	if !ok {
+		aptp := pasture.AllPasturesTrashDisposal{
+			TimeStamp:                     t,
+			OdorPasturesTrashDisposal1:    r.PastureOdorPollutantsPerDay1,
+			OdorPasturesTrashDisposal2:    r.PastureOdorPollutantsPerDay2,
+			OdorPasturesTrashDisposal3:    r.PastureOdorPollutantsPerDay3,
+			OdorPasturesTrashDisposal4:    r.PastureOdorPollutantsPerDay4,
+			ResiduePasturesTrashDisposal1: 0,
+			ResiduePasturesTrashDisposal2: 0,
+			ResiduePasturesTrashDisposal3: 0,
+			ResiduePasturesTrashDisposal4: 0,
+			WaterPasturesTrashDisposal1:   0,
+			WaterPasturesTrashDisposal2:   0,
+			WaterPasturesTrashDisposal3:   0,
+			WaterPasturesTrashDisposal4:   0,
+		}
+		err = qall.WithContext(context.Background()).Create(&aptp)
+		if err != nil {
+			return err
+		}
+	}
 	op := pasture.TotalOdorPollutantsPasturePerDay{
-		TimeStamp:                  time.Unix(r.TimeStamp, 0),
+		TimeStamp:                  time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour),
+		HouseNumber:                r.HouseNumber,
 		TotalOdorPollutantsPerDay1: r.PastureOdorPollutantsPerDay1,
 		TotalOdorPollutantsPerDay2: r.PastureOdorPollutantsPerDay2,
 		TotalOdorPollutantsPerDay3: r.PastureOdorPollutantsPerDay3,
 		TotalOdorPollutantsPerDay4: r.PastureOdorPollutantsPerDay4,
 	}
-
 	err = q.WithContext(context.Background()).Create(&op)
 	if err != nil {
 		return err
+	}
+
+	//更新总表信息
+	result, err := qall.WithContext(context.Background()).UpdateSimple(qall.OdorPasturesTrashDisposal1.Add(r.PastureOdorPollutantsPerDay1), qall.OdorPasturesTrashDisposal2.Add(r.PastureOdorPollutantsPerDay2),
+		qall.OdorPasturesTrashDisposal3.Add(r.PastureOdorPollutantsPerDay3), qall.OdorPasturesTrashDisposal4.Add(r.PastureOdorPollutantsPerDay4))
+	if err != nil {
+		return err
+	}
+	if result.RowsAffected == 0 {
+		return errors.New("No match was found!")
+	}
+
+	return nil
+}
+
+//	func QueryTotalWasteResidueOdorPerDay(r *request.ReqWasteResidueOdor) (pasture.TotalWasteResiduePasturePerDay, pasture.TotalOdorPollutantsPasturePerDay, error) {
+
+func UploadPastureWasteWaterPerDay(r *request.ReqPastureWasteWaterPerDay) error {
+	q := query.TotalWastedWaterPasturePerDay
+	qall := query.AllPasturesTrashDisposal
+	//根据t去搜索总表，若已创建表，则直接更新，否则创建
+	t := time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour)
+	ok, err := PastureAllTrashTimeExisted(t)
+	if !ok {
+		aptp := pasture.AllPasturesTrashDisposal{
+			TimeStamp:                     t,
+			OdorPasturesTrashDisposal1:    0,
+			OdorPasturesTrashDisposal2:    0,
+			OdorPasturesTrashDisposal3:    0,
+			OdorPasturesTrashDisposal4:    0,
+			ResiduePasturesTrashDisposal1: 0,
+			ResiduePasturesTrashDisposal2: 0,
+			ResiduePasturesTrashDisposal3: 0,
+			ResiduePasturesTrashDisposal4: 0,
+			WaterPasturesTrashDisposal1:   r.ReqPastureWasteWaterPerDay1,
+			WaterPasturesTrashDisposal2:   r.ReqPastureWasteWaterPerDay2,
+			WaterPasturesTrashDisposal3:   r.ReqPastureWasteWaterPerDay3,
+			WaterPasturesTrashDisposal4:   r.ReqPastureWasteWaterPerDay4,
+		}
+		err = qall.WithContext(context.Background()).Create(&aptp)
+		if err != nil {
+			return err
+		}
+	}
+	ww := pasture.TotalWastedWaterPasturePerDay{
+		TimeStamp:               time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour),
+		HouseNumber:             r.HouseNumber,
+		TotalWastedWaterPerDay1: r.ReqPastureWasteWaterPerDay1,
+		TotalWastedWaterPerDay2: r.ReqPastureWasteWaterPerDay2,
+		TotalWastedWaterPerDay3: r.ReqPastureWasteWaterPerDay3,
+		TotalWastedWaterPerDay4: r.ReqPastureWasteWaterPerDay4,
+	}
+	err = q.WithContext(context.Background()).Create(&ww)
+	if err != nil {
+		return err
+	}
+
+	//更新总表信息
+	result, err := qall.WithContext(context.Background()).UpdateSimple(qall.WaterPasturesTrashDisposal1.Add(r.ReqPastureWasteWaterPerDay1),
+		qall.WaterPasturesTrashDisposal2.Add(r.ReqPastureWasteWaterPerDay2), qall.WaterPasturesTrashDisposal3.Add(r.ReqPastureWasteWaterPerDay3))
+	if err != nil {
+		return err
+	}
+	if result.RowsAffected == 0 {
+		return errors.New("No match was found!")
 	}
 	return nil
 }
 
 func UploadPastureWasteResidue(r *request.ReqPastureWasteResiduePerDay) error {
-	var err error
 	q := query.TotalWasteResiduePasturePerDay
+	qall := query.Q.AllPasturesTrashDisposal
+	//根据t去搜索总表，若已创建表，则直接更新，否则创建
+	t := time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour)
+	ok, err := PastureAllTrashTimeExisted(t)
+	if !ok {
+		aptp := pasture.AllPasturesTrashDisposal{
+			TimeStamp:                     t,
+			OdorPasturesTrashDisposal1:    0,
+			OdorPasturesTrashDisposal2:    0,
+			OdorPasturesTrashDisposal3:    0,
+			OdorPasturesTrashDisposal4:    0,
+			ResiduePasturesTrashDisposal1: r.PastureWasteResiduePerDay1,
+			ResiduePasturesTrashDisposal2: r.PastureWasteResiduePerDay2,
+			ResiduePasturesTrashDisposal3: r.PastureWasteResiduePerDay3,
+			ResiduePasturesTrashDisposal4: r.PastureWasteResiduePerDay4,
+			WaterPasturesTrashDisposal1:   0,
+			WaterPasturesTrashDisposal2:   0,
+			WaterPasturesTrashDisposal3:   0,
+			WaterPasturesTrashDisposal4:   0,
+		}
+		err = qall.WithContext(context.Background()).Create(&aptp)
+		if err != nil {
+			return err
+		}
+	}
 
 	wr := pasture.TotalWasteResiduePasturePerDay{
-		TimeStamp:               time.Unix(r.TimeStamp, 0),
+		TimeStamp:               time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour),
+		HouseNumber:             r.HouseNumber,
 		TotalWastedWaterPerDay1: r.PastureWasteResiduePerDay1,
 		TotalWastedWaterPerDay2: r.PastureWasteResiduePerDay2,
 		TotalWastedWaterPerDay3: r.PastureWasteResiduePerDay3,
 		TotalWastedWaterPerDay4: r.PastureWasteResiduePerDay4,
 	}
-
 	err = q.WithContext(context.Background()).Create(&wr)
 	if err != nil {
 		return err
+	}
+
+	//更新总表信息
+	result, err := qall.WithContext(context.Background()).Where(qall.TimeStamp.Eq(t)).UpdateSimple(qall.ResiduePasturesTrashDisposal1.Add(r.PastureWasteResiduePerDay1),
+		qall.ResiduePasturesTrashDisposal2.Add(r.PastureWasteResiduePerDay2), qall.ResiduePasturesTrashDisposal3.Add(r.PastureWasteResiduePerDay3),
+		qall.ResiduePasturesTrashDisposal4.Add(r.PastureWasteResiduePerDay4))
+	if err != nil {
+		return nil
+	}
+	if result.RowsAffected == 0 {
+		return errors.New("No match was found!")
 	}
 	return nil
 }
@@ -1115,7 +1234,23 @@ func PastureHouseIsExisted(number string) (bool, error) {
 	}
 
 	if len(pas) == 0 {
-		return false, errors.New("pastur house is not existed")
+		return false, errors.New("pasture house is not existed")
+	}
+
+	return true, nil
+}
+
+func PastureAllTrashTimeExisted(t time.Time) (bool, error) {
+	//先对时间进行处理
+	truncated := t.Truncate(24 * time.Hour)
+	q := query.Q.AllPasturesTrashDisposal
+	info, err := q.WithContext(context.Background()).Where(q.TimeStamp.Eq(truncated)).Find()
+	if err != nil {
+		return false, err
+	}
+
+	if len(info) == 0 {
+		return false, errors.New("Garbage disposal information has not been recorded for this time in pasture")
 	}
 
 	return true, nil

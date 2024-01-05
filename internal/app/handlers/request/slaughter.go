@@ -284,3 +284,30 @@ type ReqUploadSlaughterLightRecord struct {
 	SlaEnvLigRec3     float32 `json:"sla_env_lig_rec_3"`   //检疫
 	SlaEnvLigRec4     float32 `json:"sla_env_lig_rec_4"`   //预冷通道
 }
+
+type ReqSlaughterWasteWaterPerDay struct {
+	TimeStamp                     int64   `json:"time_stamp"`
+	HouseNumber                   string  `json:"house_number"`
+	ReqSlaughterWasteWaterPerDay1 float32 `json:"req_slaughter_waste_water_per_day_1"`
+	ReqSlaughterWasteWaterPerDay2 float32 `json:"req_slaughter_waste_water_per_day_2"`
+	ReqSlaughterWasteWaterPerDay3 float32 `json:"req_slaughter_waste_water_per_day_3"`
+	ReqSlaughterWasteWaterPerDay4 float32 `json:"req_slaughter_waste_water_per_day_4"`
+}
+
+type ReqSlaughterWasteResiduePerDay struct {
+	TimeStamp                       int64   `json:"time_stamp"`
+	HouseNumber                     string  `json:"house_number"`
+	ReqSlaughterWasteResiduePerDay1 float32 `json:"req_slaughter_waste_residue_per_day_1"`
+	ReqSlaughterWasteResiduePerDay2 float32 `json:"req_slaughter_waste_residue_per_day_2"`
+	ReqSlaughterWasteResiduePerDay3 float32 `json:"req_slaughter_waste_residue_per_day_3"`
+	ReqSlaughterWasteResiduePerDay4 float32 `json:"req_slaughter_waste_residue_per_day_4"`
+}
+
+type ReqSlaughterOdorPollutantsPerDay struct {
+	TimeStamp                         int64   `json:"time_stamp"`
+	HouseNumber                       string  `json:"house_number"`
+	ReqSlaughterOdorPollutantsPerDay1 float32 `json:"req_slaughter_odor_pollutants_per_day_1"`
+	ReqSlaughterOdorPollutantsPerDay2 float32 `json:"req_slaughter_odor_pollutants_per_day_2"`
+	ReqSlaughterOdorPollutantsPerDay3 float32 `json:"req_slaughter_odor_pollutants_per_day_3"`
+	ReqSlaughterOdorPollutantsPerDay4 float32 `json:"req_slaughter_odor_pollutants_per_day_4"`
+}

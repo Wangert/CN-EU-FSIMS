@@ -31,6 +31,7 @@ func newTotalOdorPollutantsSlaughterPerDay(db *gorm.DB, opts ...gen.DOOption) to
 	_totalOdorPollutantsSlaughterPerDay.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_totalOdorPollutantsSlaughterPerDay.DeletedAt = field.NewField(tableName, "deleted_at")
 	_totalOdorPollutantsSlaughterPerDay.TimeStamp = field.NewTime(tableName, "time_stamp")
+	_totalOdorPollutantsSlaughterPerDay.HouseNumber = field.NewString(tableName, "house_number")
 	_totalOdorPollutantsSlaughterPerDay.TotalOdorPollutantsSlaughterPerDay1 = field.NewFloat32(tableName, "total_odor_pollutants_slaughter_per_day1")
 	_totalOdorPollutantsSlaughterPerDay.TotalOdorPollutantsSlaughterPerDay2 = field.NewFloat32(tableName, "total_odor_pollutants_slaughter_per_day2")
 	_totalOdorPollutantsSlaughterPerDay.TotalOdorPollutantsSlaughterPerDay3 = field.NewFloat32(tableName, "total_odor_pollutants_slaughter_per_day3")
@@ -50,6 +51,7 @@ type totalOdorPollutantsSlaughterPerDay struct {
 	UpdatedAt                           field.Time
 	DeletedAt                           field.Field
 	TimeStamp                           field.Time
+	HouseNumber                         field.String
 	TotalOdorPollutantsSlaughterPerDay1 field.Float32
 	TotalOdorPollutantsSlaughterPerDay2 field.Float32
 	TotalOdorPollutantsSlaughterPerDay3 field.Float32
@@ -75,6 +77,7 @@ func (t *totalOdorPollutantsSlaughterPerDay) updateTableName(table string) *tota
 	t.UpdatedAt = field.NewTime(table, "updated_at")
 	t.DeletedAt = field.NewField(table, "deleted_at")
 	t.TimeStamp = field.NewTime(table, "time_stamp")
+	t.HouseNumber = field.NewString(table, "house_number")
 	t.TotalOdorPollutantsSlaughterPerDay1 = field.NewFloat32(table, "total_odor_pollutants_slaughter_per_day1")
 	t.TotalOdorPollutantsSlaughterPerDay2 = field.NewFloat32(table, "total_odor_pollutants_slaughter_per_day2")
 	t.TotalOdorPollutantsSlaughterPerDay3 = field.NewFloat32(table, "total_odor_pollutants_slaughter_per_day3")
@@ -111,12 +114,13 @@ func (t *totalOdorPollutantsSlaughterPerDay) GetFieldByName(fieldName string) (f
 }
 
 func (t *totalOdorPollutantsSlaughterPerDay) fillFieldMap() {
-	t.fieldMap = make(map[string]field.Expr, 9)
+	t.fieldMap = make(map[string]field.Expr, 10)
 	t.fieldMap["id"] = t.ID
 	t.fieldMap["created_at"] = t.CreatedAt
 	t.fieldMap["updated_at"] = t.UpdatedAt
 	t.fieldMap["deleted_at"] = t.DeletedAt
 	t.fieldMap["time_stamp"] = t.TimeStamp
+	t.fieldMap["house_number"] = t.HouseNumber
 	t.fieldMap["total_odor_pollutants_slaughter_per_day1"] = t.TotalOdorPollutantsSlaughterPerDay1
 	t.fieldMap["total_odor_pollutants_slaughter_per_day2"] = t.TotalOdorPollutantsSlaughterPerDay2
 	t.fieldMap["total_odor_pollutants_slaughter_per_day3"] = t.TotalOdorPollutantsSlaughterPerDay3

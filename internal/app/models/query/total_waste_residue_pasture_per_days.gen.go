@@ -31,6 +31,7 @@ func newTotalWasteResiduePasturePerDay(db *gorm.DB, opts ...gen.DOOption) totalW
 	_totalWasteResiduePasturePerDay.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_totalWasteResiduePasturePerDay.DeletedAt = field.NewField(tableName, "deleted_at")
 	_totalWasteResiduePasturePerDay.TimeStamp = field.NewTime(tableName, "time_stamp")
+	_totalWasteResiduePasturePerDay.HouseNumber = field.NewString(tableName, "house_number")
 	_totalWasteResiduePasturePerDay.TotalWastedWaterPerDay1 = field.NewFloat32(tableName, "total_wasted_water_per_day1")
 	_totalWasteResiduePasturePerDay.TotalWastedWaterPerDay2 = field.NewFloat32(tableName, "total_wasted_water_per_day2")
 	_totalWasteResiduePasturePerDay.TotalWastedWaterPerDay3 = field.NewFloat32(tableName, "total_wasted_water_per_day3")
@@ -50,6 +51,7 @@ type totalWasteResiduePasturePerDay struct {
 	UpdatedAt               field.Time
 	DeletedAt               field.Field
 	TimeStamp               field.Time
+	HouseNumber             field.String
 	TotalWastedWaterPerDay1 field.Float32
 	TotalWastedWaterPerDay2 field.Float32
 	TotalWastedWaterPerDay3 field.Float32
@@ -75,6 +77,7 @@ func (t *totalWasteResiduePasturePerDay) updateTableName(table string) *totalWas
 	t.UpdatedAt = field.NewTime(table, "updated_at")
 	t.DeletedAt = field.NewField(table, "deleted_at")
 	t.TimeStamp = field.NewTime(table, "time_stamp")
+	t.HouseNumber = field.NewString(table, "house_number")
 	t.TotalWastedWaterPerDay1 = field.NewFloat32(table, "total_wasted_water_per_day1")
 	t.TotalWastedWaterPerDay2 = field.NewFloat32(table, "total_wasted_water_per_day2")
 	t.TotalWastedWaterPerDay3 = field.NewFloat32(table, "total_wasted_water_per_day3")
@@ -111,12 +114,13 @@ func (t *totalWasteResiduePasturePerDay) GetFieldByName(fieldName string) (field
 }
 
 func (t *totalWasteResiduePasturePerDay) fillFieldMap() {
-	t.fieldMap = make(map[string]field.Expr, 9)
+	t.fieldMap = make(map[string]field.Expr, 10)
 	t.fieldMap["id"] = t.ID
 	t.fieldMap["created_at"] = t.CreatedAt
 	t.fieldMap["updated_at"] = t.UpdatedAt
 	t.fieldMap["deleted_at"] = t.DeletedAt
 	t.fieldMap["time_stamp"] = t.TimeStamp
+	t.fieldMap["house_number"] = t.HouseNumber
 	t.fieldMap["total_wasted_water_per_day1"] = t.TotalWastedWaterPerDay1
 	t.fieldMap["total_wasted_water_per_day2"] = t.TotalWastedWaterPerDay2
 	t.fieldMap["total_wasted_water_per_day3"] = t.TotalWastedWaterPerDay3

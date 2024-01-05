@@ -20,6 +20,8 @@ var (
 	AcidShop                           *acidShop
 	Afb1                               *afb1
 	AirNumGermMon                      *airNumGermMon
+	AllPasturesTrashDisposal           *allPasturesTrashDisposal
+	AllSlaughtersTrashDisposal         *allSlaughtersTrashDisposal
 	AnalCutWeight                      *analCutWeight
 	AnalMeatPhMoni                     *analMeatPhMoni
 	BleedElectronic                    *bleedElectronic
@@ -108,6 +110,7 @@ var (
 	TotalOdorPollutantsSlaughterPerDay *totalOdorPollutantsSlaughterPerDay
 	TotalWasteResiduePasturePerDay     *totalWasteResiduePasturePerDay
 	TotalWasteResidueSlaughterPerDay   *totalWasteResidueSlaughterPerDay
+	TotalWasteWaterSlaughterPerDay     *totalWasteWaterSlaughterPerDay
 	TotalWastedWaterPasturePerDay      *totalWastedWaterPasturePerDay
 	TransportBatch                     *transportBatch
 	TransportVehicle                   *transportVehicle
@@ -120,6 +123,8 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	AcidShop = &Q.AcidShop
 	Afb1 = &Q.Afb1
 	AirNumGermMon = &Q.AirNumGermMon
+	AllPasturesTrashDisposal = &Q.AllPasturesTrashDisposal
+	AllSlaughtersTrashDisposal = &Q.AllSlaughtersTrashDisposal
 	AnalCutWeight = &Q.AnalCutWeight
 	AnalMeatPhMoni = &Q.AnalMeatPhMoni
 	BleedElectronic = &Q.BleedElectronic
@@ -208,6 +213,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	TotalOdorPollutantsSlaughterPerDay = &Q.TotalOdorPollutantsSlaughterPerDay
 	TotalWasteResiduePasturePerDay = &Q.TotalWasteResiduePasturePerDay
 	TotalWasteResidueSlaughterPerDay = &Q.TotalWasteResidueSlaughterPerDay
+	TotalWasteWaterSlaughterPerDay = &Q.TotalWasteWaterSlaughterPerDay
 	TotalWastedWaterPasturePerDay = &Q.TotalWastedWaterPasturePerDay
 	TransportBatch = &Q.TransportBatch
 	TransportVehicle = &Q.TransportVehicle
@@ -221,6 +227,8 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		AcidShop:                           newAcidShop(db, opts...),
 		Afb1:                               newAfb1(db, opts...),
 		AirNumGermMon:                      newAirNumGermMon(db, opts...),
+		AllPasturesTrashDisposal:           newAllPasturesTrashDisposal(db, opts...),
+		AllSlaughtersTrashDisposal:         newAllSlaughtersTrashDisposal(db, opts...),
 		AnalCutWeight:                      newAnalCutWeight(db, opts...),
 		AnalMeatPhMoni:                     newAnalMeatPhMoni(db, opts...),
 		BleedElectronic:                    newBleedElectronic(db, opts...),
@@ -309,6 +317,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		TotalOdorPollutantsSlaughterPerDay: newTotalOdorPollutantsSlaughterPerDay(db, opts...),
 		TotalWasteResiduePasturePerDay:     newTotalWasteResiduePasturePerDay(db, opts...),
 		TotalWasteResidueSlaughterPerDay:   newTotalWasteResidueSlaughterPerDay(db, opts...),
+		TotalWasteWaterSlaughterPerDay:     newTotalWasteWaterSlaughterPerDay(db, opts...),
 		TotalWastedWaterPasturePerDay:      newTotalWastedWaterPasturePerDay(db, opts...),
 		TransportBatch:                     newTransportBatch(db, opts...),
 		TransportVehicle:                   newTransportVehicle(db, opts...),
@@ -323,6 +332,8 @@ type Query struct {
 	AcidShop                           acidShop
 	Afb1                               afb1
 	AirNumGermMon                      airNumGermMon
+	AllPasturesTrashDisposal           allPasturesTrashDisposal
+	AllSlaughtersTrashDisposal         allSlaughtersTrashDisposal
 	AnalCutWeight                      analCutWeight
 	AnalMeatPhMoni                     analMeatPhMoni
 	BleedElectronic                    bleedElectronic
@@ -411,6 +422,7 @@ type Query struct {
 	TotalOdorPollutantsSlaughterPerDay totalOdorPollutantsSlaughterPerDay
 	TotalWasteResiduePasturePerDay     totalWasteResiduePasturePerDay
 	TotalWasteResidueSlaughterPerDay   totalWasteResidueSlaughterPerDay
+	TotalWasteWaterSlaughterPerDay     totalWasteWaterSlaughterPerDay
 	TotalWastedWaterPasturePerDay      totalWastedWaterPasturePerDay
 	TransportBatch                     transportBatch
 	TransportVehicle                   transportVehicle
@@ -426,6 +438,8 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		AcidShop:                           q.AcidShop.clone(db),
 		Afb1:                               q.Afb1.clone(db),
 		AirNumGermMon:                      q.AirNumGermMon.clone(db),
+		AllPasturesTrashDisposal:           q.AllPasturesTrashDisposal.clone(db),
+		AllSlaughtersTrashDisposal:         q.AllSlaughtersTrashDisposal.clone(db),
 		AnalCutWeight:                      q.AnalCutWeight.clone(db),
 		AnalMeatPhMoni:                     q.AnalMeatPhMoni.clone(db),
 		BleedElectronic:                    q.BleedElectronic.clone(db),
@@ -514,6 +528,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		TotalOdorPollutantsSlaughterPerDay: q.TotalOdorPollutantsSlaughterPerDay.clone(db),
 		TotalWasteResiduePasturePerDay:     q.TotalWasteResiduePasturePerDay.clone(db),
 		TotalWasteResidueSlaughterPerDay:   q.TotalWasteResidueSlaughterPerDay.clone(db),
+		TotalWasteWaterSlaughterPerDay:     q.TotalWasteWaterSlaughterPerDay.clone(db),
 		TotalWastedWaterPasturePerDay:      q.TotalWastedWaterPasturePerDay.clone(db),
 		TransportBatch:                     q.TransportBatch.clone(db),
 		TransportVehicle:                   q.TransportVehicle.clone(db),
@@ -536,6 +551,8 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		AcidShop:                           q.AcidShop.replaceDB(db),
 		Afb1:                               q.Afb1.replaceDB(db),
 		AirNumGermMon:                      q.AirNumGermMon.replaceDB(db),
+		AllPasturesTrashDisposal:           q.AllPasturesTrashDisposal.replaceDB(db),
+		AllSlaughtersTrashDisposal:         q.AllSlaughtersTrashDisposal.replaceDB(db),
 		AnalCutWeight:                      q.AnalCutWeight.replaceDB(db),
 		AnalMeatPhMoni:                     q.AnalMeatPhMoni.replaceDB(db),
 		BleedElectronic:                    q.BleedElectronic.replaceDB(db),
@@ -624,6 +641,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		TotalOdorPollutantsSlaughterPerDay: q.TotalOdorPollutantsSlaughterPerDay.replaceDB(db),
 		TotalWasteResiduePasturePerDay:     q.TotalWasteResiduePasturePerDay.replaceDB(db),
 		TotalWasteResidueSlaughterPerDay:   q.TotalWasteResidueSlaughterPerDay.replaceDB(db),
+		TotalWasteWaterSlaughterPerDay:     q.TotalWasteWaterSlaughterPerDay.replaceDB(db),
 		TotalWastedWaterPasturePerDay:      q.TotalWastedWaterPasturePerDay.replaceDB(db),
 		TransportBatch:                     q.TransportBatch.replaceDB(db),
 		TransportVehicle:                   q.TransportVehicle.replaceDB(db),
@@ -636,6 +654,8 @@ type queryCtx struct {
 	AcidShop                           IAcidShopDo
 	Afb1                               IAfb1Do
 	AirNumGermMon                      IAirNumGermMonDo
+	AllPasturesTrashDisposal           IAllPasturesTrashDisposalDo
+	AllSlaughtersTrashDisposal         IAllSlaughtersTrashDisposalDo
 	AnalCutWeight                      IAnalCutWeightDo
 	AnalMeatPhMoni                     IAnalMeatPhMoniDo
 	BleedElectronic                    IBleedElectronicDo
@@ -724,6 +744,7 @@ type queryCtx struct {
 	TotalOdorPollutantsSlaughterPerDay ITotalOdorPollutantsSlaughterPerDayDo
 	TotalWasteResiduePasturePerDay     ITotalWasteResiduePasturePerDayDo
 	TotalWasteResidueSlaughterPerDay   ITotalWasteResidueSlaughterPerDayDo
+	TotalWasteWaterSlaughterPerDay     ITotalWasteWaterSlaughterPerDayDo
 	TotalWastedWaterPasturePerDay      ITotalWastedWaterPasturePerDayDo
 	TransportBatch                     ITransportBatchDo
 	TransportVehicle                   ITransportVehicleDo
@@ -736,6 +757,8 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		AcidShop:                           q.AcidShop.WithContext(ctx),
 		Afb1:                               q.Afb1.WithContext(ctx),
 		AirNumGermMon:                      q.AirNumGermMon.WithContext(ctx),
+		AllPasturesTrashDisposal:           q.AllPasturesTrashDisposal.WithContext(ctx),
+		AllSlaughtersTrashDisposal:         q.AllSlaughtersTrashDisposal.WithContext(ctx),
 		AnalCutWeight:                      q.AnalCutWeight.WithContext(ctx),
 		AnalMeatPhMoni:                     q.AnalMeatPhMoni.WithContext(ctx),
 		BleedElectronic:                    q.BleedElectronic.WithContext(ctx),
@@ -824,6 +847,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		TotalOdorPollutantsSlaughterPerDay: q.TotalOdorPollutantsSlaughterPerDay.WithContext(ctx),
 		TotalWasteResiduePasturePerDay:     q.TotalWasteResiduePasturePerDay.WithContext(ctx),
 		TotalWasteResidueSlaughterPerDay:   q.TotalWasteResidueSlaughterPerDay.WithContext(ctx),
+		TotalWasteWaterSlaughterPerDay:     q.TotalWasteWaterSlaughterPerDay.WithContext(ctx),
 		TotalWastedWaterPasturePerDay:      q.TotalWastedWaterPasturePerDay.WithContext(ctx),
 		TransportBatch:                     q.TransportBatch.WithContext(ctx),
 		TransportVehicle:                   q.TransportVehicle.WithContext(ctx),

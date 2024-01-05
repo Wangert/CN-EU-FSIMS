@@ -162,6 +162,15 @@ type ReqPastureSensorData struct {
 	EndTimestamp   int64  `json:"end_timestamp"`
 }
 
+type ReqPastureWasteWaterPerDay struct {
+	TimeStamp                   int64   `json:"time_stamp"`
+	HouseNumber                 string  `json:"house_number"`
+	ReqPastureWasteWaterPerDay1 float32 `json:"req_pasture_waste_water_per_day_1"`
+	ReqPastureWasteWaterPerDay2 float32 `json:"req_pasture_waste_water_per_day_2"`
+	ReqPastureWasteWaterPerDay3 float32 `json:"req_pasture_waste_water_per_day_3"`
+	ReqPastureWasteWaterPerDay4 float32 `json:"req_pasture_waste_water_per_day_4"`
+}
+
 type ReqPastureWasteResiduePerDay struct {
 	TimeStamp                  int64   `json:"time_stamp"`
 	HouseNumber                string  `gorm:"not null; type:varchar(256)" json:"house_number"`
