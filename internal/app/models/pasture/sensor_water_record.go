@@ -6,6 +6,7 @@ import (
 )
 
 type PastureWaterRecord struct {
+	//饮用水指标
 	gorm.Model
 	TimeRecordAt time.Time         `json:"time_record_at"`
 	HouseNumber  string            `gorm:"not null; type:varchar(256)" json:"house_number"`                   //时间记录

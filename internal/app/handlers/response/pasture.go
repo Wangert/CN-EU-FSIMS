@@ -70,3 +70,14 @@ type ResPastureBufferRecords struct {
 	Count                int64                       `json:"count"`
 	PastureBufferRecords []pasture.PastureBufferInfo `json:"pasture_buffer_records"`
 }
+
+type ResWasteResidueOdor struct {
+	ResWasteResidueOdor1 float32 `json:"res_waste_residue_odor_1"` //废渣正常总量
+	ResWasteResidueOdor2 float32 `json:"res_waste_residue_odor_2"` //正常较昨日新增
+	ResWasteResidueOdor3 float32 `json:"res_waste_residue_odor_3"` //废渣超标总量
+	ResWasteResidueOdor4 float32 `json:"res_waste_residue_odor_4"` //废渣超标较昨日新增
+	ResWasteResidueOdor5 float32 `json:"res_waste_residue_odor_5"` //恶臭污染物正常总量
+	ResWasteResidueOdor6 float32 `json:"res_waste_residue_odor_6"` //恶臭污染物正常较昨日新增
+	ResWasteResidueOdor7 float32 `json:"res_waste_residue_odor_7"` //odr超标总量
+	ResWasteResidueOdor8 float32 `json:"res_waste_residue_odor_8"` //odr超标较昨日新增
+}

@@ -33,6 +33,10 @@ const (
 	CONFIRM_STATE_PH = 3
 )
 
+func QueryTotalWasteResidueOdorPerDay(r *request.ReqWasteResidueOdor) (pasture.TotalWasteResiduePasturePerDay, pasture.TotalOdorPollutantsPasturePerDay, error) {
+
+}
+
 func QueryPastureBuffer(r *request.ReqPastureSensorData) ([]pasture.PastureBufferInfo, int64, error) {
 	ok, err := PastureHouseIsExisted(r.HouseNumber)
 	if !ok {
@@ -446,6 +450,45 @@ func UploadPastureDisinfectionRecord(r *request.ReqAddPastureDisinfectionRecord)
 
 	return nil
 }
+
+func UploadPastureOdorPollutantsPerDay(r *request.ReqPastureOdorPollutantsPerDay) error {
+	var err error
+	q := query.TotalOdorPollutantsPasturePerDay
+
+	op := pasture.TotalOdorPollutantsPasturePerDay{
+		TimeStamp:                  time.Unix(r.TimeStamp, 0),
+		TotalOdorPollutantsPerDay1: r.PastureOdorPollutantsPerDay1,
+		TotalOdorPollutantsPerDay2: r.PastureOdorPollutantsPerDay2,
+		TotalOdorPollutantsPerDay3: r.PastureOdorPollutantsPerDay3,
+		TotalOdorPollutantsPerDay4: r.PastureOdorPollutantsPerDay4,
+	}
+
+	err = q.WithContext(context.Background()).Create(&op)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func UploadPastureWasteResidue(r *request.ReqPastureWasteResiduePerDay) error {
+	var err error
+	q := query.TotalWasteResiduePasturePerDay
+
+	wr := pasture.TotalWasteResiduePasturePerDay{
+		TimeStamp:               time.Unix(r.TimeStamp, 0),
+		TotalWastedWaterPerDay1: r.PastureWasteResiduePerDay1,
+		TotalWastedWaterPerDay2: r.PastureWasteResiduePerDay2,
+		TotalWastedWaterPerDay3: r.PastureWasteResiduePerDay3,
+		TotalWastedWaterPerDay4: r.PastureWasteResiduePerDay4,
+	}
+
+	err = q.WithContext(context.Background()).Create(&wr)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func AddPastureFeedHeavyMetal(r *request.ReqAddPastureFeedHeavyMetal) error {
 	var err error
 	tx := query.Q.Begin()

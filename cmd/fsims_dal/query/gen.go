@@ -103,6 +103,11 @@ var (
 	T2VomZea                           *t2VomZea
 	T2toxin                            *t2toxin
 	ToNumGermMon                       *toNumGermMon
+	TotalOdorPollutantsPasturePerDay   *totalOdorPollutantsPasturePerDay
+	TotalOdorPollutantsSlaughterPerDay *totalOdorPollutantsSlaughterPerDay
+	TotalWasteResiduePasturePerDay     *totalWasteResiduePasturePerDay
+	TotalWasteResidueSlaughterPerDay   *totalWasteResidueSlaughterPerDay
+	TotalWastedWaterPasturePerDay      *totalWastedWaterPasturePerDay
 	TransportBatch                     *transportBatch
 	TransportVehicle                   *transportVehicle
 	WaitingSlaughterCircle             *waitingSlaughterCircle
@@ -197,6 +202,11 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	T2VomZea = &Q.T2VomZea
 	T2toxin = &Q.T2toxin
 	ToNumGermMon = &Q.ToNumGermMon
+	TotalOdorPollutantsPasturePerDay = &Q.TotalOdorPollutantsPasturePerDay
+	TotalOdorPollutantsSlaughterPerDay = &Q.TotalOdorPollutantsSlaughterPerDay
+	TotalWasteResiduePasturePerDay = &Q.TotalWasteResiduePasturePerDay
+	TotalWasteResidueSlaughterPerDay = &Q.TotalWasteResidueSlaughterPerDay
+	TotalWastedWaterPasturePerDay = &Q.TotalWastedWaterPasturePerDay
 	TransportBatch = &Q.TransportBatch
 	TransportVehicle = &Q.TransportVehicle
 	WaitingSlaughterCircle = &Q.WaitingSlaughterCircle
@@ -292,6 +302,11 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		T2VomZea:                           newT2VomZea(db, opts...),
 		T2toxin:                            newT2toxin(db, opts...),
 		ToNumGermMon:                       newToNumGermMon(db, opts...),
+		TotalOdorPollutantsPasturePerDay:   newTotalOdorPollutantsPasturePerDay(db, opts...),
+		TotalOdorPollutantsSlaughterPerDay: newTotalOdorPollutantsSlaughterPerDay(db, opts...),
+		TotalWasteResiduePasturePerDay:     newTotalWasteResiduePasturePerDay(db, opts...),
+		TotalWasteResidueSlaughterPerDay:   newTotalWasteResidueSlaughterPerDay(db, opts...),
+		TotalWastedWaterPasturePerDay:      newTotalWastedWaterPasturePerDay(db, opts...),
 		TransportBatch:                     newTransportBatch(db, opts...),
 		TransportVehicle:                   newTransportVehicle(db, opts...),
 		WaitingSlaughterCircle:             newWaitingSlaughterCircle(db, opts...),
@@ -388,6 +403,11 @@ type Query struct {
 	T2VomZea                           t2VomZea
 	T2toxin                            t2toxin
 	ToNumGermMon                       toNumGermMon
+	TotalOdorPollutantsPasturePerDay   totalOdorPollutantsPasturePerDay
+	TotalOdorPollutantsSlaughterPerDay totalOdorPollutantsSlaughterPerDay
+	TotalWasteResiduePasturePerDay     totalWasteResiduePasturePerDay
+	TotalWasteResidueSlaughterPerDay   totalWasteResidueSlaughterPerDay
+	TotalWastedWaterPasturePerDay      totalWastedWaterPasturePerDay
 	TransportBatch                     transportBatch
 	TransportVehicle                   transportVehicle
 	WaitingSlaughterCircle             waitingSlaughterCircle
@@ -485,6 +505,11 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		T2VomZea:                           q.T2VomZea.clone(db),
 		T2toxin:                            q.T2toxin.clone(db),
 		ToNumGermMon:                       q.ToNumGermMon.clone(db),
+		TotalOdorPollutantsPasturePerDay:   q.TotalOdorPollutantsPasturePerDay.clone(db),
+		TotalOdorPollutantsSlaughterPerDay: q.TotalOdorPollutantsSlaughterPerDay.clone(db),
+		TotalWasteResiduePasturePerDay:     q.TotalWasteResiduePasturePerDay.clone(db),
+		TotalWasteResidueSlaughterPerDay:   q.TotalWasteResidueSlaughterPerDay.clone(db),
+		TotalWastedWaterPasturePerDay:      q.TotalWastedWaterPasturePerDay.clone(db),
 		TransportBatch:                     q.TransportBatch.clone(db),
 		TransportVehicle:                   q.TransportVehicle.clone(db),
 		WaitingSlaughterCircle:             q.WaitingSlaughterCircle.clone(db),
@@ -589,6 +614,11 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		T2VomZea:                           q.T2VomZea.replaceDB(db),
 		T2toxin:                            q.T2toxin.replaceDB(db),
 		ToNumGermMon:                       q.ToNumGermMon.replaceDB(db),
+		TotalOdorPollutantsPasturePerDay:   q.TotalOdorPollutantsPasturePerDay.replaceDB(db),
+		TotalOdorPollutantsSlaughterPerDay: q.TotalOdorPollutantsSlaughterPerDay.replaceDB(db),
+		TotalWasteResiduePasturePerDay:     q.TotalWasteResiduePasturePerDay.replaceDB(db),
+		TotalWasteResidueSlaughterPerDay:   q.TotalWasteResidueSlaughterPerDay.replaceDB(db),
+		TotalWastedWaterPasturePerDay:      q.TotalWastedWaterPasturePerDay.replaceDB(db),
 		TransportBatch:                     q.TransportBatch.replaceDB(db),
 		TransportVehicle:                   q.TransportVehicle.replaceDB(db),
 		WaitingSlaughterCircle:             q.WaitingSlaughterCircle.replaceDB(db),
@@ -683,6 +713,11 @@ type queryCtx struct {
 	T2VomZea                           IT2VomZeaDo
 	T2toxin                            IT2toxinDo
 	ToNumGermMon                       IToNumGermMonDo
+	TotalOdorPollutantsPasturePerDay   ITotalOdorPollutantsPasturePerDayDo
+	TotalOdorPollutantsSlaughterPerDay ITotalOdorPollutantsSlaughterPerDayDo
+	TotalWasteResiduePasturePerDay     ITotalWasteResiduePasturePerDayDo
+	TotalWasteResidueSlaughterPerDay   ITotalWasteResidueSlaughterPerDayDo
+	TotalWastedWaterPasturePerDay      ITotalWastedWaterPasturePerDayDo
 	TransportBatch                     ITransportBatchDo
 	TransportVehicle                   ITransportVehicleDo
 	WaitingSlaughterCircle             IWaitingSlaughterCircleDo
@@ -777,6 +812,11 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		T2VomZea:                           q.T2VomZea.WithContext(ctx),
 		T2toxin:                            q.T2toxin.WithContext(ctx),
 		ToNumGermMon:                       q.ToNumGermMon.WithContext(ctx),
+		TotalOdorPollutantsPasturePerDay:   q.TotalOdorPollutantsPasturePerDay.WithContext(ctx),
+		TotalOdorPollutantsSlaughterPerDay: q.TotalOdorPollutantsSlaughterPerDay.WithContext(ctx),
+		TotalWasteResiduePasturePerDay:     q.TotalWasteResiduePasturePerDay.WithContext(ctx),
+		TotalWasteResidueSlaughterPerDay:   q.TotalWasteResidueSlaughterPerDay.WithContext(ctx),
+		TotalWastedWaterPasturePerDay:      q.TotalWastedWaterPasturePerDay.WithContext(ctx),
 		TransportBatch:                     q.TransportBatch.WithContext(ctx),
 		TransportVehicle:                   q.TransportVehicle.WithContext(ctx),
 		WaitingSlaughterCircle:             q.WaitingSlaughterCircle.WithContext(ctx),

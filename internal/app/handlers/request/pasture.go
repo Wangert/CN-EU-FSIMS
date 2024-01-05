@@ -161,3 +161,25 @@ type ReqPastureSensorData struct {
 	StartTimestamp int64  `json:"start_timestamp"`
 	EndTimestamp   int64  `json:"end_timestamp"`
 }
+
+type ReqPastureWasteResiduePerDay struct {
+	TimeStamp                  int64   `json:"time_stamp"`
+	HouseNumber                string  `gorm:"not null; type:varchar(256)" json:"house_number"`
+	PastureWasteResiduePerDay1 float32 `json:"pasture_waste_residue_per_day_1"`
+	PastureWasteResiduePerDay2 float32 `json:"pasture_waste_residue_per_day_2"`
+	PastureWasteResiduePerDay3 float32 `json:"pasture_waste_residue_per_day_3"`
+	PastureWasteResiduePerDay4 float32 `json:"pasture_waste_residue_per_day_4"`
+}
+
+type ReqPastureOdorPollutantsPerDay struct {
+	TimeStamp                    int64   `json:"time_stamp"`
+	HouseNumber                  string  `gorm:"not null; type:varchar(256)" json:"house_number"`
+	PastureOdorPollutantsPerDay1 float32 `json:"pasture_odor_pollutants_per_day_1"`
+	PastureOdorPollutantsPerDay2 float32 `json:"pasture_odor_pollutants_per_day_2"`
+	PastureOdorPollutantsPerDay3 float32 `json:"pasture_odor_pollutants_per_day_3"`
+	PastureOdorPollutantsPerDay4 float32 `json:"pasture_odor_pollutants_per_day_4"`
+}
+
+type ReqWasteResidueOdor struct {
+	TimeStamp int64 `json:"time_stamp"`
+}

@@ -123,6 +123,13 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		pop.GET("/query/sensor/paddingrequire", handlers.QueryPasturePaddingRequireData)
 		pop.GET("/query/sensor/wastedwaterindex", handlers.QueryPastureWastedWaterIndexData)
 		pop.GET("/query/sensor/disinfectionrecord", handlers.QueryPastureDisinfectionRecordData)
+
+		pop.POST("/upload/pasturewasteresidue", handlers.UploadPastureWasteResiduePerDay)
+		pop.POST("/upload/pasturewasteodor", handlers.UploadPastureOdorPollutantsPerDay)
+		pop.POST("/upload/slaughterwasteresidue")
+		pop.POST("/upload/slaughterwasteodor")
+		pop.GET("/query/waste", handlers.QueryWasteResidueAndOdor)
+
 	}
 
 	//slaughteroperator router group

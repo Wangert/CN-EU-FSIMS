@@ -255,7 +255,7 @@ type PastureWastedWaterIndex struct {
 	gorm.Model
 	TimeRecordAt      time.Time `json:"time_record_at"`
 	HouseNumber       string    `gorm:"not null; type:varchar(256)" json:"house_number"`
-	WastedWaterIndex1 float32   `json:"wasted_water_index_1"` //BOD(五日生化需氧量)
+	WastedWaterIndex1 float32   `json:"wasted_water_index_1"` //BOD5(五日生化需氧量)
 	WastedWaterIndex2 float32   `json:"wasted_water_index_2"` //COD(化学需氧量)
 	WastedWaterIndex3 float32   `json:"wasted_water_index_3"` //NH3-N(氨氮)
 	WastedWaterIndex4 float32   `json:"wasted_water_index_4"` //TP(总磷)

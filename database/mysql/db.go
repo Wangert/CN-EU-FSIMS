@@ -93,7 +93,8 @@ func AutoMigrate() {
 		&pasture.PastureWaterRecord{}, &pasture.PastureOapGci{}, &pasture.PastureToxIndex{}, &pasture.PastureMicroIndex{}, &pasture.CowHouse{},
 		&premortem.WaitingSlaughterCircle{}, &premortem.Gps{}, &premortem.WaitingSlaughterCircleGerms{},
 		&slaughter.PreCoolShop{}, &slaughter.SlaShop{}, &slaughter.DivShop{}, &slaughter.AcidShop{}, &slaughter.FroShop{}, &slaughter.PackShop{}, &slaughter.StaUni{}, &slaughter.SlaughterLightRecord{}, &slaughter.SlaughterWaterQualityMon{},
-		&slaughter.SlaughterWaterMicroIndex{}, &slaughter.OapGciSla{}, &slaughter.MicroIndexWaterMonSla{}, &slaughter.SlaughterToxinIndex{}, &slaughter.SlaughterWaterToxinIndex{},
+		&slaughter.SlaughterWaterMicroIndex{}, &slaughter.OapGciSla{}, &slaughter.MicroIndexWaterMonSla{}, &slaughter.SlaughterToxinIndex{}, &slaughter.SlaughterWaterToxinIndex{}, &pasture.TotalWastedWaterPasturePerDay{}, &pasture.TotalOdorPollutantsPasturePerDay{}, &pasture.TotalWasteResiduePasturePerDay{},
+		&slaughter.TotalWasteWaterSlaughterPerDay{}, &slaughter.TotalOdorPollutantsSlaughterPerDay{}, &slaughter.TotalWasteResidueSlaughterPerDay{},
 	)
 
 	err = DB.AutoMigrate(&models.Notification{})

@@ -53,14 +53,15 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 		&pasture.PastureBuffer{}, &pasture.PastureArea{}, &pasture.PastureBasicEnvironment{}, &pasture.PasturePaddingRequire{},
 		&pasture.PastureFeedHeavyMetal{}, &pasture.PastureFeedAs{}, &pasture.PastureFeedPb{}, &pasture.PastureFeedCd{}, &pasture.PastureFeedCr{},
 		&pasture.PastureWastedWaterIndex{}, &pasture.PastureDisinfectionRecord{}, &pasture.PastureWaterRecord{}, &pasture.PastureOapGci{},
-		&pasture.PastureToxIndex{}, &pasture.PastureMicroIndex{}, &pasture.CowHouse{})
+		&pasture.PastureToxIndex{}, &pasture.PastureMicroIndex{}, &pasture.CowHouse{}, &pasture.TotalOdorPollutantsPasturePerDay{}, &pasture.TotalWasteResiduePasturePerDay{}, &pasture.TotalWastedWaterPasturePerDay{})
 
 	//宰前传感器数据
 	g.ApplyBasic(&premortem.WaitingSlaughterCircle{}, &premortem.Gps{}, &premortem.WaitingSlaughterCircleGerms{})
 
 	// 屠宰场传感器数据
 	g.ApplyBasic(&slaughter.PreCoolShop{}, &slaughter.SlaShop{}, &slaughter.DivShop{}, &slaughter.AcidShop{}, &slaughter.FroShop{}, &slaughter.PackShop{}, &slaughter.StaUni{}, &slaughter.SlaughterLightRecord{},
-		&slaughter.SlaughterWaterQualityMon{}, &slaughter.SlaughterWaterMicroIndex{}, &slaughter.OapGciSla{}, &slaughter.MicroIndexWaterMonSla{}, &slaughter.SlaughterToxinIndex{}, &slaughter.SlaughterWaterToxinIndex{})
+		&slaughter.SlaughterWaterQualityMon{}, &slaughter.SlaughterWaterMicroIndex{}, &slaughter.OapGciSla{}, &slaughter.MicroIndexWaterMonSla{}, &slaughter.SlaughterToxinIndex{}, &slaughter.SlaughterWaterToxinIndex{},
+		&slaughter.TotalOdorPollutantsSlaughterPerDay{}, &slaughter.TotalWasteResidueSlaughterPerDay{})
 
 	//以牛为对象的数据，暂时不用
 	g.ApplyBasic(&slaughter.SlaughterDisinfectHotWaterTempMoni{}, &slaughter.SlaughterStun{}, &slaughter.BleedElectronic{}, &slaughter.PreSlaQuanPic{}, &slaughter.SlaughterAnalAfterSlaQuanCar{}, &slaughter.AnalMeatPhMoni{}, &slaughter.AnalCutWeight{},
