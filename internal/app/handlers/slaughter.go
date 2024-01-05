@@ -9,6 +9,84 @@ import (
 	"net/http"
 )
 
+func UploadSlaughterStaffUniformData(c *gin.Context) {
+	var r request.ReqUploadStaffUniformData
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		response.MakeFail(c, http.StatusBadRequest, "upload slaughter staff uniform data parameters error!")
+		return
+	}
+
+	err := service.UploadSlaughterStaffUniformData(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "upload slaughter staff uniform data error!")
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, "upload slaughter staff uniform data successful!")
+	return
+}
+
+func UploadSlaughterLightRecord(c *gin.Context) {
+	var r request.ReqUploadSlaughterLightRecord
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		response.MakeFail(c, http.StatusBadRequest, "upload slaughter light record parameters error!")
+		return
+	}
+
+	err := service.UploadSlaughterLightRecord(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "upload slaughter light record error!")
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, "upload slaughter light record successful!")
+	return
+}
+
+func QuerySlaughterStaffUniformData(c *gin.Context) {
+	var r request.ReqSlaughterSensorData
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		response.MakeFail(c, http.StatusBadRequest, "query slaughter staff uniform data parameters error!")
+		return
+	}
+
+	infos, count, err := service.QuerySlaughterStaffUniformData(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "query slaughter staff uniform data error!")
+		return
+	}
+
+	res := response.ResSlaughterStaffUniformData{
+		Infos: infos,
+		Count: count,
+	}
+
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func QuerySlaughterLightRecord(c *gin.Context) {
+	var r request.ReqSlaughterSensorData
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		response.MakeFail(c, http.StatusBadRequest, "query slaughter light record parameters error!")
+		return
+	}
+
+	infos, count, err := service.QuerySlaughterLightRecord(&r)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "query slaughter light record error!")
+		return
+	}
+
+	res := response.ResSlaughterLightRecord{
+		Infos: infos,
+		Count: count,
+	}
+
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
 func QuerySlaughterWaterQualityData(c *gin.Context) {
 	var r request.ReqSlaughterSensorData
 	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {

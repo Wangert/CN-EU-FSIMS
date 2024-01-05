@@ -69,7 +69,7 @@ type PastureMicroIndex struct {
 }
 
 type PastureWaterRecordInfo struct {
-	TimeRecordAt time.Time             `json:"time_record_at"`
+	TimeRecordAt string                `json:"time_record_at"`
 	HouseNumber  string                `json:"house_number"` //时间记录
 	OapGci       PastureOapGciInfo     `json:"oap_gci"`      //感官性状和一般化学指标
 	ToxIndex     PastureToxIndexInfo   `json:"tox_index"`    //毒理性指标
@@ -175,7 +175,7 @@ func ToPastureMicroIndexInfo(mii *PastureMicroIndex) PastureMicroIndexInfo {
 
 func ToPastureWaterRecordInfo(wr *PastureWaterRecord) PastureWaterRecordInfo {
 	return PastureWaterRecordInfo{
-		TimeRecordAt: wr.TimeRecordAt,
+		TimeRecordAt: wr.TimeRecordAt.Format("2006-01-02 15:04:05"),
 		HouseNumber:  wr.HouseNumber,
 		OapGci:       ToPastureOapGciInfo(&wr.OapGci),
 		ToxIndex:     ToPastureToxIndexInfo(&wr.ToxIndex),

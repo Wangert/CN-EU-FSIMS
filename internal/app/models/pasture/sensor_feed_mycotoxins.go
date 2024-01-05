@@ -55,7 +55,7 @@ type T2VomZea struct {
 
 type PastureFeedMycotoxinsInfo struct {
 	////饲料中真菌毒素、农兽药残留
-	TimeRecordAt time.Time    `json:"time_record_at"` //数据记录时间
+	TimeRecordAt string       `json:"time_record_at"` //数据记录时间
 	HouseNumber  string       `json:"house_number"`
 	Afb1         Afb1Info     `json:"afb_1"`       //黄曲霉毒素B1
 	Don          DonInfo      `json:"don"`         //玉米赤霉烯酮
@@ -65,7 +65,7 @@ type PastureFeedMycotoxinsInfo struct {
 
 func ToPastureFeedMycotoxinsInfo(mc *PastureFeedMycotoxins) PastureFeedMycotoxinsInfo {
 	return PastureFeedMycotoxinsInfo{
-		TimeRecordAt: mc.TimeRecordAt,
+		TimeRecordAt: mc.TimeRecordAt.Format("2006-01-02 15:04:05"),
 		HouseNumber:  mc.HouseNumber,
 		Afb1:         ToAfb1Info(&mc.Afb1),
 		Don:          ToDonInfo(&mc.Don),

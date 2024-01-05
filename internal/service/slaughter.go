@@ -37,6 +37,116 @@ const (
 	SLAUGHTER_PRODUCT_PREFIX = "SLAPRO-"
 )
 
+func UploadSlaughterStaffUniformData(r *request.ReqUploadStaffUniformData) error {
+	ok, err := SlaughterHouseIsExisted(r.HouseNumber)
+	if !ok {
+		return err
+	}
+
+	timeRecordAt := time.Unix(r.TimestampRecordAt, 0).UTC().Local()
+
+	staffUni := slaughter.StaUni{
+		HouseNumber:  r.HouseNumber,
+		TimeRecordAt: timeRecordAt,
+		StaUni1:      r.StaUni1,
+		StaUni2:      r.StaUni2,
+		StaUni3:      r.StaUni3,
+		StaUni4:      r.StaUni4,
+		StaUni5:      r.StaUni5,
+		StaUni6:      r.StaUni6,
+		StaUni7:      r.StaUni7,
+		StaUni8:      r.StaUni8,
+		StaUni9:      r.StaUni9,
+		StaUni10:     r.StaUni10,
+		StaUni11:     r.StaUni11,
+		StaUni12:     r.StaUni12,
+		StaUni13:     r.StaUni13,
+		StaUni14:     r.StaUni14,
+	}
+
+	err = query.Q.StaUni.WithContext(context.Background()).Create(&staffUni)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func QuerySlaughterStaffUniformData(r *request.ReqSlaughterSensorData) ([]slaughter.StaUniInfo, int64, error) {
+	ok, err := SlaughterHouseIsExisted(r.HouseNumber)
+	if !ok {
+		return nil, 0, err
+	}
+
+	startTime := time.Unix(r.StartTimestamp, 0).UTC().Local()
+	endTime := time.Unix(r.EndTimestamp, 0).UTC().Local()
+
+	q := query.Q.StaUni
+	results, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(r.HouseNumber)).
+		Where(q.TimeRecordAt.Between(startTime, endTime)).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(results)
+	infos := make([]slaughter.StaUniInfo, count)
+	for i, result := range results {
+		infos[i] = slaughter.ToStaUniInfo(result)
+	}
+
+	return infos, int64(count), nil
+}
+
+func UploadSlaughterLightRecord(r *request.ReqUploadSlaughterLightRecord) error {
+	ok, err := SlaughterHouseIsExisted(r.HouseNumber)
+	if !ok {
+		return err
+	}
+
+	timeRecordAt := time.Unix(r.TimestampRecordAt, 0).UTC().Local()
+
+	light := slaughter.SlaughterLightRecord{
+		HouseNumber:   r.HouseNumber,
+		TimeRecordAt:  timeRecordAt,
+		SlaEnvLigRec1: r.SlaEnvLigRec1,
+		SlaEnvLigRec2: r.SlaEnvLigRec2,
+		SlaEnvLigRec3: r.SlaEnvLigRec3,
+		SlaEnvLigRec4: r.SlaEnvLigRec4,
+	}
+
+	err = query.Q.SlaughterLightRecord.WithContext(context.Background()).Create(&light)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func QuerySlaughterLightRecord(r *request.ReqSlaughterSensorData) ([]slaughter.SlaughterLightRecordInfo, int64, error) {
+	ok, err := SlaughterHouseIsExisted(r.HouseNumber)
+	if !ok {
+		return nil, 0, err
+	}
+
+	startTime := time.Unix(r.StartTimestamp, 0).UTC().Local()
+	endTime := time.Unix(r.EndTimestamp, 0).UTC().Local()
+
+	q := query.Q.SlaughterLightRecord
+	results, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(r.HouseNumber)).
+		Where(q.TimeRecordAt.Between(startTime, endTime)).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(results)
+	infos := make([]slaughter.SlaughterLightRecordInfo, count)
+	for i, result := range results {
+		infos[i] = slaughter.ToSlaEnvLigRecInfo(result)
+	}
+
+	return infos, int64(count), nil
+}
+
 func QuerySlaughterWaterQualityData(r *request.ReqSlaughterSensorData) ([]slaughter.SlaughterWaterQualityMonInfo, int64, error) {
 	ok, err := SlaughterHouseIsExisted(r.HouseNumber)
 	if !ok {
@@ -748,14 +858,15 @@ func NewSlaughterBatch(r *request.ReqNewSlaughterBatch) (string, error) {
 		}
 	}()
 
+	bNum := BATCH_NUMBER_PREFIX + GenerateNumber(r)
+
 	pp := NewProcedureParams{
-		Type:     SLAUGHTER_TYPE,
-		Operator: r.Worker,
-		PrePID:   r.PrePID,
+		Type:        SLAUGHTER_TYPE,
+		Operator:    r.Worker,
+		PrePID:      r.PrePID,
+		BatchNumber: bNum,
 	}
 	procedure, err := NewProcedure(&pp)
-
-	bNum := BATCH_NUMBER_PREFIX + GenerateNumber(r)
 
 	sb := slaughter.SlaughterBatch{
 		BatchNumber: bNum,

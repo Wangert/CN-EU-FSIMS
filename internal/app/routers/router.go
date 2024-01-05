@@ -162,8 +162,10 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		sop.POST("/upload/sensor/waterquality", handlers.UploadSlaughterWaterQualityData)
 		sop.GET("/query/sensor/waterquality", handlers.QuerySlaughterWaterQualityData)
 
-		//sop.POST("/upload/staffuniform", handlers.UploadStaffUniformData)
-		//sop.POST("/upload/disinfect", handlers.UploadSlaughterDisinfectRecord)
+		sop.POST("/upload/staffuniform", handlers.UploadSlaughterStaffUniformData)
+		sop.POST("/upload/light", handlers.UploadSlaughterLightRecord)
+		sop.GET("/query/staffuniform", handlers.QuerySlaughterStaffUniformData)
+		sop.GET("/query/staffuniform", handlers.QuerySlaughterLightRecord)
 	}
 
 	//packoperator router group

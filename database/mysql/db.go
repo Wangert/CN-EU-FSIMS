@@ -97,7 +97,7 @@ func AutoMigrate() {
 		&slaughter.TotalWasteWaterSlaughterPerDay{}, &slaughter.TotalOdorPollutantsSlaughterPerDay{}, &slaughter.TotalWasteResidueSlaughterPerDay{},
 	)
 
-	err = DB.AutoMigrate(&models.Notification{})
+	err = DB.AutoMigrate(&models.Notification{}, &models.MonitoringTimeRecord{})
 
 	if err != nil {
 		fmt.Println(err)

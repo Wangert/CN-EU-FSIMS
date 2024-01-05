@@ -78,7 +78,7 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 	//	&fatten.FattenWaterPhysicalHazard{}, &fatten.FattenWaterChemicalHazard{}, &fatten.FattenWaterSensoryTraits{}, &fatten.FattenWaterBiohazard{},
 	//	&fatten.FattenSoilPhysicalHazard{}, &fatten.FattenSoilBiohazard{})
 
-	g.ApplyBasic(&models.Notification{})
+	g.ApplyBasic(&models.Notification{}, &models.MonitoringTimeRecord{})
 	g.Execute()
 }
 
