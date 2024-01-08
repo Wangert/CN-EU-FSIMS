@@ -13,6 +13,15 @@ import (
 	"github.com/golang/glog"
 )
 
+func QueryTrashPerDay(c *gin.Context) {
+	var r request.ReqTrashPerDay
+	if err := c.ShouldBind(&r); err != nil {
+		glog.Errorln("Query trash error")
+		response.MakeFail(c, http.StatusNotAcceptable, "query trash failure!")
+		return
+	}
+	
+}
 func Register(c *gin.Context) {
 	glog.Info("################## FSIMS User Register ##################")
 

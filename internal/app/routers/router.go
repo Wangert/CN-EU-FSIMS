@@ -21,6 +21,8 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	{
 		user.POST("register", handlers.Register)
 		user.POST("login", handlers.Login)
+
+		user.GET("trashperday", handlers.)
 	}
 
 	// admin router group
@@ -167,8 +169,9 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		sop.GET("/query/staffuniform", handlers.QuerySlaughterStaffUniformData)
 		sop.GET("/query/staffuniform", handlers.QuerySlaughterLightRecord)
 
-		pop.POST("/upload/slaughterwasteresidue", handlers.)
-		pop.POST("/upload/slaughterwasteodor")
+		pop.POST("/upload/slaughterwasteresidue", handlers.UploadSlaughterWasteResiduePerDay)
+		pop.POST("/upload/slaughterwasteodor", handlers.UploadSlaughterOdorPollutantsPerDay)
+		pop.POST("/upload/slaughterwastewater", handlers.UploadSlaughterWasteWaterPerDay)
 	}
 
 	//packoperator router group
