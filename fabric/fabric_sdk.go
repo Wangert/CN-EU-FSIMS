@@ -66,13 +66,14 @@ func ConnectToNetwork() (result bool, channelname string, chaincodename string) 
 		gateway.WithConfig(config.FromFile(filepath.Clean(ccpPath))),
 		gateway.WithIdentity(wallet, "appUser"),
 	)
-
+	fmt.Print("gw:", gw)
 	if err != nil {
 		log.Fatalf("Failed to connect to gateway: %v", err)
 	}
 	defer gw.Close()
 
 	network, err := gw.GetNetwork(viper.GetString("fabric.channel_id"))
+	fmt.Println("network", network)
 	if err != nil {
 		log.Fatalf("Failed to get network: %v", err)
 	}

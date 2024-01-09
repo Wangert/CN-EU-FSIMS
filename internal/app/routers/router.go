@@ -125,6 +125,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		sop.POST("endbatch", handlers.EndSlaughter)
 		sop.POST("send", handlers.SendToPackage)
 		sop.GET("packagehouses", handlers.GetPackageHouses)
+		sop.GET("slaughterdata", handlers.GetSlaughterData)
 		//sop.POST("receive", handlers.SlaughterReceived)
 		//sop.POST("inwarehouse", handlers.SlaughterInWarehouse)
 		//sop.POST("sendtonext", handlers.SendToPack)

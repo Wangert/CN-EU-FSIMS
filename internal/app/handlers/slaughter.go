@@ -44,7 +44,7 @@ func EndSlaughter(c *gin.Context) {
 		response.MakeFail(c, http.StatusBadRequest, "end slaughter parameters error!")
 		return
 	}
-
+	//glog.Info("test :", r)
 	checkcode, productsNum, err := service.EndSlaughter(&r)
 	if err != nil {
 		response.MakeFail(c, http.StatusBadRequest, "end slaughter error!")
@@ -192,4 +192,18 @@ func GetSlaughterWarehouseRecords(c *gin.Context) {
 	}
 	response.MakeSuccess(c, http.StatusOK, res)
 	return
+}
+
+func GetSlaughterData(c *gin.Context) {
+	glog.Info("################## FSIMS Get Slaughter Data ##################")
+
+	batchNum := c.Query("batch_number")
+	sd, err := service.GetSlaughterData(batchNum)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "get slaughter data error!")
+		return
+	}
+	response.MakeSuccess(c, http.StatusOK, *sd)
+	return
+
 }
