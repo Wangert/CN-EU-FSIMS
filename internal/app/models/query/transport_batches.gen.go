@@ -5,6 +5,7 @@
 package query
 
 import (
+	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/app/models/coldchain"
 	"CN-EU-FSIMS/internal/app/models/product"
 	"context"
@@ -36,6 +37,14 @@ func newTransportBatch(db *gorm.DB, opts ...gen.DOOption) transportBatch {
 	_transportBatch.State = field.NewInt(tableName, "state")
 	_transportBatch.Worker = field.NewString(tableName, "worker")
 	_transportBatch.MallNumber = field.NewString(tableName, "mall_number")
+	_transportBatch.StartTime = field.NewTime(tableName, "start_time")
+	_transportBatch.EndTime = field.NewTime(tableName, "end_time")
+	_transportBatch.Procedure = transportBatchHasOneProcedure{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("Procedure", "models.Procedure"),
+	}
+
 	_transportBatch.Products = transportBatchHasManyProducts{
 		db: db.Session(&gorm.Session{}),
 
@@ -60,7 +69,11 @@ type transportBatch struct {
 	State       field.Int
 	Worker      field.String
 	MallNumber  field.String
-	Products    transportBatchHasManyProducts
+	StartTime   field.Time
+	EndTime     field.Time
+	Procedure   transportBatchHasOneProcedure
+
+	Products transportBatchHasManyProducts
 
 	fieldMap map[string]field.Expr
 }
@@ -86,6 +99,8 @@ func (t *transportBatch) updateTableName(table string) *transportBatch {
 	t.State = field.NewInt(table, "state")
 	t.Worker = field.NewString(table, "worker")
 	t.MallNumber = field.NewString(table, "mall_number")
+	t.StartTime = field.NewTime(table, "start_time")
+	t.EndTime = field.NewTime(table, "end_time")
 
 	t.fillFieldMap()
 
@@ -114,7 +129,7 @@ func (t *transportBatch) GetFieldByName(fieldName string) (field.OrderExpr, bool
 }
 
 func (t *transportBatch) fillFieldMap() {
-	t.fieldMap = make(map[string]field.Expr, 10)
+	t.fieldMap = make(map[string]field.Expr, 13)
 	t.fieldMap["id"] = t.ID
 	t.fieldMap["created_at"] = t.CreatedAt
 	t.fieldMap["updated_at"] = t.UpdatedAt
@@ -124,6 +139,8 @@ func (t *transportBatch) fillFieldMap() {
 	t.fieldMap["state"] = t.State
 	t.fieldMap["worker"] = t.Worker
 	t.fieldMap["mall_number"] = t.MallNumber
+	t.fieldMap["start_time"] = t.StartTime
+	t.fieldMap["end_time"] = t.EndTime
 
 }
 
@@ -135,6 +152,77 @@ func (t transportBatch) clone(db *gorm.DB) transportBatch {
 func (t transportBatch) replaceDB(db *gorm.DB) transportBatch {
 	t.transportBatchDo.ReplaceDB(db)
 	return t
+}
+
+type transportBatchHasOneProcedure struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a transportBatchHasOneProcedure) Where(conds ...field.Expr) *transportBatchHasOneProcedure {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a transportBatchHasOneProcedure) WithContext(ctx context.Context) *transportBatchHasOneProcedure {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a transportBatchHasOneProcedure) Session(session *gorm.Session) *transportBatchHasOneProcedure {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a transportBatchHasOneProcedure) Model(m *coldchain.TransportBatch) *transportBatchHasOneProcedureTx {
+	return &transportBatchHasOneProcedureTx{a.db.Model(m).Association(a.Name())}
+}
+
+type transportBatchHasOneProcedureTx struct{ tx *gorm.Association }
+
+func (a transportBatchHasOneProcedureTx) Find() (result *models.Procedure, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a transportBatchHasOneProcedureTx) Append(values ...*models.Procedure) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a transportBatchHasOneProcedureTx) Replace(values ...*models.Procedure) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a transportBatchHasOneProcedureTx) Delete(values ...*models.Procedure) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a transportBatchHasOneProcedureTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a transportBatchHasOneProcedureTx) Count() int64 {
+	return a.tx.Count()
 }
 
 type transportBatchHasManyProducts struct {

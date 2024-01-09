@@ -329,7 +329,7 @@ func DeleteFsimUser(account *request.ReqAccount) error {
 	}
 	//Delete the corresponding records in the casbin table first
 
-	res, err := u.WithContext(context.Background()).Unscoped().Where(u.UUID.Eq(uuid)).Delete()
+	res, err := u.WithContext(context.Background()).Where(u.UUID.Eq(uuid)).Delete()
 	_ = res.RowsAffected
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -341,4 +341,11 @@ func DeleteFsimUser(account *request.ReqAccount) error {
 		return errors.New("delete a user error")
 	}
 	return nil
+}
+
+func CheckUserIsExisted(uuid string) error {
+	//检查用户uuid是否已经存在
+	u := query.FSIMSUser
+	_, err := u.WithContext(context.Background()).Where(u.UUID.Eq(uuid)).First()
+	return err
 }

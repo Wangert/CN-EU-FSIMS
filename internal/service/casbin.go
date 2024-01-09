@@ -13,9 +13,9 @@ import (
 )
 
 const (
-	CASBIN_MODEL_PATH       = "conf/casbin/fsims_rbac_model.conf"
-	CASBIN_ROLE_POLICY_PATH = "conf/casbin/fsims_rbac_role_policy.csv"
-	CASBIN_USER_ROLE_PATH   = "conf/casbin/fsims_rbac_user_role.csv"
+	CASBIN_MODEL_PATH       = "../conf/casbin/fsims_rbac_model.conf"
+	CASBIN_ROLE_POLICY_PATH = "../conf/casbin/fsims_rbac_role_policy.csv"
+	CASBIN_USER_ROLE_PATH   = "../conf/casbin/fsims_rbac_user_role.csv"
 )
 
 type CasbinService struct {
@@ -68,7 +68,7 @@ func (cs *CasbinService) AddRoleForUserWithUUID(uuid, roleName string) error {
 
 func (cs *CasbinService) RemoveRoleForUserWithUUID(uuid, roleName string) error {
 	ok, err := cs.enforcer.RemoveGroupingPolicy(uuid, roleName)
-	if err !=nil || !ok{
+	if err != nil || !ok {
 		return errors.New("remove grouping policy error")
 	}
 	return nil

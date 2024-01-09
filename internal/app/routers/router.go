@@ -95,7 +95,6 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		//pop.POST("createproc", handlers.CreateProcedure)
 
 		pop.POST("addcow", handlers.AddCow)
-
 		pop.POST("newfeedingbatch", handlers.NewFeedingBatch)
 		pop.GET("getfeedingrecords", handlers.GetFeedingRecords)
 		pop.GET("searchhouse", handlers.GetUserHouse)
@@ -108,6 +107,30 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		//pop.POST("inwarehouse", handlers.PastureInWarehouse)
 		pop.POST("send", handlers.SendToSlaughter)
 		pop.GET("slaughterhouses", handlers.GetSlaughterHouses)
+
+		//上传传感器数据
+		pop.POST("addfeedheavymetal", handlers.AddPastureFeedHeavyMetal)
+		pop.POST("addfeedmycotoxins", handlers.UploadPastureFeedMycotoxins)
+		pop.POST("addpasturewaterrecord", handlers.UploadPastureWaterRecord)
+		pop.POST("addpasturebuffer", handlers.UploadPastureBuffer)
+		pop.POST("addpasturearea", handlers.UploadPastureArea)
+		pop.POST("addpasturecowhouse", handlers.UploadPastureCowHouse)
+		pop.POST("addpasturebasicenvironment", handlers.UploadPastureBasicEnvironment)
+		pop.POST("addpasturepaddingrequire", handlers.UploadPasturePaddingRequire)
+		pop.POST("addpasturewastedwaterindex", handlers.UploadPastureWastedWaterIndex)
+		pop.POST("addpasturedisinfectionrecord", handlers.UploadPastureDisinfectionRecord)
+
+		//查询传感器数据
+		pop.GET("/query/sensor/heavymetal", handlers.QueryFeedHeavyMetalData)
+		pop.GET("/query/sensor/mycotoxins", handlers.QueryPastureFeedMycotoxinsData)
+		pop.GET("/query/sensor/waterrecord", handlers.QueryPastureWaterRecordData)
+		pop.GET("/query/sensor/buffer", handlers.QueryPastureBufferData)
+		pop.GET("/query/sensor/area", handlers.QueryPastureAreaData)
+		pop.GET("/query/sensor/cowhouse", handlers.QueryPastureCowHouseData)
+		pop.GET("/query/sensor/basicenvironment", handlers.QueryPastureBasicEnvironmentData)
+		pop.GET("/query/sensor/paddingrequire", handlers.QueryPasturePaddingRequireData)
+		pop.GET("/query/sensor/wastedwaterindex", handlers.QueryPastureWastedWaterIndexData)
+		pop.GET("/query/sensor/disinfectionrecord", handlers.QueryPastureDisinfectionRecordData)
 	}
 
 	//slaughteroperator router group
@@ -129,6 +152,26 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		//sop.POST("receive", handlers.SlaughterReceived)
 		//sop.POST("inwarehouse", handlers.SlaughterInWarehouse)
 		//sop.POST("sendtonext", handlers.SendToPack)
+
+		sop.POST("/upload/sensor/precoolshop", handlers.UploadPreCoolShopData)
+		sop.POST("/upload/sensor/slashop", handlers.UploadSlaughterShopData)
+		sop.POST("/upload/sensor/divshop", handlers.UploadDivisionShopData)
+		sop.POST("/upload/sensor/acidshop", handlers.UploadAcidShopData)
+		sop.POST("/upload/sensor/frozenshop", handlers.UploadFrozenShopData)
+
+		sop.GET("/query/sensor/precoolshop", handlers.QueryPreCoolShopData)
+		sop.GET("/query/sensor/slashop", handlers.QuerySlaughterShopData)
+		sop.GET("/query/sensor/divshop", handlers.QueryDivisionShopData)
+		sop.GET("/query/sensor/acidshop", handlers.QueryAcidShopData)
+		sop.GET("/query/sensor/frozenshop", handlers.QueryFrozenShopData)
+
+		sop.POST("/upload/sensor/waterquality", handlers.UploadSlaughterWaterQualityData)
+		sop.GET("/query/sensor/waterquality", handlers.QuerySlaughterWaterQualityData)
+
+		sop.POST("/upload/staffuniform", handlers.UploadSlaughterStaffUniformData)
+		sop.POST("/upload/light", handlers.UploadSlaughterLightRecord)
+		sop.GET("/query/staffuniform", handlers.QuerySlaughterStaffUniformData)
+		sop.GET("/query/staffuniform", handlers.QuerySlaughterLightRecord)
 	}
 
 	//packoperator router group

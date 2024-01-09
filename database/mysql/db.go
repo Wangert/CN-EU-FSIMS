@@ -5,6 +5,7 @@ import (
 	"CN-EU-FSIMS/internal/app/models/coldchain"
 	"CN-EU-FSIMS/internal/app/models/pack"
 	"CN-EU-FSIMS/internal/app/models/pasture"
+	"CN-EU-FSIMS/internal/app/models/premortem"
 	"CN-EU-FSIMS/internal/app/models/product"
 	"CN-EU-FSIMS/internal/app/models/query"
 	"CN-EU-FSIMS/internal/app/models/sell"
@@ -69,10 +70,10 @@ func AutoMigrate() {
 	//	&fatten.FattenWaterPhysicalHazard{}, &fatten.FattenWaterChemicalHazard{}, &fatten.FattenWaterSensoryTraits{}, &fatten.FattenWaterBiohazard{},
 	//	&fatten.FattenSoilPhysicalHazard{}, &fatten.FattenSoilBiohazard{})
 
-	err = DB.AutoMigrate(&coldchain.TransportProcedureData{})
-	if err != nil {
-		fmt.Println(err)
-	}
+	//err = DB.AutoMigrate(&coldchain.TransportProcedureData{})
+	//if err != nil {
+	//	fmt.Println(err)
+	//}
 
 	err = DB.AutoMigrate(&pasture.PastureHouse{}, &slaughter.SlaughterHouse{}, &pack.PackageHouse{}, &coldchain.TransportVehicle{}, &sell.Mall{})
 	if err != nil {
@@ -93,9 +94,28 @@ func AutoMigrate() {
 	err = DB.AutoMigrate(&slaughter.SlaughterDisinfectHotWaterTempMoni{}, &slaughter.SlaughterStun{}, &slaughter.BleedElectronic{}, &slaughter.PreSlaQuanPic{}, &slaughter.SlaughterAnalAfterSlaQuanCar{}, &slaughter.AnalMeatPhMoni{}, &slaughter.AnalCutWeight{},
 		&slaughter.ToNumGermMon{}, &slaughter.AirNumGermMon{}, &slaughter.PreSlaDietManage{}, &slaughter.PreSlaPicAndEn{},
 	)
+	//传感器数据
+	err = DB.AutoMigrate(&pasture.PastureFeedMycotoxins{}, &pasture.Afb1{}, &pasture.Don{}, &pasture.T2toxin{}, &pasture.T2VomZea{},
+		&pasture.PastureBuffer{}, &pasture.PastureArea{}, &pasture.PastureBasicEnvironment{}, &pasture.PasturePaddingRequire{}, &pasture.PastureWastedWaterIndex{},
+		&pasture.PastureDisinfectionRecord{}, &pasture.PastureFeedHeavyMetal{}, &pasture.PastureFeedAs{}, &pasture.PastureFeedPb{}, &pasture.PastureFeedCd{}, &pasture.PastureFeedCr{},
+		&pasture.PastureWaterRecord{}, &pasture.PastureOapGci{}, &pasture.PastureToxIndex{}, &pasture.PastureMicroIndex{}, &pasture.CowHouse{},
+		&premortem.WaitingSlaughterCircle{}, &premortem.Gps{}, &premortem.WaitingSlaughterCircleGerms{},
+		&slaughter.PreCoolShop{}, &slaughter.SlaShop{}, &slaughter.DivShop{}, &slaughter.AcidShop{}, &slaughter.FroShop{}, &slaughter.PackShop{}, &slaughter.StaUni{}, &slaughter.SlaughterLightRecord{}, &slaughter.SlaughterWaterQualityMon{},
+		&slaughter.SlaughterWaterMicroIndex{}, &slaughter.OapGciSla{}, &slaughter.MicroIndexWaterMonSla{}, &slaughter.SlaughterToxinIndex{}, &slaughter.SlaughterWaterToxinIndex{},
+	)
+
+	err = DB.AutoMigrate(&models.Notification{}, &models.MonitoringTimeRecord{})
+
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	//以牛为对象数据
+	// err = DB.AutoMigrate(&slaughter.SlaughterDisinfectHotWaterTempMoni{}, &slaughter.SlaughterStun{}, &slaughter.BleedElectronic{}, &slaughter.PreSlaQuanPic{}, &slaughter.SlaughterAnalAfterSlaQuanCar{}, &slaughter.AnalMeatPhMoni{}, &slaughter.AnalCutWeight{},
+	// 	&slaughter.ToNumGermMon{}, &slaughter.AirNumGermMon{}, &slaughter.PreSlaDietManage{}, &slaughter.PreSlaPicAndEn{})
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
 }
 
 //func NewNotification(safetyResult string, reason string, time string, id string, company string, user string, detail models.FoodChainNode) bool {

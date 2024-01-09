@@ -3,7 +3,7 @@ package main
 import (
 	"CN-EU-FSIMS/database/mysql"
 	"CN-EU-FSIMS/fabric"
-	middleware "CN-EU-FSIMS/internal/app/middlewares"
+	"CN-EU-FSIMS/internal/app/middlewares"
 	"CN-EU-FSIMS/internal/app/routers"
 	"CN-EU-FSIMS/internal/common"
 	"CN-EU-FSIMS/internal/config"
@@ -24,7 +24,6 @@ func main() {
 	if err != nil {
 		panic("init config error: " + err.Error())
 	}
-
 	// 初始化mysql
 	mysql.Init(common.CONFIG_PATH)
 
@@ -34,7 +33,8 @@ func main() {
 	// 设置gin运行模式
 	gin.SetMode(viper.GetString("runmode"))
 	//配置路由和中间件
-	r := routers.Load(gin.New(), middleware.Cors)
+	//middleware.Cors
+	r := routers.Load(gin.New(), middlewares.Cors)
 
 	listenAddr := viper.GetString("server.ip_addr") + ":" + viper.GetString("server.port")
 	glog.Infof(http.ListenAndServe(listenAddr, r).Error())

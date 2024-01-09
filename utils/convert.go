@@ -50,3 +50,30 @@ func StructToMap(data interface{}) (map[string]interface{}, error) {
 	}
 	return mapData, nil
 }
+
+func FlattenMap(m map[string]interface{}) map[string]interface{} {
+	result := make(map[string]interface{})
+
+	for key, value := range m {
+		if nestedMap, ok := value.(map[string]interface{}); ok { // 判断值是否为嵌套的map类型
+			nestedResult := FlattenMap(nestedMap)              // 递归调用自身处理嵌套的map
+			for nestedKey, nestedValue := range nestedResult { // 合并结果到最外层的map
+				result[nestedKey] = nestedValue
+			}
+		} else {
+			result[key] = value
+		}
+	}
+
+	return result
+}
+
+func StrArrToStr(strArr []string) string {
+	result := ""
+
+	for _, s := range strArr {
+		result = result + "[" + s + "]" + ";"
+	}
+
+	return result
+}

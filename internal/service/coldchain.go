@@ -38,6 +38,8 @@ func EndTransport(r *request.ReqEndTransport) (string, error) {
 
 	goods := make([]*product.MallGood, len(packageProducts))
 
+	endTime := time.Now()
+
 	// 为该运输批次中的package product提交transport procedure数据
 	for i, p := range packageProducts {
 		m, err := tx.PackageProductAndTransportPIDMap.WithContext(context.Background()).
@@ -71,7 +73,7 @@ func EndTransport(r *request.ReqEndTransport) (string, error) {
 			return "", err
 		}
 
-		checkcode, phash, err := BasicCommitProcedureWithTx(tx, m.TransportPID, data)
+		checkcode, phash, err := BasicCommitProcedureWithTx(tx, m.TransportPID, &endTime, data)
 		if err != nil {
 			_ = tx.Rollback()
 			return "", err
@@ -113,7 +115,7 @@ func EndTransport(r *request.ReqEndTransport) (string, error) {
 
 	_, err = tx.TransportBatch.WithContext(context.Background()).
 		Where(tx.TransportBatch.BatchNumber.Eq(r.BatchNumber)).
-		Updates(map[string]interface{}{"state": END_STATE_BATCH_TRANS})
+		Updates(map[string]interface{}{"state": END_STATE_BATCH_TRANS, "end_time": &endTime})
 	if err != nil {
 		_ = tx.Rollback()
 		return "", err
@@ -147,6 +149,8 @@ func StartTransport(r *request.ReqStartTransport) error {
 
 	packageProducts := batch.Products
 
+	startTime := time.Now()
+
 	// 为每个package product创建transport procedure
 	for _, p := range packageProducts {
 		packBatch, err := tx.PackageBatch.WithContext(context.Background()).
@@ -157,11 +161,12 @@ func StartTransport(r *request.ReqStartTransport) error {
 		}
 
 		pp := NewProcedureParams{
-			Type:     COLDCHAIN_TRANSPORT_TYPE,
-			Operator: r.Operator,
-			PrePID:   packBatch.PID,
+			Type:        COLDCHAIN_TRANSPORT_TYPE,
+			Operator:    r.Operator,
+			PrePID:      packBatch.PID,
+			BatchNumber: r.BatchNumber,
 		}
-		procedure, err := NewProcedure(&pp)
+		procedure, err := NewProcedure(&pp, startTime)
 		if err != nil {
 			_ = tx.Rollback()
 			return err
@@ -209,7 +214,7 @@ func StartTransport(r *request.ReqStartTransport) error {
 
 	_, err = tx.TransportBatch.WithContext(context.Background()).
 		Where(tx.TransportBatch.BatchNumber.Eq(r.BatchNumber)).
-		Updates(map[string]interface{}{"state": START_STATE_BATCH_TRANS})
+		Updates(map[string]interface{}{"state": START_STATE_BATCH_TRANS, "end_time": startTime})
 	if err != nil {
 		_ = tx.Rollback()
 		return err
