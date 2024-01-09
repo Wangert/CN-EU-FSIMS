@@ -134,7 +134,6 @@ type ReqUploadSlaughterWaterQualityData struct {
 	TimestampRecordAt        int64                       `json:"timestamp_record_at"` //记录时间戳
 	SlaughterWaterMicroIndex ReqSlaughterWaterMicroIndex `json:"slaughter_water_micro_index"`
 	OapGciSla                ReqOapGciSla                `json:"oap_gci_sla"`
-	MicroIndexWaterMonSla    ReqMicroIndexWaterMonSla    `json:"micro_index_water_mon_sla"`
 	SlaughterToxinIndex      ReqSlaughterToxinIndex      `json:"slaughter_toxin_index"`
 }
 

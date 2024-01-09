@@ -36,6 +36,8 @@ func newPackageBatch(db *gorm.DB, opts ...gen.DOOption) packageBatch {
 	_packageBatch.State = field.NewInt(tableName, "state")
 	_packageBatch.PID = field.NewString(tableName, "p_id")
 	_packageBatch.Worker = field.NewString(tableName, "worker")
+	_packageBatch.StartTime = field.NewTime(tableName, "start_time")
+	_packageBatch.EndTime = field.NewTime(tableName, "end_time")
 	_packageBatch.ProductNumber = field.NewString(tableName, "product_number")
 	_packageBatch.Procedure = packageBatchHasOneProcedure{
 		db: db.Session(&gorm.Session{}),
@@ -61,6 +63,8 @@ type packageBatch struct {
 	State         field.Int
 	PID           field.String
 	Worker        field.String
+	StartTime     field.Time
+	EndTime       field.Time
 	ProductNumber field.String
 	Procedure     packageBatchHasOneProcedure
 
@@ -88,6 +92,8 @@ func (p *packageBatch) updateTableName(table string) *packageBatch {
 	p.State = field.NewInt(table, "state")
 	p.PID = field.NewString(table, "p_id")
 	p.Worker = field.NewString(table, "worker")
+	p.StartTime = field.NewTime(table, "start_time")
+	p.EndTime = field.NewTime(table, "end_time")
 	p.ProductNumber = field.NewString(table, "product_number")
 
 	p.fillFieldMap()
@@ -117,7 +123,7 @@ func (p *packageBatch) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 }
 
 func (p *packageBatch) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 11)
+	p.fieldMap = make(map[string]field.Expr, 13)
 	p.fieldMap["id"] = p.ID
 	p.fieldMap["created_at"] = p.CreatedAt
 	p.fieldMap["updated_at"] = p.UpdatedAt
@@ -127,6 +133,8 @@ func (p *packageBatch) fillFieldMap() {
 	p.fieldMap["state"] = p.State
 	p.fieldMap["p_id"] = p.PID
 	p.fieldMap["worker"] = p.Worker
+	p.fieldMap["start_time"] = p.StartTime
+	p.fieldMap["end_time"] = p.EndTime
 	p.fieldMap["product_number"] = p.ProductNumber
 
 }

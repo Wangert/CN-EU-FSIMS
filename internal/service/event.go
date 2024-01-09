@@ -23,11 +23,11 @@ const (
 )
 
 type Event struct {
-	Source                 string    `gorm:"not null" json:"source"`
-	Content                string    `gorm:"not null" json:"content"`
-	EventTime              time.Time `gorm:"not null" json:"event_time"`
-	EventType              int       `gorm:"not null" json:"event_type"`
-	Proposal               string    `gorm:"not null" json:"proposal"`
-	AffectedProductsNumber string    `json:"affected_products_number"`
-	RiskLevel              int       `gorm:"not null" json:"risk_level"`
+	Source              string    `gorm:"not null" json:"source"`
+	Content             string    `gorm:"not null" json:"content"`
+	EventTime           time.Time `gorm:"not null" json:"event_time"`
+	EventType           int       `gorm:"not null" json:"event_type"`
+	Proposal            string    `gorm:"not null" json:"proposal"`
+	AffectedBatchNumber string    `json:"affected_Batch_number"`
+	RiskLevel           int       `gorm:"not null" json:"risk_level"`
 }

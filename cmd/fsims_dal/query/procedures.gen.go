@@ -36,7 +36,7 @@ func newProcedure(db *gorm.DB, opts ...gen.DOOption) procedure {
 	_procedure.State = field.NewUint(tableName, "state")
 	_procedure.PHash = field.NewString(tableName, "p_hash")
 	_procedure.CheckCode = field.NewString(tableName, "check_code")
-	_procedure.SerialNumber = field.NewUint(tableName, "serial_number")
+	_procedure.SerialNumber = field.NewInt64(tableName, "serial_number")
 	_procedure.Operator = field.NewString(tableName, "operator")
 	_procedure.StartTimestamp = field.NewTime(tableName, "start_timestamp")
 	_procedure.CompletedTimestamp = field.NewTime(tableName, "completed_timestamp")
@@ -63,7 +63,7 @@ type procedure struct {
 	State              field.Uint
 	PHash              field.String
 	CheckCode          field.String
-	SerialNumber       field.Uint
+	SerialNumber       field.Int64
 	Operator           field.String
 	StartTimestamp     field.Time
 	CompletedTimestamp field.Time
@@ -96,7 +96,7 @@ func (p *procedure) updateTableName(table string) *procedure {
 	p.State = field.NewUint(table, "state")
 	p.PHash = field.NewString(table, "p_hash")
 	p.CheckCode = field.NewString(table, "check_code")
-	p.SerialNumber = field.NewUint(table, "serial_number")
+	p.SerialNumber = field.NewInt64(table, "serial_number")
 	p.Operator = field.NewString(table, "operator")
 	p.StartTimestamp = field.NewTime(table, "start_timestamp")
 	p.CompletedTimestamp = field.NewTime(table, "completed_timestamp")

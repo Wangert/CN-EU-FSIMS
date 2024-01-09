@@ -4,6 +4,7 @@ import (
 	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/app/models/product"
 	"gorm.io/gorm"
+	"time"
 )
 
 type TransportBatch struct {
@@ -13,6 +14,8 @@ type TransportBatch struct {
 	State       int                      `gorm:"not null" json:"state"`
 	Worker      string                   `gorm:"not null; type:varchar(100)" json:"worker"`
 	MallNumber  string                   `gorm:"not null; type:varchar(256)" json:"mall_number"`
+	StartTime   *time.Time               `json:"start_time"`
+	EndTime     *time.Time               `json:"end_time"`
 	Products    []product.PackageProduct `gorm:"foreignKey:TransportBatchNumber; references:BatchNumber" json:"products"`
 	Procedure   models.Procedure         `gorm:"foreignKey:BatchNumber; references:BatchNumber" json:"procedure"`
 }
@@ -24,6 +27,8 @@ type TransportBatchInfo struct {
 	Worker      string                   `json:"worker"`
 	MallNumber  string                   `json:"mall_number"`
 	Products    []product.PackageProduct `json:"products"`
+	StartTime   string                   `json:"start_time"`
+	EndTime     string                   `json:"end_time"`
 }
 
 func ToTransportBatchInfo(batch *TransportBatch) TransportBatchInfo {
@@ -34,5 +39,7 @@ func ToTransportBatchInfo(batch *TransportBatch) TransportBatchInfo {
 		Worker:      batch.Worker,
 		MallNumber:  batch.MallNumber,
 		Products:    batch.Products,
+		StartTime:   batch.StartTime.Format("2006-01-02 15:04:05"),
+		EndTime:     batch.EndTime.Format("2006-01-02 15:04:05"),
 	}
 }

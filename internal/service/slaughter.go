@@ -216,13 +216,6 @@ func UploadSlaughterWaterQualityData(r *request.ReqUploadSlaughterWaterQualityDa
 			OapGciSla20:                r.OapGciSla.OapGciSla20,
 			OapGciSla21:                r.OapGciSla.OapGciSla21,
 		},
-		MicroIndexWaterMonSla: slaughter.MicroIndexWaterMonSla{
-			SlaughterWaterQualityMonID: nil,
-			MicroIndexWaterMonSla1:     r.MicroIndexWaterMonSla.MicroIndexWaterMonSla1,
-			MicroIndexWaterMonSla2:     r.MicroIndexWaterMonSla.MicroIndexWaterMonSla2,
-			MicroIndexWaterMonSla3:     r.MicroIndexWaterMonSla.MicroIndexWaterMonSla3,
-			MicroIndexWaterMonSla4:     r.MicroIndexWaterMonSla.MicroIndexWaterMonSla4,
-		},
 		ToxinIndexSla: slaughter.SlaughterToxinIndex{
 			SlaughterWaterQualityMonID: nil,
 			ToxinIndexSla1:             r.SlaughterToxinIndex.ToxinIndexSla1,
@@ -702,6 +695,8 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 		}
 	}()
 
+	endTime := time.Now()
+
 	// 读取PID和cow number
 	pid, cowNumber, err := GetPidAndCowNumBySlaughterBatchNumber(r.BatchNumber)
 	if err != nil {
@@ -726,7 +721,7 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 	// 更新SlaughterBatch状态
 	_, err = tx.SlaughterBatch.WithContext(context.Background()).
 		Where(tx.SlaughterBatch.BatchNumber.Eq(r.BatchNumber)).
-		Updates(map[string]interface{}{"state": END_STATE_BATCH_SLA})
+		Updates(map[string]interface{}{"state": END_STATE_BATCH_SLA, "end_time": &endTime})
 	if err != nil {
 		_ = tx.Rollback()
 		return "", nil, err
@@ -777,7 +772,7 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 		KnifeDisinfectionTime: r.KnifeDisinfectionTime,
 	}
 
-	checkcode, err := BasicCommitProcedureWithTx(tx, pid, data)
+	checkcode, err := BasicCommitProcedureWithTx(tx, pid, &endTime, data)
 	if err != nil {
 		_ = tx.Rollback()
 		return "", nil, err
@@ -858,6 +853,8 @@ func NewSlaughterBatch(r *request.ReqNewSlaughterBatch) (string, error) {
 		}
 	}()
 
+	startTime := time.Now()
+
 	bNum := BATCH_NUMBER_PREFIX + GenerateNumber(r)
 
 	pp := NewProcedureParams{
@@ -866,7 +863,7 @@ func NewSlaughterBatch(r *request.ReqNewSlaughterBatch) (string, error) {
 		PrePID:      r.PrePID,
 		BatchNumber: bNum,
 	}
-	procedure, err := NewProcedure(&pp)
+	procedure, err := NewProcedure(&pp, startTime)
 
 	sb := slaughter.SlaughterBatch{
 		BatchNumber: bNum,
@@ -875,6 +872,7 @@ func NewSlaughterBatch(r *request.ReqNewSlaughterBatch) (string, error) {
 		PID:         procedure.PID,
 		Worker:      r.Worker,
 		CowNumber:   r.CowNumber,
+		StartTime:   &startTime,
 	}
 
 	err = tx.Procedure.WithContext(context.Background()).Create(&procedure)

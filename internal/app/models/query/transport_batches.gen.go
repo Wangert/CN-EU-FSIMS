@@ -37,6 +37,8 @@ func newTransportBatch(db *gorm.DB, opts ...gen.DOOption) transportBatch {
 	_transportBatch.State = field.NewInt(tableName, "state")
 	_transportBatch.Worker = field.NewString(tableName, "worker")
 	_transportBatch.MallNumber = field.NewString(tableName, "mall_number")
+	_transportBatch.StartTime = field.NewTime(tableName, "start_time")
+	_transportBatch.EndTime = field.NewTime(tableName, "end_time")
 	_transportBatch.Procedure = transportBatchHasOneProcedure{
 		db: db.Session(&gorm.Session{}),
 
@@ -67,6 +69,8 @@ type transportBatch struct {
 	State       field.Int
 	Worker      field.String
 	MallNumber  field.String
+	StartTime   field.Time
+	EndTime     field.Time
 	Procedure   transportBatchHasOneProcedure
 
 	Products transportBatchHasManyProducts
@@ -95,6 +99,8 @@ func (t *transportBatch) updateTableName(table string) *transportBatch {
 	t.State = field.NewInt(table, "state")
 	t.Worker = field.NewString(table, "worker")
 	t.MallNumber = field.NewString(table, "mall_number")
+	t.StartTime = field.NewTime(table, "start_time")
+	t.EndTime = field.NewTime(table, "end_time")
 
 	t.fillFieldMap()
 
@@ -123,7 +129,7 @@ func (t *transportBatch) GetFieldByName(fieldName string) (field.OrderExpr, bool
 }
 
 func (t *transportBatch) fillFieldMap() {
-	t.fieldMap = make(map[string]field.Expr, 11)
+	t.fieldMap = make(map[string]field.Expr, 13)
 	t.fieldMap["id"] = t.ID
 	t.fieldMap["created_at"] = t.CreatedAt
 	t.fieldMap["updated_at"] = t.UpdatedAt
@@ -133,6 +139,8 @@ func (t *transportBatch) fillFieldMap() {
 	t.fieldMap["state"] = t.State
 	t.fieldMap["worker"] = t.Worker
 	t.fieldMap["mall_number"] = t.MallNumber
+	t.fieldMap["start_time"] = t.StartTime
+	t.fieldMap["end_time"] = t.EndTime
 
 }
 

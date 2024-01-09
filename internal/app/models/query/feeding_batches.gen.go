@@ -37,6 +37,8 @@ func newFeedingBatch(db *gorm.DB, opts ...gen.DOOption) feedingBatch {
 	_feedingBatch.State = field.NewInt(tableName, "state")
 	_feedingBatch.PID = field.NewString(tableName, "p_id")
 	_feedingBatch.Worker = field.NewString(tableName, "worker")
+	_feedingBatch.StartTime = field.NewTime(tableName, "start_time")
+	_feedingBatch.EndTime = field.NewTime(tableName, "end_time")
 	_feedingBatch.Procedure = feedingBatchHasOneProcedure{
 		db: db.Session(&gorm.Session{}),
 
@@ -67,6 +69,8 @@ type feedingBatch struct {
 	State       field.Int
 	PID         field.String
 	Worker      field.String
+	StartTime   field.Time
+	EndTime     field.Time
 	Procedure   feedingBatchHasOneProcedure
 
 	Cows feedingBatchHasManyCows
@@ -95,6 +99,8 @@ func (f *feedingBatch) updateTableName(table string) *feedingBatch {
 	f.State = field.NewInt(table, "state")
 	f.PID = field.NewString(table, "p_id")
 	f.Worker = field.NewString(table, "worker")
+	f.StartTime = field.NewTime(table, "start_time")
+	f.EndTime = field.NewTime(table, "end_time")
 
 	f.fillFieldMap()
 
@@ -123,7 +129,7 @@ func (f *feedingBatch) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 }
 
 func (f *feedingBatch) fillFieldMap() {
-	f.fieldMap = make(map[string]field.Expr, 11)
+	f.fieldMap = make(map[string]field.Expr, 13)
 	f.fieldMap["id"] = f.ID
 	f.fieldMap["created_at"] = f.CreatedAt
 	f.fieldMap["updated_at"] = f.UpdatedAt
@@ -133,6 +139,8 @@ func (f *feedingBatch) fillFieldMap() {
 	f.fieldMap["state"] = f.State
 	f.fieldMap["p_id"] = f.PID
 	f.fieldMap["worker"] = f.Worker
+	f.fieldMap["start_time"] = f.StartTime
+	f.fieldMap["end_time"] = f.EndTime
 
 }
 

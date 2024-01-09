@@ -789,6 +789,8 @@ func EndFeeding(r *request.ReqEndFeeding) (string, []string, error) {
 		}
 	}()
 
+	endTime := time.Now()
+
 	// 读取PID
 	pid, err := GetPidByFeedingBatchNumber(r.BatchNumber)
 	if err != nil {
@@ -806,7 +808,7 @@ func EndFeeding(r *request.ReqEndFeeding) (string, []string, error) {
 		return "", nil, err
 	}
 	// 更新FeedingBatch状态
-	_, err = tx.FeedingBatch.WithContext(context.Background()).Where(tx.FeedingBatch.BatchNumber.Eq(r.BatchNumber)).Updates(map[string]interface{}{"state": END_STATE_BATCH_PAS})
+	_, err = tx.FeedingBatch.WithContext(context.Background()).Where(tx.FeedingBatch.BatchNumber.Eq(r.BatchNumber)).Updates(map[string]interface{}{"state": END_STATE_BATCH_PAS, "end_time": endTime})
 	if err != nil {
 		_ = tx.Rollback()
 		return "", nil, err
@@ -841,7 +843,7 @@ func EndFeeding(r *request.ReqEndFeeding) (string, []string, error) {
 		Stench: r.Stench,
 	}
 
-	checkcode, err := BasicCommitProcedureWithTx(tx, pid, data)
+	checkcode, err := BasicCommitProcedureWithTx(tx, pid, &endTime, data)
 	if err != nil {
 		_ = tx.Rollback()
 		return "", nil, err
@@ -907,6 +909,8 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 		}
 	}()
 
+	startTime := time.Now()
+
 	bNum := BATCH_NUMBER_PREFIX + GenerateNumber(r)
 
 	pp := NewProcedureParams{
@@ -916,7 +920,7 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 		BatchNumber: bNum,
 	}
 
-	procedure, err := NewProcedure(&pp)
+	procedure, err := NewProcedure(&pp, startTime)
 
 	glog.Infoln("CowNumbers:")
 	glog.Infoln(r.CowNumbers)
@@ -932,6 +936,7 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 		PID:         procedure.PID,
 		Worker:      r.Worker,
 		Cows:        cows,
+		StartTime:   &startTime,
 	}
 
 	err = tx.Procedure.WithContext(context.Background()).Create(&procedure)

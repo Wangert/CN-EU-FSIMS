@@ -3,6 +3,7 @@ package pack
 import (
 	"CN-EU-FSIMS/internal/app/models"
 	"gorm.io/gorm"
+	"time"
 )
 
 type PackageBatch struct {
@@ -12,6 +13,8 @@ type PackageBatch struct {
 	State         int              `gorm:"not null" json:"state"`
 	PID           string           `gorm:"not null; type:varchar(256)" json:"pid"`
 	Worker        string           `gorm:"not null; type:varchar(100)" json:"worker"`
+	StartTime     *time.Time       `json:"start_time"`
+	EndTime       *time.Time       `json:"end_time"`
 	ProductNumber string           `gorm:"not null; type:varchar(256)" json:"product_number"`
 	Procedure     models.Procedure `gorm:"foreignKey:BatchNumber; references:BatchNumber" json:"procedure"`
 }
@@ -23,6 +26,8 @@ type PackageBatchInfo struct {
 	PID           string `json:"pid"`
 	Worker        string `json:"worker"`
 	ProductNumber string `json:"product_number"`
+	StartTime     string `json:"start_time"`
+	EndTime       string `json:"end_time"`
 }
 
 func ToPackageBatchInfo(batch *PackageBatch) PackageBatchInfo {
@@ -33,5 +38,7 @@ func ToPackageBatchInfo(batch *PackageBatch) PackageBatchInfo {
 		PID:           batch.PID,
 		Worker:        batch.Worker,
 		ProductNumber: batch.ProductNumber,
+		StartTime:     batch.StartTime.Format("2006-01-02 15:04:05"),
+		EndTime:       batch.EndTime.Format("2006-01-02 15:04:05"),
 	}
 }

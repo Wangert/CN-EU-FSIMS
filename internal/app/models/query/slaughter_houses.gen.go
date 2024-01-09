@@ -126,11 +126,6 @@ func newSlaughterHouse(db *gorm.DB, opts ...gen.DOOption) slaughterHouse {
 		}{
 			RelationField: field.NewRelation("SlaughterWaterQualityMonRecords.OapGciSla", "slaughter.OapGciSla"),
 		},
-		MicroIndexWaterMonSla: struct {
-			field.RelationField
-		}{
-			RelationField: field.NewRelation("SlaughterWaterQualityMonRecords.MicroIndexWaterMonSla", "slaughter.MicroIndexWaterMonSla"),
-		},
 		ToxinIndexSla: struct {
 			field.RelationField
 			SlaughterWaterToxinIndex struct {
@@ -1060,9 +1055,6 @@ type slaughterHouseHasManySlaughterWaterQualityMonRecords struct {
 		field.RelationField
 	}
 	OapGciSla struct {
-		field.RelationField
-	}
-	MicroIndexWaterMonSla struct {
 		field.RelationField
 	}
 	ToxinIndexSla struct {

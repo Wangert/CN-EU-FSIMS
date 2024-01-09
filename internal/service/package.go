@@ -109,6 +109,8 @@ func EndPackage(r *request.ReqEndPackage) (string, []string, error) {
 		}
 	}()
 
+	endTime := time.Now()
+
 	// 读取PID和product number
 	pid, productNumber, err := GetPidAndProductNumByPackageBatchNumber(r.BatchNumber)
 	if err != nil {
@@ -180,7 +182,7 @@ func EndPackage(r *request.ReqEndPackage) (string, []string, error) {
 		PackTemperature: r.PackTemperature,
 	}
 
-	checkcode, err := BasicCommitProcedureWithTx(tx, pid, data)
+	checkcode, err := BasicCommitProcedureWithTx(tx, pid, endTime, data)
 	if err != nil {
 		_ = tx.Rollback()
 		return "", nil, err
@@ -287,6 +289,7 @@ func NewPackageBatch(r *request.ReqNewPackageBatch) (string, error) {
 		PID:           procedure.PID,
 		Worker:        r.Worker,
 		ProductNumber: r.ProductNumber,
+		StartTime:     &procedure.StartTimestamp,
 	}
 
 	err = tx.Procedure.WithContext(context.Background()).Create(&procedure)

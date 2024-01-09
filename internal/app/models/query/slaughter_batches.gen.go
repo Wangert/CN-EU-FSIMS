@@ -38,6 +38,8 @@ func newSlaughterBatch(db *gorm.DB, opts ...gen.DOOption) slaughterBatch {
 	_slaughterBatch.PID = field.NewString(tableName, "p_id")
 	_slaughterBatch.Worker = field.NewString(tableName, "worker")
 	_slaughterBatch.CowNumber = field.NewString(tableName, "cow_number")
+	_slaughterBatch.StartTime = field.NewTime(tableName, "start_time")
+	_slaughterBatch.EndTime = field.NewTime(tableName, "end_time")
 	_slaughterBatch.Procedure = slaughterBatchHasOneProcedure{
 		db: db.Session(&gorm.Session{}),
 
@@ -69,6 +71,8 @@ type slaughterBatch struct {
 	PID         field.String
 	Worker      field.String
 	CowNumber   field.String
+	StartTime   field.Time
+	EndTime     field.Time
 	Procedure   slaughterBatchHasOneProcedure
 
 	Products slaughterBatchHasManyProducts
@@ -98,6 +102,8 @@ func (s *slaughterBatch) updateTableName(table string) *slaughterBatch {
 	s.PID = field.NewString(table, "p_id")
 	s.Worker = field.NewString(table, "worker")
 	s.CowNumber = field.NewString(table, "cow_number")
+	s.StartTime = field.NewTime(table, "start_time")
+	s.EndTime = field.NewTime(table, "end_time")
 
 	s.fillFieldMap()
 
@@ -126,7 +132,7 @@ func (s *slaughterBatch) GetFieldByName(fieldName string) (field.OrderExpr, bool
 }
 
 func (s *slaughterBatch) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 12)
+	s.fieldMap = make(map[string]field.Expr, 14)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
@@ -137,6 +143,8 @@ func (s *slaughterBatch) fillFieldMap() {
 	s.fieldMap["p_id"] = s.PID
 	s.fieldMap["worker"] = s.Worker
 	s.fieldMap["cow_number"] = s.CowNumber
+	s.fieldMap["start_time"] = s.StartTime
+	s.fieldMap["end_time"] = s.EndTime
 
 }
 

@@ -2,6 +2,7 @@ package analysis
 
 import (
 	"CN-EU-FSIMS/internal/app/models/pasture"
+	"CN-EU-FSIMS/internal/app/models/slaughter"
 	"CN-EU-FSIMS/utils"
 )
 
@@ -157,6 +158,31 @@ func JudgeHarmForPasturePadding(record *pasture.PasturePaddingRequire) ([]string
 	abnormalList := make([]string, 3)
 	for k, v := range PasturePaddingUpperBounds {
 		if v < indexMap[k].(float64) {
+			abnormalList = append(abnormalList, k)
+		}
+	}
+
+	return abnormalList, len(abnormalList), nil
+}
+
+// 判断屠宰场水质危害
+func JudgeHarmForSlaughterWaterQuality(record *slaughter.SlaughterWaterQualityMon) ([]string, int, error) {
+	indexMap := map[string]interface{}{}
+	recordMap, err := utils.StructToMap(record)
+	if err != nil {
+		return nil, 0, err
+	}
+	indexMap = utils.FlattenMap(recordMap)
+
+	abnormalList := make([]string, 3)
+	for k, v := range SlaughterWaterQualityUpperBounds {
+		if v < indexMap[k].(float64) {
+			abnormalList = append(abnormalList, k)
+		}
+	}
+
+	for k, v := range SlaughterWaterQualityLowerBounds {
+		if v > indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
 		}
 	}

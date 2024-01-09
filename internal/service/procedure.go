@@ -61,9 +61,8 @@ type NewProcedureParams struct {
 	BatchNumber string
 }
 
-func NewProcedure(params *NewProcedureParams) (models.Procedure, error) {
-	ts := time.Now()
-	pid, err := generatePID(params.Type, ts)
+func NewProcedure(params *NewProcedureParams, startTime time.Time) (models.Procedure, error) {
+	pid, err := generatePID(params.Type, time.Now())
 	if err != nil {
 		return models.Procedure{}, err
 	}
@@ -81,9 +80,9 @@ func NewProcedure(params *NewProcedureParams) (models.Procedure, error) {
 		Name:               "",
 		PHash:              "",
 		CheckCode:          "",
-		SerialNumber:       0,
+		SerialNumber:       time.Now().UnixNano(),
 		Operator:           params.Operator,
-		StartTimestamp:     ts,
+		StartTimestamp:     startTime,
 		CompletedTimestamp: nil,
 		PrePID:             prepid,
 		ICID:               "",
@@ -300,19 +299,18 @@ func CommitPackProcedure(cpp request.CommitPackProcedure) (string, error) {
 //}
 
 // 计算checkcode并更新procedure
-func BasicCommitProcedureWithTx(tx *query.QueryTx, pid string, data interface{}) (string, error) {
+func BasicCommitProcedureWithTx(tx *query.QueryTx, pid string, endTime *time.Time, data interface{}) (string, error) {
 	// 获取当前Procedure的前Procedure PID
 	p, err := QueryProcedureWithPID(pid)
 	if err != nil {
 		return "", err
 	}
 
-	cts := time.Now()
 	pHeader := ProcedureHeader{
 		PID:                pid,
 		Type:               p.Type,
 		StartTimestamp:     p.StartTimestamp,
-		CompletedTimestamp: cts,
+		CompletedTimestamp: *endTime,
 		PrePID:             p.PrePID,
 	}
 
@@ -339,7 +337,7 @@ func BasicCommitProcedureWithTx(tx *query.QueryTx, pid string, data interface{})
 	ncc := crypto.CalculateSHA256(string(pHash+precc), "1111")
 
 	// 更新当前Procedure
-	params := map[string]interface{}{"p_hash": pHash, "check_code": ncc, "completed_timestamp": cts}
+	params := map[string]interface{}{"p_hash": pHash, "check_code": ncc, "completed_timestamp": endTime}
 	err = UpdateProcedureWithPIDWithTx(tx, pid, params)
 	if err != nil {
 		return "", err
