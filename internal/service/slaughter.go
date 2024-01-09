@@ -164,7 +164,7 @@ func QuerySlaughterWaterQualityData(r *request.ReqSlaughterSensorData) ([]slaugh
 	results, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(r.HouseNumber)).
 		Where(q.TimeRecordAt.Between(startTime, endTime)).
 		Preload(q.SlaughterWaterMicroIndex).Preload(q.OapGciSla).
-		Preload(q.MicroIndexWaterMonSla).Preload(q.ToxinIndexSla).
+		Preload(q.ToxinIndexSla).
 		Preload(q.ToxinIndexSla.SlaughterWaterToxinIndex).Find()
 	if err != nil {
 		return nil, 0, err

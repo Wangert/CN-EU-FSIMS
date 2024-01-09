@@ -5,6 +5,7 @@
 package query
 
 import (
+	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/app/models/pack"
 	"context"
 
@@ -35,7 +36,14 @@ func newPackageBatch(db *gorm.DB, opts ...gen.DOOption) packageBatch {
 	_packageBatch.State = field.NewInt(tableName, "state")
 	_packageBatch.PID = field.NewString(tableName, "p_id")
 	_packageBatch.Worker = field.NewString(tableName, "worker")
+	_packageBatch.StartTime = field.NewTime(tableName, "start_time")
+	_packageBatch.EndTime = field.NewTime(tableName, "end_time")
 	_packageBatch.ProductNumber = field.NewString(tableName, "product_number")
+	_packageBatch.Procedure = packageBatchHasOneProcedure{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("Procedure", "models.Procedure"),
+	}
 
 	_packageBatch.fillFieldMap()
 
@@ -55,7 +63,10 @@ type packageBatch struct {
 	State         field.Int
 	PID           field.String
 	Worker        field.String
+	StartTime     field.Time
+	EndTime       field.Time
 	ProductNumber field.String
+	Procedure     packageBatchHasOneProcedure
 
 	fieldMap map[string]field.Expr
 }
@@ -81,6 +92,8 @@ func (p *packageBatch) updateTableName(table string) *packageBatch {
 	p.State = field.NewInt(table, "state")
 	p.PID = field.NewString(table, "p_id")
 	p.Worker = field.NewString(table, "worker")
+	p.StartTime = field.NewTime(table, "start_time")
+	p.EndTime = field.NewTime(table, "end_time")
 	p.ProductNumber = field.NewString(table, "product_number")
 
 	p.fillFieldMap()
@@ -110,7 +123,7 @@ func (p *packageBatch) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 }
 
 func (p *packageBatch) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 10)
+	p.fieldMap = make(map[string]field.Expr, 13)
 	p.fieldMap["id"] = p.ID
 	p.fieldMap["created_at"] = p.CreatedAt
 	p.fieldMap["updated_at"] = p.UpdatedAt
@@ -120,7 +133,10 @@ func (p *packageBatch) fillFieldMap() {
 	p.fieldMap["state"] = p.State
 	p.fieldMap["p_id"] = p.PID
 	p.fieldMap["worker"] = p.Worker
+	p.fieldMap["start_time"] = p.StartTime
+	p.fieldMap["end_time"] = p.EndTime
 	p.fieldMap["product_number"] = p.ProductNumber
+
 }
 
 func (p packageBatch) clone(db *gorm.DB) packageBatch {
@@ -131,6 +147,77 @@ func (p packageBatch) clone(db *gorm.DB) packageBatch {
 func (p packageBatch) replaceDB(db *gorm.DB) packageBatch {
 	p.packageBatchDo.ReplaceDB(db)
 	return p
+}
+
+type packageBatchHasOneProcedure struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a packageBatchHasOneProcedure) Where(conds ...field.Expr) *packageBatchHasOneProcedure {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a packageBatchHasOneProcedure) WithContext(ctx context.Context) *packageBatchHasOneProcedure {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a packageBatchHasOneProcedure) Session(session *gorm.Session) *packageBatchHasOneProcedure {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a packageBatchHasOneProcedure) Model(m *pack.PackageBatch) *packageBatchHasOneProcedureTx {
+	return &packageBatchHasOneProcedureTx{a.db.Model(m).Association(a.Name())}
+}
+
+type packageBatchHasOneProcedureTx struct{ tx *gorm.Association }
+
+func (a packageBatchHasOneProcedureTx) Find() (result *models.Procedure, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a packageBatchHasOneProcedureTx) Append(values ...*models.Procedure) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a packageBatchHasOneProcedureTx) Replace(values ...*models.Procedure) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a packageBatchHasOneProcedureTx) Delete(values ...*models.Procedure) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a packageBatchHasOneProcedureTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a packageBatchHasOneProcedureTx) Count() int64 {
+	return a.tx.Count()
 }
 
 type packageBatchDo struct{ gen.DO }

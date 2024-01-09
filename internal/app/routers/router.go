@@ -171,7 +171,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		sop.POST("/upload/staffuniform", handlers.UploadSlaughterStaffUniformData)
 		sop.POST("/upload/light", handlers.UploadSlaughterLightRecord)
 		sop.GET("/query/staffuniform", handlers.QuerySlaughterStaffUniformData)
-		sop.GET("/query/staffuniform", handlers.QuerySlaughterLightRecord)
+		sop.GET("/query/light", handlers.QuerySlaughterLightRecord)
 	}
 
 	//packoperator router group

@@ -2,7 +2,7 @@ runmode: debug # 开发模式, debug, release, test
 
 server:
   ip_addr: 127.0.0.1
-  port: 8080
+  port: 8000
 
 mysql:
   username: dbadmin
