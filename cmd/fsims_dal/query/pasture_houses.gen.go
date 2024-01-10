@@ -47,11 +47,6 @@ func newPastureHouse(db *gorm.DB, opts ...gen.DOOption) pastureHouse {
 		db: db.Session(&gorm.Session{}),
 
 		RelationField: field.NewRelation("FeedingRecord", "pasture.FeedingBatch"),
-		Procedure: struct {
-			field.RelationField
-		}{
-			RelationField: field.NewRelation("FeedingRecord.Procedure", "models.Procedure"),
-		},
 		Cows: struct {
 			field.RelationField
 		}{
@@ -347,9 +342,6 @@ type pastureHouseHasManyFeedingRecord struct {
 
 	field.RelationField
 
-	Procedure struct {
-		field.RelationField
-	}
 	Cows struct {
 		field.RelationField
 	}

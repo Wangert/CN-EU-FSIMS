@@ -30,13 +30,13 @@ func newSlaughterDisinfectHotWaterTempMoni(db *gorm.DB, opts ...gen.DOOption) sl
 	_slaughterDisinfectHotWaterTempMoni.CreatedAt = field.NewTime(tableName, "created_at")
 	_slaughterDisinfectHotWaterTempMoni.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_slaughterDisinfectHotWaterTempMoni.DeletedAt = field.NewField(tableName, "deleted_at")
-	_slaughterDisinfectHotWaterTempMoni.PID = field.NewString(tableName, "p_id")
-	_slaughterDisinfectHotWaterTempMoni.SlaughterDisinfectHotWaterTempMoni1 = field.NewFloat32(tableName, "slaughter_disinfect_hot_water_temp_moni1")
-	_slaughterDisinfectHotWaterTempMoni.SlaughterDisinfectHotWaterTempMoni2 = field.NewFloat32(tableName, "slaughter_disinfect_hot_water_temp_moni2")
-	_slaughterDisinfectHotWaterTempMoni.SlaughterDisinfectHotWaterTempMoni3 = field.NewFloat32(tableName, "slaughter_disinfect_hot_water_temp_moni3")
-	_slaughterDisinfectHotWaterTempMoni.SlaughterDisinfectHotWaterTempMoni4 = field.NewFloat32(tableName, "slaughter_disinfect_hot_water_temp_moni4")
-	_slaughterDisinfectHotWaterTempMoni.SlaughterDisinfectHotWaterTempMoni5 = field.NewFloat32(tableName, "slaughter_disinfect_hot_water_temp_moni5")
-	_slaughterDisinfectHotWaterTempMoni.SlaughterDisinfectHotWaterTempMoni6 = field.NewFloat32(tableName, "slaughter_disinfect_hot_water_temp_moni6")
+	_slaughterDisinfectHotWaterTempMoni.SlaughterProcedureMonitoringDataID = field.NewString(tableName, "slaughter_procedure_monitoring_data_id")
+	_slaughterDisinfectHotWaterTempMoni.SlaughterDisinfectHotWaterTempMoni1 = field.NewFloat64(tableName, "slaughter_disinfect_hot_water_temp_moni1")
+	_slaughterDisinfectHotWaterTempMoni.SlaughterDisinfectHotWaterTempMoni2 = field.NewFloat64(tableName, "slaughter_disinfect_hot_water_temp_moni2")
+	_slaughterDisinfectHotWaterTempMoni.SlaughterDisinfectHotWaterTempMoni3 = field.NewFloat64(tableName, "slaughter_disinfect_hot_water_temp_moni3")
+	_slaughterDisinfectHotWaterTempMoni.SlaughterDisinfectHotWaterTempMoni4 = field.NewFloat64(tableName, "slaughter_disinfect_hot_water_temp_moni4")
+	_slaughterDisinfectHotWaterTempMoni.SlaughterDisinfectHotWaterTempMoni5 = field.NewFloat64(tableName, "slaughter_disinfect_hot_water_temp_moni5")
+	_slaughterDisinfectHotWaterTempMoni.SlaughterDisinfectHotWaterTempMoni6 = field.NewFloat64(tableName, "slaughter_disinfect_hot_water_temp_moni6")
 
 	_slaughterDisinfectHotWaterTempMoni.fillFieldMap()
 
@@ -51,13 +51,13 @@ type slaughterDisinfectHotWaterTempMoni struct {
 	CreatedAt                           field.Time
 	UpdatedAt                           field.Time
 	DeletedAt                           field.Field
-	PID                                 field.String
-	SlaughterDisinfectHotWaterTempMoni1 field.Float32
-	SlaughterDisinfectHotWaterTempMoni2 field.Float32
-	SlaughterDisinfectHotWaterTempMoni3 field.Float32
-	SlaughterDisinfectHotWaterTempMoni4 field.Float32
-	SlaughterDisinfectHotWaterTempMoni5 field.Float32
-	SlaughterDisinfectHotWaterTempMoni6 field.Float32
+	SlaughterProcedureMonitoringDataID  field.String
+	SlaughterDisinfectHotWaterTempMoni1 field.Float64
+	SlaughterDisinfectHotWaterTempMoni2 field.Float64
+	SlaughterDisinfectHotWaterTempMoni3 field.Float64
+	SlaughterDisinfectHotWaterTempMoni4 field.Float64
+	SlaughterDisinfectHotWaterTempMoni5 field.Float64
+	SlaughterDisinfectHotWaterTempMoni6 field.Float64
 
 	fieldMap map[string]field.Expr
 }
@@ -78,13 +78,13 @@ func (s *slaughterDisinfectHotWaterTempMoni) updateTableName(table string) *slau
 	s.CreatedAt = field.NewTime(table, "created_at")
 	s.UpdatedAt = field.NewTime(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
-	s.PID = field.NewString(table, "p_id")
-	s.SlaughterDisinfectHotWaterTempMoni1 = field.NewFloat32(table, "slaughter_disinfect_hot_water_temp_moni1")
-	s.SlaughterDisinfectHotWaterTempMoni2 = field.NewFloat32(table, "slaughter_disinfect_hot_water_temp_moni2")
-	s.SlaughterDisinfectHotWaterTempMoni3 = field.NewFloat32(table, "slaughter_disinfect_hot_water_temp_moni3")
-	s.SlaughterDisinfectHotWaterTempMoni4 = field.NewFloat32(table, "slaughter_disinfect_hot_water_temp_moni4")
-	s.SlaughterDisinfectHotWaterTempMoni5 = field.NewFloat32(table, "slaughter_disinfect_hot_water_temp_moni5")
-	s.SlaughterDisinfectHotWaterTempMoni6 = field.NewFloat32(table, "slaughter_disinfect_hot_water_temp_moni6")
+	s.SlaughterProcedureMonitoringDataID = field.NewString(table, "slaughter_procedure_monitoring_data_id")
+	s.SlaughterDisinfectHotWaterTempMoni1 = field.NewFloat64(table, "slaughter_disinfect_hot_water_temp_moni1")
+	s.SlaughterDisinfectHotWaterTempMoni2 = field.NewFloat64(table, "slaughter_disinfect_hot_water_temp_moni2")
+	s.SlaughterDisinfectHotWaterTempMoni3 = field.NewFloat64(table, "slaughter_disinfect_hot_water_temp_moni3")
+	s.SlaughterDisinfectHotWaterTempMoni4 = field.NewFloat64(table, "slaughter_disinfect_hot_water_temp_moni4")
+	s.SlaughterDisinfectHotWaterTempMoni5 = field.NewFloat64(table, "slaughter_disinfect_hot_water_temp_moni5")
+	s.SlaughterDisinfectHotWaterTempMoni6 = field.NewFloat64(table, "slaughter_disinfect_hot_water_temp_moni6")
 
 	s.fillFieldMap()
 
@@ -122,7 +122,7 @@ func (s *slaughterDisinfectHotWaterTempMoni) fillFieldMap() {
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
 	s.fieldMap["deleted_at"] = s.DeletedAt
-	s.fieldMap["p_id"] = s.PID
+	s.fieldMap["slaughter_procedure_monitoring_data_id"] = s.SlaughterProcedureMonitoringDataID
 	s.fieldMap["slaughter_disinfect_hot_water_temp_moni1"] = s.SlaughterDisinfectHotWaterTempMoni1
 	s.fieldMap["slaughter_disinfect_hot_water_temp_moni2"] = s.SlaughterDisinfectHotWaterTempMoni2
 	s.fieldMap["slaughter_disinfect_hot_water_temp_moni3"] = s.SlaughterDisinfectHotWaterTempMoni3

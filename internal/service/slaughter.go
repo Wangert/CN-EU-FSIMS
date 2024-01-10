@@ -765,46 +765,60 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 		_ = tx.Rollback()
 		return "", nil, err
 	}
-	data1 := slaughter.SlaughterDisinfectHotWaterTempMoni{
-		PID:                                 pid,
-		SlaughterDisinfectHotWaterTempMoni1: r.SlaughterDisinfectHotWaterTempMoni1,
-		SlaughterDisinfectHotWaterTempMoni2: r.SlaughterDisinfectHotWaterTempMoni2,
-		SlaughterDisinfectHotWaterTempMoni3: r.SlaughterDisinfectHotWaterTempMoni3,
-		SlaughterDisinfectHotWaterTempMoni4: r.SlaughterDisinfectHotWaterTempMoni4,
-		SlaughterDisinfectHotWaterTempMoni5: r.SlaughterDisinfectHotWaterTempMoni5,
-		SlaughterDisinfectHotWaterTempMoni6: r.SlaughterDisinfectHotWaterTempMoni6,
+
+	monitoringData := slaughter.SlaughterProcedureMonitoringData{
+		PID: pid,
+		SlaughterDisinfectHotWaterTempMoni: slaughter.SlaughterDisinfectHotWaterTempMoni{
+			SlaughterProcedureMonitoringDataID:  nil,
+			SlaughterDisinfectHotWaterTempMoni1: r.SlaughterDisinfectHotWaterTempMoni1,
+			SlaughterDisinfectHotWaterTempMoni2: r.SlaughterDisinfectHotWaterTempMoni2,
+			SlaughterDisinfectHotWaterTempMoni3: r.SlaughterDisinfectHotWaterTempMoni3,
+			SlaughterDisinfectHotWaterTempMoni4: r.SlaughterDisinfectHotWaterTempMoni4,
+			SlaughterDisinfectHotWaterTempMoni5: r.SlaughterDisinfectHotWaterTempMoni5,
+			SlaughterDisinfectHotWaterTempMoni6: r.SlaughterDisinfectHotWaterTempMoni6,
+		},
+		SlaughterStun: slaughter.SlaughterStun{
+			SlaughterProcedureMonitoringDataID: nil,
+			Stun1:                              r.Stun1,
+			Stun2:                              r.Stun2,
+			Stun3:                              r.Stun3,
+		},
+		BleedElectronic: slaughter.BleedElectronic{
+			SlaughterProcedureMonitoringDataID: nil,
+			BleedElectronic1:                   r.BleedElectronic1,
+			BleedElectronic2:                   r.BleedElectronic2,
+			BleedElectronic3:                   r.BleedElectronic3,
+			BleedElectronic4:                   r.BleedElectronic4,
+			BleedElectronic5:                   r.BleedElectronic5,
+		},
+		AnalMeatPhMoni: slaughter.AnalMeatPhMoni{
+			SlaughterProcedureMonitoringDataID: nil,
+			AnalMeatPhMoni1:                    r.AnalMeatPhMoni1,
+			AnalMeatPhMoni2:                    r.AnalMeatPhMoni2,
+			AnalMeatPhMoni3:                    r.AnalMeatPhMoni3,
+			AnalMeatPhMoni4:                    r.AnalMeatPhMoni4,
+			AnalMeatPhMoni5:                    r.AnalMeatPhMoni5,
+		},
+		ToNumGermMon: slaughter.ToNumGermMon{
+			SlaughterProcedureMonitoringDataID: nil,
+			ToNumGermMon1:                      r.ToNumGermMon1,
+			ToNumGermMon2:                      r.ToNumGermMon2,
+			ToNumGermMon3:                      r.ToNumGermMon3,
+			ToNumGermMon4:                      r.ToNumGermMon4,
+			ToNumGermMon5:                      r.ToNumGermMon5,
+			ToNumGermMon6:                      r.ToNumGermMon6,
+			ToNumGermMon7:                      r.ToNumGermMon7,
+			ToNumGermMon8:                      r.ToNumGermMon8,
+		},
 	}
-	err = query.SlaughterDisinfectHotWaterTempMoni.WithContext(context.Background()).Create(&data1)
+
+	err = tx.SlaughterProcedureMonitoringData.WithContext(context.Background()).Create(&monitoringData)
 	if err != nil {
-		glog.Info("我失败了！！！！")
 		_ = tx.Rollback()
 		return "", nil, err
 	}
-	data2 := slaughter.SlaughterStun{
-		PID:   pid,
-		Stun1: r.Stun1,
-		Stun2: r.Stun2,
-		Stun3: r.Stun3,
-	}
-	err = query.SlaughterStun.WithContext(context.Background()).Create(&data2)
-	if err != nil {
-		_ = tx.Rollback()
-		return "", nil, err
-	}
-	data3 := slaughter.BleedElectronic{
-		PID:              pid,
-		BleedElectronic1: r.BleedElectronic1,
-		BleedElectronic2: r.BleedElectronic2,
-		BleedElectronic3: r.BleedElectronic3,
-		BleedElectronic4: r.BleedElectronic4,
-		BleedElectronic5: r.BleedElectronic5,
-	}
-	err = query.BleedElectronic.WithContext(context.Background()).Create(&data3)
-	if err != nil {
-		_ = tx.Rollback()
-		return "", nil, err
-	}
-	data4 := slaughter.PreSlaQuanPic{
+
+	otherData1 := slaughter.PreSlaQuanPic{
 		PID:            pid,
 		PreSlaQuanPic1: r.PreSlaQuanPic1,
 		PreSlaQuanPic2: r.PreSlaQuanPic2,
@@ -816,37 +830,26 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 		PreSlaQuanPic8: r.PreSlaQuanPic8,
 		PreSlaQuanPic9: r.PreSlaQuanPic9,
 	}
-	err = query.PreSlaQuanPic.WithContext(context.Background()).Create(&data4)
+	err = tx.PreSlaQuanPic.WithContext(context.Background()).Create(&otherData1)
 	if err != nil {
 		_ = tx.Rollback()
 		return "", nil, err
 	}
-	data5 := slaughter.SlaughterAnalAfterSlaQuanCar{
+
+	otherData2 := slaughter.SlaughterAnalAfterSlaQuanCar{
 		PID:                           pid,
 		SlaughterAnalAfterSlaQuanCar1: r.SlaughterAnalAfterSlaQuanCar1,
 		SlaughterAnalAfterSlaQuanCar2: r.SlaughterAnalAfterSlaQuanCar2,
 		SlaughterAnalAfterSlaQuanCar3: r.SlaughterAnalAfterSlaQuanCar3,
 		SlaughterAnalAfterSlaQuanCar4: r.SlaughterAnalAfterSlaQuanCar4,
 	}
-	err = query.SlaughterAnalAfterSlaQuanCar.WithContext(context.Background()).Create(&data5)
+	err = tx.SlaughterAnalAfterSlaQuanCar.WithContext(context.Background()).Create(&otherData2)
 	if err != nil {
 		_ = tx.Rollback()
 		return "", nil, err
 	}
-	data6 := slaughter.AnalMeatPhMoni{
-		PID:             pid,
-		AnalMeatPhMoni1: r.AnalMeatPhMoni1,
-		AnalMeatPhMoni2: r.AnalMeatPhMoni2,
-		AnalMeatPhMoni3: r.AnalMeatPhMoni3,
-		AnalMeatPhMoni4: r.AnalMeatPhMoni4,
-		AnalMeatPhMoni5: r.AnalMeatPhMoni5,
-	}
-	err = query.AnalMeatPhMoni.WithContext(context.Background()).Create(&data6)
-	if err != nil {
-		_ = tx.Rollback()
-		return "", nil, err
-	}
-	data7 := slaughter.AnalCutWeight{
+
+	otherData3 := slaughter.AnalCutWeight{
 		PID:             pid,
 		AnalCutWeight1:  r.AnalCutWeight1,
 		AnalCutWeight2:  r.AnalCutWeight2,
@@ -861,53 +864,24 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 		AnalCutWeight11: r.AnalCutWeight11,
 		AnalCutWeight12: r.AnalCutWeight12,
 	}
-	err = query.AnalCutWeight.WithContext(context.Background()).Create(&data7)
+	err = tx.AnalCutWeight.WithContext(context.Background()).Create(&otherData3)
 	if err != nil {
 		_ = tx.Rollback()
 		return "", nil, err
 	}
-	data8 := slaughter.ToNumGermMon{
-		PID:           pid,
-		ToNumGermMon1: r.ToNumGermMon1,
-		ToNumGermMon2: r.ToNumGermMon2,
-		ToNumGermMon3: r.ToNumGermMon3,
-		ToNumGermMon4: r.ToNumGermMon4,
-		ToNumGermMon5: r.ToNumGermMon5,
-		ToNumGermMon6: r.ToNumGermMon6,
-		ToNumGermMon7: r.ToNumGermMon7,
-		ToNumGermMon8: r.ToNumGermMon8,
-	}
-	err = query.ToNumGermMon.WithContext(context.Background()).Create(&data8)
-	if err != nil {
-		_ = tx.Rollback()
-		return "", nil, err
-	}
-	data9 := slaughter.AirNumGermMon{
+
+	otherData4 := slaughter.AirNumGermMon{
 		PID:            pid,
 		AirNumGermMon1: r.AirNumGermMon1,
 		AirNumGermMon2: r.AirNumGermMon2,
 		AirNumGermMon3: r.AirNumGermMon3,
 	}
-	err = query.AirNumGermMon.WithContext(context.Background()).Create(&data9)
+	err = tx.AirNumGermMon.WithContext(context.Background()).Create(&otherData4)
 	if err != nil {
 		_ = tx.Rollback()
 		return "", nil, err
 	}
-	// data10 := slaughter.PreSlaDietManage{
-	// 	PID:               pid,
-	// 	PreSlaDietManage1: r.PreSlaDietManage1,
-	// 	PreSlaDietManage2: r.PreSlaDietManage2,
-	// 	PreSlaDietManage3: r.PreSlaDietManage3,
-	// 	PreSlaDietManage4: r.PreSlaDietManage4,
-	// 	PreSlaDietManage5: r.PreSlaDietManage5,
-	// }
-	// err = query.PreSlaDietManage.WithContext(context.Background()).Create(&data10)
-	// if err != nil {
-	// 	_ = tx.Rollback()
-	// 	return "", nil, err
-	// }
-	//data11之后再加入
-	// 提交Procedure
+
 	data := slaughter.SlaughterProcedureData{
 		EnvirTemperature:      r.EnvirTemperature,
 		EnvirLighting:         r.EnvirLighting,
@@ -1149,7 +1123,7 @@ func GetSlaughterWarehouseRecords(houseNum string) ([]warehouse.SlaughterWarehou
 	return records, int64(count), nil
 }
 
-func GetSlaughterData(batchNum string) (*response.ResSlaughterData, error) {
+func GetSlaughterData(batchNum string) (*response.ResSlaughterProcedureData, error) {
 	q := query.SlaughterBatch
 	data, err := q.WithContext(context.Background()).Where(q.BatchNumber.Eq(batchNum)).First()
 	pid := data.PID
@@ -1157,51 +1131,31 @@ func GetSlaughterData(batchNum string) (*response.ResSlaughterData, error) {
 		return nil, err
 	}
 
-	data1, err := query.SlaughterDisinfectHotWaterTempMoni.WithContext(context.Background()).Where(query.SlaughterDisinfectHotWaterTempMoni.PID.Eq(pid)).First()
+	md := query.SlaughterProcedureMonitoringData
+	monitoringData, err := md.WithContext(context.Background()).Where(md.PID.Eq(pid)).
+		Preload(md.SlaughterDisinfectHotWaterTempMoni).Preload(md.SlaughterStun).
+		Preload(md.BleedElectronic).Preload(md.AnalMeatPhMoni).Preload(md.ToNumGermMon).First()
 	if err != nil {
 		return nil, err
 	}
-	data2, err := query.SlaughterStun.WithContext(context.Background()).Where(query.SlaughterStun.PID.Eq(pid)).First()
+
 	if err != nil {
 		return nil, err
 	}
-	data3, err := query.BleedElectronic.WithContext(context.Background()).Where(query.BleedElectronic.PID.Eq(pid)).First()
+	otherData1, err := query.AnalCutWeight.WithContext(context.Background()).Where(query.AnalCutWeight.PID.Eq(pid)).First()
 	if err != nil {
 		return nil, err
 	}
-	data4, err := query.AnalMeatPhMoni.WithContext(context.Background()).Where(query.AnalMeatPhMoni.PID.Eq(pid)).First()
+
+	otherData2, err := query.AirNumGermMon.WithContext(context.Background()).Where(query.AirNumGermMon.PID.Eq(pid)).First()
 	if err != nil {
 		return nil, err
 	}
-	data5, err := query.AnalCutWeight.WithContext(context.Background()).Where(query.AnalCutWeight.PID.Eq(pid)).First()
-	if err != nil {
-		return nil, err
+	resData := response.ResSlaughterProcedureData{
+		SlaughterProcedureMonitoringDataInfo: slaughter.ToSlaughterProcedureMonitoringDataInfo(monitoringData),
+		OtherData1:                           slaughter.ToAnalCutWeightInfo(otherData1),
+		OtherData2:                           slaughter.ToAirNumGermMonInfo(otherData2),
 	}
-	data6, err := query.ToNumGermMon.WithContext(context.Background()).Where(query.ToNumGermMon.PID.Eq(pid)).First()
-	if err != nil {
-		return nil, err
-	}
-	data7, err := query.AirNumGermMon.WithContext(context.Background()).Where(query.AirNumGermMon.PID.Eq(pid)).First()
-	if err != nil {
-		return nil, err
-	}
-	resData := response.ResSlaughterData{
-		Data1: slaughter.ToSlaughterDisinfectHotWaterTempMoniData(data1),
-		Data2: slaughter.ToSlaughterStunData(data2),
-		Data3: slaughter.ToBleedElectronicData(data3),
-		Data4: slaughter.ToAnalMeatPhMoniData(data4),
-		Data5: slaughter.ToAnalCutWeightData(data5),
-		Data6: slaughter.ToToNumGermMonData(data6),
-		Data7: slaughter.ToAirNumGermMonData(data7),
-	}
-	// resData := slaughter.SlaughterDisinfectHotWaterTempMoniData{
-	// 	SlaughterDisinfectHotWaterTempMoni1: res.SlaughterDisinfectHotWaterTempMoni1,
-	// 	SlaughterDisinfectHotWaterTempMoni2: res.SlaughterDisinfectHotWaterTempMoni2,
-	// 	SlaughterDisinfectHotWaterTempMoni3: res.SlaughterDisinfectHotWaterTempMoni3,
-	// 	SlaughterDisinfectHotWaterTempMoni4: res.SlaughterDisinfectHotWaterTempMoni4,
-	// 	SlaughterDisinfectHotWaterTempMoni5: res.SlaughterDisinfectHotWaterTempMoni5,
-	// 	SlaughterDisinfectHotWaterTempMoni6: res.SlaughterDisinfectHotWaterTempMoni6,
-	// }
-	// resData1 :=slaughter.ToSlaughterDisinfectHotWaterTempMoniData(res)
+
 	return &resData, nil
 }
