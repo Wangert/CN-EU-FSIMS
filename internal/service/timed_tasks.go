@@ -6,6 +6,7 @@ import (
 	"CN-EU-FSIMS/internal/service/analysis"
 	"CN-EU-FSIMS/utils"
 	"context"
+	"github.com/golang/glog"
 	"github.com/robfig/cron/v3"
 	"time"
 )
@@ -40,7 +41,7 @@ type TimedTask struct {
 func TimedTasksStart(c *cron.Cron, tts []TimedTask) {
 
 	//tt := TimedTask{
-	//	Spec: "",
+	//	Spec: "*/5 * * * * ?",
 	//	Fc: func() {
 	//		currentTime := time.Now()
 	//		err := PastureFeedHeavyMetalMonitoring(currentTime)
@@ -55,6 +56,25 @@ func TimedTasksStart(c *cron.Cron, tts []TimedTask) {
 	}
 
 	c.Start()
+}
+
+func NewAllTimedTasks() []TimedTask {
+
+	tts := make([]TimedTask, 5)
+
+	pastureFeedHeavyMetalTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureFeedHeavyMetalMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	tts = append(tts, pastureFeedHeavyMetalTask)
+	return tts
 }
 
 // 屠宰场水质监测
@@ -842,17 +862,32 @@ func InitMonitoringTimeRecords() error {
 		}
 	}()
 
+	count, err := query.MonitoringTimeRecord.WithContext(context.Background()).Count()
+	if err != nil {
+		return err
+	}
+
+	if count != 0 {
+		return nil
+	}
+
 	for _, name := range monitoringNames {
 		record := models.MonitoringTimeRecord{
 			IndexName: name,
 			LastTime:  nil,
 		}
 
-		err = query.Q.MonitoringTimeRecord.WithContext(context.Background()).Create(&record)
+		err = tx.MonitoringTimeRecord.WithContext(context.Background()).Create(&record)
 		if err != nil {
 			_ = tx.Rollback()
 			return err
 		}
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		_ = tx.Rollback()
+		return err
 	}
 
 	return nil

@@ -7,8 +7,10 @@ import (
 	"CN-EU-FSIMS/internal/app/routers"
 	"CN-EU-FSIMS/internal/common"
 	"CN-EU-FSIMS/internal/config"
+	"CN-EU-FSIMS/internal/service"
 	"flag"
 	"fmt"
+	"github.com/robfig/cron/v3"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -35,6 +37,18 @@ func main() {
 	//配置路由和中间件
 	//middleware.Cors
 	r := routers.Load(gin.New(), middlewares.Cors)
+
+	err = service.InitMonitoringTimeRecords()
+	if err != nil {
+		panic("init monitoring time records error: " + err.Error())
+	}
+
+	// 启动危害监测定时任务
+	c := cron.New()
+	defer c.Stop()
+
+	tts := service.NewAllTimedTasks()
+	service.TimedTasksStart(c, tts)
 
 	listenAddr := viper.GetString("server.ip_addr") + ":" + viper.GetString("server.port")
 	glog.Infof(http.ListenAndServe(listenAddr, r).Error())
