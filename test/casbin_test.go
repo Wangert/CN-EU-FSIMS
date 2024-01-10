@@ -13,10 +13,10 @@ import (
 )
 
 const (
-	CASBIN_MODEL_PATH       = "D:\\A-中欧\\CN-EU-FSIMS\\conf\\casbin\\fsims_rbac_model.conf"
-	CASBIN_POLICY_PATH      = "D:\\A-中欧\\CN-EU-FSIMS\\conf\\casbin\\fsims_rbac_policy.csv"
-	CASBIN_ROLE_POLICY_PATH = "D:\\A-中欧\\CN-EU-FSIMS\\conf\\casbin\\fsims_rbac_role_policy.csv"
-	CASBIN_USER_ROLE_PATH   = "D:\\A-中欧\\CN-EU-FSIMS\\conf\\casbin\\fsims_rbac_user_role.csv"
+	CASBIN_MODEL_PATH       = "../conf/casbin/fsims_rbac_model.conf"
+	CASBIN_POLICY_PATH      = "../conf/casbin/fsims_rbac_policy.csv"
+	CASBIN_ROLE_POLICY_PATH = "../conf/casbin/fsims_rbac_role_policy.csv"
+	CASBIN_USER_ROLE_PATH   = "../conf/casbin/fsims_rbac_user_role.csv"
 )
 
 func TestPolicy(t *testing.T) {
