@@ -1,10 +1,10 @@
 package slaughter
 
 import (
-	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/app/models/product"
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type SlaughterBatch struct {
@@ -18,7 +18,7 @@ type SlaughterBatch struct {
 	StartTime   *time.Time                 `json:"start_time"`
 	EndTime     *time.Time                 `json:"end_time"`
 	Products    []product.SlaughterProduct `gorm:"foreignKey:BatchNumber; references:BatchNumber" json:"products"`
-	Procedure   models.Procedure           `gorm:"foreignKey:BatchNumber; references:BatchNumber" json:"procedure"`
+	//Procedure   models.Procedure           `gorm:"foreignKey:BatchNumber; references:BatchNumber" json:"procedure"`
 }
 
 type SlaughterBatchInfo struct {
@@ -33,6 +33,14 @@ type SlaughterBatchInfo struct {
 }
 
 func ToSlaughterBatchInfo(batch *SlaughterBatch) SlaughterBatchInfo {
+	startTime := ""
+	if batch.EndTime != nil {
+		startTime = batch.StartTime.Format("2006-01-02 15:04:05")
+	}
+	endTime := ""
+	if batch.EndTime != nil {
+		endTime = batch.EndTime.Format("2006-01-02 15:04:05")
+	}
 	return SlaughterBatchInfo{
 		BatchNumber: batch.BatchNumber,
 		HouseNumber: batch.HouseNumber,
@@ -40,7 +48,7 @@ func ToSlaughterBatchInfo(batch *SlaughterBatch) SlaughterBatchInfo {
 		PID:         batch.PID,
 		Worker:      batch.Worker,
 		CowNumber:   batch.CowNumber,
-		StartTime:   batch.StartTime.Format("2006-01-02 15:04:05"),
-		EndTime:     batch.EndTime.Format("2006-01-02 15:04:05"),
+		StartTime:   startTime,
+		EndTime:     endTime,
 	}
 }

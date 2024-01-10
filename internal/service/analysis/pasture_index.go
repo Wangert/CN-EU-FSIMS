@@ -8,14 +8,15 @@ import (
 
 // 判断牧场饲料重金属危害
 func JudgeHarmForPastureFeedHeavyMetal(record *pasture.PastureFeedHeavyMetal) ([]string, int, error) {
+	//glog.Info("test_record:", record)
 	indexMap := map[string]interface{}{}
 	recordMap, err := utils.StructToMap(record)
 	if err != nil {
 		return nil, 0, err
 	}
 	indexMap = utils.FlattenMap(recordMap)
-
-	abnormalList := make([]string, 3)
+	//glog.Info("test_indexMap:", indexMap)
+	abnormalList := make([]string, 0)
 	for k, v := range PastureFeedHeavyMetalBounds {
 		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)

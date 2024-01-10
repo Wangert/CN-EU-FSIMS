@@ -945,13 +945,13 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 		Cows:        cows,
 		StartTime:   &startTime,
 	}
+	err = tx.FeedingBatch.WithContext(context.Background()).Create(&fb)
 
-	err = tx.Procedure.WithContext(context.Background()).Create(&procedure)
 	if err != nil {
 		_ = tx.Rollback()
 		return "", err
 	}
-	err = tx.FeedingBatch.WithContext(context.Background()).Create(&fb)
+	err = tx.Procedure.WithContext(context.Background()).Create(&procedure)
 	if err != nil {
 		_ = tx.Rollback()
 		return "", err

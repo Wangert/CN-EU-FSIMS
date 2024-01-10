@@ -10,8 +10,9 @@ import (
 	"CN-EU-FSIMS/internal/service"
 	"flag"
 	"fmt"
-	"github.com/robfig/cron/v3"
 	"net/http"
+
+	"github.com/robfig/cron/v3"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
@@ -44,7 +45,7 @@ func main() {
 	}
 
 	// 启动危害监测定时任务
-	c := cron.New()
+	c := cron.New(cron.WithSeconds())
 	defer c.Stop()
 
 	tts := service.NewAllTimedTasks()

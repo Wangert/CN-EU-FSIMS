@@ -893,19 +893,19 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 		_ = tx.Rollback()
 		return "", nil, err
 	}
-	data10 := slaughter.PreSlaDietManage{
-		PID:               pid,
-		PreSlaDietManage1: r.PreSlaDietManage1,
-		PreSlaDietManage2: r.PreSlaDietManage2,
-		PreSlaDietManage3: r.PreSlaDietManage3,
-		PreSlaDietManage4: r.PreSlaDietManage4,
-		PreSlaDietManage5: r.PreSlaDietManage5,
-	}
-	err = query.PreSlaDietManage.WithContext(context.Background()).Create(&data10)
-	if err != nil {
-		_ = tx.Rollback()
-		return "", nil, err
-	}
+	// data10 := slaughter.PreSlaDietManage{
+	// 	PID:               pid,
+	// 	PreSlaDietManage1: r.PreSlaDietManage1,
+	// 	PreSlaDietManage2: r.PreSlaDietManage2,
+	// 	PreSlaDietManage3: r.PreSlaDietManage3,
+	// 	PreSlaDietManage4: r.PreSlaDietManage4,
+	// 	PreSlaDietManage5: r.PreSlaDietManage5,
+	// }
+	// err = query.PreSlaDietManage.WithContext(context.Background()).Create(&data10)
+	// if err != nil {
+	// 	_ = tx.Rollback()
+	// 	return "", nil, err
+	// }
 	//data11之后再加入
 	// 提交Procedure
 	data := slaughter.SlaughterProcedureData{

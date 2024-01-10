@@ -6,9 +6,10 @@ import (
 	"CN-EU-FSIMS/internal/service/analysis"
 	"CN-EU-FSIMS/utils"
 	"context"
+	"time"
+
 	"github.com/golang/glog"
 	"github.com/robfig/cron/v3"
-	"time"
 )
 
 const (
@@ -768,6 +769,8 @@ func PastureFeedMycotoxinsMonitoring(currentTime time.Time) error {
 
 // 牧场饲料重金属监测
 func PastureFeedHeavyMetalMonitoring(currentTime time.Time) error {
+	glog.Infoln("pasture feed heavy metal monitoring!")
+
 	m := query.Q.MonitoringTimeRecord
 	mtr, err := m.WithContext(context.Background()).Where(m.IndexName.Eq(PASTURE_FEED_HEAVY_METAL)).First()
 	if err != nil {
@@ -777,7 +780,8 @@ func PastureFeedHeavyMetalMonitoring(currentTime time.Time) error {
 	preTime := *mtr.LastTime
 
 	f := query.Q.PastureFeedHeavyMetal
-	pasFeedHeavyMetalRecords, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).Find()
+	pasFeedHeavyMetalRecords, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).
+		Preload(f.PastureFeedAs).Preload(f.PastureFeedCd).Preload(f.PastureFeedCr).Preload(f.PastureFeedPb).Find()
 	if err != nil {
 		return err
 	}
@@ -862,6 +866,8 @@ func InitMonitoringTimeRecords() error {
 		}
 	}()
 
+	initTime := time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC)
+
 	count, err := query.MonitoringTimeRecord.WithContext(context.Background()).Count()
 	if err != nil {
 		return err
@@ -874,7 +880,7 @@ func InitMonitoringTimeRecords() error {
 	for _, name := range monitoringNames {
 		record := models.MonitoringTimeRecord{
 			IndexName: name,
-			LastTime:  nil,
+			LastTime:  &initTime,
 		}
 
 		err = tx.MonitoringTimeRecord.WithContext(context.Background()).Create(&record)

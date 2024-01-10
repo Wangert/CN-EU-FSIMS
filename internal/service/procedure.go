@@ -86,7 +86,7 @@ func NewProcedure(params *NewProcedureParams, startTime time.Time) (models.Proce
 		CompletedTimestamp: nil,
 		PrePID:             prepid,
 		ICID:               "",
-		BatchNumber:        &params.BatchNumber,
+		//BatchNumber:        &params.BatchNumber,
 	}
 
 	return p, nil

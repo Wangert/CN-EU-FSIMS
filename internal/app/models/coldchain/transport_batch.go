@@ -1,10 +1,10 @@
 package coldchain
 
 import (
-	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/app/models/product"
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type TransportBatch struct {
@@ -17,7 +17,7 @@ type TransportBatch struct {
 	StartTime   *time.Time               `json:"start_time"`
 	EndTime     *time.Time               `json:"end_time"`
 	Products    []product.PackageProduct `gorm:"foreignKey:TransportBatchNumber; references:BatchNumber" json:"products"`
-	Procedure   models.Procedure         `gorm:"foreignKey:BatchNumber; references:BatchNumber" json:"procedure"`
+	//Procedure   models.Procedure         `gorm:"foreignKey:BatchNumber; references:BatchNumber" json:"procedure"`
 }
 
 type TransportBatchInfo struct {
@@ -32,6 +32,14 @@ type TransportBatchInfo struct {
 }
 
 func ToTransportBatchInfo(batch *TransportBatch) TransportBatchInfo {
+	startTime := ""
+	if batch.EndTime != nil {
+		startTime = batch.StartTime.Format("2006-01-02 15:04:05")
+	}
+	endTime := ""
+	if batch.EndTime != nil {
+		endTime = batch.EndTime.Format("2006-01-02 15:04:05")
+	}
 	return TransportBatchInfo{
 		BatchNumber: batch.BatchNumber,
 		TVNumber:    batch.TVNumber,
@@ -39,7 +47,7 @@ func ToTransportBatchInfo(batch *TransportBatch) TransportBatchInfo {
 		Worker:      batch.Worker,
 		MallNumber:  batch.MallNumber,
 		Products:    batch.Products,
-		StartTime:   batch.StartTime.Format("2006-01-02 15:04:05"),
-		EndTime:     batch.EndTime.Format("2006-01-02 15:04:05"),
+		StartTime:   startTime,
+		EndTime:     endTime,
 	}
 }
