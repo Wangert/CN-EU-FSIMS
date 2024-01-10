@@ -74,7 +74,104 @@ func NewAllTimedTasks() []TimedTask {
 		},
 	}
 
+	pastureFeedMycotoxinsTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureFeedMycotoxinsMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pastureWaterQualityTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureWaterQualityMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pastureBufferTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureBufferMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pastureAreaTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureAreaMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pastureCowHouse := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureCowHouseMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pastureBasicEnvironmentTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureBasicEnvironmentMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pasturePaddingTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PasturePaddingMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	slaughterWaterQualityTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := SlaughterWaterQualityMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
 	tts = append(tts, pastureFeedHeavyMetalTask)
+	tts = append(tts, pastureFeedMycotoxinsTask)
+	tts = append(tts, pastureWaterQualityTask)
+	tts = append(tts, pastureBufferTask)
+	tts = append(tts, pastureAreaTask)
+	tts = append(tts, pastureCowHouse)
+	tts = append(tts, pastureBasicEnvironmentTask)
+	tts = append(tts, pasturePaddingTask)
+	tts = append(tts, slaughterWaterQualityTask)
+
 	return tts
 }
 
@@ -89,7 +186,8 @@ func SlaughterWaterQualityMonitoring(currentTime time.Time) error {
 	preTime := *mtr.LastTime
 
 	f := query.Q.SlaughterWaterQualityMon
-	records, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).Find()
+	records, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).
+		Preload(f.SlaughterWaterMicroIndex).Preload(f.OapGciSla).Preload(f.ToxinIndexSla).Find()
 	if err != nil {
 		return err
 	}
@@ -605,7 +703,8 @@ func PastureWaterQualityMonitoring(currentTime time.Time) error {
 	preTime := *mtr.LastTime
 
 	f := query.Q.PastureWaterRecord
-	pasWaterRecords, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).Find()
+	pasWaterRecords, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).
+		Preload(f.OapGci).Preload(f.ToxIndex).Preload(f.MicroIndex).Find()
 	if err != nil {
 		return err
 	}
@@ -691,7 +790,8 @@ func PastureFeedMycotoxinsMonitoring(currentTime time.Time) error {
 	preTime := *mtr.LastTime
 
 	f := query.Q.PastureFeedMycotoxins
-	pasFeedMycotoxinsRecords, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).Find()
+	pasFeedMycotoxinsRecords, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).
+		Preload(f.Afb1).Preload(f.Don).Preload(f.T2toxin).Preload(f.T2VomZea).Find()
 	if err != nil {
 		return err
 	}

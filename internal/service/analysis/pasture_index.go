@@ -34,7 +34,7 @@ func JudgeHarmForPastureFeedMycotoxins(record *pasture.PastureFeedMycotoxins) ([
 	}
 	indexMap = utils.FlattenMap(recordMap)
 
-	abnormalList := make([]string, 3)
+	abnormalList := make([]string, 0)
 	for k, v := range PastureFeedMycotoxinsBounds {
 		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
@@ -52,7 +52,7 @@ func JudgeHarmForPastureWaterQuality(record *pasture.PastureWaterRecord) ([]stri
 	}
 	indexMap = utils.FlattenMap(recordMap)
 
-	abnormalList := make([]string, 3)
+	abnormalList := make([]string, 0)
 	for k, v := range PastureWaterQualityUpperBounds {
 		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
@@ -75,7 +75,7 @@ func JudgeHarmForPastureBuffer(record *pasture.PastureBuffer) ([]string, int, er
 	}
 	indexMap = utils.FlattenMap(recordMap)
 
-	abnormalList := make([]string, 3)
+	abnormalList := make([]string, 0)
 	for k, v := range PastureBufferUpperBounds {
 		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
@@ -94,7 +94,7 @@ func JudgeHarmForPastureArea(record *pasture.PastureArea) ([]string, int, error)
 	}
 	indexMap = utils.FlattenMap(recordMap)
 
-	abnormalList := make([]string, 3)
+	abnormalList := make([]string, 0)
 	for k, v := range PastureAreaUpperBounds {
 		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
@@ -113,7 +113,7 @@ func JudgeHarmForPastureCowHouse(record *pasture.CowHouse) ([]string, int, error
 	}
 	indexMap = utils.FlattenMap(recordMap)
 
-	abnormalList := make([]string, 3)
+	abnormalList := make([]string, 0)
 	for k, v := range PastureCowHouseUpperBounds {
 		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
@@ -132,7 +132,7 @@ func JudgeHarmForPastureBasicEnvironment(record *pasture.PastureBasicEnvironment
 	}
 	indexMap = utils.FlattenMap(recordMap)
 
-	abnormalList := make([]string, 3)
+	abnormalList := make([]string, 0)
 	for k, v := range PastureBasicEnvironmentUpperBounds {
 		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
@@ -156,7 +156,7 @@ func JudgeHarmForPasturePadding(record *pasture.PasturePaddingRequire) ([]string
 	}
 	indexMap = utils.FlattenMap(recordMap)
 
-	abnormalList := make([]string, 3)
+	abnormalList := make([]string, 0)
 	for k, v := range PasturePaddingUpperBounds {
 		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
@@ -175,7 +175,7 @@ func JudgeHarmForSlaughterWaterQuality(record *slaughter.SlaughterWaterQualityMo
 	}
 	indexMap = utils.FlattenMap(recordMap)
 
-	abnormalList := make([]string, 3)
+	abnormalList := make([]string, 0)
 	for k, v := range SlaughterWaterQualityUpperBounds {
 		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
