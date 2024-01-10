@@ -5,7 +5,6 @@
 package query
 
 import (
-	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/app/models/pasture"
 	"CN-EU-FSIMS/internal/app/models/product"
 	"context"
@@ -39,12 +38,6 @@ func newFeedingBatch(db *gorm.DB, opts ...gen.DOOption) feedingBatch {
 	_feedingBatch.Worker = field.NewString(tableName, "worker")
 	_feedingBatch.StartTime = field.NewTime(tableName, "start_time")
 	_feedingBatch.EndTime = field.NewTime(tableName, "end_time")
-	_feedingBatch.Procedure = feedingBatchHasOneProcedure{
-		db: db.Session(&gorm.Session{}),
-
-		RelationField: field.NewRelation("Procedure", "models.Procedure"),
-	}
-
 	_feedingBatch.Cows = feedingBatchHasManyCows{
 		db: db.Session(&gorm.Session{}),
 
@@ -71,9 +64,7 @@ type feedingBatch struct {
 	Worker      field.String
 	StartTime   field.Time
 	EndTime     field.Time
-	Procedure   feedingBatchHasOneProcedure
-
-	Cows feedingBatchHasManyCows
+	Cows        feedingBatchHasManyCows
 
 	fieldMap map[string]field.Expr
 }
@@ -129,7 +120,7 @@ func (f *feedingBatch) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 }
 
 func (f *feedingBatch) fillFieldMap() {
-	f.fieldMap = make(map[string]field.Expr, 13)
+	f.fieldMap = make(map[string]field.Expr, 12)
 	f.fieldMap["id"] = f.ID
 	f.fieldMap["created_at"] = f.CreatedAt
 	f.fieldMap["updated_at"] = f.UpdatedAt
@@ -152,77 +143,6 @@ func (f feedingBatch) clone(db *gorm.DB) feedingBatch {
 func (f feedingBatch) replaceDB(db *gorm.DB) feedingBatch {
 	f.feedingBatchDo.ReplaceDB(db)
 	return f
-}
-
-type feedingBatchHasOneProcedure struct {
-	db *gorm.DB
-
-	field.RelationField
-}
-
-func (a feedingBatchHasOneProcedure) Where(conds ...field.Expr) *feedingBatchHasOneProcedure {
-	if len(conds) == 0 {
-		return &a
-	}
-
-	exprs := make([]clause.Expression, 0, len(conds))
-	for _, cond := range conds {
-		exprs = append(exprs, cond.BeCond().(clause.Expression))
-	}
-	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
-	return &a
-}
-
-func (a feedingBatchHasOneProcedure) WithContext(ctx context.Context) *feedingBatchHasOneProcedure {
-	a.db = a.db.WithContext(ctx)
-	return &a
-}
-
-func (a feedingBatchHasOneProcedure) Session(session *gorm.Session) *feedingBatchHasOneProcedure {
-	a.db = a.db.Session(session)
-	return &a
-}
-
-func (a feedingBatchHasOneProcedure) Model(m *pasture.FeedingBatch) *feedingBatchHasOneProcedureTx {
-	return &feedingBatchHasOneProcedureTx{a.db.Model(m).Association(a.Name())}
-}
-
-type feedingBatchHasOneProcedureTx struct{ tx *gorm.Association }
-
-func (a feedingBatchHasOneProcedureTx) Find() (result *models.Procedure, err error) {
-	return result, a.tx.Find(&result)
-}
-
-func (a feedingBatchHasOneProcedureTx) Append(values ...*models.Procedure) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Append(targetValues...)
-}
-
-func (a feedingBatchHasOneProcedureTx) Replace(values ...*models.Procedure) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Replace(targetValues...)
-}
-
-func (a feedingBatchHasOneProcedureTx) Delete(values ...*models.Procedure) (err error) {
-	targetValues := make([]interface{}, len(values))
-	for i, v := range values {
-		targetValues[i] = v
-	}
-	return a.tx.Delete(targetValues...)
-}
-
-func (a feedingBatchHasOneProcedureTx) Clear() error {
-	return a.tx.Clear()
-}
-
-func (a feedingBatchHasOneProcedureTx) Count() int64 {
-	return a.tx.Count()
 }
 
 type feedingBatchHasManyCows struct {

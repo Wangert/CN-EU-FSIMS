@@ -46,11 +46,6 @@ func newSlaughterHouse(db *gorm.DB, opts ...gen.DOOption) slaughterHouse {
 		db: db.Session(&gorm.Session{}),
 
 		RelationField: field.NewRelation("SlaughterRecords", "slaughter.SlaughterBatch"),
-		Procedure: struct {
-			field.RelationField
-		}{
-			RelationField: field.NewRelation("SlaughterRecords.Procedure", "models.Procedure"),
-		},
 		Products: struct {
 			field.RelationField
 		}{
@@ -334,9 +329,6 @@ type slaughterHouseHasManySlaughterRecords struct {
 
 	field.RelationField
 
-	Procedure struct {
-		field.RelationField
-	}
 	Products struct {
 		field.RelationField
 	}

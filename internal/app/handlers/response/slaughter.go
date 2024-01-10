@@ -26,14 +26,10 @@ type ResEndSlaughter struct {
 	Count       int64    `json:"count"`
 }
 
-type ResSlaughterData struct {
-	Data1 slaughter.SlaughterDisinfectHotWaterTempMoniData `json:"data1"`
-	Data2 slaughter.SlaughterStunData                      `json:"data2"`
-	Data3 slaughter.BleedElectronicData                    `json:"data3"`
-	Data4 slaughter.AnalMeatPhMoniData                     `json:"data4"`
-	Data5 slaughter.AnalCutWeightData                      `json:"data5"`
-	Data6 slaughter.ToNumGermMonData                       `json:"data6"`
-	Data7 slaughter.AirNumGermMonData                      `json:"data7"`
+type ResSlaughterProcedureData struct {
+	SlaughterProcedureMonitoringDataInfo slaughter.SlaughterProcedureMonitoringDataInfo `json:"slaughter_procedure_monitoring_data_Info"`
+	OtherData1                           slaughter.AnalCutWeightInfo                    `json:"other_data1"`
+	OtherData2                           slaughter.AirNumGermMonInfo                    `json:"other_data2"`
 }
 type ResPreCoolShopData struct {
 	ShopInfos []slaughter.PreCoolShopInfo `json:"shop_infos"`

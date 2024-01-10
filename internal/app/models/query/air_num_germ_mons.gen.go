@@ -31,9 +31,9 @@ func newAirNumGermMon(db *gorm.DB, opts ...gen.DOOption) airNumGermMon {
 	_airNumGermMon.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_airNumGermMon.DeletedAt = field.NewField(tableName, "deleted_at")
 	_airNumGermMon.PID = field.NewString(tableName, "p_id")
-	_airNumGermMon.AirNumGermMon1 = field.NewFloat32(tableName, "air_num_germ_mon1")
-	_airNumGermMon.AirNumGermMon2 = field.NewFloat32(tableName, "air_num_germ_mon2")
-	_airNumGermMon.AirNumGermMon3 = field.NewFloat32(tableName, "air_num_germ_mon3")
+	_airNumGermMon.AirNumGermMon1 = field.NewFloat64(tableName, "air_num_germ_mon1")
+	_airNumGermMon.AirNumGermMon2 = field.NewFloat64(tableName, "air_num_germ_mon2")
+	_airNumGermMon.AirNumGermMon3 = field.NewFloat64(tableName, "air_num_germ_mon3")
 
 	_airNumGermMon.fillFieldMap()
 
@@ -49,9 +49,9 @@ type airNumGermMon struct {
 	UpdatedAt      field.Time
 	DeletedAt      field.Field
 	PID            field.String
-	AirNumGermMon1 field.Float32
-	AirNumGermMon2 field.Float32
-	AirNumGermMon3 field.Float32
+	AirNumGermMon1 field.Float64
+	AirNumGermMon2 field.Float64
+	AirNumGermMon3 field.Float64
 
 	fieldMap map[string]field.Expr
 }
@@ -73,9 +73,9 @@ func (a *airNumGermMon) updateTableName(table string) *airNumGermMon {
 	a.UpdatedAt = field.NewTime(table, "updated_at")
 	a.DeletedAt = field.NewField(table, "deleted_at")
 	a.PID = field.NewString(table, "p_id")
-	a.AirNumGermMon1 = field.NewFloat32(table, "air_num_germ_mon1")
-	a.AirNumGermMon2 = field.NewFloat32(table, "air_num_germ_mon2")
-	a.AirNumGermMon3 = field.NewFloat32(table, "air_num_germ_mon3")
+	a.AirNumGermMon1 = field.NewFloat64(table, "air_num_germ_mon1")
+	a.AirNumGermMon2 = field.NewFloat64(table, "air_num_germ_mon2")
+	a.AirNumGermMon3 = field.NewFloat64(table, "air_num_germ_mon3")
 
 	a.fillFieldMap()
 

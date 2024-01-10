@@ -42,7 +42,6 @@ func newProcedure(db *gorm.DB, opts ...gen.DOOption) procedure {
 	_procedure.CompletedTimestamp = field.NewTime(tableName, "completed_timestamp")
 	_procedure.PrePID = field.NewString(tableName, "pre_p_id")
 	_procedure.ICID = field.NewString(tableName, "ic_id")
-	_procedure.BatchNumber = field.NewString(tableName, "batch_number")
 
 	_procedure.fillFieldMap()
 
@@ -69,7 +68,6 @@ type procedure struct {
 	CompletedTimestamp field.Time
 	PrePID             field.String
 	ICID               field.String
-	BatchNumber        field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -102,7 +100,6 @@ func (p *procedure) updateTableName(table string) *procedure {
 	p.CompletedTimestamp = field.NewTime(table, "completed_timestamp")
 	p.PrePID = field.NewString(table, "pre_p_id")
 	p.ICID = field.NewString(table, "ic_id")
-	p.BatchNumber = field.NewString(table, "batch_number")
 
 	p.fillFieldMap()
 
@@ -129,7 +126,7 @@ func (p *procedure) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (p *procedure) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 17)
+	p.fieldMap = make(map[string]field.Expr, 16)
 	p.fieldMap["id"] = p.ID
 	p.fieldMap["created_at"] = p.CreatedAt
 	p.fieldMap["updated_at"] = p.UpdatedAt
@@ -146,7 +143,6 @@ func (p *procedure) fillFieldMap() {
 	p.fieldMap["completed_timestamp"] = p.CompletedTimestamp
 	p.fieldMap["pre_p_id"] = p.PrePID
 	p.fieldMap["ic_id"] = p.ICID
-	p.fieldMap["batch_number"] = p.BatchNumber
 }
 
 func (p procedure) clone(db *gorm.DB) procedure {
