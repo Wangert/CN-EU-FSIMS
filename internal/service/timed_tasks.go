@@ -898,3 +898,36 @@ func InitMonitoringTimeRecords() error {
 
 	return nil
 }
+
+func GetNotificationCount(uuid string) (int, error) {
+	var count = 0
+	q := query.Q.Notification
+	res, err := q.WithContext(context.Background()).Where(q.UUID.Eq(uuid)).Find()
+	if err != nil {
+		return 0, err
+	}
+	for _, v := range res {
+		if v.State == 1 {
+			count++
+		}
+	}
+	return count, nil
+}
+
+func GetNotification(uuid string) ([]models.NotificationInfo, int, error) {
+
+	q := query.Q.Notification
+	res, err := q.WithContext(context.Background()).Where(q.UUID.Eq(uuid)).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(res)
+	records := make([]models.NotificationInfo, count)
+	for i, v := range res {
+		records[i] = models.ToNotificationInfo(v)
+	}
+
+	return records, count, nil
+
+}

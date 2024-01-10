@@ -192,6 +192,37 @@ func SearchMalls(c *gin.Context) {
 	return
 }
 
+func GetNotificationCount(c *gin.Context) {
+	glog.Info("################## Get Notification Count ##################")
+
+	var uuid = c.Query("uuid")
+	count, err := service.GetNotificationCount(uuid)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "get notification count error!")
+		return
+	}
+	response.MakeSuccess(c, http.StatusOK, count)
+	return
+}
+
+func GetNotification(c *gin.Context) {
+	glog.Info("################## Get Notification ##################")
+
+	var uuid = c.Query("uuid")
+	nf, count, err := service.GetNotification(uuid)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "get package batches error!")
+		return
+	}
+
+	res := response.ResNotification{
+		Notifications: nf,
+		Count:         int64(count),
+	}
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
 func GetPastures(c *gin.Context) {
 	glog.Info("################## Get All pastures ##################")
 

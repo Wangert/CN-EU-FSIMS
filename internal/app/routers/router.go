@@ -107,6 +107,8 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		//pop.POST("inwarehouse", handlers.PastureInWarehouse)
 		pop.POST("send", handlers.SendToSlaughter)
 		pop.GET("slaughterhouses", handlers.GetSlaughterHouses)
+		pop.GET("getnotificationcount", handlers.GetNotificationCount)
+		pop.GET("getnotification", handlers.GetNotification)
 
 		//上传传感器数据
 		pop.POST("addfeedheavymetal", handlers.AddPastureFeedHeavyMetal)
