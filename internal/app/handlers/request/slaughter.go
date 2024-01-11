@@ -12,6 +12,84 @@ type ReqEndSlaughter struct {
 	Worker      string `json:"worker" form:"worker"`
 	HouseNumber string `json:"house_number" form:"house_number"`
 
+	SlaughterDisinfectHotWaterTempMoni1 float64 `json:"slaughter_disinfect_hot_water_temp_moni_1" form:"slaughter_disinfect_hot_water_temp_moni_1"` //预剥皮
+	SlaughterDisinfectHotWaterTempMoni2 float64 `json:"slaughter_disinfect_hot_water_temp_moni_2" form:"slaughter_disinfect_hot_water_temp_moni_2"` //检疫台
+	SlaughterDisinfectHotWaterTempMoni3 float64 `json:"slaughter_disinfect_hot_water_temp_moni_3" form:"slaughter_disinfect_hot_water_temp_moni_3"` //去皮后修正
+	SlaughterDisinfectHotWaterTempMoni4 float64 `json:"slaughter_disinfect_hot_water_temp_moni_4" form:"slaughter_disinfect_hot_water_temp_moni_4"` //去脏后
+	SlaughterDisinfectHotWaterTempMoni5 float64 `json:"slaughter_disinfect_hot_water_temp_moni_5" form:"slaughter_disinfect_hot_water_temp_moni_5"` //剔骨台
+	SlaughterDisinfectHotWaterTempMoni6 float64 `json:"slaughter_disinfect_hot_water_temp_moni_6" form:"slaughter_disinfect_hot_water_temp_moni_6"` //洗手台
+
+	Stun1 float64 `json:"stun_1" form:"stun_1"` //电压
+	Stun2 float64 `json:"stun_2" form:"stun_2"` //电流
+	Stun3 float64 `json:"stun_3" form:"stun_3"` //作用时间
+
+	BleedElectronic1 float64 `json:"bleed_electronic_1" form:"bleed_electronic_1"` //放血刀热水消毒
+	BleedElectronic2 float64 `json:"bleed_electronic_2" form:"bleed_electronic_2"` //电流
+	BleedElectronic3 float64 `json:"bleed_electronic_3" form:"bleed_electronic_3"` //作用时间
+	BleedElectronic4 float64 `json:"bleed_electronic_4" form:"bleed_electronic_4"` //电刺激参数
+	BleedElectronic5 float64 `json:"bleed_electronic_5" form:"bleed_electronic_5"` //电刺激时间
+
+	PreSlaQuanPic1 string `json:"pre_sla_quan_pic_1" form:"pre_sla_quan_pic_1"` //咬肌照片
+	PreSlaQuanPic2 string `json:"pre_sla_quan_pic_2" form:"pre_sla_quan_pic_2"` //舌头
+	PreSlaQuanPic3 string `json:"pre_sla_quan_pic_3" form:"pre_sla_quan_pic_3"` //额下
+	PreSlaQuanPic4 string `json:"pre_sla_quan_pic_4" form:"pre_sla_quan_pic_4"` //咽喉
+	PreSlaQuanPic5 string `json:"pre_sla_quan_pic_5" form:"pre_sla_quan_pic_5"` //口腔
+	PreSlaQuanPic6 string `json:"pre_sla_quan_pic_6" form:"pre_sla_quan_pic_6"` //肾脏
+	PreSlaQuanPic7 string `json:"pre_sla_quan_pic_7" form:"pre_sla_quan_pic_7"` //肝脏
+	PreSlaQuanPic8 string `json:"pre_sla_quan_pic_8" form:"pre_sla_quan_pic_8"` //心脏
+	PreSlaQuanPic9 string `json:"pre_sla_quan_pic_9" form:"pre_sla_quan_pic_9"` //淋巴结
+
+	SlaughterAnalAfterSlaQuanCar1 string `json:"slaughter_anal_after_sla_quan_car_1" form:"slaughter_anal_after_sla_quan_car_1"` //肛门结扎
+	SlaughterAnalAfterSlaQuanCar2 string `json:"slaughter_anal_after_sla_quan_car_2" form:"slaughter_anal_after_sla_quan_car_2"` //胆囊破损情况拍照
+	SlaughterAnalAfterSlaQuanCar3 string `json:"slaughter_anal_after_sla_quan_car_3" form:"slaughter_anal_after_sla_quan_car_3"` //腹股沟淋巴
+	SlaughterAnalAfterSlaQuanCar4 string `json:"slaughter_anal_after_sla_quan_car_4" form:"slaughter_anal_after_sla_quan_car_4"` //整个胴体
+
+	AnalMeatPhMoni1 float64 `json:"anal_meat_ph_moni_1" form:"anal_meat_ph_moni_1"` //宰后0 min
+	AnalMeatPhMoni2 float64 `json:"anal_meat_ph_moni_2" form:"anal_meat_ph_moni_2"` //宰后45min
+	AnalMeatPhMoni3 float64 `json:"anal_meat_ph_moni_3" form:"anal_meat_ph_moni_3"` //劈半后胴体
+	AnalMeatPhMoni4 float64 `json:"anal_meat_ph_moni_4" form:"anal_meat_ph_moni_4"` //排酸过程中胴体
+	AnalMeatPhMoni5 float64 `json:"anal_meat_ph_moni_5" form:"anal_meat_ph_moni_5"` //冷鲜肉
+
+	AnalCutWeight1  float64 `json:"anal_cut_weight_1" form:"anal_cut_weight_1"`   //劈半后胴体 温度
+	AnalCutWeight2  float64 `json:"anal_cut_weight_2" form:"anal_cut_weight_2"`   //排酸过程中胴体 温度
+	AnalCutWeight3  float64 `json:"anal_cut_weight_3" form:"anal_cut_weight_3"`   //屠宰到入排酸库的时间
+	AnalCutWeight4  float64 `json:"anal_cut_weight_4" form:"anal_cut_weight_4"`   //屠宰到入排酸库的记录
+	AnalCutWeight5  float64 `json:"anal_cut_weight_5" form:"anal_cut_weight_5"`   //排酸库胴体间隙
+	AnalCutWeight6  float64 `json:"anal_cut_weight_6" form:"anal_cut_weight_6"`   //分割前胴体重量记录，称重时间
+	AnalCutWeight7  float64 `json:"anal_cut_weight_7" form:"anal_cut_weight_7"`   //分割前胴体重量记录，重量
+	AnalCutWeight8  float64 `json:"anal_cut_weight_8" form:"anal_cut_weight_8"`   //分割前胴体重量记录，酮体编号
+	AnalCutWeight9  float64 `json:"anal_cut_weight_9" form:"anal_cut_weight_9"`   //分割前胴体温度
+	AnalCutWeight10 float64 `json:"anal_cut_weight_10" form:"anal_cut_weight_10"` //分割刀温度
+	AnalCutWeight11 float64 `json:"anal_cut_weight_11" form:"anal_cut_weight_11"` //分割刀记录
+	AnalCutWeight12 float64 `json:"anal_cut_weight_12" form:"anal_cut_weight_12"` //温湿度监控
+
+	ToNumGermMon1 float64 `json:"to_num_germ_mon_1" form:"to_num_germ_mon_1"` //喷淋后胴体
+	ToNumGermMon2 float64 `json:"to_num_germ_mon_2" form:"to_num_germ_mon_2"` //剔骨案板
+	ToNumGermMon3 float64 `json:"to_num_germ_mon_3" form:"to_num_germ_mon_3"` //传送带
+	ToNumGermMon4 float64 `json:"to_num_germ_mon_4" form:"to_num_germ_mon_4"` //围裙
+	ToNumGermMon5 float64 `json:"to_num_germ_mon_5" form:"to_num_germ_mon_5"` //手套
+	ToNumGermMon6 float64 `json:"to_num_germ_mon_6" form:"to_num_germ_mon_6"` //锯骨机
+	ToNumGermMon7 float64 `json:"to_num_germ_mon_7" form:"to_num_germ_mon_7"` //刀具
+	ToNumGermMon8 float64 `json:"to_num_germ_mon_8" form:"to_num_germ_mon_8"` //地面与墙面
+
+	AirNumGermMon1 float64 `json:"air_num_germ_mon_1" form:"air_num_germ_mon_1"` //屠宰车间
+	AirNumGermMon2 float64 `json:"air_num_germ_mon_2" form:"air_num_germ_mon_2"` //分割车间
+	AirNumGermMon3 float64 `json:"air_num_germ_mon_3" form:"air_num_germ_mon_3"` //排酸车间
+
+	PreSlaDietManage1 string `json:"pre_sla_diet_manage_1" form:"pre_sla_diet_manage_1"` //牛进场时间
+	PreSlaDietManage2 string `json:"pre_sla_diet_manage_2" form:"pre_sla_diet_manage_2"` //牛停水时间
+	PreSlaDietManage3 string `json:"pre_sla_diet_manage_3" form:"pre_sla_diet_manage_3"` //牛禁食时间
+	PreSlaDietManage4 string `json:"pre_sla_diet_manage_4" form:"pre_sla_diet_manage_4"` //饮水时间
+	PreSlaDietManage5 string `json:"pre_sla_diet_manage_5" form:"pre_sla_diet_manage_5"` //送宰时间
+
+	// PreSlaInfoRecID uint   `json:"pre_sla_info_rec_id"`
+	// PreSlaPicAndEn1 string `json:"pre_sla_pic_and_en_1"` //待宰动物视频
+	// PreSlaPicAndEn2 string `json:"pre_sla_pic_and_en_2"` //待宰动物头部
+	// PreSlaPicAndEn3 string `json:"pre_sla_pic_and_en_3"` //待宰动物皮毛相片采集
+	// PreSlaPicAndEn4 string `json:"pre_sla_pic_and_en_4"` //照度
+	// PreSlaPicAndEn5 string `json:"pre_sla_pic_and_en_5"` //噪声
+	// PreSlaPicAndEn6 string `json:"pre_sla_pic_and_en_6"` //光照时间
+
 	EnvirTemperature      string `json:"envir_temperature"`
 	EnvirLighting         string `json:"envir_lighting"`
 	ShockVoltage          string `json:"shock_voltage"`
@@ -56,11 +134,11 @@ type ReqUploadSlaughterShopData struct {
 	SlaShop7          float32 `json:"sla_shop_7"`          //氯含量
 	SlaShop8          float32 `json:"sla_shop_8"`          //工作服 功率
 	SlaShop9          float32 `json:"sla_shop_9"`          //工作服 时间
-	SlaShop10         float32 `json:"sla_shop_10"`         //消毒记录 方式
-	SlaShop11         float32 `json:"sla_shop_11"`         //消毒记录 浓度
-	SlaShop12         float32 `json:"sla_shop_12"`         //消毒记录 班次
-	SlaShop13         float32 `json:"sla_shop_13"`         //消毒记录 器具
-	SlaShop14         float32 `json:"sla_shop_14"`         //消毒记录 环境
+	SlaShop10         string  `json:"sla_shop_10"`         //消毒记录 方式
+	SlaShop11         string  `json:"sla_shop_11"`         //消毒记录 浓度
+	SlaShop12         string  `json:"sla_shop_12"`         //消毒记录 班次
+	SlaShop13         string  `json:"sla_shop_13"`         //消毒记录 器具
+	SlaShop14         string  `json:"sla_shop_14"`         //消毒记录 环境
 }
 
 type ReqUploadDivisionShopData struct {
@@ -76,11 +154,11 @@ type ReqUploadDivisionShopData struct {
 	DivShop7          float32 `json:"div_shop_7"`          //氯含量
 	DivShop8          float32 `json:"div_shop_8"`          //工作服 功率
 	DivShop9          float32 `json:"div_shop_9"`          //工作服 时间
-	DivShop10         float32 `json:"div_shop_10"`         //消毒记录 方式
-	DivShop11         float32 `json:"div_shop_11"`         //消毒记录 浓度
-	DivShop12         float32 `json:"div_shop_12"`         //消毒记录 班次
-	DivShop13         float32 `json:"div_shop_13"`         //消毒记录 器具
-	DivShop14         float32 `json:"div_shop_14"`         //消毒记录 环境
+	DivShop10         string  `json:"div_shop_10"`         //消毒记录 方式
+	DivShop11         string  `json:"div_shop_11"`         //消毒记录 浓度
+	DivShop12         string  `json:"div_shop_12"`         //消毒记录 班次
+	DivShop13         string  `json:"div_shop_13"`         //消毒记录 器具
+	DivShop14         string  `json:"div_shop_14"`         //消毒记录 环境
 }
 
 type ReqUploadAcidShopData struct {
@@ -96,11 +174,11 @@ type ReqUploadAcidShopData struct {
 	AcidShop7         float32 `json:"acid_shop_7"`         //氯含量
 	AcidShop8         float32 `json:"acid_shop_8"`         //工作服 功率
 	AcidShop9         float32 `json:"acid_shop_9"`         //工作服 时间
-	AcidShop10        float32 `json:"acid_shop_10"`        //消毒记录 方式
-	AcidShop11        float32 `json:"acid_shop_11"`        //消毒记录 浓度
-	AcidShop12        float32 `json:"acid_shop_12"`        //消毒记录 班次
-	AcidShop13        float32 `json:"acid_shop_13"`        //消毒记录 器具
-	AcidShop14        float32 `json:"acid_shop_14"`        //消毒记录 环境
+	AcidShop10        string  `json:"acid_shop_10"`        //消毒记录 方式
+	AcidShop11        string  `json:"acid_shop_11"`        //消毒记录 浓度
+	AcidShop12        string  `json:"acid_shop_12"`        //消毒记录 班次
+	AcidShop13        string  `json:"acid_shop_13"`        //消毒记录 器具
+	AcidShop14        string  `json:"acid_shop_14"`        //消毒记录 环境
 }
 
 type ReqUploadFrozenShopData struct {
@@ -116,11 +194,11 @@ type ReqUploadFrozenShopData struct {
 	FroShop7          float32 `json:"fro_shop_7"`          //氯含量
 	FroShop8          float32 `json:"fro_shop_8"`          //工作服 功率
 	FroShop9          float32 `json:"fro_shop_9"`          //工作服 时间
-	FroShop10         float32 `json:"fro_shop_10"`         //消毒记录 方式
-	FroShop11         float32 `json:"fro_shop_11"`         //消毒记录 浓度
-	FroShop12         float32 `json:"fro_shop_12"`         //消毒记录 班次
-	FroShop13         float32 `json:"fro_shop_13"`         //消毒记录 器具
-	FroShop14         float32 `json:"fro_shop_14"`         //消毒记录 环境
+	FroShop10         string  `json:"fro_shop_10"`         //消毒记录 方式
+	FroShop11         string  `json:"fro_shop_11"`         //消毒记录 浓度
+	FroShop12         string  `json:"fro_shop_12"`         //消毒记录 班次
+	FroShop13         string  `json:"fro_shop_13"`         //消毒记录 器具
+	FroShop14         string  `json:"fro_shop_14"`         //消毒记录 环境
 }
 
 type ReqSlaughterSensorData struct {
@@ -134,7 +212,6 @@ type ReqUploadSlaughterWaterQualityData struct {
 	TimestampRecordAt        int64                       `json:"timestamp_record_at"` //记录时间戳
 	SlaughterWaterMicroIndex ReqSlaughterWaterMicroIndex `json:"slaughter_water_micro_index"`
 	OapGciSla                ReqOapGciSla                `json:"oap_gci_sla"`
-	MicroIndexWaterMonSla    ReqMicroIndexWaterMonSla    `json:"micro_index_water_mon_sla"`
 	SlaughterToxinIndex      ReqSlaughterToxinIndex      `json:"slaughter_toxin_index"`
 }
 

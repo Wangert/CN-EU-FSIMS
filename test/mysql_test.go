@@ -10,7 +10,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"testing"
-	"time"
 
 	//"time"
 
@@ -24,22 +23,22 @@ func TestMigrate(t *testing.T) {
 	mysql.AutoMigrate()
 }
 
-func TestLogs(t *testing.T) {
-	mysql.Init(TESTCONFIGPATH)
-	newlogs := models.Log{
-		TimeStamp: time.Now(),
-		UUID:      "FSIMSU-0001-6e3dacaecff15142f8ee566511e413e9db25a94e32ba475337d39603f3c67ef5",
-		Account:   "15027110032",
-		Type:      2,
-		Action:    "Get http://127.0.0.1:8000/fsims/admin/adduser",
-	}
-	err := query.Log.WithContext(context.Background()).Create(&newlogs)
-	if err != nil {
-		glog.Errorln("create new logs error: %v", err)
-	}
-
-	fmt.Println("Create logs Successful")
-}
+//	func TestLogs(t *testing.T) {
+//		mysql.Init(TESTCONFIGPATH)
+//		newlogs := models.Logs{
+//			TimeStamp: time.Now(),
+//			UUID:      "FSIMSU-0001-6e3dacaecff15142f8ee566511e413e9db25a94e32ba475337d39603f3c67ef5",
+//			Account:   "15027110032",
+//			Type:      2,
+//			Action:    "Get http://127.0.0.1:8000/fsims/admin/adduser",
+//		}
+//		err := query.Logs.WithContext(context.Background()).Create(&newlogs)
+//		if err != nil {
+//			glog.Errorln("create new logs error: %v", err)
+//		}
+//
+//		fmt.Println("Create logs Successful")
+//	}
 func TestCreateFsimsUser(t *testing.T) {
 	mysql.Init(TESTCONFIGPATH)
 

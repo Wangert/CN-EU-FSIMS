@@ -95,6 +95,7 @@ var (
 	SlaughterDisinfectHotWaterTempMoni *slaughterDisinfectHotWaterTempMoni
 	SlaughterHouse                     *slaughterHouse
 	SlaughterLightRecord               *slaughterLightRecord
+	SlaughterProcedureMonitoringData   *slaughterProcedureMonitoringData
 	SlaughterProduct                   *slaughterProduct
 	SlaughterReceiveRecord             *slaughterReceiveRecord
 	SlaughterStun                      *slaughterStun
@@ -199,6 +200,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	SlaughterDisinfectHotWaterTempMoni = &Q.SlaughterDisinfectHotWaterTempMoni
 	SlaughterHouse = &Q.SlaughterHouse
 	SlaughterLightRecord = &Q.SlaughterLightRecord
+	SlaughterProcedureMonitoringData = &Q.SlaughterProcedureMonitoringData
 	SlaughterProduct = &Q.SlaughterProduct
 	SlaughterReceiveRecord = &Q.SlaughterReceiveRecord
 	SlaughterStun = &Q.SlaughterStun
@@ -304,6 +306,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		SlaughterDisinfectHotWaterTempMoni: newSlaughterDisinfectHotWaterTempMoni(db, opts...),
 		SlaughterHouse:                     newSlaughterHouse(db, opts...),
 		SlaughterLightRecord:               newSlaughterLightRecord(db, opts...),
+		SlaughterProcedureMonitoringData:   newSlaughterProcedureMonitoringData(db, opts...),
 		SlaughterProduct:                   newSlaughterProduct(db, opts...),
 		SlaughterReceiveRecord:             newSlaughterReceiveRecord(db, opts...),
 		SlaughterStun:                      newSlaughterStun(db, opts...),
@@ -410,6 +413,7 @@ type Query struct {
 	SlaughterDisinfectHotWaterTempMoni slaughterDisinfectHotWaterTempMoni
 	SlaughterHouse                     slaughterHouse
 	SlaughterLightRecord               slaughterLightRecord
+	SlaughterProcedureMonitoringData   slaughterProcedureMonitoringData
 	SlaughterProduct                   slaughterProduct
 	SlaughterReceiveRecord             slaughterReceiveRecord
 	SlaughterStun                      slaughterStun
@@ -517,6 +521,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		SlaughterDisinfectHotWaterTempMoni: q.SlaughterDisinfectHotWaterTempMoni.clone(db),
 		SlaughterHouse:                     q.SlaughterHouse.clone(db),
 		SlaughterLightRecord:               q.SlaughterLightRecord.clone(db),
+		SlaughterProcedureMonitoringData:   q.SlaughterProcedureMonitoringData.clone(db),
 		SlaughterProduct:                   q.SlaughterProduct.clone(db),
 		SlaughterReceiveRecord:             q.SlaughterReceiveRecord.clone(db),
 		SlaughterStun:                      q.SlaughterStun.clone(db),
@@ -631,6 +636,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		SlaughterDisinfectHotWaterTempMoni: q.SlaughterDisinfectHotWaterTempMoni.replaceDB(db),
 		SlaughterHouse:                     q.SlaughterHouse.replaceDB(db),
 		SlaughterLightRecord:               q.SlaughterLightRecord.replaceDB(db),
+		SlaughterProcedureMonitoringData:   q.SlaughterProcedureMonitoringData.replaceDB(db),
 		SlaughterProduct:                   q.SlaughterProduct.replaceDB(db),
 		SlaughterReceiveRecord:             q.SlaughterReceiveRecord.replaceDB(db),
 		SlaughterStun:                      q.SlaughterStun.replaceDB(db),
@@ -735,6 +741,7 @@ type queryCtx struct {
 	SlaughterDisinfectHotWaterTempMoni ISlaughterDisinfectHotWaterTempMoniDo
 	SlaughterHouse                     ISlaughterHouseDo
 	SlaughterLightRecord               ISlaughterLightRecordDo
+	SlaughterProcedureMonitoringData   ISlaughterProcedureMonitoringDataDo
 	SlaughterProduct                   ISlaughterProductDo
 	SlaughterReceiveRecord             ISlaughterReceiveRecordDo
 	SlaughterStun                      ISlaughterStunDo
@@ -839,6 +846,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		SlaughterDisinfectHotWaterTempMoni: q.SlaughterDisinfectHotWaterTempMoni.WithContext(ctx),
 		SlaughterHouse:                     q.SlaughterHouse.WithContext(ctx),
 		SlaughterLightRecord:               q.SlaughterLightRecord.WithContext(ctx),
+		SlaughterProcedureMonitoringData:   q.SlaughterProcedureMonitoringData.WithContext(ctx),
 		SlaughterProduct:                   q.SlaughterProduct.WithContext(ctx),
 		SlaughterReceiveRecord:             q.SlaughterReceiveRecord.WithContext(ctx),
 		SlaughterStun:                      q.SlaughterStun.WithContext(ctx),

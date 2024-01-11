@@ -21,6 +21,10 @@ type ResHouses struct {
 	Count  int64          `json:"count"`
 }
 
+type ResUserHouseInfo struct {
+	House       string `json:"house"`
+	HouseNumber string `json:"house_number"`
+}
 type ResMalls struct {
 	Malls []sell.MallInfo `json:"malls"`
 	Count int64           `json:"count"`

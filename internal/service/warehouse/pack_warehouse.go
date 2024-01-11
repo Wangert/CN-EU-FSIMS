@@ -1,13 +1,11 @@
 package warehouse
 
-import (
-	"CN-EU-FSIMS/internal/app/handlers/request"
-	"CN-EU-FSIMS/internal/app/models/query"
-	"CN-EU-FSIMS/internal/app/models/warehouse"
-	"context"
-	"errors"
-	"time"
-)
+// "CN-EU-FSIMS/internal/app/handlers/request"
+// "CN-EU-FSIMS/internal/app/models/query"
+// "CN-EU-FSIMS/internal/app/models/warehouse"
+// "context"
+// "errors"
+// "time"
 
 //func PackReceived(rcp request.PackReceive) error {
 //	tx := query.Q.Begin()
@@ -41,25 +39,25 @@ import (
 //	return nil
 //}
 
-func PackInWarehouse(rcp request.ReqInPackWarehouse) error {
-	ts := time.Now()
-	p_number := generateProductNumber(rcp.ProductType, ts, "pack")
-	if !isProcedureCompleted(rcp.ProductPID) {
-		return errors.New("procedure has not been completed!")
-	}
-	specificTime := time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC)
-	p := warehouse.PackWareHouse{
-		ProductNumber: p_number,
-		ProductPID:    rcp.ProductPID,
-		ProductType:   rcp.ProductType,
-		State:         ENTRY_STATE,
-		InOperator:    rcp.InOperator,
-		InTimestamp:   ts,
-		OutTimestamp:  specificTime,
-	}
-	err := query.PackWareHouse.WithContext(context.Background()).Create(&p)
-	if err != nil {
-		return err
-	}
-	return nil
-}
+// func PackInWarehouse(rcp request.ReqInPackWarehouse) error {
+// 	ts := time.Now()
+// 	p_number := generateProductNumber(rcp.ProductType, ts, "pack")
+// 	if !isProcedureCompleted(rcp.ProductPID) {
+// 		return errors.New("procedure has not been completed!")
+// 	}
+// 	specificTime := time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC)
+// 	p := warehouse.PackWareHouse{
+// 		ProductNumber: p_number,
+// 		ProductPID:    rcp.ProductPID,
+// 		ProductType:   rcp.ProductType,
+// 		State:         ENTRY_STATE,
+// 		InOperator:    rcp.InOperator,
+// 		InTimestamp:   ts,
+// 		OutTimestamp:  specificTime,
+// 	}
+// 	err := query.PackWareHouse.WithContext(context.Background()).Create(&p)
+// 	if err != nil {
+// 		return err
+// 	}
+// 	return nil
+// }
