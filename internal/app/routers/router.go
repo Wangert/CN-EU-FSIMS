@@ -152,6 +152,9 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		sop.POST("send", handlers.SendToPackage)
 		sop.GET("packagehouses", handlers.GetPackageHouses)
 		sop.GET("slaughterdata", handlers.GetSlaughterData)
+		sop.GET("getnotificationcount", handlers.GetNotificationCount)
+		sop.GET("getnotification", handlers.GetNotification)
+		sop.POST("readnotification", handlers.ReadNotification)
 		//sop.POST("receive", handlers.SlaughterReceived)
 		//sop.POST("inwarehouse", handlers.SlaughterInWarehouse)
 		//sop.POST("sendtonext", handlers.SendToPack)
@@ -194,6 +197,9 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		kop.POST("pretransport", handlers.PreTransport)
 		kop.GET("transportvehicles", handlers.GetTransportVehicles)
 		kop.GET("malls", handlers.GetMalls)
+		kop.GET("getnotificationcount", handlers.GetNotificationCount)
+		kop.GET("getnotification", handlers.GetNotification)
+		kop.POST("readnotification", handlers.ReadNotification)
 
 	}
 
@@ -207,6 +213,9 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		top.POST("end", handlers.EndTransport)
 		top.GET("goods", handlers.GetMallGoods)
 		top.GET("verify", handlers.VerifyWithCheckcode)
+		top.GET("getnotificationcount", handlers.GetNotificationCount)
+		top.GET("getnotification", handlers.GetNotification)
+		top.POST("readnotification", handlers.ReadNotification)
 	}
 
 	// mall
