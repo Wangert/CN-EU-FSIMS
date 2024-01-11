@@ -36,6 +36,5 @@ type ReqPreTransport struct {
 	HouseNumber           string   `json:"house_number" form:"house_number"`
 	TVNumber              string   `json:"tv_number" form:"tv_number"`
 	Worker                string   `json:"worker" form:"worker"`
-	MallNumber            string   `json:"mall_number" form:"mall_number"`
 	PackageProductNumbers []string `json:"package_product_numbers" form:"package_product_numbers"`
 }

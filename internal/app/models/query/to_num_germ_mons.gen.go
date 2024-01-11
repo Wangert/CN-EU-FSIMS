@@ -30,15 +30,14 @@ func newToNumGermMon(db *gorm.DB, opts ...gen.DOOption) toNumGermMon {
 	_toNumGermMon.CreatedAt = field.NewTime(tableName, "created_at")
 	_toNumGermMon.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_toNumGermMon.DeletedAt = field.NewField(tableName, "deleted_at")
-	_toNumGermMon.SlaughterProcedureMonitoringDataID = field.NewString(tableName, "slaughter_procedure_monitoring_data_id")
-	_toNumGermMon.ToNumGermMon1 = field.NewFloat64(tableName, "to_num_germ_mon1")
-	_toNumGermMon.ToNumGermMon2 = field.NewFloat64(tableName, "to_num_germ_mon2")
-	_toNumGermMon.ToNumGermMon3 = field.NewFloat64(tableName, "to_num_germ_mon3")
-	_toNumGermMon.ToNumGermMon4 = field.NewFloat64(tableName, "to_num_germ_mon4")
-	_toNumGermMon.ToNumGermMon5 = field.NewFloat64(tableName, "to_num_germ_mon5")
-	_toNumGermMon.ToNumGermMon6 = field.NewFloat64(tableName, "to_num_germ_mon6")
-	_toNumGermMon.ToNumGermMon7 = field.NewFloat64(tableName, "to_num_germ_mon7")
-	_toNumGermMon.ToNumGermMon8 = field.NewFloat64(tableName, "to_num_germ_mon8")
+	_toNumGermMon.ToNumGermMon1 = field.NewFloat32(tableName, "to_num_germ_mon1")
+	_toNumGermMon.ToNumGermMon2 = field.NewFloat32(tableName, "to_num_germ_mon2")
+	_toNumGermMon.ToNumGermMon3 = field.NewFloat32(tableName, "to_num_germ_mon3")
+	_toNumGermMon.ToNumGermMon4 = field.NewFloat32(tableName, "to_num_germ_mon4")
+	_toNumGermMon.ToNumGermMon5 = field.NewFloat32(tableName, "to_num_germ_mon5")
+	_toNumGermMon.ToNumGermMon6 = field.NewFloat32(tableName, "to_num_germ_mon6")
+	_toNumGermMon.ToNumGermMon7 = field.NewFloat32(tableName, "to_num_germ_mon7")
+	_toNumGermMon.ToNumGermMon8 = field.NewFloat32(tableName, "to_num_germ_mon8")
 
 	_toNumGermMon.fillFieldMap()
 
@@ -48,20 +47,19 @@ func newToNumGermMon(db *gorm.DB, opts ...gen.DOOption) toNumGermMon {
 type toNumGermMon struct {
 	toNumGermMonDo toNumGermMonDo
 
-	ALL                                field.Asterisk
-	ID                                 field.Uint
-	CreatedAt                          field.Time
-	UpdatedAt                          field.Time
-	DeletedAt                          field.Field
-	SlaughterProcedureMonitoringDataID field.String
-	ToNumGermMon1                      field.Float64
-	ToNumGermMon2                      field.Float64
-	ToNumGermMon3                      field.Float64
-	ToNumGermMon4                      field.Float64
-	ToNumGermMon5                      field.Float64
-	ToNumGermMon6                      field.Float64
-	ToNumGermMon7                      field.Float64
-	ToNumGermMon8                      field.Float64
+	ALL           field.Asterisk
+	ID            field.Uint
+	CreatedAt     field.Time
+	UpdatedAt     field.Time
+	DeletedAt     field.Field
+	ToNumGermMon1 field.Float32
+	ToNumGermMon2 field.Float32
+	ToNumGermMon3 field.Float32
+	ToNumGermMon4 field.Float32
+	ToNumGermMon5 field.Float32
+	ToNumGermMon6 field.Float32
+	ToNumGermMon7 field.Float32
+	ToNumGermMon8 field.Float32
 
 	fieldMap map[string]field.Expr
 }
@@ -82,15 +80,14 @@ func (t *toNumGermMon) updateTableName(table string) *toNumGermMon {
 	t.CreatedAt = field.NewTime(table, "created_at")
 	t.UpdatedAt = field.NewTime(table, "updated_at")
 	t.DeletedAt = field.NewField(table, "deleted_at")
-	t.SlaughterProcedureMonitoringDataID = field.NewString(table, "slaughter_procedure_monitoring_data_id")
-	t.ToNumGermMon1 = field.NewFloat64(table, "to_num_germ_mon1")
-	t.ToNumGermMon2 = field.NewFloat64(table, "to_num_germ_mon2")
-	t.ToNumGermMon3 = field.NewFloat64(table, "to_num_germ_mon3")
-	t.ToNumGermMon4 = field.NewFloat64(table, "to_num_germ_mon4")
-	t.ToNumGermMon5 = field.NewFloat64(table, "to_num_germ_mon5")
-	t.ToNumGermMon6 = field.NewFloat64(table, "to_num_germ_mon6")
-	t.ToNumGermMon7 = field.NewFloat64(table, "to_num_germ_mon7")
-	t.ToNumGermMon8 = field.NewFloat64(table, "to_num_germ_mon8")
+	t.ToNumGermMon1 = field.NewFloat32(table, "to_num_germ_mon1")
+	t.ToNumGermMon2 = field.NewFloat32(table, "to_num_germ_mon2")
+	t.ToNumGermMon3 = field.NewFloat32(table, "to_num_germ_mon3")
+	t.ToNumGermMon4 = field.NewFloat32(table, "to_num_germ_mon4")
+	t.ToNumGermMon5 = field.NewFloat32(table, "to_num_germ_mon5")
+	t.ToNumGermMon6 = field.NewFloat32(table, "to_num_germ_mon6")
+	t.ToNumGermMon7 = field.NewFloat32(table, "to_num_germ_mon7")
+	t.ToNumGermMon8 = field.NewFloat32(table, "to_num_germ_mon8")
 
 	t.fillFieldMap()
 
@@ -119,12 +116,11 @@ func (t *toNumGermMon) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 }
 
 func (t *toNumGermMon) fillFieldMap() {
-	t.fieldMap = make(map[string]field.Expr, 13)
+	t.fieldMap = make(map[string]field.Expr, 12)
 	t.fieldMap["id"] = t.ID
 	t.fieldMap["created_at"] = t.CreatedAt
 	t.fieldMap["updated_at"] = t.UpdatedAt
 	t.fieldMap["deleted_at"] = t.DeletedAt
-	t.fieldMap["slaughter_procedure_monitoring_data_id"] = t.SlaughterProcedureMonitoringDataID
 	t.fieldMap["to_num_germ_mon1"] = t.ToNumGermMon1
 	t.fieldMap["to_num_germ_mon2"] = t.ToNumGermMon2
 	t.fieldMap["to_num_germ_mon3"] = t.ToNumGermMon3

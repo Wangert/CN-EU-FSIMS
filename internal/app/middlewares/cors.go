@@ -1,9 +1,8 @@
 package middlewares
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func Cors(c *gin.Context) {

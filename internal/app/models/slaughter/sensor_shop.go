@@ -29,11 +29,11 @@ type SlaShop struct {
 	SlaShop7     float32   `json:"sla_shop_7"`     //氯含量
 	SlaShop8     float32   `json:"sla_shop_8"`     //工作服 功率
 	SlaShop9     float32   `json:"sla_shop_9"`     //工作服 时间
-	SlaShop10    string    `json:"sla_shop_10"`    //消毒记录 方式
-	SlaShop11    string    `json:"sla_shop_11"`    //消毒记录 浓度
-	SlaShop12    string    `json:"sla_shop_12"`    //消毒记录 班次
-	SlaShop13    string    `json:"sla_shop_13"`    //消毒记录 器具
-	SlaShop14    string    `json:"sla_shop_14"`    //消毒记录 环境
+	SlaShop10    float32   `json:"sla_shop_10"`    //消毒记录 方式
+	SlaShop11    float32   `json:"sla_shop_11"`    //消毒记录 浓度
+	SlaShop12    float32   `json:"sla_shop_12"`    //消毒记录 班次
+	SlaShop13    float32   `json:"sla_shop_13"`    //消毒记录 器具
+	SlaShop14    float32   `json:"sla_shop_14"`    //消毒记录 环境
 }
 
 type DivShop struct {
@@ -50,11 +50,11 @@ type DivShop struct {
 	DivShop7     float32   `json:"div_shop_7"`     //氯含量
 	DivShop8     float32   `json:"div_shop_8"`     //工作服 功率
 	DivShop9     float32   `json:"div_shop_9"`     //工作服 时间
-	DivShop10    string    `json:"div_shop_10"`    //消毒记录 方式
-	DivShop11    string    `json:"div_shop_11"`    //消毒记录 浓度
-	DivShop12    string    `json:"div_shop_12"`    //消毒记录 班次
-	DivShop13    string    `json:"div_shop_13"`    //消毒记录 器具
-	DivShop14    string    `json:"div_shop_14"`    //消毒记录 环境
+	DivShop10    float32   `json:"div_shop_10"`    //消毒记录 方式
+	DivShop11    float32   `json:"div_shop_11"`    //消毒记录 浓度
+	DivShop12    float32   `json:"div_shop_12"`    //消毒记录 班次
+	DivShop13    float32   `json:"div_shop_13"`    //消毒记录 器具
+	DivShop14    float32   `json:"div_shop_14"`    //消毒记录 环境
 }
 
 type AcidShop struct {
@@ -71,11 +71,11 @@ type AcidShop struct {
 	AcidShop7    float32   `json:"acid_shop_7"`    //氯含量
 	AcidShop8    float32   `json:"acid_shop_8"`    //工作服 功率
 	AcidShop9    float32   `json:"acid_shop_9"`    //工作服 时间
-	AcidShop10   string    `json:"acid_shop_10"`   //消毒记录 方式
-	AcidShop11   string    `json:"acid_shop_11"`   //消毒记录 浓度
-	AcidShop12   string    `json:"acid_shop_12"`   //消毒记录 班次
-	AcidShop13   string    `json:"acid_shop_13"`   //消毒记录 器具
-	AcidShop14   string    `json:"acid_shop_14"`   //消毒记录 环境
+	AcidShop10   float32   `json:"acid_shop_10"`   //消毒记录 方式
+	AcidShop11   float32   `json:"acid_shop_11"`   //消毒记录 浓度
+	AcidShop12   float32   `json:"acid_shop_12"`   //消毒记录 班次
+	AcidShop13   float32   `json:"acid_shop_13"`   //消毒记录 器具
+	AcidShop14   float32   `json:"acid_shop_14"`   //消毒记录 环境
 }
 
 type FroShop struct {
@@ -92,11 +92,11 @@ type FroShop struct {
 	FroShop7     float32   `json:"fro_shop_7"`     //氯含量
 	FroShop8     float32   `json:"fro_shop_8"`     //工作服 功率
 	FroShop9     float32   `json:"fro_shop_9"`     //工作服 时间
-	FroShop10    string    `json:"fro_shop_10"`    //消毒记录 方式
-	FroShop11    string    `json:"fro_shop_11"`    //消毒记录 浓度
-	FroShop12    string    `json:"fro_shop_12"`    //消毒记录 班次
-	FroShop13    string    `json:"fro_shop_13"`    //消毒记录 器具
-	FroShop14    string    `json:"fro_shop_14"`    //消毒记录 环境
+	FroShop10    float32   `json:"fro_shop_10"`    //消毒记录 方式
+	FroShop11    float32   `json:"fro_shop_11"`    //消毒记录 浓度
+	FroShop12    float32   `json:"fro_shop_12"`    //消毒记录 班次
+	FroShop13    float32   `json:"fro_shop_13"`    //消毒记录 器具
+	FroShop14    float32   `json:"fro_shop_14"`    //消毒记录 环境
 }
 
 type PackShop struct {
@@ -113,11 +113,11 @@ type PackShop struct {
 	PackShop7    float32   `json:"pack_shop_7"`    //氯含量
 	PackShop8    float32   `json:"pack_shop_8"`    //工作服 功率
 	PackShop9    float32   `json:"pack_shop_9"`    //工作服 时间
-	PackShop10   string    `json:"pack_shop_10"`   //消毒记录 方式
-	PackShop11   string    `json:"pack_shop_11"`   //消毒记录 浓度
-	PackShop12   string    `json:"pack_shop_12"`   //消毒记录 班次
-	PackShop13   string    `json:"pack_shop_13"`   //消毒记录 器具
-	PackShop14   string    `json:"pack_shop_14"`   //消毒记录 环境
+	PackShop10   float32   `json:"pack_shop_10"`   //消毒记录 方式
+	PackShop11   float32   `json:"pack_shop_11"`   //消毒记录 浓度
+	PackShop12   float32   `json:"pack_shop_12"`   //消毒记录 班次
+	PackShop13   float32   `json:"pack_shop_13"`   //消毒记录 器具
+	PackShop14   float32   `json:"pack_shop_14"`   //消毒记录 环境
 }
 
 type PreCoolShopInfo struct {
@@ -140,11 +140,11 @@ type SlaShopInfo struct {
 	SlaShop7     float32 `json:"sla_shop_7"`     //氯含量
 	SlaShop8     float32 `json:"sla_shop_8"`     //工作服 功率
 	SlaShop9     float32 `json:"sla_shop_9"`     //工作服 时间
-	SlaShop10    string  `json:"sla_shop_10"`    //消毒记录 方式
-	SlaShop11    string  `json:"sla_shop_11"`    //消毒记录 浓度
-	SlaShop12    string  `json:"sla_shop_12"`    //消毒记录 班次
-	SlaShop13    string  `json:"sla_shop_13"`    //消毒记录 器具
-	SlaShop14    string  `json:"sla_shop_14"`    //消毒记录 环境
+	SlaShop10    float32 `json:"sla_shop_10"`    //消毒记录 方式
+	SlaShop11    float32 `json:"sla_shop_11"`    //消毒记录 浓度
+	SlaShop12    float32 `json:"sla_shop_12"`    //消毒记录 班次
+	SlaShop13    float32 `json:"sla_shop_13"`    //消毒记录 器具
+	SlaShop14    float32 `json:"sla_shop_14"`    //消毒记录 环境
 }
 
 type DivShopInfo struct {
@@ -159,11 +159,11 @@ type DivShopInfo struct {
 	DivShop7     float32 `json:"div_shop_7"`     //氯含量
 	DivShop8     float32 `json:"div_shop_8"`     //工作服 功率
 	DivShop9     float32 `json:"div_shop_9"`     //工作服 时间
-	DivShop10    string  `json:"div_shop_10"`    //消毒记录 方式
-	DivShop11    string  `json:"div_shop_11"`    //消毒记录 浓度
-	DivShop12    string  `json:"div_shop_12"`    //消毒记录 班次
-	DivShop13    string  `json:"div_shop_13"`    //消毒记录 器具
-	DivShop14    string  `json:"div_shop_14"`    //消毒记录 环境
+	DivShop10    float32 `json:"div_shop_10"`    //消毒记录 方式
+	DivShop11    float32 `json:"div_shop_11"`    //消毒记录 浓度
+	DivShop12    float32 `json:"div_shop_12"`    //消毒记录 班次
+	DivShop13    float32 `json:"div_shop_13"`    //消毒记录 器具
+	DivShop14    float32 `json:"div_shop_14"`    //消毒记录 环境
 }
 
 type AcidShopInfo struct {
@@ -178,11 +178,11 @@ type AcidShopInfo struct {
 	AcidShop7    float32 `json:"acid_shop_7"`    //氯含量
 	AcidShop8    float32 `json:"acid_shop_8"`    //工作服 功率
 	AcidShop9    float32 `json:"acid_shop_9"`    //工作服 时间
-	AcidShop10   string  `json:"acid_shop_10"`   //消毒记录 方式
-	AcidShop11   string  `json:"acid_shop_11"`   //消毒记录 浓度
-	AcidShop12   string  `json:"acid_shop_12"`   //消毒记录 班次
-	AcidShop13   string  `json:"acid_shop_13"`   //消毒记录 器具
-	AcidShop14   string  `json:"acid_shop_14"`   //消毒记录 环境
+	AcidShop10   float32 `json:"acid_shop_10"`   //消毒记录 方式
+	AcidShop11   float32 `json:"acid_shop_11"`   //消毒记录 浓度
+	AcidShop12   float32 `json:"acid_shop_12"`   //消毒记录 班次
+	AcidShop13   float32 `json:"acid_shop_13"`   //消毒记录 器具
+	AcidShop14   float32 `json:"acid_shop_14"`   //消毒记录 环境
 }
 
 type FroShopInfo struct {
@@ -197,11 +197,11 @@ type FroShopInfo struct {
 	FroShop7     float32 `json:"fro_shop_7"`     //氯含量
 	FroShop8     float32 `json:"fro_shop_8"`     //工作服 功率
 	FroShop9     float32 `json:"fro_shop_9"`     //工作服 时间
-	FroShop10    string  `json:"fro_shop_10"`    //消毒记录 方式
-	FroShop11    string  `json:"fro_shop_11"`    //消毒记录 浓度
-	FroShop12    string  `json:"fro_shop_12"`    //消毒记录 班次
-	FroShop13    string  `json:"fro_shop_13"`    //消毒记录 器具
-	FroShop14    string  `json:"fro_shop_14"`    //消毒记录 环境
+	FroShop10    float32 `json:"fro_shop_10"`    //消毒记录 方式
+	FroShop11    float32 `json:"fro_shop_11"`    //消毒记录 浓度
+	FroShop12    float32 `json:"fro_shop_12"`    //消毒记录 班次
+	FroShop13    float32 `json:"fro_shop_13"`    //消毒记录 器具
+	FroShop14    float32 `json:"fro_shop_14"`    //消毒记录 环境
 }
 
 type PackShopInfo struct {
@@ -216,11 +216,11 @@ type PackShopInfo struct {
 	PackShop7    float32 `json:"pack_shop_7"`    //氯含量
 	PackShop8    float32 `json:"pack_shop_8"`    //工作服 功率
 	PackShop9    float32 `json:"pack_shop_9"`    //工作服 时间
-	PackShop10   string  `json:"pack_shop_10"`   //消毒记录 方式
-	PackShop11   string  `json:"pack_shop_11"`   //消毒记录 浓度
-	PackShop12   string  `json:"pack_shop_12"`   //消毒记录 班次
-	PackShop13   string  `json:"pack_shop_13"`   //消毒记录 器具
-	PackShop14   string  `json:"pack_shop_14"`   //消毒记录 环境
+	PackShop10   float32 `json:"pack_shop_10"`   //消毒记录 方式
+	PackShop11   float32 `json:"pack_shop_11"`   //消毒记录 浓度
+	PackShop12   float32 `json:"pack_shop_12"`   //消毒记录 班次
+	PackShop13   float32 `json:"pack_shop_13"`   //消毒记录 器具
+	PackShop14   float32 `json:"pack_shop_14"`   //消毒记录 环境
 }
 
 func ToPreCoolShopInfo(shop *PreCoolShop) PreCoolShopInfo {

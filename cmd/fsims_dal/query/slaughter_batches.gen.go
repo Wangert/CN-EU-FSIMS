@@ -5,6 +5,7 @@
 package query
 
 import (
+	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/app/models/product"
 	"CN-EU-FSIMS/internal/app/models/slaughter"
 	"context"
@@ -37,8 +38,12 @@ func newSlaughterBatch(db *gorm.DB, opts ...gen.DOOption) slaughterBatch {
 	_slaughterBatch.PID = field.NewString(tableName, "p_id")
 	_slaughterBatch.Worker = field.NewString(tableName, "worker")
 	_slaughterBatch.CowNumber = field.NewString(tableName, "cow_number")
-	_slaughterBatch.StartTime = field.NewTime(tableName, "start_time")
-	_slaughterBatch.EndTime = field.NewTime(tableName, "end_time")
+	_slaughterBatch.Procedure = slaughterBatchHasOneProcedure{
+		db: db.Session(&gorm.Session{}),
+
+		RelationField: field.NewRelation("Procedure", "models.Procedure"),
+	}
+
 	_slaughterBatch.Products = slaughterBatchHasManyProducts{
 		db: db.Session(&gorm.Session{}),
 
@@ -64,9 +69,9 @@ type slaughterBatch struct {
 	PID         field.String
 	Worker      field.String
 	CowNumber   field.String
-	StartTime   field.Time
-	EndTime     field.Time
-	Products    slaughterBatchHasManyProducts
+	Procedure   slaughterBatchHasOneProcedure
+
+	Products slaughterBatchHasManyProducts
 
 	fieldMap map[string]field.Expr
 }
@@ -93,8 +98,6 @@ func (s *slaughterBatch) updateTableName(table string) *slaughterBatch {
 	s.PID = field.NewString(table, "p_id")
 	s.Worker = field.NewString(table, "worker")
 	s.CowNumber = field.NewString(table, "cow_number")
-	s.StartTime = field.NewTime(table, "start_time")
-	s.EndTime = field.NewTime(table, "end_time")
 
 	s.fillFieldMap()
 
@@ -123,7 +126,7 @@ func (s *slaughterBatch) GetFieldByName(fieldName string) (field.OrderExpr, bool
 }
 
 func (s *slaughterBatch) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 13)
+	s.fieldMap = make(map[string]field.Expr, 12)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
@@ -134,8 +137,6 @@ func (s *slaughterBatch) fillFieldMap() {
 	s.fieldMap["p_id"] = s.PID
 	s.fieldMap["worker"] = s.Worker
 	s.fieldMap["cow_number"] = s.CowNumber
-	s.fieldMap["start_time"] = s.StartTime
-	s.fieldMap["end_time"] = s.EndTime
 
 }
 
@@ -147,6 +148,77 @@ func (s slaughterBatch) clone(db *gorm.DB) slaughterBatch {
 func (s slaughterBatch) replaceDB(db *gorm.DB) slaughterBatch {
 	s.slaughterBatchDo.ReplaceDB(db)
 	return s
+}
+
+type slaughterBatchHasOneProcedure struct {
+	db *gorm.DB
+
+	field.RelationField
+}
+
+func (a slaughterBatchHasOneProcedure) Where(conds ...field.Expr) *slaughterBatchHasOneProcedure {
+	if len(conds) == 0 {
+		return &a
+	}
+
+	exprs := make([]clause.Expression, 0, len(conds))
+	for _, cond := range conds {
+		exprs = append(exprs, cond.BeCond().(clause.Expression))
+	}
+	a.db = a.db.Clauses(clause.Where{Exprs: exprs})
+	return &a
+}
+
+func (a slaughterBatchHasOneProcedure) WithContext(ctx context.Context) *slaughterBatchHasOneProcedure {
+	a.db = a.db.WithContext(ctx)
+	return &a
+}
+
+func (a slaughterBatchHasOneProcedure) Session(session *gorm.Session) *slaughterBatchHasOneProcedure {
+	a.db = a.db.Session(session)
+	return &a
+}
+
+func (a slaughterBatchHasOneProcedure) Model(m *slaughter.SlaughterBatch) *slaughterBatchHasOneProcedureTx {
+	return &slaughterBatchHasOneProcedureTx{a.db.Model(m).Association(a.Name())}
+}
+
+type slaughterBatchHasOneProcedureTx struct{ tx *gorm.Association }
+
+func (a slaughterBatchHasOneProcedureTx) Find() (result *models.Procedure, err error) {
+	return result, a.tx.Find(&result)
+}
+
+func (a slaughterBatchHasOneProcedureTx) Append(values ...*models.Procedure) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Append(targetValues...)
+}
+
+func (a slaughterBatchHasOneProcedureTx) Replace(values ...*models.Procedure) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Replace(targetValues...)
+}
+
+func (a slaughterBatchHasOneProcedureTx) Delete(values ...*models.Procedure) (err error) {
+	targetValues := make([]interface{}, len(values))
+	for i, v := range values {
+		targetValues[i] = v
+	}
+	return a.tx.Delete(targetValues...)
+}
+
+func (a slaughterBatchHasOneProcedureTx) Clear() error {
+	return a.tx.Clear()
+}
+
+func (a slaughterBatchHasOneProcedureTx) Count() int64 {
+	return a.tx.Count()
 }
 
 type slaughterBatchHasManyProducts struct {

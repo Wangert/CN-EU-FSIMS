@@ -13,7 +13,6 @@ import (
 	"CN-EU-FSIMS/internal/app/models/warehouse"
 	"CN-EU-FSIMS/internal/config"
 	"fmt"
-
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/golang/glog"
 	"github.com/spf13/viper"
@@ -21,7 +20,7 @@ import (
 	"gorm.io/gorm"
 )
 
-const GLOBALCONFIGPATH = "../conf/config.yaml"
+const GLOBALCONFIGPATH = "conf/config.yaml"
 
 var DB *gorm.DB
 
@@ -82,18 +81,11 @@ func AutoMigrate() {
 
 	err = DB.AutoMigrate(&product.Cow{}, &pasture.FeedingBatch{}, &warehouse.PastureWarehouse{},
 		&warehouse.SlaughterReceiveRecord{}, &slaughter.SlaughterBatch{}, &product.SlaughterProduct{}, &warehouse.SlaughterWarehouse{},
-		&warehouse.PackageReceiveRecord{}, &pack.PackageBatch{}, &product.PackageProduct{}, &warehouse.PackWarehouse{}, &coldchain.TransportBatch{})
-	if err != nil {
-		fmt.Println(err)
-	}
-	err = DB.AutoMigrate(&coldchain.PackageProductAndTransportPIDMap{}, &product.MallGood{})
+		&warehouse.PackageReceiveRecord{}, &pack.PackageBatch{}, &product.PackageProduct{}, &warehouse.PackWarehouse{}, &coldchain.TransportBatch{}, &coldchain.PackageProductAndTransportPIDMap{}, &product.MallGood{})
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	err = DB.AutoMigrate(&slaughter.SlaughterProcedureMonitoringData{}, &slaughter.SlaughterDisinfectHotWaterTempMoni{}, &slaughter.SlaughterStun{}, &slaughter.BleedElectronic{}, &slaughter.PreSlaQuanPic{}, &slaughter.SlaughterAnalAfterSlaQuanCar{}, &slaughter.AnalMeatPhMoni{}, &slaughter.AnalCutWeight{},
-		&slaughter.ToNumGermMon{}, &slaughter.AirNumGermMon{}, &slaughter.PreSlaDietManage{}, &slaughter.PreSlaPicAndEn{},
-	)
 	//传感器数据
 	err = DB.AutoMigrate(&pasture.PastureFeedMycotoxins{}, &pasture.Afb1{}, &pasture.Don{}, &pasture.T2toxin{}, &pasture.T2VomZea{},
 		&pasture.PastureBuffer{}, &pasture.PastureArea{}, &pasture.PastureBasicEnvironment{}, &pasture.PasturePaddingRequire{}, &pasture.PastureWastedWaterIndex{},
@@ -112,11 +104,11 @@ func AutoMigrate() {
 	}
 
 	//以牛为对象数据
-	// err = DB.AutoMigrate(&slaughter.SlaughterDisinfectHotWaterTempMoni{}, &slaughter.SlaughterStun{}, &slaughter.BleedElectronic{}, &slaughter.PreSlaQuanPic{}, &slaughter.SlaughterAnalAfterSlaQuanCar{}, &slaughter.AnalMeatPhMoni{}, &slaughter.AnalCutWeight{},
-	// 	&slaughter.ToNumGermMon{}, &slaughter.AirNumGermMon{}, &slaughter.PreSlaDietManage{}, &slaughter.PreSlaPicAndEn{})
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
+	err = DB.AutoMigrate(&slaughter.SlaughterDisinfectHotWaterTempMoni{}, &slaughter.SlaughterStun{}, &slaughter.BleedElectronic{}, &slaughter.PreSlaQuanPic{}, &slaughter.SlaughterAnalAfterSlaQuanCar{}, &slaughter.AnalMeatPhMoni{}, &slaughter.AnalCutWeight{},
+		&slaughter.ToNumGermMon{}, &slaughter.AirNumGermMon{}, &slaughter.PreSlaDietManage{}, &slaughter.PreSlaPicAndEn{})
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 //func NewNotification(safetyResult string, reason string, time string, id string, company string, user string, detail models.FoodChainNode) bool {

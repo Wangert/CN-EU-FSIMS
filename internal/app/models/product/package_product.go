@@ -14,7 +14,7 @@ type PackageProduct struct {
 	State                int     `gorm:"not null" json:"state"`
 	HouseNumber          string  `gorm:"not null; type:varchar(256)" json:"house_number"`
 	BatchNumber          string  `gorm:"not null; type:varchar(256)" json:"batch_number"`
-	TransportBatchNumber *string `gorm:"type:varchar(256)" json:"transport_batch_number"`
+	TransportBatchNumber *string `gorm:"not null; type:varchar(256)" json:"transport_batch_number"`
 }
 
 type PackageProductInfo struct {

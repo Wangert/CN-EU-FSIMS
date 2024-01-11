@@ -66,14 +66,13 @@ func ConnectToNetwork() (result bool, channelname string, chaincodename string) 
 		gateway.WithConfig(config.FromFile(filepath.Clean(ccpPath))),
 		gateway.WithIdentity(wallet, "appUser"),
 	)
-	fmt.Print("gw:", gw)
+
 	if err != nil {
 		log.Fatalf("Failed to connect to gateway: %v", err)
 	}
 	defer gw.Close()
 
 	network, err := gw.GetNetwork(viper.GetString("fabric.channel_id"))
-	fmt.Println("network", network)
 	if err != nil {
 		log.Fatalf("Failed to get network: %v", err)
 	}
@@ -115,46 +114,7 @@ func QueryBlockByHeight(num int) (Block, error) {
 	//num, _ := strconv.Atoi(c.Query("num"))
 
 	rawBlock, err := ledgerClient.QueryBlock(uint64(num))
-	preRawBlock, err := ledgerClient.QueryBlock(uint64(num + 1))
-	txList := []*Transaction{}
-	for i := range rawBlock.Data.Data {
-		rawEnvelope, err := GetEnvelopeFromBlock(rawBlock.Data.Data[i])
-		if err != nil {
-			fmt.Printf("QueryBlock return error: %s", err)
-		}
-		transaction, err := GetTransactionFromEnvelopeDeep(rawEnvelope)
-		if err != nil {
-			fmt.Printf("QueryBlock return error: %s", err)
-		}
-		for i := range transaction.TransactionActionList {
-			transaction.TransactionActionList[i].BlockNum = rawBlock.Header.Number
-		}
-		txList = append(txList, transaction)
-	}
 
-	block := Block{
-		Number:          rawBlock.Header.Number,
-		PreviousHash:    rawBlock.Header.PreviousHash,
-		DataHash:        rawBlock.Header.DataHash,
-		BlockHash:       preRawBlock.Header.PreviousHash,
-		TxNum:           len(rawBlock.Data.Data),
-		TransactionList: txList,
-		CreateTime:      txList[0].TransactionActionList[0].Timestamp,
-	}
-	return block, err
-}
-
-// 根据高度查询区块
-func QueryBlockByHash(hash string) (Block, error) {
-	fmt.Println("============ QueryBlockByHash ============")
-	//num, _ := strconv.Atoi(c.Query("num"))
-	hashByte := StringToBytes(hash)
-	fmt.Println("hashByte:", hashByte)
-	var nullBlock Block
-	rawBlock, err := ledgerClient.QueryBlockByHash(hashByte)
-	if err != nil {
-		return nullBlock, err
-	}
 	txList := []*Transaction{}
 	for i := range rawBlock.Data.Data {
 		rawEnvelope, err := GetEnvelopeFromBlock(rawBlock.Data.Data[i])
@@ -218,10 +178,10 @@ func GetLastestBlock() ([]Block, error) {
 	if err != nil {
 		fmt.Println("err: ")
 	}
-	height := ledgerInfo.BCI.Height - 2
+	height := ledgerInfo.BCI.Height - 1
 	for j := height; j > 0 && j > (height-5); j-- {
 		rawBlock, _ := ledgerClient.QueryBlock(j)
-		preRawBlock, _ := ledgerClient.QueryBlock(j + 1)
+
 		txList := []*Transaction{}
 		for i := range rawBlock.Data.Data {
 			rawEnvelope, err := GetEnvelopeFromBlock(rawBlock.Data.Data[i])
@@ -242,7 +202,7 @@ func GetLastestBlock() ([]Block, error) {
 			Number:          rawBlock.Header.Number,
 			PreviousHash:    rawBlock.Header.PreviousHash,
 			DataHash:        rawBlock.Header.DataHash,
-			BlockHash:       preRawBlock.Header.PreviousHash,
+			BlockHash:       rawBlock.Header.DataHash,
 			TxNum:           len(rawBlock.Data.Data),
 			TransactionList: txList,
 			CreateTime:      txList[0].TransactionActionList[0].Timestamp,
