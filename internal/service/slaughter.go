@@ -38,6 +38,22 @@ const (
 	SLAUGHTER_PRODUCT_PREFIX = "SLAPRO-"
 )
 
+//污水
+func SlaughterAllTrashTimeExisted(t time.Time) (bool, error) {
+	truncated := t.Truncate(24 * time.Hour)
+	q := query.Q.AllSlaughtersTrashDisposal
+	info, err := q.WithContext(context.Background()).Where(q.TimeStamp.Eq(truncated)).Find()
+	if err != nil {
+		return false, err
+	}
+
+	if len(info) == 0 {
+		return false, errors.New("Garbage disposal information has not been recorded for this time in slaughter")
+	}
+
+	return true, nil
+}
+//污水
 func UploadSlaughterWasteWaterPerDay(r *request.ReqSlaughterWasteWaterPerDay) error {
 	q := query.Q.TotalWasteWaterSlaughterPerDay
 	qall := query.Q.AllSlaughtersTrashDisposal
@@ -92,6 +108,7 @@ func UploadSlaughterWasteWaterPerDay(r *request.ReqSlaughterWasteWaterPerDay) er
 	return nil
 }
 
+//污水
 func UploadSlaughterWasteResiduePerDay(r *request.ReqSlaughterWasteResiduePerDay) error {
 	q := query.Q.TotalWasteResidueSlaughterPerDay
 	qall := query.Q.AllSlaughtersTrashDisposal
@@ -145,6 +162,7 @@ func UploadSlaughterWasteResiduePerDay(r *request.ReqSlaughterWasteResiduePerDay
 	return nil
 }
 
+//污水
 func UploadSlaughterOdorPollutantsPerDay(r *request.ReqSlaughterOdorPollutantsPerDay) error {
 	q := query.Q.TotalOdorPollutantsSlaughterPerDay
 	qall := query.Q.AllSlaughtersTrashDisposal
@@ -1256,17 +1274,3 @@ func GetSlaughterWarehouseRecords(houseNum string) ([]warehouse.SlaughterWarehou
 	return records, int64(count), nil
 }
 
-func SlaughterAllTrashTimeExisted(t time.Time) (bool, error) {
-	truncated := t.Truncate(24 * time.Hour)
-	q := query.Q.AllSlaughtersTrashDisposal
-	info, err := q.WithContext(context.Background()).Where(q.TimeStamp.Eq(truncated)).Find()
-	if err != nil {
-		return false, err
-	}
-
-	if len(info) == 0 {
-		return false, errors.New("Garbage disposal information has not been recorded for this time in slaughter")
-	}
-
-	return true, nil
-}
