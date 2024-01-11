@@ -10,6 +10,63 @@ import (
 	"github.com/golang/glog"
 )
 
+func UploadPastureWasteWaterPerDay(c *gin.Context) {
+	var r request.ReqPastureWasteWaterPerDay
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		response.MakeFail(c, http.StatusBadRequest, "upload pasture waste water data records!")
+		return
+	}
+
+	err := service.UploadPastureWasteWaterPerDay(&r)
+	if err != nil {
+		return
+	}
+	response.MakeSuccess(c, http.StatusOK, "upload pasture waste water record successful!")
+	return
+}
+
+func UploadPastureWasteResiduePerDay(c *gin.Context) {
+	var r request.ReqPastureWasteResiduePerDay
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		response.MakeFail(c, http.StatusBadRequest, "upload pasture waste residue data records!")
+		return
+	}
+
+	err := service.UploadPastureWasteResidue(&r)
+
+	if err != nil {
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, "upload pasture waste residue record successful!")
+	return
+}
+
+func UploadPastureOdorPollutantsPerDay(c *gin.Context) {
+	var r request.ReqPastureOdorPollutantsPerDay
+	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+		response.MakeFail(c, http.StatusBadRequest, "upload pasture odor pollutant data records!")
+		return
+	}
+
+	err := service.UploadPastureOdorPollutantsPerDay(&r)
+
+	if err != nil {
+		return
+	}
+	response.MakeSuccess(c, http.StatusOK, "upload pasture odor pollutant record successful!")
+	return
+}
+
+// 查询特定时间的废渣处理总量和恶臭污染物处理总量
+func QueryWasteResidueAndOdor(c *gin.Context) {
+	var r request.ReqWasteResidueOdor
+	if err := c.ShouldBind(&r); err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "query total waste residue")
+	}
+
+	return
+}
 func QueryPastureBufferData(c *gin.Context) {
 	var r request.ReqPastureSensorData
 	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {

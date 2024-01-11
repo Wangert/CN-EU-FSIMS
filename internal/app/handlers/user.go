@@ -13,6 +13,19 @@ import (
 	"github.com/golang/glog"
 )
 
+func QueryTrashPerDay(c *gin.Context) {
+	var r request.ReqTrashPerDay
+	if err := c.ShouldBind(&r); err != nil {
+		glog.Errorln("Query trash error")
+		response.MakeFail(c, http.StatusNotAcceptable, "query trash failure!")
+		return
+	}
+
+	//查询垃圾处理信息
+	glog.Info("query trash disposal info")
+	//res, err := service.
+
+}
 func Register(c *gin.Context) {
 	glog.Info("################## FSIMS User Register ##################")
 
@@ -78,9 +91,8 @@ func Login(c *gin.Context) {
 		response.MakeFail(c, http.StatusBadRequest, "login parameters error!")
 		return
 	}
-	glog.Info("a", reqLogin.Account)
-	reqPwdHash := crypto.CalculateSHA256(reqLogin.Password, service.PASSWORD_SALT)
 
+	reqPwdHash := crypto.CalculateSHA256(reqLogin.Password, service.PASSWORD_SALT)
 	uuid, pwdHash, usertype, err := service.QueryFsimsUserUuidAndPwdHash(reqLogin.Account)
 	if err != nil {
 		glog.Errorln("query fsims password hash error!")

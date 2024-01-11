@@ -31,3 +31,7 @@ type ReqAccount struct {
 	Account string `json:"account" form:"account"`
 	Type    int    `json:"type" form:"type"`
 }
+
+type ReqTrashPerDay struct {
+	TimeStamp int64 `json:"time_stamp"`
+}

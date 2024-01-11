@@ -10,6 +10,7 @@ import (
 	"errors"
 
 	"gorm.io/gorm"
+	"time"
 
 	"github.com/golang/glog"
 )
@@ -39,6 +40,35 @@ const (
 	INIT_PASSWORD = "Fsims123456!"
 )
 
+func QueryTrashPerDay(r *request.ReqTrashPerDay) (models.TrashDisposalPerDayInfo, error) {
+	t := time.Unix(r.TimeStamp, 0)
+	q1 := query.Q.AllPasturesTrashDisposal
+	q2 := query.Q.AllSlaughtersTrashDisposal
+	pas, err := q1.WithContext(context.Background()).Where(q1.TimeStamp.Eq(t)).First()
+	if err != nil {
+		return models.TrashDisposalPerDayInfo{}, err
+	}
+	sla, err := q2.WithContext(context.Background()).Where(q2.TimeStamp.Eq(t)).First()
+	if err != nil {
+		return models.TrashDisposalPerDayInfo{}, err
+	}
+
+	info := models.TrashDisposalPerDayInfo{
+		TrashDisposalPerDayWaterInfo1:   pas.WaterPasturesTrashDisposal1 + sla.WaterSlaughtersTrashDisposal1,
+		TrashDisposalPerDayWaterInfo2:   pas.WaterPasturesTrashDisposal2 + sla.WaterSlaughtersTrashDisposal2,
+		TrashDisposalPerDayWaterInfo3:   pas.WaterPasturesTrashDisposal3 + sla.WaterSlaughtersTrashDisposal3,
+		TrashDisposalPerDayWaterInfo4:   pas.WaterPasturesTrashDisposal4 + sla.WaterSlaughtersTrashDisposal4,
+		TrashDisposalPerDayResidueInfo1: pas.ResiduePasturesTrashDisposal1 + sla.ResidueSlaughtersTrashDisposal1,
+		TrashDisposalPerDayResidueInfo2: pas.ResiduePasturesTrashDisposal2 + sla.ResidueSlaughtersTrashDisposal2,
+		TrashDisposalPerDayResidueInfo3: pas.ResiduePasturesTrashDisposal3 + sla.ResidueSlaughtersTrashDisposal3,
+		TrashDisposalPerDayResidueInfo4: pas.ResiduePasturesTrashDisposal4 + sla.ResidueSlaughtersTrashDisposal4,
+		TrashDisposalPerDayOdorInfo1:    pas.OdorPasturesTrashDisposal1 + sla.OdorAllSlaughtersTrashDisposal1,
+		TrashDisposalPerDayOdorInfo2:    pas.OdorPasturesTrashDisposal2 + sla.OdorAllSlaughtersTrashDisposal2,
+		TrashDisposalPerDayOdorInfo3:    pas.OdorPasturesTrashDisposal3 + sla.OdorAllSlaughtersTrashDisposal3,
+		TrashDisposalPerDayOdorInfo4:    pas.OdorPasturesTrashDisposal4 + sla.OdorAllSlaughtersTrashDisposal4,
+	}
+	return info, nil
+}
 func GetUsersByCondition(condition map[string]interface{}) ([]models.UserInfo, int64, error) {
 	var n, r, c, h string
 	var t int

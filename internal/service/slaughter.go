@@ -689,7 +689,7 @@ func GetPidBySlaughterProductNumber(num string) (string, error) {
 	return sw.PID, nil
 }
 
-func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
+func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, string, error) {
 	var err error
 	tx := query.Q.Begin()
 
@@ -704,13 +704,13 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 	// 读取PID和cow number
 	pid, cowNumber, err := GetPidAndCowNumBySlaughterBatchNumber(r.BatchNumber)
 	if err != nil {
-		return "", nil, err
+		return "", nil, "", err
 	}
 
 	// 获取slaughter products
 	products, err := GetSlaughterProductsByBatchNumber(r.BatchNumber)
 	if err != nil {
-		return "", nil, err
+		return "", nil, "", err
 	}
 
 	// 更新receive record状态
@@ -719,7 +719,7 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 		Updates(map[string]interface{}{"state": SLAUGHTER_WAREHOUSE_REC_SLA})
 	if err != nil {
 		_ = tx.Rollback()
-		return "", nil, err
+		return "", nil, "", err
 	}
 
 	// 更新SlaughterBatch状态
@@ -728,7 +728,7 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 		Updates(map[string]interface{}{"state": END_STATE_BATCH_SLA, "end_time": &endTime})
 	if err != nil {
 		_ = tx.Rollback()
-		return "", nil, err
+		return "", nil, "", err
 	}
 
 	// 写入仓库
@@ -754,7 +754,7 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 	err = tx.SlaughterWarehouse.WithContext(context.Background()).Create(sws...)
 	if err != nil {
 		_ = tx.Rollback()
-		return "", nil, err
+		return "", nil, "", err
 	}
 
 	// 更新product状态
@@ -763,7 +763,7 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 		Updates(map[string]interface{}{"state": WAREHOUSE_SLAPRO})
 	if err != nil {
 		_ = tx.Rollback()
-		return "", nil, err
+		return "", nil, "", err
 	}
 
 	monitoringData := slaughter.SlaughterProcedureMonitoringData{
@@ -815,7 +815,7 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 	err = tx.SlaughterProcedureMonitoringData.WithContext(context.Background()).Create(&monitoringData)
 	if err != nil {
 		_ = tx.Rollback()
-		return "", nil, err
+		return "", nil, "", err
 	}
 
 	otherData1 := slaughter.PreSlaQuanPic{
@@ -833,7 +833,7 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 	err = tx.PreSlaQuanPic.WithContext(context.Background()).Create(&otherData1)
 	if err != nil {
 		_ = tx.Rollback()
-		return "", nil, err
+		return "", nil, "", err
 	}
 
 	otherData2 := slaughter.SlaughterAnalAfterSlaQuanCar{
@@ -846,7 +846,7 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 	err = tx.SlaughterAnalAfterSlaQuanCar.WithContext(context.Background()).Create(&otherData2)
 	if err != nil {
 		_ = tx.Rollback()
-		return "", nil, err
+		return "", nil, "", err
 	}
 
 	otherData3 := slaughter.AnalCutWeight{
@@ -867,7 +867,7 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 	err = tx.AnalCutWeight.WithContext(context.Background()).Create(&otherData3)
 	if err != nil {
 		_ = tx.Rollback()
-		return "", nil, err
+		return "", nil, "", err
 	}
 
 	otherData4 := slaughter.AirNumGermMon{
@@ -879,7 +879,7 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 	err = tx.AirNumGermMon.WithContext(context.Background()).Create(&otherData4)
 	if err != nil {
 		_ = tx.Rollback()
-		return "", nil, err
+		return "", nil, "", err
 	}
 
 	data := slaughter.SlaughterProcedureData{
@@ -894,21 +894,21 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 	checkcode, phash, err := BasicCommitProcedureWithTx(tx, pid, &endTime, data)
 	if err != nil {
 		_ = tx.Rollback()
-		return "", nil, err
+		return "", nil, "", err
 	}
 	_, err = fabric.UpdateProcedure(pid, phash)
 	if err != nil {
 		_ = tx.Rollback()
-		return "", nil, err
+		return "", nil, "", err
 	}
 
 	err = tx.Commit()
 	if err != nil {
 		_ = tx.Rollback()
-		return "", nil, err
+		return "", nil, "", err
 	}
 
-	return checkcode, productNums, nil
+	return checkcode, productNums, pid, nil
 }
 
 func GetSlaughterProductsByBatchNumber(num string) ([]*product.SlaughterProduct, error) {

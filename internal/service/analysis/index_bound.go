@@ -255,7 +255,78 @@ const (
 	SlaughterWaterToxinIndex19_MAX = 0.01  //溴酸盐
 	SlaughterWaterToxinIndex20_MAX = 0.7   //亚氯酸盐
 	SlaughterWaterToxinIndex21_MAX = 0.7   //氯酸盐
-	//
+
+	// 屠宰过程中参数
+	Stun1_MAX            = 200 //电压
+	Stun2_MAX            = 1.5 //电流上界
+	Stun2_MIN            = 1   //电流下界
+	Stun3_MIN            = 7   //作用时间
+	BleedElectronic1_MIN = 82  //放血刀热水消毒
+	BleedElectronic2_MIN = 6   //沥血时间
+	BleedElectronic3_MAX = 15  //致昏到宰杀放血时间
+	BleedElectronic4_MAX = 42  //电刺激参数
+	BleedElectronic5_MIN = 15  //电刺激时间
+	AnalMeatPhMoni1_MAX  = 6   //宰后0 min PH上界
+	AnalMeatPhMoni1_MIN  = 5.4 //宰后0 min PH上界
+	AnalMeatPhMoni2_MAX  = 6   //宰后45min PH上界
+	AnalMeatPhMoni2_MIN  = 5.4 //宰后45min PH下界
+	AnalMeatPhMoni3_MAX  = 6   //劈半后胴体 PH上界
+	AnalMeatPhMoni3_MIN  = 5.4 //劈半后胴体 PH下界
+	AnalMeatPhMoni4_MAX  = 6   //排酸过程中胴体 PH上界
+	AnalMeatPhMoni4_MIN  = 5.4 //排酸过程中胴体 PH下界
+	AnalMeatPhMoni5_MAX  = 6   //冷鲜肉 PH上界
+	AnalMeatPhMoni5_MIN  = 5.4 //冷鲜肉 PH下界
+
+	// 屠宰场预冷间指标
+	PreCoolShop1_MAX = 4  //预冷间温度
+	PreCoolShop1_MIN = 0  //预冷间温度
+	PreCoolShop2_MAX = 90 //预冷间湿度
+	PreCoolShop2_MIN = 85 //预冷间湿度
+	PreCoolShop3_MAX = 3  //副产物温度
+
+	// 屠宰场屠宰间指标
+	SlaShop2_MIN = 30  //臭氧
+	SlaShop3_MAX = 0.3 //臭氧残留
+	SlaShop4_MIN = 70  //湿度
+	SlaShop5_MAX = 12  //温度
+	SlaShop7_MAX = 500 //氯含量
+	SlaShop7_MIN = 300 //氯含量
+	SlaShop8_MAX = 1   //工作服 功率
+	SlaShop8_MIN = 1   //工作服 功率
+	SlaShop9_MIN = 30  //工作服 时间
+
+	// 屠宰场分割车间指标
+	DivShop2_MIN = 30  //臭氧
+	DivShop3_MAX = 0.3 //臭氧残留
+	DivShop4_MIN = 70  //湿度
+	DivShop5_MAX = 12  //温度
+	DivShop7_MAX = 500 //氯含量
+	DivShop7_MIN = 300 //氯含量
+	DivShop8_MAX = 1   //工作服 功率
+	DivShop8_MIN = 1   //工作服 功率
+	DivShop9_MIN = 30  //工作服 时间
+
+	// 屠宰场排酸车间指标
+	AcidShop2_MIN = 30  //臭氧
+	AcidShop3_MAX = 0.3 //臭氧残留
+	AcidShop4_MIN = 70  //湿度
+	AcidShop5_MAX = 12  //温度
+	AcidShop7_MAX = 500 //氯含量
+	AcidShop7_MIN = 300 //氯含量
+	AcidShop8_MAX = 1   //工作服 功率
+	AcidShop8_MIN = 1   //工作服 功率
+	AcidShop9_MIN = 30  //工作服 时间
+
+	// 屠宰场冷冻库指标
+	FroShop2_MIN = 30  //臭氧
+	FroShop3_MAX = 0.3 //臭氧残留
+	FroShop4_MIN = 70  //湿度
+	FroShop5_MAX = 12  //温度
+	FroShop7_MAX = 500 //氯含量
+	FroShop7_MIN = 300 //氯含量
+	FroShop8_MAX = 1   //工作服 功率
+	FroShop8_MIN = 1   //工作服 功率
+	FroShop9_MIN = 30  //工作服 时间
 )
 
 var PastureFeedHeavyMetalBounds = map[string]float64{"as_1": As1_MAX, "as_2": As2_MAX, "as_3": As3_MAX,
@@ -316,3 +387,23 @@ var SlaughterWaterQualityUpperBounds = map[string]float64{"slaughter_water_micro
 	"slaughter_water_toxin_index_14": SlaughterWaterToxinIndex14_MAX, "slaughter_water_toxin_index_15": SlaughterWaterToxinIndex15_MAX, "slaughter_water_toxin_index_16": SlaughterWaterToxinIndex16_MAX, "slaughter_water_toxin_index_17": SlaughterWaterToxinIndex17_MAX,
 	"slaughter_water_toxin_index_18": SlaughterWaterToxinIndex18_MAX, "slaughter_water_toxin_index_19": SlaughterWaterToxinIndex19_MAX, "slaughter_water_toxin_index_20": SlaughterWaterToxinIndex20_MAX, "slaughter_water_toxin_index_21": SlaughterWaterToxinIndex21_MAX}
 var SlaughterWaterQualityLowerBounds = map[string]float64{"oap_gci_sla_10": OapGciSla10_MIN}
+
+var SlaughterProcedureSensorDataUpperBounds = map[string]float64{"stun_1": Stun1_MAX, "stun_2": Stun2_MAX, "bleed_electronic_3": BleedElectronic3_MAX, "bleed_electronic_4": BleedElectronic4_MAX, "anal_meat_ph_moni_1": AnalMeatPhMoni1_MAX, "anal_meat_ph_moni_2": AnalMeatPhMoni2_MAX,
+	"anal_meat_ph_moni_3": AnalMeatPhMoni3_MAX, "anal_meat_ph_moni_4": AnalMeatPhMoni4_MAX, "anal_meat_ph_moni_5": AnalMeatPhMoni5_MAX}
+var SlaughterProcedureSensorDataLowerBounds = map[string]float64{"stun_2": Stun2_MIN, "stun_3": Stun3_MIN, "bleed_electronic_1": BleedElectronic1_MIN, "bleed_electronic_2": BleedElectronic2_MIN, "bleed_electronic_5": BleedElectronic5_MIN, "anal_meat_ph_moni_1": AnalMeatPhMoni1_MIN,
+	"anal_meat_ph_moni_2": AnalMeatPhMoni2_MIN, "anal_meat_ph_moni_3": AnalMeatPhMoni3_MIN, "anal_meat_ph_moni_4": AnalMeatPhMoni4_MIN, "anal_meat_ph_moni_5": AnalMeatPhMoni5_MIN}
+
+var SlaughterPreCoolShopUpperBounds = map[string]float32{"pre_cool_shop_1": PreCoolShop1_MAX, "pre_cool_shop_2": PreCoolShop2_MAX, "pre_cool_shop_3": PreCoolShop3_MAX}
+var SlaughterPreCoolShopLowerBounds = map[string]float32{"pre_cool_shop_1": PreCoolShop1_MIN, "pre_cool_shop_2": PreCoolShop2_MIN}
+
+var SlaughterSlaShopUpperBounds = map[string]float32{"sla_shop_3": SlaShop3_MAX, "sla_shop_5": SlaShop5_MAX, "sla_shop_7": SlaShop7_MAX, "sla_shop_8": SlaShop8_MAX}
+var SlaughterSlaShopLowerBounds = map[string]float32{"sla_shop_2": SlaShop2_MIN, "sla_shop_4": SlaShop4_MIN, "sla_shop_7": SlaShop7_MIN, "sla_shop_8": SlaShop8_MIN, "sla_shop_9": SlaShop9_MIN}
+
+var SlaughterDivShopUpperBounds = map[string]float32{"div_shop_3": DivShop3_MAX, "div_shop_5": DivShop5_MAX, "div_shop_7": DivShop7_MAX, "div_shop_8": DivShop8_MAX}
+var SlaughterDivShopLowerBounds = map[string]float32{"div_shop_2": DivShop2_MIN, "div_shop_4": DivShop4_MIN, "div_shop_7": DivShop7_MIN, "div_shop_8": DivShop8_MIN, "div_shop_9": DivShop9_MIN}
+
+var SlaughterAcidShopUpperBounds = map[string]float32{"acid_shop_3": AcidShop3_MAX, "acid_shop_5": AcidShop5_MAX, "acid_shop_7": AcidShop7_MAX, "acid_shop_8": AcidShop8_MAX}
+var SlaughterAcidShopLowerBounds = map[string]float32{"acid_shop_2": AcidShop2_MIN, "acid_shop_4": AcidShop4_MIN, "acid_shop_7": AcidShop7_MIN, "acid_shop_8": AcidShop8_MIN, "acid_shop_9": AcidShop9_MIN}
+
+var SlaughterFroShopUpperBounds = map[string]float32{"fro_shop_3": FroShop3_MAX, "fro_shop_5": FroShop5_MAX, "fro_shop_7": FroShop7_MAX, "fro_shop_8": FroShop8_MAX}
+var SlaughterFroShopLowerBounds = map[string]float32{"fro_shop_2": FroShop2_MIN, "fro_shop_4": FroShop4_MIN, "fro_shop_7": FroShop7_MIN, "fro_shop_8": FroShop8_MIN, "fro_shop_9": FroShop9_MIN}

@@ -134,11 +134,11 @@ type ReqUploadSlaughterShopData struct {
 	SlaShop7          float32 `json:"sla_shop_7"`          //氯含量
 	SlaShop8          float32 `json:"sla_shop_8"`          //工作服 功率
 	SlaShop9          float32 `json:"sla_shop_9"`          //工作服 时间
-	SlaShop10         float32 `json:"sla_shop_10"`         //消毒记录 方式
-	SlaShop11         float32 `json:"sla_shop_11"`         //消毒记录 浓度
-	SlaShop12         float32 `json:"sla_shop_12"`         //消毒记录 班次
-	SlaShop13         float32 `json:"sla_shop_13"`         //消毒记录 器具
-	SlaShop14         float32 `json:"sla_shop_14"`         //消毒记录 环境
+	SlaShop10         string  `json:"sla_shop_10"`         //消毒记录 方式
+	SlaShop11         string  `json:"sla_shop_11"`         //消毒记录 浓度
+	SlaShop12         string  `json:"sla_shop_12"`         //消毒记录 班次
+	SlaShop13         string  `json:"sla_shop_13"`         //消毒记录 器具
+	SlaShop14         string  `json:"sla_shop_14"`         //消毒记录 环境
 }
 
 type ReqUploadDivisionShopData struct {
@@ -154,11 +154,11 @@ type ReqUploadDivisionShopData struct {
 	DivShop7          float32 `json:"div_shop_7"`          //氯含量
 	DivShop8          float32 `json:"div_shop_8"`          //工作服 功率
 	DivShop9          float32 `json:"div_shop_9"`          //工作服 时间
-	DivShop10         float32 `json:"div_shop_10"`         //消毒记录 方式
-	DivShop11         float32 `json:"div_shop_11"`         //消毒记录 浓度
-	DivShop12         float32 `json:"div_shop_12"`         //消毒记录 班次
-	DivShop13         float32 `json:"div_shop_13"`         //消毒记录 器具
-	DivShop14         float32 `json:"div_shop_14"`         //消毒记录 环境
+	DivShop10         string  `json:"div_shop_10"`         //消毒记录 方式
+	DivShop11         string  `json:"div_shop_11"`         //消毒记录 浓度
+	DivShop12         string  `json:"div_shop_12"`         //消毒记录 班次
+	DivShop13         string  `json:"div_shop_13"`         //消毒记录 器具
+	DivShop14         string  `json:"div_shop_14"`         //消毒记录 环境
 }
 
 type ReqUploadAcidShopData struct {
@@ -174,11 +174,11 @@ type ReqUploadAcidShopData struct {
 	AcidShop7         float32 `json:"acid_shop_7"`         //氯含量
 	AcidShop8         float32 `json:"acid_shop_8"`         //工作服 功率
 	AcidShop9         float32 `json:"acid_shop_9"`         //工作服 时间
-	AcidShop10        float32 `json:"acid_shop_10"`        //消毒记录 方式
-	AcidShop11        float32 `json:"acid_shop_11"`        //消毒记录 浓度
-	AcidShop12        float32 `json:"acid_shop_12"`        //消毒记录 班次
-	AcidShop13        float32 `json:"acid_shop_13"`        //消毒记录 器具
-	AcidShop14        float32 `json:"acid_shop_14"`        //消毒记录 环境
+	AcidShop10        string  `json:"acid_shop_10"`        //消毒记录 方式
+	AcidShop11        string  `json:"acid_shop_11"`        //消毒记录 浓度
+	AcidShop12        string  `json:"acid_shop_12"`        //消毒记录 班次
+	AcidShop13        string  `json:"acid_shop_13"`        //消毒记录 器具
+	AcidShop14        string  `json:"acid_shop_14"`        //消毒记录 环境
 }
 
 type ReqUploadFrozenShopData struct {
@@ -194,11 +194,11 @@ type ReqUploadFrozenShopData struct {
 	FroShop7          float32 `json:"fro_shop_7"`          //氯含量
 	FroShop8          float32 `json:"fro_shop_8"`          //工作服 功率
 	FroShop9          float32 `json:"fro_shop_9"`          //工作服 时间
-	FroShop10         float32 `json:"fro_shop_10"`         //消毒记录 方式
-	FroShop11         float32 `json:"fro_shop_11"`         //消毒记录 浓度
-	FroShop12         float32 `json:"fro_shop_12"`         //消毒记录 班次
-	FroShop13         float32 `json:"fro_shop_13"`         //消毒记录 器具
-	FroShop14         float32 `json:"fro_shop_14"`         //消毒记录 环境
+	FroShop10         string  `json:"fro_shop_10"`         //消毒记录 方式
+	FroShop11         string  `json:"fro_shop_11"`         //消毒记录 浓度
+	FroShop12         string  `json:"fro_shop_12"`         //消毒记录 班次
+	FroShop13         string  `json:"fro_shop_13"`         //消毒记录 器具
+	FroShop14         string  `json:"fro_shop_14"`         //消毒记录 环境
 }
 
 type ReqSlaughterSensorData struct {
@@ -360,4 +360,31 @@ type ReqUploadSlaughterLightRecord struct {
 	SlaEnvLigRec2     float32 `json:"sla_env_lig_rec_2"`   //车间
 	SlaEnvLigRec3     float32 `json:"sla_env_lig_rec_3"`   //检疫
 	SlaEnvLigRec4     float32 `json:"sla_env_lig_rec_4"`   //预冷通道
+}
+
+type ReqSlaughterWasteWaterPerDay struct {
+	TimeStamp                     int64   `json:"time_stamp"`
+	HouseNumber                   string  `json:"house_number"`
+	ReqSlaughterWasteWaterPerDay1 float32 `json:"req_slaughter_waste_water_per_day_1"`
+	ReqSlaughterWasteWaterPerDay2 float32 `json:"req_slaughter_waste_water_per_day_2"`
+	ReqSlaughterWasteWaterPerDay3 float32 `json:"req_slaughter_waste_water_per_day_3"`
+	ReqSlaughterWasteWaterPerDay4 float32 `json:"req_slaughter_waste_water_per_day_4"`
+}
+
+type ReqSlaughterWasteResiduePerDay struct {
+	TimeStamp                       int64   `json:"time_stamp"`
+	HouseNumber                     string  `json:"house_number"`
+	ReqSlaughterWasteResiduePerDay1 float32 `json:"req_slaughter_waste_residue_per_day_1"`
+	ReqSlaughterWasteResiduePerDay2 float32 `json:"req_slaughter_waste_residue_per_day_2"`
+	ReqSlaughterWasteResiduePerDay3 float32 `json:"req_slaughter_waste_residue_per_day_3"`
+	ReqSlaughterWasteResiduePerDay4 float32 `json:"req_slaughter_waste_residue_per_day_4"`
+}
+
+type ReqSlaughterOdorPollutantsPerDay struct {
+	TimeStamp                         int64   `json:"time_stamp"`
+	HouseNumber                       string  `json:"house_number"`
+	ReqSlaughterOdorPollutantsPerDay1 float32 `json:"req_slaughter_odor_pollutants_per_day_1"`
+	ReqSlaughterOdorPollutantsPerDay2 float32 `json:"req_slaughter_odor_pollutants_per_day_2"`
+	ReqSlaughterOdorPollutantsPerDay3 float32 `json:"req_slaughter_odor_pollutants_per_day_3"`
+	ReqSlaughterOdorPollutantsPerDay4 float32 `json:"req_slaughter_odor_pollutants_per_day_4"`
 }

@@ -20,6 +20,8 @@ var (
 	AcidShop                           *acidShop
 	Afb1                               *afb1
 	AirNumGermMon                      *airNumGermMon
+	AllPasturesTrashDisposal           *allPasturesTrashDisposal
+	AllSlaughtersTrashDisposal         *allSlaughtersTrashDisposal
 	AnalCutWeight                      *analCutWeight
 	AnalMeatPhMoni                     *analMeatPhMoni
 	BleedElectronic                    *bleedElectronic
@@ -68,6 +70,7 @@ var (
 	PasturePaddingRequire              *pasturePaddingRequire
 	PastureProcedure                   *pastureProcedure
 	PastureSiteDisinfectionRecord      *pastureSiteDisinfectionRecord
+	PastureSlaughterTrashDisposal      *pastureSlaughterTrashDisposal
 	PastureSoil                        *pastureSoil
 	PastureSoilBiohazard               *pastureSoilBiohazard
 	PastureSoilPhysicalHazard          *pastureSoilPhysicalHazard
@@ -105,6 +108,12 @@ var (
 	T2VomZea                           *t2VomZea
 	T2toxin                            *t2toxin
 	ToNumGermMon                       *toNumGermMon
+	TotalOdorPollutantsPasturePerDay   *totalOdorPollutantsPasturePerDay
+	TotalOdorPollutantsSlaughterPerDay *totalOdorPollutantsSlaughterPerDay
+	TotalWasteResiduePasturePerDay     *totalWasteResiduePasturePerDay
+	TotalWasteResidueSlaughterPerDay   *totalWasteResidueSlaughterPerDay
+	TotalWasteWaterSlaughterPerDay     *totalWasteWaterSlaughterPerDay
+	TotalWastedWaterPasturePerDay      *totalWastedWaterPasturePerDay
 	TransportBatch                     *transportBatch
 	TransportVehicle                   *transportVehicle
 	WaitingSlaughterCircle             *waitingSlaughterCircle
@@ -116,6 +125,8 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	AcidShop = &Q.AcidShop
 	Afb1 = &Q.Afb1
 	AirNumGermMon = &Q.AirNumGermMon
+	AllPasturesTrashDisposal = &Q.AllPasturesTrashDisposal
+	AllSlaughtersTrashDisposal = &Q.AllSlaughtersTrashDisposal
 	AnalCutWeight = &Q.AnalCutWeight
 	AnalMeatPhMoni = &Q.AnalMeatPhMoni
 	BleedElectronic = &Q.BleedElectronic
@@ -164,6 +175,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	PasturePaddingRequire = &Q.PasturePaddingRequire
 	PastureProcedure = &Q.PastureProcedure
 	PastureSiteDisinfectionRecord = &Q.PastureSiteDisinfectionRecord
+	PastureSlaughterTrashDisposal = &Q.PastureSlaughterTrashDisposal
 	PastureSoil = &Q.PastureSoil
 	PastureSoilBiohazard = &Q.PastureSoilBiohazard
 	PastureSoilPhysicalHazard = &Q.PastureSoilPhysicalHazard
@@ -201,6 +213,12 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	T2VomZea = &Q.T2VomZea
 	T2toxin = &Q.T2toxin
 	ToNumGermMon = &Q.ToNumGermMon
+	TotalOdorPollutantsPasturePerDay = &Q.TotalOdorPollutantsPasturePerDay
+	TotalOdorPollutantsSlaughterPerDay = &Q.TotalOdorPollutantsSlaughterPerDay
+	TotalWasteResiduePasturePerDay = &Q.TotalWasteResiduePasturePerDay
+	TotalWasteResidueSlaughterPerDay = &Q.TotalWasteResidueSlaughterPerDay
+	TotalWasteWaterSlaughterPerDay = &Q.TotalWasteWaterSlaughterPerDay
+	TotalWastedWaterPasturePerDay = &Q.TotalWastedWaterPasturePerDay
 	TransportBatch = &Q.TransportBatch
 	TransportVehicle = &Q.TransportVehicle
 	WaitingSlaughterCircle = &Q.WaitingSlaughterCircle
@@ -213,6 +231,8 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		AcidShop:                           newAcidShop(db, opts...),
 		Afb1:                               newAfb1(db, opts...),
 		AirNumGermMon:                      newAirNumGermMon(db, opts...),
+		AllPasturesTrashDisposal:           newAllPasturesTrashDisposal(db, opts...),
+		AllSlaughtersTrashDisposal:         newAllSlaughtersTrashDisposal(db, opts...),
 		AnalCutWeight:                      newAnalCutWeight(db, opts...),
 		AnalMeatPhMoni:                     newAnalMeatPhMoni(db, opts...),
 		BleedElectronic:                    newBleedElectronic(db, opts...),
@@ -261,6 +281,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		PasturePaddingRequire:              newPasturePaddingRequire(db, opts...),
 		PastureProcedure:                   newPastureProcedure(db, opts...),
 		PastureSiteDisinfectionRecord:      newPastureSiteDisinfectionRecord(db, opts...),
+		PastureSlaughterTrashDisposal:      newPastureSlaughterTrashDisposal(db, opts...),
 		PastureSoil:                        newPastureSoil(db, opts...),
 		PastureSoilBiohazard:               newPastureSoilBiohazard(db, opts...),
 		PastureSoilPhysicalHazard:          newPastureSoilPhysicalHazard(db, opts...),
@@ -298,6 +319,12 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		T2VomZea:                           newT2VomZea(db, opts...),
 		T2toxin:                            newT2toxin(db, opts...),
 		ToNumGermMon:                       newToNumGermMon(db, opts...),
+		TotalOdorPollutantsPasturePerDay:   newTotalOdorPollutantsPasturePerDay(db, opts...),
+		TotalOdorPollutantsSlaughterPerDay: newTotalOdorPollutantsSlaughterPerDay(db, opts...),
+		TotalWasteResiduePasturePerDay:     newTotalWasteResiduePasturePerDay(db, opts...),
+		TotalWasteResidueSlaughterPerDay:   newTotalWasteResidueSlaughterPerDay(db, opts...),
+		TotalWasteWaterSlaughterPerDay:     newTotalWasteWaterSlaughterPerDay(db, opts...),
+		TotalWastedWaterPasturePerDay:      newTotalWastedWaterPasturePerDay(db, opts...),
 		TransportBatch:                     newTransportBatch(db, opts...),
 		TransportVehicle:                   newTransportVehicle(db, opts...),
 		WaitingSlaughterCircle:             newWaitingSlaughterCircle(db, opts...),
@@ -311,6 +338,8 @@ type Query struct {
 	AcidShop                           acidShop
 	Afb1                               afb1
 	AirNumGermMon                      airNumGermMon
+	AllPasturesTrashDisposal           allPasturesTrashDisposal
+	AllSlaughtersTrashDisposal         allSlaughtersTrashDisposal
 	AnalCutWeight                      analCutWeight
 	AnalMeatPhMoni                     analMeatPhMoni
 	BleedElectronic                    bleedElectronic
@@ -359,6 +388,7 @@ type Query struct {
 	PasturePaddingRequire              pasturePaddingRequire
 	PastureProcedure                   pastureProcedure
 	PastureSiteDisinfectionRecord      pastureSiteDisinfectionRecord
+	PastureSlaughterTrashDisposal      pastureSlaughterTrashDisposal
 	PastureSoil                        pastureSoil
 	PastureSoilBiohazard               pastureSoilBiohazard
 	PastureSoilPhysicalHazard          pastureSoilPhysicalHazard
@@ -396,6 +426,12 @@ type Query struct {
 	T2VomZea                           t2VomZea
 	T2toxin                            t2toxin
 	ToNumGermMon                       toNumGermMon
+	TotalOdorPollutantsPasturePerDay   totalOdorPollutantsPasturePerDay
+	TotalOdorPollutantsSlaughterPerDay totalOdorPollutantsSlaughterPerDay
+	TotalWasteResiduePasturePerDay     totalWasteResiduePasturePerDay
+	TotalWasteResidueSlaughterPerDay   totalWasteResidueSlaughterPerDay
+	TotalWasteWaterSlaughterPerDay     totalWasteWaterSlaughterPerDay
+	TotalWastedWaterPasturePerDay      totalWastedWaterPasturePerDay
 	TransportBatch                     transportBatch
 	TransportVehicle                   transportVehicle
 	WaitingSlaughterCircle             waitingSlaughterCircle
@@ -410,6 +446,8 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		AcidShop:                           q.AcidShop.clone(db),
 		Afb1:                               q.Afb1.clone(db),
 		AirNumGermMon:                      q.AirNumGermMon.clone(db),
+		AllPasturesTrashDisposal:           q.AllPasturesTrashDisposal.clone(db),
+		AllSlaughtersTrashDisposal:         q.AllSlaughtersTrashDisposal.clone(db),
 		AnalCutWeight:                      q.AnalCutWeight.clone(db),
 		AnalMeatPhMoni:                     q.AnalMeatPhMoni.clone(db),
 		BleedElectronic:                    q.BleedElectronic.clone(db),
@@ -458,6 +496,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		PasturePaddingRequire:              q.PasturePaddingRequire.clone(db),
 		PastureProcedure:                   q.PastureProcedure.clone(db),
 		PastureSiteDisinfectionRecord:      q.PastureSiteDisinfectionRecord.clone(db),
+		PastureSlaughterTrashDisposal:      q.PastureSlaughterTrashDisposal.clone(db),
 		PastureSoil:                        q.PastureSoil.clone(db),
 		PastureSoilBiohazard:               q.PastureSoilBiohazard.clone(db),
 		PastureSoilPhysicalHazard:          q.PastureSoilPhysicalHazard.clone(db),
@@ -495,6 +534,12 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		T2VomZea:                           q.T2VomZea.clone(db),
 		T2toxin:                            q.T2toxin.clone(db),
 		ToNumGermMon:                       q.ToNumGermMon.clone(db),
+		TotalOdorPollutantsPasturePerDay:   q.TotalOdorPollutantsPasturePerDay.clone(db),
+		TotalOdorPollutantsSlaughterPerDay: q.TotalOdorPollutantsSlaughterPerDay.clone(db),
+		TotalWasteResiduePasturePerDay:     q.TotalWasteResiduePasturePerDay.clone(db),
+		TotalWasteResidueSlaughterPerDay:   q.TotalWasteResidueSlaughterPerDay.clone(db),
+		TotalWasteWaterSlaughterPerDay:     q.TotalWasteWaterSlaughterPerDay.clone(db),
+		TotalWastedWaterPasturePerDay:      q.TotalWastedWaterPasturePerDay.clone(db),
 		TransportBatch:                     q.TransportBatch.clone(db),
 		TransportVehicle:                   q.TransportVehicle.clone(db),
 		WaitingSlaughterCircle:             q.WaitingSlaughterCircle.clone(db),
@@ -516,6 +561,8 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		AcidShop:                           q.AcidShop.replaceDB(db),
 		Afb1:                               q.Afb1.replaceDB(db),
 		AirNumGermMon:                      q.AirNumGermMon.replaceDB(db),
+		AllPasturesTrashDisposal:           q.AllPasturesTrashDisposal.replaceDB(db),
+		AllSlaughtersTrashDisposal:         q.AllSlaughtersTrashDisposal.replaceDB(db),
 		AnalCutWeight:                      q.AnalCutWeight.replaceDB(db),
 		AnalMeatPhMoni:                     q.AnalMeatPhMoni.replaceDB(db),
 		BleedElectronic:                    q.BleedElectronic.replaceDB(db),
@@ -564,6 +611,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		PasturePaddingRequire:              q.PasturePaddingRequire.replaceDB(db),
 		PastureProcedure:                   q.PastureProcedure.replaceDB(db),
 		PastureSiteDisinfectionRecord:      q.PastureSiteDisinfectionRecord.replaceDB(db),
+		PastureSlaughterTrashDisposal:      q.PastureSlaughterTrashDisposal.replaceDB(db),
 		PastureSoil:                        q.PastureSoil.replaceDB(db),
 		PastureSoilBiohazard:               q.PastureSoilBiohazard.replaceDB(db),
 		PastureSoilPhysicalHazard:          q.PastureSoilPhysicalHazard.replaceDB(db),
@@ -601,6 +649,12 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		T2VomZea:                           q.T2VomZea.replaceDB(db),
 		T2toxin:                            q.T2toxin.replaceDB(db),
 		ToNumGermMon:                       q.ToNumGermMon.replaceDB(db),
+		TotalOdorPollutantsPasturePerDay:   q.TotalOdorPollutantsPasturePerDay.replaceDB(db),
+		TotalOdorPollutantsSlaughterPerDay: q.TotalOdorPollutantsSlaughterPerDay.replaceDB(db),
+		TotalWasteResiduePasturePerDay:     q.TotalWasteResiduePasturePerDay.replaceDB(db),
+		TotalWasteResidueSlaughterPerDay:   q.TotalWasteResidueSlaughterPerDay.replaceDB(db),
+		TotalWasteWaterSlaughterPerDay:     q.TotalWasteWaterSlaughterPerDay.replaceDB(db),
+		TotalWastedWaterPasturePerDay:      q.TotalWastedWaterPasturePerDay.replaceDB(db),
 		TransportBatch:                     q.TransportBatch.replaceDB(db),
 		TransportVehicle:                   q.TransportVehicle.replaceDB(db),
 		WaitingSlaughterCircle:             q.WaitingSlaughterCircle.replaceDB(db),
@@ -612,6 +666,8 @@ type queryCtx struct {
 	AcidShop                           IAcidShopDo
 	Afb1                               IAfb1Do
 	AirNumGermMon                      IAirNumGermMonDo
+	AllPasturesTrashDisposal           IAllPasturesTrashDisposalDo
+	AllSlaughtersTrashDisposal         IAllSlaughtersTrashDisposalDo
 	AnalCutWeight                      IAnalCutWeightDo
 	AnalMeatPhMoni                     IAnalMeatPhMoniDo
 	BleedElectronic                    IBleedElectronicDo
@@ -660,6 +716,7 @@ type queryCtx struct {
 	PasturePaddingRequire              IPasturePaddingRequireDo
 	PastureProcedure                   IPastureProcedureDo
 	PastureSiteDisinfectionRecord      IPastureSiteDisinfectionRecordDo
+	PastureSlaughterTrashDisposal      IPastureSlaughterTrashDisposalDo
 	PastureSoil                        IPastureSoilDo
 	PastureSoilBiohazard               IPastureSoilBiohazardDo
 	PastureSoilPhysicalHazard          IPastureSoilPhysicalHazardDo
@@ -697,6 +754,12 @@ type queryCtx struct {
 	T2VomZea                           IT2VomZeaDo
 	T2toxin                            IT2toxinDo
 	ToNumGermMon                       IToNumGermMonDo
+	TotalOdorPollutantsPasturePerDay   ITotalOdorPollutantsPasturePerDayDo
+	TotalOdorPollutantsSlaughterPerDay ITotalOdorPollutantsSlaughterPerDayDo
+	TotalWasteResiduePasturePerDay     ITotalWasteResiduePasturePerDayDo
+	TotalWasteResidueSlaughterPerDay   ITotalWasteResidueSlaughterPerDayDo
+	TotalWasteWaterSlaughterPerDay     ITotalWasteWaterSlaughterPerDayDo
+	TotalWastedWaterPasturePerDay      ITotalWastedWaterPasturePerDayDo
 	TransportBatch                     ITransportBatchDo
 	TransportVehicle                   ITransportVehicleDo
 	WaitingSlaughterCircle             IWaitingSlaughterCircleDo
@@ -708,6 +771,8 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		AcidShop:                           q.AcidShop.WithContext(ctx),
 		Afb1:                               q.Afb1.WithContext(ctx),
 		AirNumGermMon:                      q.AirNumGermMon.WithContext(ctx),
+		AllPasturesTrashDisposal:           q.AllPasturesTrashDisposal.WithContext(ctx),
+		AllSlaughtersTrashDisposal:         q.AllSlaughtersTrashDisposal.WithContext(ctx),
 		AnalCutWeight:                      q.AnalCutWeight.WithContext(ctx),
 		AnalMeatPhMoni:                     q.AnalMeatPhMoni.WithContext(ctx),
 		BleedElectronic:                    q.BleedElectronic.WithContext(ctx),
@@ -756,6 +821,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		PasturePaddingRequire:              q.PasturePaddingRequire.WithContext(ctx),
 		PastureProcedure:                   q.PastureProcedure.WithContext(ctx),
 		PastureSiteDisinfectionRecord:      q.PastureSiteDisinfectionRecord.WithContext(ctx),
+		PastureSlaughterTrashDisposal:      q.PastureSlaughterTrashDisposal.WithContext(ctx),
 		PastureSoil:                        q.PastureSoil.WithContext(ctx),
 		PastureSoilBiohazard:               q.PastureSoilBiohazard.WithContext(ctx),
 		PastureSoilPhysicalHazard:          q.PastureSoilPhysicalHazard.WithContext(ctx),
@@ -793,6 +859,12 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		T2VomZea:                           q.T2VomZea.WithContext(ctx),
 		T2toxin:                            q.T2toxin.WithContext(ctx),
 		ToNumGermMon:                       q.ToNumGermMon.WithContext(ctx),
+		TotalOdorPollutantsPasturePerDay:   q.TotalOdorPollutantsPasturePerDay.WithContext(ctx),
+		TotalOdorPollutantsSlaughterPerDay: q.TotalOdorPollutantsSlaughterPerDay.WithContext(ctx),
+		TotalWasteResiduePasturePerDay:     q.TotalWasteResiduePasturePerDay.WithContext(ctx),
+		TotalWasteResidueSlaughterPerDay:   q.TotalWasteResidueSlaughterPerDay.WithContext(ctx),
+		TotalWasteWaterSlaughterPerDay:     q.TotalWasteWaterSlaughterPerDay.WithContext(ctx),
+		TotalWastedWaterPasturePerDay:      q.TotalWastedWaterPasturePerDay.WithContext(ctx),
 		TransportBatch:                     q.TransportBatch.WithContext(ctx),
 		TransportVehicle:                   q.TransportVehicle.WithContext(ctx),
 		WaitingSlaughterCircle:             q.WaitingSlaughterCircle.WithContext(ctx),
