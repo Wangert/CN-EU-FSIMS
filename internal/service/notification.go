@@ -185,13 +185,15 @@ func SlaughterNotification(data models.NotificationInfo) (*models.ResNotificatio
 		return nil, err
 	}
 	source_name := res.Name
-	affected = affected[1 : len(affected)-2]
-	matches := strings.Split(affected, "];[")
+	//affected = affected[1 : len(affected)-2]
+	matches := strings.Split(affected, ";")
+
 	//matches := regex.FindAllString(affected, -1)
 	glog.Infoln("matches:", matches)
 	batches := make([]models.Batch, 0)
-	for _, v := range matches {
-		batch_number := v
+	for _, v := range matches[:len(matches)-1] {
+		batch_number := v[1 : len(v)-1]
+		glog.Infoln("batch_number:", batch_number)
 		batch, err := query.SlaughterBatch.WithContext(context.Background()).Where(query.SlaughterBatch.BatchNumber.Eq(batch_number)).First()
 		if err != nil {
 			return nil, err

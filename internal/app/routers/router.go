@@ -25,6 +25,9 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.GET("blockchain/blockByHash", handlers.QueryBlockByHash)
 		user.GET("blockchain/ledgerinfo", handlers.GetLedgerInfo)
 		user.GET("blockchain/latestblock", handlers.GetLastestBlock)
+		user.GET("getnotificationcount", handlers.GetNotificationCount)
+		user.GET("getnotification", handlers.GetNotification)
+		user.POST("readnotification", handlers.ReadNotification)
 
 	}
 
