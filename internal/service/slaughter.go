@@ -41,6 +41,185 @@ const (
 	SLAUGHTER_PRODUCT_PREFIX = "SLAPRO-"
 )
 
+// 污水
+func SlaughterAllTrashTimeExisted(t time.Time) (bool, error) {
+	truncated := t.Truncate(24 * time.Hour)
+	q := query.Q.AllSlaughtersTrashDisposal
+	info, err := q.WithContext(context.Background()).Where(q.TimeStamp.Eq(truncated)).Find()
+	if err != nil {
+		return false, err
+	}
+
+	if len(info) == 0 {
+		return false, errors.New("Garbage disposal information has not been recorded for this time in slaughter")
+	}
+
+	return true, nil
+}
+
+// 污水
+func UploadSlaughterWasteWaterPerDay(r *request.ReqSlaughterWasteWaterPerDay) error {
+	q := query.Q.TotalWasteWaterSlaughterPerDay
+	qall := query.Q.AllSlaughtersTrashDisposal
+	//根据t去搜索总表，若已创建表，则直接更新，否则创建
+	t := time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour)
+	ok, err := SlaughterAllTrashTimeExisted(t)
+	if !ok {
+		astp := slaughter.AllSlaughtersTrashDisposal{
+			TimeStamp:                       t,
+			OdorAllSlaughtersTrashDisposal1: 0,
+			OdorAllSlaughtersTrashDisposal2: 0,
+			OdorAllSlaughtersTrashDisposal3: 0,
+			OdorAllSlaughtersTrashDisposal4: 0,
+			ResidueSlaughtersTrashDisposal1: 0,
+			ResidueSlaughtersTrashDisposal2: 0,
+			ResidueSlaughtersTrashDisposal3: 0,
+			ResidueSlaughtersTrashDisposal4: 0,
+			WaterSlaughtersTrashDisposal1:   r.ReqSlaughterWasteWaterPerDay1,
+			WaterSlaughtersTrashDisposal2:   r.ReqSlaughterWasteWaterPerDay2,
+			WaterSlaughtersTrashDisposal3:   r.ReqSlaughterWasteWaterPerDay3,
+			WaterSlaughtersTrashDisposal4:   r.ReqSlaughterWasteWaterPerDay4,
+		}
+		err = qall.WithContext(context.Background()).Create(&astp)
+		if err != nil {
+			return err
+		}
+	}
+
+	ww := slaughter.TotalWasteWaterSlaughterPerDay{
+		TimeStamp:                       time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour),
+		HouseNumber:                     r.HouseNumber,
+		TotalWasteWaterSlaughterPerDay1: r.ReqSlaughterWasteWaterPerDay1,
+		TotalWasteWaterSlaughterPerDay2: r.ReqSlaughterWasteWaterPerDay2,
+		TotalWasteWaterSlaughterPerDay3: r.ReqSlaughterWasteWaterPerDay3,
+		TotalWasteWaterSlaughterPerDay4: r.ReqSlaughterWasteWaterPerDay4,
+	}
+	err = q.WithContext(context.Background()).Create(&ww)
+	if err != nil {
+		return err
+	}
+
+	//更新总表信息
+	result, err := qall.WithContext(context.Background()).UpdateSimple(qall.WaterSlaughtersTrashDisposal1.Add(r.ReqSlaughterWasteWaterPerDay1),
+		qall.WaterSlaughtersTrashDisposal2.Add(r.ReqSlaughterWasteWaterPerDay2), qall.WaterSlaughtersTrashDisposal3.Add(r.ReqSlaughterWasteWaterPerDay3),
+		qall.WaterSlaughtersTrashDisposal4.Add(r.ReqSlaughterWasteWaterPerDay4))
+	if err != nil {
+		return err
+	}
+	if result.RowsAffected == 0 {
+		return errors.New("No match was found!")
+	}
+	return nil
+}
+
+// 污水
+func UploadSlaughterWasteResiduePerDay(r *request.ReqSlaughterWasteResiduePerDay) error {
+	q := query.Q.TotalWasteResidueSlaughterPerDay
+	qall := query.Q.AllSlaughtersTrashDisposal
+	//根据t去搜索总表，若已创建表，则直接更新，否则创建
+	t := time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour)
+	ok, err := SlaughterAllTrashTimeExisted(t)
+	if !ok {
+		astp := slaughter.AllSlaughtersTrashDisposal{
+			TimeStamp:                       t,
+			OdorAllSlaughtersTrashDisposal1: 0,
+			OdorAllSlaughtersTrashDisposal2: 0,
+			OdorAllSlaughtersTrashDisposal3: 0,
+			OdorAllSlaughtersTrashDisposal4: 0,
+			ResidueSlaughtersTrashDisposal1: r.ReqSlaughterWasteResiduePerDay1,
+			ResidueSlaughtersTrashDisposal2: r.ReqSlaughterWasteResiduePerDay2,
+			ResidueSlaughtersTrashDisposal3: r.ReqSlaughterWasteResiduePerDay3,
+			ResidueSlaughtersTrashDisposal4: r.ReqSlaughterWasteResiduePerDay4,
+			WaterSlaughtersTrashDisposal1:   0,
+			WaterSlaughtersTrashDisposal2:   0,
+			WaterSlaughtersTrashDisposal3:   0,
+			WaterSlaughtersTrashDisposal4:   0,
+		}
+		err = qall.WithContext(context.Background()).Create(&astp)
+		if err != nil {
+			return err
+		}
+	}
+	wr := slaughter.TotalWasteResidueSlaughterPerDay{
+		TimeStamp:                         time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour),
+		HouseNumber:                       r.HouseNumber,
+		TotalWasteResidueSlaughterPerDay1: r.ReqSlaughterWasteResiduePerDay1,
+		TotalWasteResidueSlaughterPerDay2: r.ReqSlaughterWasteResiduePerDay2,
+		TotalWasteResidueSlaughterPerDay3: r.ReqSlaughterWasteResiduePerDay3,
+		TotalWasteResidueSlaughterPerDay4: r.ReqSlaughterWasteResiduePerDay4,
+	}
+	err = q.WithContext(context.Background()).Create(&wr)
+	if err != nil {
+		return err
+	}
+
+	//更新总表信息
+	result, err := qall.WithContext(context.Background()).Where(qall.TimeStamp.Eq(t)).UpdateSimple(qall.ResidueSlaughtersTrashDisposal1.Add(r.ReqSlaughterWasteResiduePerDay1),
+		qall.ResidueSlaughtersTrashDisposal2.Add(r.ReqSlaughterWasteResiduePerDay2), qall.ResidueSlaughtersTrashDisposal3.Add(r.ReqSlaughterWasteResiduePerDay3),
+		qall.ResidueSlaughtersTrashDisposal4.Add(r.ReqSlaughterWasteResiduePerDay4))
+	if err != nil {
+		return err
+	}
+	if result.RowsAffected == 0 {
+		return errors.New("No match was found!")
+	}
+	return nil
+}
+
+// 污水
+func UploadSlaughterOdorPollutantsPerDay(r *request.ReqSlaughterOdorPollutantsPerDay) error {
+	q := query.Q.TotalOdorPollutantsSlaughterPerDay
+	qall := query.Q.AllSlaughtersTrashDisposal
+	//根据t去搜索总表，若已创建表，则直接更新，否则创建
+	t := time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour)
+	ok, err := SlaughterAllTrashTimeExisted(t)
+	if !ok {
+		astp := slaughter.AllSlaughtersTrashDisposal{
+			TimeStamp:                       t,
+			OdorAllSlaughtersTrashDisposal1: r.ReqSlaughterOdorPollutantsPerDay1,
+			OdorAllSlaughtersTrashDisposal2: r.ReqSlaughterOdorPollutantsPerDay2,
+			OdorAllSlaughtersTrashDisposal3: r.ReqSlaughterOdorPollutantsPerDay3,
+			OdorAllSlaughtersTrashDisposal4: r.ReqSlaughterOdorPollutantsPerDay4,
+			ResidueSlaughtersTrashDisposal1: 0,
+			ResidueSlaughtersTrashDisposal2: 0,
+			ResidueSlaughtersTrashDisposal3: 0,
+			ResidueSlaughtersTrashDisposal4: 0,
+			WaterSlaughtersTrashDisposal1:   0,
+			WaterSlaughtersTrashDisposal2:   0,
+			WaterSlaughtersTrashDisposal3:   0,
+			WaterSlaughtersTrashDisposal4:   0,
+		}
+		err = qall.WithContext(context.Background()).Create(&astp)
+		if err != nil {
+			return err
+		}
+	}
+	op := slaughter.TotalOdorPollutantsSlaughterPerDay{
+		TimeStamp:                           time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour),
+		HouseNumber:                         r.HouseNumber,
+		TotalOdorPollutantsSlaughterPerDay1: r.ReqSlaughterOdorPollutantsPerDay1,
+		TotalOdorPollutantsSlaughterPerDay2: r.ReqSlaughterOdorPollutantsPerDay2,
+		TotalOdorPollutantsSlaughterPerDay3: r.ReqSlaughterOdorPollutantsPerDay3,
+		TotalOdorPollutantsSlaughterPerDay4: r.ReqSlaughterOdorPollutantsPerDay4,
+	}
+	err = q.WithContext(context.Background()).Create(&op)
+	if err != nil {
+		return err
+	}
+
+	//更新总表信息
+	result, err := qall.WithContext(context.Background()).Where(qall.TimeStamp.Eq(t)).UpdateSimple(qall.OdorAllSlaughtersTrashDisposal1.Add(r.ReqSlaughterOdorPollutantsPerDay1),
+		qall.OdorAllSlaughtersTrashDisposal2.Add(r.ReqSlaughterOdorPollutantsPerDay2), qall.OdorAllSlaughtersTrashDisposal3.Add(r.ReqSlaughterOdorPollutantsPerDay3),
+		qall.OdorAllSlaughtersTrashDisposal4.Add(r.ReqSlaughterOdorPollutantsPerDay4))
+	if err != nil {
+		return err
+	}
+	if result.RowsAffected == 0 {
+		return errors.New("No match was found!")
+	}
+	return nil
+}
+
 func UploadSlaughterStaffUniformData(r *request.ReqUploadStaffUniformData) error {
 	ok, err := SlaughterHouseIsExisted(r.HouseNumber)
 	if !ok {
