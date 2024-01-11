@@ -6,6 +6,7 @@ import (
 	"CN-EU-FSIMS/internal/service"
 	"CN-EU-FSIMS/utils"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
@@ -215,11 +216,29 @@ func GetNotification(c *gin.Context) {
 		return
 	}
 
-	res := response.ResNotification{
+	res := response.ResNotifications{
 		Notifications: nf,
 		Count:         int64(count),
 	}
 	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func ReadNotification(c *gin.Context) {
+	glog.Info("################## Read Notification ##################")
+	id := c.PostForm("id")
+	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "string to id error!")
+		return
+	}
+	err = service.ReadNotification(idInt)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "send to package error!")
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, "sending to package successful!")
 	return
 }
 
