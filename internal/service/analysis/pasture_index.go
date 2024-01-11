@@ -215,3 +215,128 @@ func JudgeHarmForSlaughterProcedure(record *slaughter.SlaughterProcedureMonitori
 
 	return abnormalList, len(abnormalList), nil
 }
+
+// 判断屠宰场预冷车间危害
+func JudgeHarmForSlaughterPreCoolShop(record *slaughter.PreCoolShop) ([]string, int, error) {
+	indexMap := map[string]interface{}{}
+	recordMap, err := utils.StructToMap(record)
+	if err != nil {
+		return nil, 0, err
+	}
+	indexMap = utils.FlattenMap(recordMap)
+
+	abnormalList := make([]string, 0)
+	for k, v := range SlaughterPreCoolShopUpperBounds {
+		if v < indexMap[k].(float32) {
+			abnormalList = append(abnormalList, k)
+		}
+	}
+
+	for k, v := range SlaughterPreCoolShopLowerBounds {
+		if v > indexMap[k].(float32) {
+			abnormalList = append(abnormalList, k)
+		}
+	}
+
+	return abnormalList, len(abnormalList), nil
+}
+
+// 判断屠宰场屠宰车间危害
+func JudgeHarmForSlaughterSlaShop(record *slaughter.SlaShop) ([]string, int, error) {
+	indexMap := map[string]interface{}{}
+	recordMap, err := utils.StructToMap(record)
+	if err != nil {
+		return nil, 0, err
+	}
+	indexMap = utils.FlattenMap(recordMap)
+
+	abnormalList := make([]string, 0)
+	for k, v := range SlaughterSlaShopUpperBounds {
+		if v < indexMap[k].(float32) {
+			abnormalList = append(abnormalList, k)
+		}
+	}
+
+	for k, v := range SlaughterSlaShopLowerBounds {
+		if v > indexMap[k].(float32) {
+			abnormalList = append(abnormalList, k)
+		}
+	}
+
+	return abnormalList, len(abnormalList), nil
+}
+
+// 判断屠宰场分割车间危害
+func JudgeHarmForSlaughterDivShop(record *slaughter.DivShop) ([]string, int, error) {
+	indexMap := map[string]interface{}{}
+	recordMap, err := utils.StructToMap(record)
+	if err != nil {
+		return nil, 0, err
+	}
+	indexMap = utils.FlattenMap(recordMap)
+
+	abnormalList := make([]string, 0)
+	for k, v := range SlaughterDivShopUpperBounds {
+		if v < indexMap[k].(float32) {
+			abnormalList = append(abnormalList, k)
+		}
+	}
+
+	for k, v := range SlaughterDivShopLowerBounds {
+		if v > indexMap[k].(float32) {
+			abnormalList = append(abnormalList, k)
+		}
+	}
+
+	return abnormalList, len(abnormalList), nil
+}
+
+// 判断屠宰场排酸车间危害
+func JudgeHarmForSlaughterAcidShop(record *slaughter.AcidShop) ([]string, int, error) {
+	indexMap := map[string]interface{}{}
+	recordMap, err := utils.StructToMap(record)
+	if err != nil {
+		return nil, 0, err
+	}
+	indexMap = utils.FlattenMap(recordMap)
+
+	abnormalList := make([]string, 0)
+	for k, v := range SlaughterAcidShopUpperBounds {
+		if v < indexMap[k].(float32) {
+			abnormalList = append(abnormalList, k)
+		}
+	}
+
+	for k, v := range SlaughterAcidShopLowerBounds {
+		if v > indexMap[k].(float32) {
+			abnormalList = append(abnormalList, k)
+		}
+	}
+
+	return abnormalList, len(abnormalList), nil
+}
+
+// 判断屠宰场冷冻车间危害
+func JudgeHarmForSlaughterFroShop(record *slaughter.FroShop) ([]string, int, error) {
+	indexMap := map[string]interface{}{}
+	recordMap, err := utils.StructToMap(record)
+	if err != nil {
+		return nil, 0, err
+	}
+	indexMap = utils.FlattenMap(recordMap)
+
+	abnormalList := make([]string, 0)
+	for k, v := range SlaughterFroShopUpperBounds {
+		if v < indexMap[k].(float32) {
+			abnormalList = append(abnormalList, k)
+		}
+	}
+
+	for k, v := range SlaughterFroShopLowerBounds {
+		if v > indexMap[k].(float32) {
+			abnormalList = append(abnormalList, k)
+		}
+	}
+
+	return abnormalList, len(abnormalList), nil
+}

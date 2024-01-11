@@ -40,18 +40,6 @@ type TimedTask struct {
 }
 
 func TimedTasksStart(c *cron.Cron, tts []TimedTask) {
-
-	//tt := TimedTask{
-	//	Spec: "*/5 * * * * ?",
-	//	Fc: func() {
-	//		currentTime := time.Now()
-	//		err := PastureFeedHeavyMetalMonitoring(currentTime)
-	//		if err != nil {
-	//			glog.Errorln(err)
-	//		}
-	//	},
-	//}
-
 	for _, tt := range tts {
 		_, _ = c.AddFunc(tt.Spec, tt.Fc)
 	}
@@ -61,9 +49,9 @@ func TimedTasksStart(c *cron.Cron, tts []TimedTask) {
 
 func NewAllTimedTasks() []TimedTask {
 
-	tts := make([]TimedTask, 5)
+	tts := make([]TimedTask, 0)
 
-	pastureFeedHeavyMetalTask := TimedTask{
+	pastureTask := TimedTask{
 		Spec: "*/5 * * * * ?",
 		Fc: func() {
 			currentTime := time.Now()
@@ -71,108 +59,514 @@ func NewAllTimedTasks() []TimedTask {
 			if err != nil {
 				glog.Errorln(err)
 			}
-		},
-	}
 
-	pastureFeedMycotoxinsTask := TimedTask{
-		Spec: "*/5 * * * * ?",
-		Fc: func() {
-			currentTime := time.Now()
-			err := PastureFeedMycotoxinsMonitoring(currentTime)
+			err = PastureFeedMycotoxinsMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+
+			err = PastureWaterQualityMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+
+			err = PastureBufferMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+
+			err = PastureAreaMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+
+			err = PastureCowHouseMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+
+			err = PastureBasicEnvironmentMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+
+			err = PasturePaddingMonitoring(currentTime)
 			if err != nil {
 				glog.Errorln(err)
 			}
 		},
 	}
 
-	pastureWaterQualityTask := TimedTask{
-		Spec: "*/5 * * * * ?",
-		Fc: func() {
-			currentTime := time.Now()
-			err := PastureWaterQualityMonitoring(currentTime)
-			if err != nil {
-				glog.Errorln(err)
-			}
-		},
-	}
-
-	pastureBufferTask := TimedTask{
-		Spec: "*/5 * * * * ?",
-		Fc: func() {
-			currentTime := time.Now()
-			err := PastureBufferMonitoring(currentTime)
-			if err != nil {
-				glog.Errorln(err)
-			}
-		},
-	}
-
-	pastureAreaTask := TimedTask{
-		Spec: "*/5 * * * * ?",
-		Fc: func() {
-			currentTime := time.Now()
-			err := PastureAreaMonitoring(currentTime)
-			if err != nil {
-				glog.Errorln(err)
-			}
-		},
-	}
-
-	pastureCowHouse := TimedTask{
-		Spec: "*/5 * * * * ?",
-		Fc: func() {
-			currentTime := time.Now()
-			err := PastureCowHouseMonitoring(currentTime)
-			if err != nil {
-				glog.Errorln(err)
-			}
-		},
-	}
-
-	pastureBasicEnvironmentTask := TimedTask{
-		Spec: "*/5 * * * * ?",
-		Fc: func() {
-			currentTime := time.Now()
-			err := PastureBasicEnvironmentMonitoring(currentTime)
-			if err != nil {
-				glog.Errorln(err)
-			}
-		},
-	}
-
-	pasturePaddingTask := TimedTask{
-		Spec: "*/5 * * * * ?",
-		Fc: func() {
-			currentTime := time.Now()
-			err := PasturePaddingMonitoring(currentTime)
-			if err != nil {
-				glog.Errorln(err)
-			}
-		},
-	}
-
-	slaughterWaterQualityTask := TimedTask{
-		Spec: "*/5 * * * * ?",
+	slaughterTask := TimedTask{
+		Spec: "*/10 * * * * ?",
 		Fc: func() {
 			currentTime := time.Now()
 			err := SlaughterWaterQualityMonitoring(currentTime)
 			if err != nil {
 				glog.Errorln(err)
 			}
+
+			err = SlaughterPreCoolShopMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+
+			err = SlaughterSlaShopMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+
+			err = SlaughterDivShopMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+
+			err = SlaughterAcidShopMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+
+			err = SlaughterFroShopMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
 		},
 	}
 
-	tts = append(tts, pastureFeedHeavyMetalTask)
-	tts = append(tts, pastureFeedMycotoxinsTask)
-	tts = append(tts, pastureWaterQualityTask)
-	tts = append(tts, pastureBufferTask)
-	tts = append(tts, pastureAreaTask)
-	tts = append(tts, pastureCowHouse)
-	tts = append(tts, pastureBasicEnvironmentTask)
-	tts = append(tts, pasturePaddingTask)
-	tts = append(tts, slaughterWaterQualityTask)
+	tts = append(tts, pastureTask)
+	tts = append(tts, slaughterTask)
 
 	return tts
+}
+
+// 屠宰场冷冻车间监测
+func SlaughterFroShopMonitoring(currentTime time.Time) error {
+	m := query.Q.MonitoringTimeRecord
+	mtr, err := m.WithContext(context.Background()).Where(m.IndexName.Eq(SLAUGHTER_FROZEN_SHOP)).First()
+	if err != nil {
+		return err
+	}
+
+	preTime := *mtr.LastTime
+
+	f := query.Q.FroShop
+	records, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).Find()
+	if err != nil {
+		return err
+	}
+
+	for _, record := range records {
+		// 识别危害指标
+		abnormalList, abnormalCount, err := analysis.JudgeHarmForSlaughterFroShop(record)
+		if err != nil {
+			return err
+		}
+
+		riskLevel := analysis.RiskLevel(abnormalCount)
+
+		if riskLevel != 1 {
+			// 获取影响的SlaughterBatch
+			b := query.Q.SlaughterBatch
+			DoneBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNotNull()).
+				Where(b.StartTime.Lte(record.TimeRecordAt)).Where(b.EndTime.Gte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			DoingBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNull()).Where(b.StartTime.Lte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			bs := append(DoingBatches, DoneBatches...)
+
+			// 受影响的batch
+			batchesNumber := []string{}
+			for _, batch := range bs {
+				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			// 获取接收人
+			u := query.Q.FSIMSUser
+			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
+			if err != nil {
+				return err
+			}
+
+			// 创建事件
+			event := Event{
+				Source:              record.HouseNumber,
+				Content:             SLAUGHTER_ABNORMAL_FROZEN_SHOP_INDEX_CONTENT,
+				EventTime:           record.TimeRecordAt,
+				EventType:           1,
+				AffectedBatchNumber: utils.StrArrToStr(batchesNumber),
+				Proposal:            utils.StrArrToStr(abnormalList),
+				RiskLevel:           riskLevel,
+			}
+
+			// 发送通知
+			for _, user := range users {
+				err = PushNotification(user.UUID, &event)
+				if err != nil {
+					return err
+				}
+			}
+		}
+	}
+
+	_, err = m.WithContext(context.Background()).Where(m.IndexName.Eq(SLAUGHTER_FROZEN_SHOP)).
+		Updates(map[string]interface{}{"last_time": currentTime})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// 屠宰场排酸车间监测
+func SlaughterAcidShopMonitoring(currentTime time.Time) error {
+	m := query.Q.MonitoringTimeRecord
+	mtr, err := m.WithContext(context.Background()).Where(m.IndexName.Eq(SLAUGHTER_ACID_SHOP)).First()
+	if err != nil {
+		return err
+	}
+
+	preTime := *mtr.LastTime
+
+	f := query.Q.AcidShop
+	records, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).Find()
+	if err != nil {
+		return err
+	}
+
+	for _, record := range records {
+		// 识别危害指标
+		abnormalList, abnormalCount, err := analysis.JudgeHarmForSlaughterAcidShop(record)
+		if err != nil {
+			return err
+		}
+
+		riskLevel := analysis.RiskLevel(abnormalCount)
+
+		if riskLevel != 1 {
+			// 获取影响的SlaughterBatch
+			b := query.Q.SlaughterBatch
+			DoneBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNotNull()).
+				Where(b.StartTime.Lte(record.TimeRecordAt)).Where(b.EndTime.Gte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			DoingBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNull()).Where(b.StartTime.Lte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			bs := append(DoingBatches, DoneBatches...)
+
+			// 受影响的batch
+			batchesNumber := []string{}
+			for _, batch := range bs {
+				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			// 获取接收人
+			u := query.Q.FSIMSUser
+			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
+			if err != nil {
+				return err
+			}
+
+			// 创建事件
+			event := Event{
+				Source:              record.HouseNumber,
+				Content:             SLAUGHTER_ABNORMAL_ACID_SHOP_INDEX_CONTENT,
+				EventTime:           record.TimeRecordAt,
+				EventType:           1,
+				AffectedBatchNumber: utils.StrArrToStr(batchesNumber),
+				Proposal:            utils.StrArrToStr(abnormalList),
+				RiskLevel:           riskLevel,
+			}
+
+			// 发送通知
+			for _, user := range users {
+				err = PushNotification(user.UUID, &event)
+				if err != nil {
+					return err
+				}
+			}
+		}
+	}
+
+	_, err = m.WithContext(context.Background()).Where(m.IndexName.Eq(SLAUGHTER_ACID_SHOP)).
+		Updates(map[string]interface{}{"last_time": currentTime})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// 屠宰场分割车间监测
+func SlaughterDivShopMonitoring(currentTime time.Time) error {
+	m := query.Q.MonitoringTimeRecord
+	mtr, err := m.WithContext(context.Background()).Where(m.IndexName.Eq(SLAUGHTER_DIVISION_SHOP)).First()
+	if err != nil {
+		return err
+	}
+
+	preTime := *mtr.LastTime
+
+	f := query.Q.DivShop
+	records, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).Find()
+	if err != nil {
+		return err
+	}
+
+	for _, record := range records {
+		// 识别危害指标
+		abnormalList, abnormalCount, err := analysis.JudgeHarmForSlaughterDivShop(record)
+		if err != nil {
+			return err
+		}
+
+		riskLevel := analysis.RiskLevel(abnormalCount)
+
+		if riskLevel != 1 {
+			// 获取影响的SlaughterBatch
+			b := query.Q.SlaughterBatch
+			DoneBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNotNull()).
+				Where(b.StartTime.Lte(record.TimeRecordAt)).Where(b.EndTime.Gte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			DoingBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNull()).Where(b.StartTime.Lte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			bs := append(DoingBatches, DoneBatches...)
+
+			// 受影响的batch
+			batchesNumber := []string{}
+			for _, batch := range bs {
+				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			// 获取接收人
+			u := query.Q.FSIMSUser
+			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
+			if err != nil {
+				return err
+			}
+
+			// 创建事件
+			event := Event{
+				Source:              record.HouseNumber,
+				Content:             SLAUGHTER_ABNORMAL_DIVISION_SHOP_INDEX_CONTENT,
+				EventTime:           record.TimeRecordAt,
+				EventType:           1,
+				AffectedBatchNumber: utils.StrArrToStr(batchesNumber),
+				Proposal:            utils.StrArrToStr(abnormalList),
+				RiskLevel:           riskLevel,
+			}
+
+			// 发送通知
+			for _, user := range users {
+				err = PushNotification(user.UUID, &event)
+				if err != nil {
+					return err
+				}
+			}
+		}
+	}
+
+	_, err = m.WithContext(context.Background()).Where(m.IndexName.Eq(SLAUGHTER_DIVISION_SHOP)).
+		Updates(map[string]interface{}{"last_time": currentTime})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// 屠宰场屠宰车间监测
+func SlaughterSlaShopMonitoring(currentTime time.Time) error {
+	m := query.Q.MonitoringTimeRecord
+	mtr, err := m.WithContext(context.Background()).Where(m.IndexName.Eq(SLAUGHTER_SLAUGHTER_SHOP)).First()
+	if err != nil {
+		return err
+	}
+
+	preTime := *mtr.LastTime
+
+	f := query.Q.SlaShop
+	records, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).Find()
+	if err != nil {
+		return err
+	}
+
+	for _, record := range records {
+		// 识别危害指标
+		abnormalList, abnormalCount, err := analysis.JudgeHarmForSlaughterSlaShop(record)
+		if err != nil {
+			return err
+		}
+
+		riskLevel := analysis.RiskLevel(abnormalCount)
+
+		if riskLevel != 1 {
+			// 获取影响的SlaughterBatch
+			b := query.Q.SlaughterBatch
+			DoneBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNotNull()).
+				Where(b.StartTime.Lte(record.TimeRecordAt)).Where(b.EndTime.Gte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			DoingBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNull()).Where(b.StartTime.Lte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			bs := append(DoingBatches, DoneBatches...)
+
+			// 受影响的batch
+			batchesNumber := []string{}
+			for _, batch := range bs {
+				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			// 获取接收人
+			u := query.Q.FSIMSUser
+			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
+			if err != nil {
+				return err
+			}
+
+			// 创建事件
+			event := Event{
+				Source:              record.HouseNumber,
+				Content:             SLAUGHTER_ABNORMAL_SLAUGHTER_SHOP_INDEX_CONTENT,
+				EventTime:           record.TimeRecordAt,
+				EventType:           1,
+				AffectedBatchNumber: utils.StrArrToStr(batchesNumber),
+				Proposal:            utils.StrArrToStr(abnormalList),
+				RiskLevel:           riskLevel,
+			}
+
+			// 发送通知
+			for _, user := range users {
+				err = PushNotification(user.UUID, &event)
+				if err != nil {
+					return err
+				}
+			}
+		}
+	}
+
+	_, err = m.WithContext(context.Background()).Where(m.IndexName.Eq(SLAUGHTER_SLAUGHTER_SHOP)).
+		Updates(map[string]interface{}{"last_time": currentTime})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// 屠宰场预冷车间监测
+func SlaughterPreCoolShopMonitoring(currentTime time.Time) error {
+	m := query.Q.MonitoringTimeRecord
+	mtr, err := m.WithContext(context.Background()).Where(m.IndexName.Eq(SLAUGHTER_PRECOOL_SHOP)).First()
+	if err != nil {
+		return err
+	}
+
+	preTime := *mtr.LastTime
+
+	f := query.Q.PreCoolShop
+	records, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).Find()
+	if err != nil {
+		return err
+	}
+
+	for _, record := range records {
+		// 识别危害指标
+		abnormalList, abnormalCount, err := analysis.JudgeHarmForSlaughterPreCoolShop(record)
+		if err != nil {
+			return err
+		}
+
+		riskLevel := analysis.RiskLevel(abnormalCount)
+
+		if riskLevel != 1 {
+			// 获取影响的SlaughterBatch
+			b := query.Q.SlaughterBatch
+			DoneBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNotNull()).
+				Where(b.StartTime.Lte(record.TimeRecordAt)).Where(b.EndTime.Gte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			DoingBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNull()).Where(b.StartTime.Lte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			bs := append(DoingBatches, DoneBatches...)
+
+			// 受影响的batch
+			batchesNumber := []string{}
+			for _, batch := range bs {
+				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			// 获取接收人
+			u := query.Q.FSIMSUser
+			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
+			if err != nil {
+				return err
+			}
+
+			// 创建事件
+			event := Event{
+				Source:              record.HouseNumber,
+				Content:             SLAUGHTER_ABNORMAL_PRECOOL_SHOP_INDEX_CONTENT,
+				EventTime:           record.TimeRecordAt,
+				EventType:           1,
+				AffectedBatchNumber: utils.StrArrToStr(batchesNumber),
+				Proposal:            utils.StrArrToStr(abnormalList),
+				RiskLevel:           riskLevel,
+			}
+
+			// 发送通知
+			for _, user := range users {
+				err = PushNotification(user.UUID, &event)
+				if err != nil {
+					return err
+				}
+			}
+		}
+	}
+
+	_, err = m.WithContext(context.Background()).Where(m.IndexName.Eq(SLAUGHTER_PRECOOL_SHOP)).
+		Updates(map[string]interface{}{"last_time": currentTime})
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // 屠宰场过程监测
