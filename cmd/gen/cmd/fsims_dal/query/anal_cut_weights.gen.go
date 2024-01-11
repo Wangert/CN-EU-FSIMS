@@ -31,18 +31,18 @@ func newAnalCutWeight(db *gorm.DB, opts ...gen.DOOption) analCutWeight {
 	_analCutWeight.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_analCutWeight.DeletedAt = field.NewField(tableName, "deleted_at")
 	_analCutWeight.PID = field.NewString(tableName, "p_id")
-	_analCutWeight.AnalCutWeight1 = field.NewFloat32(tableName, "anal_cut_weight1")
-	_analCutWeight.AnalCutWeight2 = field.NewFloat32(tableName, "anal_cut_weight2")
-	_analCutWeight.AnalCutWeight3 = field.NewFloat32(tableName, "anal_cut_weight3")
-	_analCutWeight.AnalCutWeight4 = field.NewFloat32(tableName, "anal_cut_weight4")
-	_analCutWeight.AnalCutWeight5 = field.NewFloat32(tableName, "anal_cut_weight5")
-	_analCutWeight.AnalCutWeight6 = field.NewFloat32(tableName, "anal_cut_weight6")
-	_analCutWeight.AnalCutWeight7 = field.NewFloat32(tableName, "anal_cut_weight7")
-	_analCutWeight.AnalCutWeight8 = field.NewFloat32(tableName, "anal_cut_weight8")
-	_analCutWeight.AnalCutWeight9 = field.NewFloat32(tableName, "anal_cut_weight9")
-	_analCutWeight.AnalCutWeight10 = field.NewFloat32(tableName, "anal_cut_weight10")
-	_analCutWeight.AnalCutWeight11 = field.NewFloat32(tableName, "anal_cut_weight11")
-	_analCutWeight.AnalCutWeight12 = field.NewFloat32(tableName, "anal_cut_weight12")
+	_analCutWeight.AnalCutWeight1 = field.NewFloat64(tableName, "anal_cut_weight1")
+	_analCutWeight.AnalCutWeight2 = field.NewFloat64(tableName, "anal_cut_weight2")
+	_analCutWeight.AnalCutWeight3 = field.NewFloat64(tableName, "anal_cut_weight3")
+	_analCutWeight.AnalCutWeight4 = field.NewFloat64(tableName, "anal_cut_weight4")
+	_analCutWeight.AnalCutWeight5 = field.NewFloat64(tableName, "anal_cut_weight5")
+	_analCutWeight.AnalCutWeight6 = field.NewFloat64(tableName, "anal_cut_weight6")
+	_analCutWeight.AnalCutWeight7 = field.NewFloat64(tableName, "anal_cut_weight7")
+	_analCutWeight.AnalCutWeight8 = field.NewFloat64(tableName, "anal_cut_weight8")
+	_analCutWeight.AnalCutWeight9 = field.NewFloat64(tableName, "anal_cut_weight9")
+	_analCutWeight.AnalCutWeight10 = field.NewFloat64(tableName, "anal_cut_weight10")
+	_analCutWeight.AnalCutWeight11 = field.NewFloat64(tableName, "anal_cut_weight11")
+	_analCutWeight.AnalCutWeight12 = field.NewFloat64(tableName, "anal_cut_weight12")
 
 	_analCutWeight.fillFieldMap()
 
@@ -58,18 +58,18 @@ type analCutWeight struct {
 	UpdatedAt       field.Time
 	DeletedAt       field.Field
 	PID             field.String
-	AnalCutWeight1  field.Float32
-	AnalCutWeight2  field.Float32
-	AnalCutWeight3  field.Float32
-	AnalCutWeight4  field.Float32
-	AnalCutWeight5  field.Float32
-	AnalCutWeight6  field.Float32
-	AnalCutWeight7  field.Float32
-	AnalCutWeight8  field.Float32
-	AnalCutWeight9  field.Float32
-	AnalCutWeight10 field.Float32
-	AnalCutWeight11 field.Float32
-	AnalCutWeight12 field.Float32
+	AnalCutWeight1  field.Float64
+	AnalCutWeight2  field.Float64
+	AnalCutWeight3  field.Float64
+	AnalCutWeight4  field.Float64
+	AnalCutWeight5  field.Float64
+	AnalCutWeight6  field.Float64
+	AnalCutWeight7  field.Float64
+	AnalCutWeight8  field.Float64
+	AnalCutWeight9  field.Float64
+	AnalCutWeight10 field.Float64
+	AnalCutWeight11 field.Float64
+	AnalCutWeight12 field.Float64
 
 	fieldMap map[string]field.Expr
 }
@@ -91,18 +91,18 @@ func (a *analCutWeight) updateTableName(table string) *analCutWeight {
 	a.UpdatedAt = field.NewTime(table, "updated_at")
 	a.DeletedAt = field.NewField(table, "deleted_at")
 	a.PID = field.NewString(table, "p_id")
-	a.AnalCutWeight1 = field.NewFloat32(table, "anal_cut_weight1")
-	a.AnalCutWeight2 = field.NewFloat32(table, "anal_cut_weight2")
-	a.AnalCutWeight3 = field.NewFloat32(table, "anal_cut_weight3")
-	a.AnalCutWeight4 = field.NewFloat32(table, "anal_cut_weight4")
-	a.AnalCutWeight5 = field.NewFloat32(table, "anal_cut_weight5")
-	a.AnalCutWeight6 = field.NewFloat32(table, "anal_cut_weight6")
-	a.AnalCutWeight7 = field.NewFloat32(table, "anal_cut_weight7")
-	a.AnalCutWeight8 = field.NewFloat32(table, "anal_cut_weight8")
-	a.AnalCutWeight9 = field.NewFloat32(table, "anal_cut_weight9")
-	a.AnalCutWeight10 = field.NewFloat32(table, "anal_cut_weight10")
-	a.AnalCutWeight11 = field.NewFloat32(table, "anal_cut_weight11")
-	a.AnalCutWeight12 = field.NewFloat32(table, "anal_cut_weight12")
+	a.AnalCutWeight1 = field.NewFloat64(table, "anal_cut_weight1")
+	a.AnalCutWeight2 = field.NewFloat64(table, "anal_cut_weight2")
+	a.AnalCutWeight3 = field.NewFloat64(table, "anal_cut_weight3")
+	a.AnalCutWeight4 = field.NewFloat64(table, "anal_cut_weight4")
+	a.AnalCutWeight5 = field.NewFloat64(table, "anal_cut_weight5")
+	a.AnalCutWeight6 = field.NewFloat64(table, "anal_cut_weight6")
+	a.AnalCutWeight7 = field.NewFloat64(table, "anal_cut_weight7")
+	a.AnalCutWeight8 = field.NewFloat64(table, "anal_cut_weight8")
+	a.AnalCutWeight9 = field.NewFloat64(table, "anal_cut_weight9")
+	a.AnalCutWeight10 = field.NewFloat64(table, "anal_cut_weight10")
+	a.AnalCutWeight11 = field.NewFloat64(table, "anal_cut_weight11")
+	a.AnalCutWeight12 = field.NewFloat64(table, "anal_cut_weight12")
 
 	a.fillFieldMap()
 

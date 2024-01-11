@@ -92,7 +92,7 @@ func AutoMigrate() {
 	}
 
 	err = DB.AutoMigrate(&slaughter.SlaughterProcedureMonitoringData{}, &slaughter.SlaughterDisinfectHotWaterTempMoni{}, &slaughter.SlaughterStun{}, &slaughter.BleedElectronic{}, &slaughter.PreSlaQuanPic{}, &slaughter.SlaughterAnalAfterSlaQuanCar{}, &slaughter.AnalMeatPhMoni{}, &slaughter.AnalCutWeight{},
-		&slaughter.ToNumGermMon{}, &slaughter.AirNumGermMon{}, &slaughter.PreSlaDietManage{}, &slaughter.PreSlaPicAndEn{},
+		&slaughter.ToNumGermMon{}, &slaughter.AirNumGermMon{}, &slaughter.PreSlaDietManage{}, &slaughter.PreSlaPicAndEn{}, &slaughter.SlaughterProcedureMonitoringData{},
 	)
 	//传感器数据
 	err = DB.AutoMigrate(&pasture.PastureFeedMycotoxins{}, &pasture.Afb1{}, &pasture.Don{}, &pasture.T2toxin{}, &pasture.T2VomZea{},

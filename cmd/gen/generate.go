@@ -21,7 +21,7 @@ import (
 )
 
 const DEFAULTDSN = "root:root@tcp(127.0.0.1:3306)/fsims?charset=utf8mb4&parseTime=True"
-const GLOBALCONFIGPATH = "conf/config.yaml"
+const GLOBALCONFIGPATH = "../../conf/config.yaml"
 
 func generateModelAndQueryWithDB(dsn string, dbName string) {
 	db, err := gorm.Open(mysql.Open(dsn))
@@ -63,9 +63,9 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 	g.ApplyBasic(&slaughter.PreCoolShop{}, &slaughter.SlaShop{}, &slaughter.DivShop{}, &slaughter.AcidShop{}, &slaughter.FroShop{}, &slaughter.PackShop{}, &slaughter.StaUni{}, &slaughter.SlaughterLightRecord{},
 		&slaughter.SlaughterWaterQualityMon{}, &slaughter.SlaughterWaterMicroIndex{}, &slaughter.OapGciSla{}, &slaughter.MicroIndexWaterMonSla{}, &slaughter.SlaughterToxinIndex{}, &slaughter.SlaughterWaterToxinIndex{})
 
-	//以牛为对象的数据，暂时不用
+	//以牛为对象的数据
 	g.ApplyBasic(&slaughter.SlaughterProcedureMonitoringData{}, &slaughter.SlaughterDisinfectHotWaterTempMoni{}, &slaughter.SlaughterStun{}, &slaughter.BleedElectronic{}, &slaughter.PreSlaQuanPic{}, &slaughter.SlaughterAnalAfterSlaQuanCar{}, &slaughter.AnalMeatPhMoni{}, &slaughter.AnalCutWeight{},
-		&slaughter.ToNumGermMon{}, &slaughter.AirNumGermMon{})
+		&slaughter.ToNumGermMon{}, &slaughter.AirNumGermMon{}, &slaughter.SlaughterProcedureMonitoringData{})
 
 	g.ApplyBasic(
 		&pasture.PastureProcedure{}, &pasture.PastureWater{}, &pasture.PastureFodder{}, &pasture.PastureSoil{}, &pasture.PastureFloorBedding{}, &pasture.PastureAir{},

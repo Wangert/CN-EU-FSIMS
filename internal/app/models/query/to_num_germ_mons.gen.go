@@ -30,7 +30,7 @@ func newToNumGermMon(db *gorm.DB, opts ...gen.DOOption) toNumGermMon {
 	_toNumGermMon.CreatedAt = field.NewTime(tableName, "created_at")
 	_toNumGermMon.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_toNumGermMon.DeletedAt = field.NewField(tableName, "deleted_at")
-	_toNumGermMon.SlaughterProcedureMonitoringDataID = field.NewString(tableName, "slaughter_procedure_monitoring_data_id")
+	_toNumGermMon.SlaughterProcedureMonitoringDataID = field.NewUint(tableName, "slaughter_procedure_monitoring_data_id")
 	_toNumGermMon.ToNumGermMon1 = field.NewFloat64(tableName, "to_num_germ_mon1")
 	_toNumGermMon.ToNumGermMon2 = field.NewFloat64(tableName, "to_num_germ_mon2")
 	_toNumGermMon.ToNumGermMon3 = field.NewFloat64(tableName, "to_num_germ_mon3")
@@ -53,7 +53,7 @@ type toNumGermMon struct {
 	CreatedAt                          field.Time
 	UpdatedAt                          field.Time
 	DeletedAt                          field.Field
-	SlaughterProcedureMonitoringDataID field.String
+	SlaughterProcedureMonitoringDataID field.Uint
 	ToNumGermMon1                      field.Float64
 	ToNumGermMon2                      field.Float64
 	ToNumGermMon3                      field.Float64
@@ -82,7 +82,7 @@ func (t *toNumGermMon) updateTableName(table string) *toNumGermMon {
 	t.CreatedAt = field.NewTime(table, "created_at")
 	t.UpdatedAt = field.NewTime(table, "updated_at")
 	t.DeletedAt = field.NewField(table, "deleted_at")
-	t.SlaughterProcedureMonitoringDataID = field.NewString(table, "slaughter_procedure_monitoring_data_id")
+	t.SlaughterProcedureMonitoringDataID = field.NewUint(table, "slaughter_procedure_monitoring_data_id")
 	t.ToNumGermMon1 = field.NewFloat64(table, "to_num_germ_mon1")
 	t.ToNumGermMon2 = field.NewFloat64(table, "to_num_germ_mon2")
 	t.ToNumGermMon3 = field.NewFloat64(table, "to_num_germ_mon3")
