@@ -190,3 +190,28 @@ func JudgeHarmForSlaughterWaterQuality(record *slaughter.SlaughterWaterQualityMo
 
 	return abnormalList, len(abnormalList), nil
 }
+
+// 判断屠宰过程危害
+func JudgeHarmForSlaughterProcedure(record *slaughter.SlaughterProcedureMonitoringData) ([]string, int, error) {
+	indexMap := map[string]interface{}{}
+	recordMap, err := utils.StructToMap(record)
+	if err != nil {
+		return nil, 0, err
+	}
+	indexMap = utils.FlattenMap(recordMap)
+
+	abnormalList := make([]string, 0)
+	for k, v := range SlaughterProcedureSensorDataUpperBounds {
+		if v < indexMap[k].(float64) {
+			abnormalList = append(abnormalList, k)
+		}
+	}
+
+	for k, v := range SlaughterProcedureSensorDataLowerBounds {
+		if v > indexMap[k].(float64) {
+			abnormalList = append(abnormalList, k)
+		}
+	}
+
+	return abnormalList, len(abnormalList), nil
+}

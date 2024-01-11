@@ -11,7 +11,7 @@ type PackageBatch struct {
 	BatchNumber   string     `gorm:"not null; unique; type:varchar(256)" json:"batch_number"`
 	HouseNumber   string     `gorm:"not null; type:varchar(256)" json:"house_number"`
 	State         int        `gorm:"not null" json:"state"`
-	PID           string     `gorm:"not null; type:varchar(256)" json:"pid"`
+	PID           string     `gorm:"not null; unique; type:varchar(256)" json:"pid"`
 	Worker        string     `gorm:"not null; type:varchar(100)" json:"worker"`
 	StartTime     *time.Time `json:"start_time"`
 	EndTime       *time.Time `json:"end_time"`

@@ -357,11 +357,14 @@ func EndSlaughter(c *gin.Context) {
 		return
 	}
 	//glog.Info("test :", r)
-	checkcode, productsNum, err := service.EndSlaughter(&r)
+	checkcode, productsNum, pid, err := service.EndSlaughter(&r)
 	if err != nil {
 		response.MakeFail(c, http.StatusBadRequest, "end slaughter error!")
 		return
 	}
+
+	// 监测屠宰过程的数据
+	go service.SlaughterProcedureDataMonitoring(pid)
 
 	res := response.ResEndSlaughter{
 		Checkcode:   checkcode,

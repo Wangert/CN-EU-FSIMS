@@ -175,6 +175,60 @@ func NewAllTimedTasks() []TimedTask {
 	return tts
 }
 
+// 屠宰场过程监测
+func SlaughterProcedureDataMonitoring(pid string) {
+	glog.Infoln("Slaughter Procedure Data Monitoring!")
+	f := query.Q.SlaughterProcedureMonitoringData
+	record, err := f.WithContext(context.Background()).Where(f.PID.Eq(pid)).
+		Preload(f.SlaughterStun).Preload(f.BleedElectronic).Preload(f.AnalMeatPhMoni).First()
+	if err != nil {
+		glog.Errorln(err)
+	}
+
+	// 识别危害指标
+	abnormalList, abnormalCount, err := analysis.JudgeHarmForSlaughterProcedure(record)
+	if err != nil {
+		glog.Errorln(err)
+	}
+
+	riskLevel := analysis.RiskLevel(abnormalCount)
+
+	if riskLevel != 1 {
+		// 获取影响的SlaughterBatch
+		b := query.Q.SlaughterBatch
+		batch, err := b.WithContext(context.Background()).Where(b.PID.Eq(pid)).First()
+		if err != nil {
+			glog.Errorln(err)
+		}
+
+		// 获取接收人
+		u := query.Q.FSIMSUser
+		users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
+		if err != nil {
+			glog.Errorln(err)
+		}
+
+		// 创建事件
+		event := Event{
+			Source:              batch.HouseNumber,
+			Content:             SLAUGHTER_ABNORMAL_PROCEDURE_CONTENT,
+			EventTime:           *batch.EndTime,
+			EventType:           1,
+			AffectedBatchNumber: batch.BatchNumber,
+			Proposal:            utils.StrArrToStr(abnormalList),
+			RiskLevel:           riskLevel,
+		}
+
+		// 发送通知
+		for _, user := range users {
+			err = PushNotification(user.UUID, &event)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		}
+	}
+}
+
 // 屠宰场水质监测
 func SlaughterWaterQualityMonitoring(currentTime time.Time) error {
 	m := query.Q.MonitoringTimeRecord
