@@ -1,6 +1,7 @@
 package service
 
 import (
+	"CN-EU-FSIMS/fabric"
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/models/product"
 	"CN-EU-FSIMS/internal/app/models/query"
@@ -319,8 +320,7 @@ func QuerySlaughterWaterQualityData(r *request.ReqSlaughterSensorData) ([]slaugh
 	q := query.Q.SlaughterWaterQualityMon
 	results, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(r.HouseNumber)).
 		Where(q.TimeRecordAt.Between(startTime, endTime)).
-		Preload(q.SlaughterWaterMicroIndex).Preload(q.OapGciSla).
-		Preload(q.MicroIndexWaterMonSla).Preload(q.ToxinIndexSla).
+		Preload(q.SlaughterWaterMicroIndex).Preload(q.OapGciSla).Preload(q.ToxinIndexSla).
 		Preload(q.ToxinIndexSla.SlaughterWaterToxinIndex).Find()
 	if err != nil {
 		return nil, 0, err
@@ -375,13 +375,6 @@ func UploadSlaughterWaterQualityData(r *request.ReqUploadSlaughterWaterQualityDa
 			OapGciSla19:                r.OapGciSla.OapGciSla19,
 			OapGciSla20:                r.OapGciSla.OapGciSla20,
 			OapGciSla21:                r.OapGciSla.OapGciSla21,
-		},
-		MicroIndexWaterMonSla: slaughter.MicroIndexWaterMonSla{
-			SlaughterWaterQualityMonID: nil,
-			MicroIndexWaterMonSla1:     r.MicroIndexWaterMonSla.MicroIndexWaterMonSla1,
-			MicroIndexWaterMonSla2:     r.MicroIndexWaterMonSla.MicroIndexWaterMonSla2,
-			MicroIndexWaterMonSla3:     r.MicroIndexWaterMonSla.MicroIndexWaterMonSla3,
-			MicroIndexWaterMonSla4:     r.MicroIndexWaterMonSla.MicroIndexWaterMonSla4,
 		},
 		ToxinIndexSla: slaughter.SlaughterToxinIndex{
 			SlaughterWaterQualityMonID: nil,
