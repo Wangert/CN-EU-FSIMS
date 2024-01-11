@@ -8,6 +8,7 @@ type ResUsers struct {
 }
 
 type ResLogin struct {
-	UUID  string `json:"uuid"`
-	Token string `json:"token"`
+	UUID     string `json:"uuid"`
+	Token    string `json:"token"`
+	UserType int    `json:"user_type"`
 }
