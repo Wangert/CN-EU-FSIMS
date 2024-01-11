@@ -22,7 +22,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.POST("register", handlers.Register)
 		user.POST("login", handlers.Login)
 
-		//user.GET("trashperday", handlers.)
+		user.GET("trashperday", handlers.)
 	}
 
 	// admin router group
@@ -161,13 +161,13 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		sop.GET("/query/sensor/acidshop", handlers.QueryAcidShopData)
 		sop.GET("/query/sensor/frozenshop", handlers.QueryFrozenShopData)
 
-		sop.POST("/upload/sensor/waterquality", handlers.UploadSlaughterWaterQualityData) //excel
+		sop.POST("/upload/sensor/waterquality", handlers.UploadSlaughterWaterQualityData)
 		sop.GET("/query/sensor/waterquality", handlers.QuerySlaughterWaterQualityData)
 
-		sop.POST("/upload/staffuniform", handlers.UploadSlaughterStaffUniformData) //excel
+		sop.POST("/upload/staffuniform", handlers.UploadSlaughterStaffUniformData)
 		sop.POST("/upload/light", handlers.UploadSlaughterLightRecord)
 		sop.GET("/query/staffuniform", handlers.QuerySlaughterStaffUniformData)
-		//sop.GET("/query/staffuniform", handlers.QuerySlaughterLightRecord)
+		sop.GET("/query/staffuniform", handlers.QuerySlaughterLightRecord)
 
 		pop.POST("/upload/slaughterwasteresidue", handlers.UploadSlaughterWasteResiduePerDay)
 		pop.POST("/upload/slaughterwasteodor", handlers.UploadSlaughterOdorPollutantsPerDay)

@@ -20,11 +20,7 @@ func QueryTrashPerDay(c *gin.Context) {
 		response.MakeFail(c, http.StatusNotAcceptable, "query trash failure!")
 		return
 	}
-
-	//查询垃圾处理信息
-	glog.Info("query trash disposal info")
-	//res, err := service.
-
+	
 }
 func Register(c *gin.Context) {
 	glog.Info("################## FSIMS User Register ##################")
@@ -93,7 +89,7 @@ func Login(c *gin.Context) {
 	}
 
 	reqPwdHash := crypto.CalculateSHA256(reqLogin.Password, service.PASSWORD_SALT)
-	uuid, pwdHash, usertype, err := service.QueryFsimsUserUuidAndPwdHash(reqLogin.Account)
+	uuid, pwdHash, err := service.QueryFsimsUserUuidAndPwdHash(reqLogin.Account)
 	if err != nil {
 		glog.Errorln("query fsims password hash error!")
 		response.MakeFail(c, http.StatusBadRequest, err.Error())
@@ -117,17 +113,16 @@ func Login(c *gin.Context) {
 
 	glog.Infoln(reqLogin.Account, " login successful!")
 	glog.Infoln("token:", token)
-	glog.Infoln("type", usertype)
+
 	resLogin := response.ResLogin{
-		UUID:     uuid,
-		Token:    token,
-		UserType: usertype,
+		UUID:  uuid,
+		Token: token,
 	}
 	response.MakeSuccess(c, http.StatusOK, resLogin)
 }
 
 func checkLoginParams(reqLogin *request.ReqLogin) bool {
-	if reqLogin.Account == "" || reqLogin.Password == "" {
+	if reqLogin.Account == "" || reqLogin.Password == "" || reqLogin.Type == 0 {
 		glog.Errorln("Missing login parameters")
 		return false
 	}
