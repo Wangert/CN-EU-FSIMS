@@ -1,4 +1,3 @@
-
 name: fsims-org1
 version: 1.0.0
 client:
@@ -10,55 +9,55 @@ client:
 organizations:
   Org1:
     mspid: Org1MSP
-    cryptoPath: ../conf/fabric_organizations/peerOrganizations/org1/users/{userName}@org1/msp
+    cryptoPath: conf/fabric_organizations/peerOrganizations/org1/users/{userName}@org1/msp
     peers:
-    - peer0.org1
+      - peer0.org1
     certificateAuthorities:
-    - ca.org1
+      - ca.org1
     users:
       Admin:
-#        key:
-#          path: /usr/local/src/fabric-network-v1/organizations/peerOrganizations/org1/users/Admin@org1/msp/keystore/c021c3289f87c2dc6fbe3e9320102eb395d32807d2792a6bdba8c370b076c360_sk
+        #        key:
+        #          path: /usr/local/src/fabric-network-v1/organizations/peerOrganizations/org1/users/Admin@org1/msp/keystore/c021c3289f87c2dc6fbe3e9320102eb395d32807d2792a6bdba8c370b076c360_sk
         cert:
-          path: ../conf/fabric_organizations/peerOrganizations/org1/users/Admin@org1/msp/signcerts/cert.pem
+          path: conf/fabric_organizations/peerOrganizations/org1/users/Admin@org1/msp/signcerts/cert.pem
 
   Org2:
     mspid: Org2MSP
-    cryptoPath: ../conf/fabric_organizations/peerOrganizations/org2/users/{userName}@org2/msp
+    cryptoPath: conf/fabric_organizations/peerOrganizations/org2/users/{userName}@org2/msp
 
     peers:
-    - peer0.org2
-    - peer1.org2
+      - peer0.org2
+      - peer1.org2
     certificateAuthorities:
-    - ca.org2
+      - ca.org2
     users:
       Admin:
-#        key:
-#          path: /usr/local/src/fabric-network-v1/organizations/peerOrganizations/org2/users/Admin@org2/msp/keystore/b52130a0811453ed847249c8b3c2656bea5aec367a0c739200fe7292f068baca_sk
+        #        key:
+        #          path: /usr/local/src/fabric-network-v1/organizations/peerOrganizations/org2/users/Admin@org2/msp/keystore/b52130a0811453ed847249c8b3c2656bea5aec367a0c739200fe7292f068baca_sk
         cert:
-          path: ../conf/fabric_organizations/peerOrganizations/org2/users/Admin@org2/msp/signcerts/cert.pem
+          path: conf/fabric_organizations/peerOrganizations/org2/users/Admin@org2/msp/signcerts/cert.pem
 
   Orderer:
     mspid: OrdererMSP
-    cryptoPath: ../conf/fabric_organizations/ordererOrganizations/orderer/msp
+    cryptoPath: conf/fabric_organizations/ordererOrganizations/orderer/msp
     users:
       Admin:
         cert:
-          path: ../conf/fabric_organizations/ordererOrganizations/orderer/users/Admin@orderer/msp/signcerts/cert.pem
+          path: conf/fabric_organizations/ordererOrganizations/orderer/users/Admin@orderer/msp/signcerts/cert.pem
 peers:
   peer0.org1:
     url: grpcs://peer0.org1:7051
     tlsCACerts:
-      path: ../conf/fabric_organizations/peerOrganizations/org1/peers/peer0.org1/tls/ca.crt
-          
+      path: conf/fabric_organizations/peerOrganizations/org1/peers/peer0.org1/tls/ca.crt
+
     grpcOptions:
       ssl-target-name-override: peer0.org1
       hostnameOverride: peer0.org1
   peer0.org2:
     url: grpcs://peer0.org2:7051
     tlsCACerts:
-      path: ../conf/fabric_organizations/peerOrganizations/org2/peers/peer0.org2/tls/ca.crt
-          
+      path: conf/fabric_organizations/peerOrganizations/org2/peers/peer0.org2/tls/ca.crt
+
     grpcOptions:
       ssl-target-name-override: peer0.org2
       hostnameOverride: peer0.org2
@@ -67,8 +66,8 @@ certificateAuthorities:
     url: grpcs://caOrg1:7053
     caName: ca-org1
     tlsCACerts:
-      path: ../conf/fabric_organizations/peerOrganizations/org1/msp/cacerts/localhost-7053.pem
-         
+      path: conf/fabric_organizations/peerOrganizations/org1/msp/cacerts/localhost-7053.pem
+
     httpOptions:
       verify: false
 
@@ -76,37 +75,37 @@ channels:
   # name of the channel
   # name of the channel
   fsims-channel:
-  # Required. list of orderers designated by the application to use for transactions on this
-  # channel. This list can be a result of access control ("org1" can only access "ordererA"), or
-  # operational decisions to share loads from applications among the orderers.  The values must
-  # be "names" of orgs defined under "organizations/peers"
-  # deprecated: not recommended, to override any orderer configuration items, entity matchers should be used.
-  # orderers:
-  #  - orderer.example.com
-  # Required. list of peers from participating orgs
+    # Required. list of orderers designated by the application to use for transactions on this
+    # channel. This list can be a result of access control ("org1" can only access "ordererA"), or
+    # operational decisions to share loads from applications among the orderers.  The values must
+    # be "names" of orgs defined under "organizations/peers"
+    # deprecated: not recommended, to override any orderer configuration items, entity matchers should be used.
+    # orderers:
+    #  - orderer.example.com
+    # Required. list of peers from participating orgs
     peers:
       peer0.org1:
-        # [Optional]. will this peer be sent transaction proposals for endorsement? The peer must
-        # have the chaincode installed. The app can also use this property to decide which peers
-        # to send the chaincode install request. Default: true
-        # endorsingPeer:true
-        # [Optional]. will this peer be sent query proposals? The peer must have the chaincode
-        # installed. The app can also use this property to decide which peers to send the
-        # chaincode install request. Default: true
-        # chaincodeQuery:true
-        # [Optional]. will this peer be sent query proposals that do not require chaincodes, like
-        # queryBlock(), queryTransaction(), etc. Default: true
-        # ledgerQuery:true
-        # # [Optional]. will this peer be the target of the SDK's listener registration? All peers can
-        # # produce events but the app typically only needs to connect to one to listen to events.
-        # # Default: true
-        # eventSource:true
-        #      peer1.org1.example.com:
-        #        endorsingPeer: true
-        #        chaincodeQuery: true
-        #        ledgerQuery: true
-        #        eventSource: true
-      
+      # [Optional]. will this peer be sent transaction proposals for endorsement? The peer must
+      # have the chaincode installed. The app can also use this property to decide which peers
+      # to send the chaincode install request. Default: true
+      # endorsingPeer:true
+      # [Optional]. will this peer be sent query proposals? The peer must have the chaincode
+      # installed. The app can also use this property to decide which peers to send the
+      # chaincode install request. Default: true
+      # chaincodeQuery:true
+      # [Optional]. will this peer be sent query proposals that do not require chaincodes, like
+      # queryBlock(), queryTransaction(), etc. Default: true
+      # ledgerQuery:true
+      # # [Optional]. will this peer be the target of the SDK's listener registration? All peers can
+      # # produce events but the app typically only needs to connect to one to listen to events.
+      # # Default: true
+      # eventSource:true
+      #      peer1.org1.example.com:
+      #        endorsingPeer: true
+      #        chaincodeQuery: true
+      #        ledgerQuery: true
+      #        eventSource: true
+
     # policies:
     #   #[Optional] options for retrieving channel configuration blocks
     #   queryChannelConfig:
