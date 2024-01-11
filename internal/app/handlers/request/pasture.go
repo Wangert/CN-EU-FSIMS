@@ -34,7 +34,7 @@ type ReqSendToSlaughter struct {
 
 type ReqAddPastureFeedHeavyMetal struct {
 	HouseNumber string                    `json:"house_number"`
-	RecordAt    int64                     `json:"record_at"`
+	RecordAt    int64                     `json:"recordAt"`
 	As          pasture.PastureFeedAsInfo `json:"as"` //砷元素
 	Pb          pasture.PastureFeedPbInfo `json:"pb"` //铅元素
 	Cd          pasture.PastureFeedCdInfo `json:"cd"` //镉元素
@@ -44,7 +44,7 @@ type ReqAddPastureFeedHeavyMetal struct {
 type ReqAddPastureFeedCass struct {
 	////饲料中真菌毒素、农兽药残留
 	HouseNumber string               `json:"house_number"`
-	RecordAt    int64                `json:"record_at"`
+	RecordAt    int64                `json:"recordAt"`
 	Afb1        pasture.Afb1Info     `json:"afb_1"`       //黄曲霉毒素B1
 	Don         pasture.DonInfo      `json:"don"`         //玉米赤霉烯酮
 	T2toxin     pasture.T2toxinInfo  `json:"t2Toxin"`     //脱氧雪腐镰刀菌烯醇（呕吐毒素）
@@ -124,7 +124,7 @@ type ReqAddPastureBasicEnvironment struct {
 type ReqAddPasturePaddingRequire struct {
 	TimeStamp       int64   `json:"time_stamp"`
 	HouseNumber     string  `gorm:"not null; type:varchar(256)" json:"house_number"`
-	PaddingRequire1 float32 `json:"padding_require_1"` //Hg（总汞）
+	PaddingRequire1 float32 `json:"padding_require_1"` //T-Hg（总汞）
 	PaddingRequire2 float32 `json:"padding_require_2"` //Pb（铅）
 	PaddingRequire3 float32 `json:"padding_require_3"` //Cr（铬）
 	PaddingRequire4 float32 `json:"padding_require_4"` //Cd（镉）
