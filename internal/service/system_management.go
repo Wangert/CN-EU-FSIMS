@@ -12,8 +12,9 @@ import (
 	"CN-EU-FSIMS/utils/crypto"
 	"context"
 	"errors"
-	"github.com/golang/glog"
 	"time"
+
+	"github.com/golang/glog"
 )
 
 const DEFAULT_PASSWORD = "FsimsOperator123456!"
@@ -240,6 +241,15 @@ func GetTransportVehicles() ([]coldchain.TransportVehicleInfo, error) {
 	return res, nil
 }
 
+func GetMall(num string) (string, error) {
+	mall, err := query.Mall.WithContext(context.Background()).Where(query.Mall.Number.Eq(num)).First()
+	if err != nil {
+		return "", err
+	}
+	mallName := mall.Name
+	return mallName, nil
+}
+
 func GetMalls() ([]sell.MallInfo, int64, error) {
 	malls, err := query.Mall.WithContext(context.Background()).Find()
 	if err != nil {
@@ -290,6 +300,16 @@ func AddFsimsOperator(o *request.ReqAddOperator) (string, error) {
 	}
 
 	return DEFAULT_PASSWORD, nil
+}
+
+func GetUserHouse(uuid string) (string, string, error) {
+	user, err := query.FSIMSUser.WithContext(context.Background()).Where(query.FSIMSUser.UUID.Eq(uuid)).First()
+	if err != nil {
+		return "", "", err
+	}
+	house := user.Company
+	housenumber := user.HouseNumber
+	return house, housenumber, nil
 }
 
 func AddPasture(p *request.ReqAddPasture) error {

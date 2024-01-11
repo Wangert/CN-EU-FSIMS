@@ -30,9 +30,10 @@ func newAirNumGermMon(db *gorm.DB, opts ...gen.DOOption) airNumGermMon {
 	_airNumGermMon.CreatedAt = field.NewTime(tableName, "created_at")
 	_airNumGermMon.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_airNumGermMon.DeletedAt = field.NewField(tableName, "deleted_at")
-	_airNumGermMon.AirNumGermMon1 = field.NewFloat32(tableName, "air_num_germ_mon1")
-	_airNumGermMon.AirNumGermMon2 = field.NewFloat32(tableName, "air_num_germ_mon2")
-	_airNumGermMon.AirNumGermMon3 = field.NewFloat32(tableName, "air_num_germ_mon3")
+	_airNumGermMon.PID = field.NewString(tableName, "p_id")
+	_airNumGermMon.AirNumGermMon1 = field.NewFloat64(tableName, "air_num_germ_mon1")
+	_airNumGermMon.AirNumGermMon2 = field.NewFloat64(tableName, "air_num_germ_mon2")
+	_airNumGermMon.AirNumGermMon3 = field.NewFloat64(tableName, "air_num_germ_mon3")
 
 	_airNumGermMon.fillFieldMap()
 
@@ -47,9 +48,10 @@ type airNumGermMon struct {
 	CreatedAt      field.Time
 	UpdatedAt      field.Time
 	DeletedAt      field.Field
-	AirNumGermMon1 field.Float32
-	AirNumGermMon2 field.Float32
-	AirNumGermMon3 field.Float32
+	PID            field.String
+	AirNumGermMon1 field.Float64
+	AirNumGermMon2 field.Float64
+	AirNumGermMon3 field.Float64
 
 	fieldMap map[string]field.Expr
 }
@@ -70,9 +72,10 @@ func (a *airNumGermMon) updateTableName(table string) *airNumGermMon {
 	a.CreatedAt = field.NewTime(table, "created_at")
 	a.UpdatedAt = field.NewTime(table, "updated_at")
 	a.DeletedAt = field.NewField(table, "deleted_at")
-	a.AirNumGermMon1 = field.NewFloat32(table, "air_num_germ_mon1")
-	a.AirNumGermMon2 = field.NewFloat32(table, "air_num_germ_mon2")
-	a.AirNumGermMon3 = field.NewFloat32(table, "air_num_germ_mon3")
+	a.PID = field.NewString(table, "p_id")
+	a.AirNumGermMon1 = field.NewFloat64(table, "air_num_germ_mon1")
+	a.AirNumGermMon2 = field.NewFloat64(table, "air_num_germ_mon2")
+	a.AirNumGermMon3 = field.NewFloat64(table, "air_num_germ_mon3")
 
 	a.fillFieldMap()
 
@@ -101,11 +104,12 @@ func (a *airNumGermMon) GetFieldByName(fieldName string) (field.OrderExpr, bool)
 }
 
 func (a *airNumGermMon) fillFieldMap() {
-	a.fieldMap = make(map[string]field.Expr, 7)
+	a.fieldMap = make(map[string]field.Expr, 8)
 	a.fieldMap["id"] = a.ID
 	a.fieldMap["created_at"] = a.CreatedAt
 	a.fieldMap["updated_at"] = a.UpdatedAt
 	a.fieldMap["deleted_at"] = a.DeletedAt
+	a.fieldMap["p_id"] = a.PID
 	a.fieldMap["air_num_germ_mon1"] = a.AirNumGermMon1
 	a.fieldMap["air_num_germ_mon2"] = a.AirNumGermMon2
 	a.fieldMap["air_num_germ_mon3"] = a.AirNumGermMon3

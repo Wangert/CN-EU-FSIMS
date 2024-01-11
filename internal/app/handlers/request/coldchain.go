@@ -2,7 +2,7 @@ package request
 
 type ReqStartTransport struct {
 	BatchNumber string `json:"batch_number" form:"batch_number"`
-	Operator    string `json:"operator" form:"Operator"`
+	Operator    string `json:"operator" form:"operator"`
 }
 
 type ReqEndTransport struct {

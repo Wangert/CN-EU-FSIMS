@@ -27,6 +27,23 @@ func QueryBlockByHeight(c *gin.Context) {
 	return
 }
 
+func QueryBlockByHash(c *gin.Context) {
+	glog.Info("################## QueryBlockByHash ##################")
+	hash := c.Query("hash")
+
+	block, err := fabric.QueryBlockByHash(hash)
+
+	if err != nil {
+		glog.Errorln("query block error!")
+		response.MakeFail(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	glog.Info("query block successful")
+	response.MakeSuccess(c, http.StatusOK, block)
+	return
+}
+
 func GetLastestBlock(c *gin.Context) {
 	glog.Info("################## GetLastestBlock ##################")
 

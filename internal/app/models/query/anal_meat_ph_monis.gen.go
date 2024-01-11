@@ -30,11 +30,12 @@ func newAnalMeatPhMoni(db *gorm.DB, opts ...gen.DOOption) analMeatPhMoni {
 	_analMeatPhMoni.CreatedAt = field.NewTime(tableName, "created_at")
 	_analMeatPhMoni.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_analMeatPhMoni.DeletedAt = field.NewField(tableName, "deleted_at")
-	_analMeatPhMoni.AnalMeatPhMoni1 = field.NewFloat32(tableName, "anal_meat_ph_moni1")
-	_analMeatPhMoni.AnalMeatPhMoni2 = field.NewFloat32(tableName, "anal_meat_ph_moni2")
-	_analMeatPhMoni.AnalMeatPhMoni3 = field.NewFloat32(tableName, "anal_meat_ph_moni3")
-	_analMeatPhMoni.AnalMeatPhMoni4 = field.NewFloat32(tableName, "anal_meat_ph_moni4")
-	_analMeatPhMoni.AnalMeatPhMoni5 = field.NewFloat32(tableName, "anal_meat_ph_moni5")
+	_analMeatPhMoni.SlaughterProcedureMonitoringDataID = field.NewString(tableName, "slaughter_procedure_monitoring_data_id")
+	_analMeatPhMoni.AnalMeatPhMoni1 = field.NewFloat64(tableName, "anal_meat_ph_moni1")
+	_analMeatPhMoni.AnalMeatPhMoni2 = field.NewFloat64(tableName, "anal_meat_ph_moni2")
+	_analMeatPhMoni.AnalMeatPhMoni3 = field.NewFloat64(tableName, "anal_meat_ph_moni3")
+	_analMeatPhMoni.AnalMeatPhMoni4 = field.NewFloat64(tableName, "anal_meat_ph_moni4")
+	_analMeatPhMoni.AnalMeatPhMoni5 = field.NewFloat64(tableName, "anal_meat_ph_moni5")
 
 	_analMeatPhMoni.fillFieldMap()
 
@@ -44,16 +45,17 @@ func newAnalMeatPhMoni(db *gorm.DB, opts ...gen.DOOption) analMeatPhMoni {
 type analMeatPhMoni struct {
 	analMeatPhMoniDo analMeatPhMoniDo
 
-	ALL             field.Asterisk
-	ID              field.Uint
-	CreatedAt       field.Time
-	UpdatedAt       field.Time
-	DeletedAt       field.Field
-	AnalMeatPhMoni1 field.Float32
-	AnalMeatPhMoni2 field.Float32
-	AnalMeatPhMoni3 field.Float32
-	AnalMeatPhMoni4 field.Float32
-	AnalMeatPhMoni5 field.Float32
+	ALL                                field.Asterisk
+	ID                                 field.Uint
+	CreatedAt                          field.Time
+	UpdatedAt                          field.Time
+	DeletedAt                          field.Field
+	SlaughterProcedureMonitoringDataID field.String
+	AnalMeatPhMoni1                    field.Float64
+	AnalMeatPhMoni2                    field.Float64
+	AnalMeatPhMoni3                    field.Float64
+	AnalMeatPhMoni4                    field.Float64
+	AnalMeatPhMoni5                    field.Float64
 
 	fieldMap map[string]field.Expr
 }
@@ -74,11 +76,12 @@ func (a *analMeatPhMoni) updateTableName(table string) *analMeatPhMoni {
 	a.CreatedAt = field.NewTime(table, "created_at")
 	a.UpdatedAt = field.NewTime(table, "updated_at")
 	a.DeletedAt = field.NewField(table, "deleted_at")
-	a.AnalMeatPhMoni1 = field.NewFloat32(table, "anal_meat_ph_moni1")
-	a.AnalMeatPhMoni2 = field.NewFloat32(table, "anal_meat_ph_moni2")
-	a.AnalMeatPhMoni3 = field.NewFloat32(table, "anal_meat_ph_moni3")
-	a.AnalMeatPhMoni4 = field.NewFloat32(table, "anal_meat_ph_moni4")
-	a.AnalMeatPhMoni5 = field.NewFloat32(table, "anal_meat_ph_moni5")
+	a.SlaughterProcedureMonitoringDataID = field.NewString(table, "slaughter_procedure_monitoring_data_id")
+	a.AnalMeatPhMoni1 = field.NewFloat64(table, "anal_meat_ph_moni1")
+	a.AnalMeatPhMoni2 = field.NewFloat64(table, "anal_meat_ph_moni2")
+	a.AnalMeatPhMoni3 = field.NewFloat64(table, "anal_meat_ph_moni3")
+	a.AnalMeatPhMoni4 = field.NewFloat64(table, "anal_meat_ph_moni4")
+	a.AnalMeatPhMoni5 = field.NewFloat64(table, "anal_meat_ph_moni5")
 
 	a.fillFieldMap()
 
@@ -107,11 +110,12 @@ func (a *analMeatPhMoni) GetFieldByName(fieldName string) (field.OrderExpr, bool
 }
 
 func (a *analMeatPhMoni) fillFieldMap() {
-	a.fieldMap = make(map[string]field.Expr, 9)
+	a.fieldMap = make(map[string]field.Expr, 10)
 	a.fieldMap["id"] = a.ID
 	a.fieldMap["created_at"] = a.CreatedAt
 	a.fieldMap["updated_at"] = a.UpdatedAt
 	a.fieldMap["deleted_at"] = a.DeletedAt
+	a.fieldMap["slaughter_procedure_monitoring_data_id"] = a.SlaughterProcedureMonitoringDataID
 	a.fieldMap["anal_meat_ph_moni1"] = a.AnalMeatPhMoni1
 	a.fieldMap["anal_meat_ph_moni2"] = a.AnalMeatPhMoni2
 	a.fieldMap["anal_meat_ph_moni3"] = a.AnalMeatPhMoni3
