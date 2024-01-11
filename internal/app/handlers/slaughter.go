@@ -4,10 +4,9 @@ import (
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/handlers/response"
 	"CN-EU-FSIMS/internal/service"
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
+	"net/http"
 )
 
 func UploadSlaughterWasteWaterPerDay(c *gin.Context) {
@@ -406,15 +405,12 @@ func EndSlaughter(c *gin.Context) {
 		response.MakeFail(c, http.StatusBadRequest, "end slaughter parameters error!")
 		return
 	}
-	//glog.Info("test :", r)
-	checkcode, productsNum, pid, err := service.EndSlaughter(&r)
+
+	checkcode, productsNum, err := service.EndSlaughter(&r)
 	if err != nil {
 		response.MakeFail(c, http.StatusBadRequest, "end slaughter error!")
 		return
 	}
-
-	// 监测屠宰过程的数据
-	go service.SlaughterProcedureDataMonitoring(pid)
 
 	res := response.ResEndSlaughter{
 		Checkcode:   checkcode,
@@ -453,11 +449,6 @@ func NewSlaughterProduct(c *gin.Context) {
 }
 
 func checkNewSlaughterProductParams(r *request.ReqNewSlaughterProduct) bool {
-	glog.Info(r.BatchNumber)
-	glog.Info(r.Worker)
-	glog.Info(r.HouseNumber)
-	glog.Info(r.Type)
-	glog.Info(r.Weight)
 	if r.BatchNumber == "" || r.Worker == "" || r.HouseNumber == "" || r.Type == 0 || r.Weight == 0 {
 		return false
 	}
@@ -494,8 +485,7 @@ func checkNewSlaughterBatchParams(r *request.ReqNewSlaughterBatch) bool {
 
 func ConfirmCowFromPasture(c *gin.Context) {
 	glog.Info("################## FSIMS Confirm Cow From Pasture ##################")
-	cowNum := c.PostForm("cow_number")
-	glog.Info("cowNum", cowNum)
+	cowNum := c.Query("cow_number")
 	err := service.ConfirmCowFromPasture(cowNum)
 	if err != nil {
 		response.MakeFail(c, http.StatusBadRequest, "confirm cow error!")
@@ -557,18 +547,4 @@ func GetSlaughterWarehouseRecords(c *gin.Context) {
 	}
 	response.MakeSuccess(c, http.StatusOK, res)
 	return
-}
-
-func GetSlaughterData(c *gin.Context) {
-	glog.Info("################## FSIMS Get Slaughter Data ##################")
-
-	batchNum := c.Query("batch_number")
-	sd, err := service.GetSlaughterData(batchNum)
-	if err != nil {
-		response.MakeFail(c, http.StatusBadRequest, "get slaughter data error!")
-		return
-	}
-	response.MakeSuccess(c, http.StatusOK, *sd)
-	return
-
 }

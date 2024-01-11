@@ -1,9 +1,7 @@
 package service
 
 import (
-	"CN-EU-FSIMS/fabric"
 	"CN-EU-FSIMS/internal/app/handlers/request"
-	"CN-EU-FSIMS/internal/app/handlers/response"
 	"CN-EU-FSIMS/internal/app/models/product"
 	"CN-EU-FSIMS/internal/app/models/query"
 	"CN-EU-FSIMS/internal/app/models/slaughter"
@@ -11,8 +9,6 @@ import (
 	"context"
 	"errors"
 	"time"
-
-	"github.com/golang/glog"
 )
 
 const (
@@ -40,6 +36,166 @@ const (
 
 	SLAUGHTER_PRODUCT_PREFIX = "SLAPRO-"
 )
+
+func UploadSlaughterWasteWaterPerDay(r *request.ReqSlaughterWasteWaterPerDay) error {
+	q := query.Q.TotalWasteWaterSlaughterPerDay
+	qall := query.Q.AllSlaughtersTrashDisposal
+	//根据t去搜索总表，若已创建表，则直接更新，否则创建
+	t := time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour)
+	ok, err := SlaughterAllTrashTimeExisted(t)
+	if !ok {
+		astp := slaughter.AllSlaughtersTrashDisposal{
+			TimeStamp:                       t,
+			OdorAllSlaughtersTrashDisposal1: 0,
+			OdorAllSlaughtersTrashDisposal2: 0,
+			OdorAllSlaughtersTrashDisposal3: 0,
+			OdorAllSlaughtersTrashDisposal4: 0,
+			ResidueSlaughtersTrashDisposal1: 0,
+			ResidueSlaughtersTrashDisposal2: 0,
+			ResidueSlaughtersTrashDisposal3: 0,
+			ResidueSlaughtersTrashDisposal4: 0,
+			WaterSlaughtersTrashDisposal1:   r.ReqSlaughterWasteWaterPerDay1,
+			WaterSlaughtersTrashDisposal2:   r.ReqSlaughterWasteWaterPerDay2,
+			WaterSlaughtersTrashDisposal3:   r.ReqSlaughterWasteWaterPerDay3,
+			WaterSlaughtersTrashDisposal4:   r.ReqSlaughterWasteWaterPerDay4,
+		}
+		err = qall.WithContext(context.Background()).Create(&astp)
+		if err != nil {
+			return err
+		}
+	}
+
+	ww := slaughter.TotalWasteWaterSlaughterPerDay{
+		TimeStamp:                       time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour),
+		HouseNumber:                     r.HouseNumber,
+		TotalWasteWaterSlaughterPerDay1: r.ReqSlaughterWasteWaterPerDay1,
+		TotalWasteWaterSlaughterPerDay2: r.ReqSlaughterWasteWaterPerDay2,
+		TotalWasteWaterSlaughterPerDay3: r.ReqSlaughterWasteWaterPerDay3,
+		TotalWasteWaterSlaughterPerDay4: r.ReqSlaughterWasteWaterPerDay4,
+	}
+	err = q.WithContext(context.Background()).Create(&ww)
+	if err != nil {
+		return err
+	}
+
+	//更新总表信息
+	result, err := qall.WithContext(context.Background()).UpdateSimple(qall.WaterSlaughtersTrashDisposal1.Add(r.ReqSlaughterWasteWaterPerDay1),
+		qall.WaterSlaughtersTrashDisposal2.Add(r.ReqSlaughterWasteWaterPerDay2), qall.WaterSlaughtersTrashDisposal3.Add(r.ReqSlaughterWasteWaterPerDay3),
+		qall.WaterSlaughtersTrashDisposal4.Add(r.ReqSlaughterWasteWaterPerDay4))
+	if err != nil {
+		return err
+	}
+	if result.RowsAffected == 0 {
+		return errors.New("No match was found!")
+	}
+	return nil
+}
+
+func UploadSlaughterWasteResiduePerDay(r *request.ReqSlaughterWasteResiduePerDay) error {
+	q := query.Q.TotalWasteResidueSlaughterPerDay
+	qall := query.Q.AllSlaughtersTrashDisposal
+	//根据t去搜索总表，若已创建表，则直接更新，否则创建
+	t := time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour)
+	ok, err := SlaughterAllTrashTimeExisted(t)
+	if !ok {
+		astp := slaughter.AllSlaughtersTrashDisposal{
+			TimeStamp:                       t,
+			OdorAllSlaughtersTrashDisposal1: 0,
+			OdorAllSlaughtersTrashDisposal2: 0,
+			OdorAllSlaughtersTrashDisposal3: 0,
+			OdorAllSlaughtersTrashDisposal4: 0,
+			ResidueSlaughtersTrashDisposal1: r.ReqSlaughterWasteResiduePerDay1,
+			ResidueSlaughtersTrashDisposal2: r.ReqSlaughterWasteResiduePerDay2,
+			ResidueSlaughtersTrashDisposal3: r.ReqSlaughterWasteResiduePerDay3,
+			ResidueSlaughtersTrashDisposal4: r.ReqSlaughterWasteResiduePerDay4,
+			WaterSlaughtersTrashDisposal1:   0,
+			WaterSlaughtersTrashDisposal2:   0,
+			WaterSlaughtersTrashDisposal3:   0,
+			WaterSlaughtersTrashDisposal4:   0,
+		}
+		err = qall.WithContext(context.Background()).Create(&astp)
+		if err != nil {
+			return err
+		}
+	}
+	wr := slaughter.TotalWasteResidueSlaughterPerDay{
+		TimeStamp:                         time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour),
+		HouseNumber:                       r.HouseNumber,
+		TotalWasteResidueSlaughterPerDay1: r.ReqSlaughterWasteResiduePerDay1,
+		TotalWasteResidueSlaughterPerDay2: r.ReqSlaughterWasteResiduePerDay2,
+		TotalWasteResidueSlaughterPerDay3: r.ReqSlaughterWasteResiduePerDay3,
+		TotalWasteResidueSlaughterPerDay4: r.ReqSlaughterWasteResiduePerDay4,
+	}
+	err = q.WithContext(context.Background()).Create(&wr)
+	if err != nil {
+		return err
+	}
+
+	//更新总表信息
+	result, err := qall.WithContext(context.Background()).Where(qall.TimeStamp.Eq(t)).UpdateSimple(qall.ResidueSlaughtersTrashDisposal1.Add(r.ReqSlaughterWasteResiduePerDay1),
+		qall.ResidueSlaughtersTrashDisposal2.Add(r.ReqSlaughterWasteResiduePerDay2), qall.ResidueSlaughtersTrashDisposal3.Add(r.ReqSlaughterWasteResiduePerDay3),
+		qall.ResidueSlaughtersTrashDisposal4.Add(r.ReqSlaughterWasteResiduePerDay4))
+	if err != nil {
+		return err
+	}
+	if result.RowsAffected == 0 {
+		return errors.New("No match was found!")
+	}
+	return nil
+}
+
+func UploadSlaughterOdorPollutantsPerDay(r *request.ReqSlaughterOdorPollutantsPerDay) error {
+	q := query.Q.TotalOdorPollutantsSlaughterPerDay
+	qall := query.Q.AllSlaughtersTrashDisposal
+	//根据t去搜索总表，若已创建表，则直接更新，否则创建
+	t := time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour)
+	ok, err := SlaughterAllTrashTimeExisted(t)
+	if !ok {
+		astp := slaughter.AllSlaughtersTrashDisposal{
+			TimeStamp:                       t,
+			OdorAllSlaughtersTrashDisposal1: r.ReqSlaughterOdorPollutantsPerDay1,
+			OdorAllSlaughtersTrashDisposal2: r.ReqSlaughterOdorPollutantsPerDay2,
+			OdorAllSlaughtersTrashDisposal3: r.ReqSlaughterOdorPollutantsPerDay3,
+			OdorAllSlaughtersTrashDisposal4: r.ReqSlaughterOdorPollutantsPerDay4,
+			ResidueSlaughtersTrashDisposal1: 0,
+			ResidueSlaughtersTrashDisposal2: 0,
+			ResidueSlaughtersTrashDisposal3: 0,
+			ResidueSlaughtersTrashDisposal4: 0,
+			WaterSlaughtersTrashDisposal1:   0,
+			WaterSlaughtersTrashDisposal2:   0,
+			WaterSlaughtersTrashDisposal3:   0,
+			WaterSlaughtersTrashDisposal4:   0,
+		}
+		err = qall.WithContext(context.Background()).Create(&astp)
+		if err != nil {
+			return err
+		}
+	}
+	op := slaughter.TotalOdorPollutantsSlaughterPerDay{
+		TimeStamp:                           time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour),
+		HouseNumber:                         r.HouseNumber,
+		TotalOdorPollutantsSlaughterPerDay1: r.ReqSlaughterOdorPollutantsPerDay1,
+		TotalOdorPollutantsSlaughterPerDay2: r.ReqSlaughterOdorPollutantsPerDay2,
+		TotalOdorPollutantsSlaughterPerDay3: r.ReqSlaughterOdorPollutantsPerDay3,
+		TotalOdorPollutantsSlaughterPerDay4: r.ReqSlaughterOdorPollutantsPerDay4,
+	}
+	err = q.WithContext(context.Background()).Create(&op)
+	if err != nil {
+		return err
+	}
+
+	//更新总表信息
+	result, err := qall.WithContext(context.Background()).Where(qall.TimeStamp.Eq(t)).UpdateSimple(qall.OdorAllSlaughtersTrashDisposal1.Add(r.ReqSlaughterOdorPollutantsPerDay1),
+		qall.OdorAllSlaughtersTrashDisposal2.Add(r.ReqSlaughterOdorPollutantsPerDay2), qall.OdorAllSlaughtersTrashDisposal3.Add(r.ReqSlaughterOdorPollutantsPerDay3),
+		qall.OdorAllSlaughtersTrashDisposal4.Add(r.ReqSlaughterOdorPollutantsPerDay4))
+	if err != nil {
+		return err
+	}
+	if result.RowsAffected == 0 {
+		return errors.New("No match was found!")
+	}
+	return nil
+}
 
 func UploadSlaughterStaffUniformData(r *request.ReqUploadStaffUniformData) error {
 	ok, err := SlaughterHouseIsExisted(r.HouseNumber)
@@ -164,7 +320,7 @@ func QuerySlaughterWaterQualityData(r *request.ReqSlaughterSensorData) ([]slaugh
 	results, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(r.HouseNumber)).
 		Where(q.TimeRecordAt.Between(startTime, endTime)).
 		Preload(q.SlaughterWaterMicroIndex).Preload(q.OapGciSla).
-		Preload(q.ToxinIndexSla).
+		Preload(q.MicroIndexWaterMonSla).Preload(q.ToxinIndexSla).
 		Preload(q.ToxinIndexSla.SlaughterWaterToxinIndex).Find()
 	if err != nil {
 		return nil, 0, err
@@ -219,6 +375,13 @@ func UploadSlaughterWaterQualityData(r *request.ReqUploadSlaughterWaterQualityDa
 			OapGciSla19:                r.OapGciSla.OapGciSla19,
 			OapGciSla20:                r.OapGciSla.OapGciSla20,
 			OapGciSla21:                r.OapGciSla.OapGciSla21,
+		},
+		MicroIndexWaterMonSla: slaughter.MicroIndexWaterMonSla{
+			SlaughterWaterQualityMonID: nil,
+			MicroIndexWaterMonSla1:     r.MicroIndexWaterMonSla.MicroIndexWaterMonSla1,
+			MicroIndexWaterMonSla2:     r.MicroIndexWaterMonSla.MicroIndexWaterMonSla2,
+			MicroIndexWaterMonSla3:     r.MicroIndexWaterMonSla.MicroIndexWaterMonSla3,
+			MicroIndexWaterMonSla4:     r.MicroIndexWaterMonSla.MicroIndexWaterMonSla4,
 		},
 		ToxinIndexSla: slaughter.SlaughterToxinIndex{
 			SlaughterWaterQualityMonID: nil,
@@ -689,7 +852,7 @@ func GetPidBySlaughterProductNumber(num string) (string, error) {
 	return sw.PID, nil
 }
 
-func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, string, error) {
+func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 	var err error
 	tx := query.Q.Begin()
 
@@ -699,18 +862,16 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, string, error) 
 		}
 	}()
 
-	endTime := time.Now()
-
 	// 读取PID和cow number
 	pid, cowNumber, err := GetPidAndCowNumBySlaughterBatchNumber(r.BatchNumber)
 	if err != nil {
-		return "", nil, "", err
+		return "", nil, err
 	}
 
 	// 获取slaughter products
 	products, err := GetSlaughterProductsByBatchNumber(r.BatchNumber)
 	if err != nil {
-		return "", nil, "", err
+		return "", nil, err
 	}
 
 	// 更新receive record状态
@@ -719,16 +880,16 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, string, error) 
 		Updates(map[string]interface{}{"state": SLAUGHTER_WAREHOUSE_REC_SLA})
 	if err != nil {
 		_ = tx.Rollback()
-		return "", nil, "", err
+		return "", nil, err
 	}
 
 	// 更新SlaughterBatch状态
 	_, err = tx.SlaughterBatch.WithContext(context.Background()).
 		Where(tx.SlaughterBatch.BatchNumber.Eq(r.BatchNumber)).
-		Updates(map[string]interface{}{"state": END_STATE_BATCH_SLA, "end_time": &endTime})
+		Updates(map[string]interface{}{"state": END_STATE_BATCH_SLA})
 	if err != nil {
 		_ = tx.Rollback()
-		return "", nil, "", err
+		return "", nil, err
 	}
 
 	// 写入仓库
@@ -754,7 +915,7 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, string, error) 
 	err = tx.SlaughterWarehouse.WithContext(context.Background()).Create(sws...)
 	if err != nil {
 		_ = tx.Rollback()
-		return "", nil, "", err
+		return "", nil, err
 	}
 
 	// 更新product状态
@@ -763,125 +924,10 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, string, error) 
 		Updates(map[string]interface{}{"state": WAREHOUSE_SLAPRO})
 	if err != nil {
 		_ = tx.Rollback()
-		return "", nil, "", err
+		return "", nil, err
 	}
 
-	monitoringData := slaughter.SlaughterProcedureMonitoringData{
-		PID: pid,
-		SlaughterDisinfectHotWaterTempMoni: slaughter.SlaughterDisinfectHotWaterTempMoni{
-			SlaughterProcedureMonitoringDataID:  nil,
-			SlaughterDisinfectHotWaterTempMoni1: r.SlaughterDisinfectHotWaterTempMoni1,
-			SlaughterDisinfectHotWaterTempMoni2: r.SlaughterDisinfectHotWaterTempMoni2,
-			SlaughterDisinfectHotWaterTempMoni3: r.SlaughterDisinfectHotWaterTempMoni3,
-			SlaughterDisinfectHotWaterTempMoni4: r.SlaughterDisinfectHotWaterTempMoni4,
-			SlaughterDisinfectHotWaterTempMoni5: r.SlaughterDisinfectHotWaterTempMoni5,
-			SlaughterDisinfectHotWaterTempMoni6: r.SlaughterDisinfectHotWaterTempMoni6,
-		},
-		SlaughterStun: slaughter.SlaughterStun{
-			SlaughterProcedureMonitoringDataID: nil,
-			Stun1:                              r.Stun1,
-			Stun2:                              r.Stun2,
-			Stun3:                              r.Stun3,
-		},
-		BleedElectronic: slaughter.BleedElectronic{
-			SlaughterProcedureMonitoringDataID: nil,
-			BleedElectronic1:                   r.BleedElectronic1,
-			BleedElectronic2:                   r.BleedElectronic2,
-			BleedElectronic3:                   r.BleedElectronic3,
-			BleedElectronic4:                   r.BleedElectronic4,
-			BleedElectronic5:                   r.BleedElectronic5,
-		},
-		AnalMeatPhMoni: slaughter.AnalMeatPhMoni{
-			SlaughterProcedureMonitoringDataID: nil,
-			AnalMeatPhMoni1:                    r.AnalMeatPhMoni1,
-			AnalMeatPhMoni2:                    r.AnalMeatPhMoni2,
-			AnalMeatPhMoni3:                    r.AnalMeatPhMoni3,
-			AnalMeatPhMoni4:                    r.AnalMeatPhMoni4,
-			AnalMeatPhMoni5:                    r.AnalMeatPhMoni5,
-		},
-		ToNumGermMon: slaughter.ToNumGermMon{
-			SlaughterProcedureMonitoringDataID: nil,
-			ToNumGermMon1:                      r.ToNumGermMon1,
-			ToNumGermMon2:                      r.ToNumGermMon2,
-			ToNumGermMon3:                      r.ToNumGermMon3,
-			ToNumGermMon4:                      r.ToNumGermMon4,
-			ToNumGermMon5:                      r.ToNumGermMon5,
-			ToNumGermMon6:                      r.ToNumGermMon6,
-			ToNumGermMon7:                      r.ToNumGermMon7,
-			ToNumGermMon8:                      r.ToNumGermMon8,
-		},
-	}
-
-	err = tx.SlaughterProcedureMonitoringData.WithContext(context.Background()).Create(&monitoringData)
-	if err != nil {
-		_ = tx.Rollback()
-		return "", nil, "", err
-	}
-
-	otherData1 := slaughter.PreSlaQuanPic{
-		PID:            pid,
-		PreSlaQuanPic1: r.PreSlaQuanPic1,
-		PreSlaQuanPic2: r.PreSlaQuanPic2,
-		PreSlaQuanPic3: r.PreSlaQuanPic3,
-		PreSlaQuanPic4: r.PreSlaQuanPic4,
-		PreSlaQuanPic5: r.PreSlaQuanPic4,
-		PreSlaQuanPic6: r.PreSlaQuanPic6,
-		PreSlaQuanPic7: r.PreSlaQuanPic7,
-		PreSlaQuanPic8: r.PreSlaQuanPic8,
-		PreSlaQuanPic9: r.PreSlaQuanPic9,
-	}
-	err = tx.PreSlaQuanPic.WithContext(context.Background()).Create(&otherData1)
-	if err != nil {
-		_ = tx.Rollback()
-		return "", nil, "", err
-	}
-
-	otherData2 := slaughter.SlaughterAnalAfterSlaQuanCar{
-		PID:                           pid,
-		SlaughterAnalAfterSlaQuanCar1: r.SlaughterAnalAfterSlaQuanCar1,
-		SlaughterAnalAfterSlaQuanCar2: r.SlaughterAnalAfterSlaQuanCar2,
-		SlaughterAnalAfterSlaQuanCar3: r.SlaughterAnalAfterSlaQuanCar3,
-		SlaughterAnalAfterSlaQuanCar4: r.SlaughterAnalAfterSlaQuanCar4,
-	}
-	err = tx.SlaughterAnalAfterSlaQuanCar.WithContext(context.Background()).Create(&otherData2)
-	if err != nil {
-		_ = tx.Rollback()
-		return "", nil, "", err
-	}
-
-	otherData3 := slaughter.AnalCutWeight{
-		PID:             pid,
-		AnalCutWeight1:  r.AnalCutWeight1,
-		AnalCutWeight2:  r.AnalCutWeight2,
-		AnalCutWeight3:  r.AnalCutWeight3,
-		AnalCutWeight4:  r.AnalCutWeight4,
-		AnalCutWeight5:  r.AnalCutWeight5,
-		AnalCutWeight6:  r.AnalCutWeight6,
-		AnalCutWeight7:  r.AnalCutWeight7,
-		AnalCutWeight8:  r.AnalCutWeight8,
-		AnalCutWeight9:  r.AnalCutWeight9,
-		AnalCutWeight10: r.AnalCutWeight10,
-		AnalCutWeight11: r.AnalCutWeight11,
-		AnalCutWeight12: r.AnalCutWeight12,
-	}
-	err = tx.AnalCutWeight.WithContext(context.Background()).Create(&otherData3)
-	if err != nil {
-		_ = tx.Rollback()
-		return "", nil, "", err
-	}
-
-	otherData4 := slaughter.AirNumGermMon{
-		PID:            pid,
-		AirNumGermMon1: r.AirNumGermMon1,
-		AirNumGermMon2: r.AirNumGermMon2,
-		AirNumGermMon3: r.AirNumGermMon3,
-	}
-	err = tx.AirNumGermMon.WithContext(context.Background()).Create(&otherData4)
-	if err != nil {
-		_ = tx.Rollback()
-		return "", nil, "", err
-	}
-
+	// 提交Procedure
 	data := slaughter.SlaughterProcedureData{
 		EnvirTemperature:      r.EnvirTemperature,
 		EnvirLighting:         r.EnvirLighting,
@@ -891,24 +937,19 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, string, error) 
 		KnifeDisinfectionTime: r.KnifeDisinfectionTime,
 	}
 
-	checkcode, phash, err := BasicCommitProcedureWithTx(tx, pid, &endTime, data)
+	checkcode, err := BasicCommitProcedureWithTx(tx, pid, data)
 	if err != nil {
 		_ = tx.Rollback()
-		return "", nil, "", err
-	}
-	_, err = fabric.UpdateProcedure(pid, phash)
-	if err != nil {
-		_ = tx.Rollback()
-		return "", nil, "", err
+		return "", nil, err
 	}
 
 	err = tx.Commit()
 	if err != nil {
 		_ = tx.Rollback()
-		return "", nil, "", err
+		return "", nil, err
 	}
 
-	return checkcode, productNums, pid, nil
+	return checkcode, productNums, nil
 }
 
 func GetSlaughterProductsByBatchNumber(num string) ([]*product.SlaughterProduct, error) {
@@ -977,8 +1018,6 @@ func NewSlaughterBatch(r *request.ReqNewSlaughterBatch) (string, error) {
 		}
 	}()
 
-	startTime := time.Now()
-
 	bNum := BATCH_NUMBER_PREFIX + GenerateNumber(r)
 
 	pp := NewProcedureParams{
@@ -987,7 +1026,7 @@ func NewSlaughterBatch(r *request.ReqNewSlaughterBatch) (string, error) {
 		PrePID:      r.PrePID,
 		BatchNumber: bNum,
 	}
-	procedure, err := NewProcedure(&pp, startTime)
+	procedure, err := NewProcedure(&pp)
 
 	sb := slaughter.SlaughterBatch{
 		BatchNumber: bNum,
@@ -996,7 +1035,6 @@ func NewSlaughterBatch(r *request.ReqNewSlaughterBatch) (string, error) {
 		PID:         procedure.PID,
 		Worker:      r.Worker,
 		CowNumber:   r.CowNumber,
-		StartTime:   &startTime,
 	}
 
 	err = tx.Procedure.WithContext(context.Background()).Create(&procedure)
@@ -1019,13 +1057,6 @@ func NewSlaughterBatch(r *request.ReqNewSlaughterBatch) (string, error) {
 		return "", err
 	}
 
-	//上链
-	_, err = fabric.UploadProcedure(procedure.PID, procedure.PrePID)
-	if err != nil {
-		_ = tx.Rollback()
-		return "", err
-	}
-
 	err = tx.Commit()
 	if err != nil {
 		_ = tx.Rollback()
@@ -1036,29 +1067,11 @@ func NewSlaughterBatch(r *request.ReqNewSlaughterBatch) (string, error) {
 }
 
 func ConfirmCowFromPasture(num string) error {
-	glog.Info("num:", num)
-	tx := query.Q.Begin()
-
-	defer func() {
-		if recover() != nil {
-			_ = tx.Rollback()
-		}
-	}()
-	//q := query.SlaughterReceiveRecord
-	_, err := tx.SlaughterReceiveRecord.WithContext(context.Background()).
-		Where(tx.SlaughterReceiveRecord.CowNumber.Eq(num)).
-		Updates(map[string]interface{}{"state": CONFIRM_STATE_REC_SLA})
+	q := query.SlaughterReceiveRecord
+	_, err := q.WithContext(context.Background()).
+		Where(q.CowNumber.Eq(num)).
+		Updates(map[string]interface{}{"state": CONFIRM_STATE_REC_SLA, "confirm_time": time.Now()})
 	if err != nil {
-		return err
-	}
-	//p := query.PastureWarehouse
-	_, err = tx.PastureWarehouse.WithContext(context.Background()).
-		Where(tx.PastureWarehouse.CowNumber.Eq(num)).
-		Updates(map[string]interface{}{"state": CONFIRM_STATE_PH})
-
-	err = tx.Commit()
-	if err != nil {
-		_ = tx.Rollback()
 		return err
 	}
 	return nil
@@ -1123,39 +1136,17 @@ func GetSlaughterWarehouseRecords(houseNum string) ([]warehouse.SlaughterWarehou
 	return records, int64(count), nil
 }
 
-func GetSlaughterData(batchNum string) (*response.ResSlaughterProcedureData, error) {
-	q := query.SlaughterBatch
-	data, err := q.WithContext(context.Background()).Where(q.BatchNumber.Eq(batchNum)).First()
-	pid := data.PID
+func SlaughterAllTrashTimeExisted(t time.Time) (bool, error) {
+	truncated := t.Truncate(24 * time.Hour)
+	q := query.Q.AllSlaughtersTrashDisposal
+	info, err := q.WithContext(context.Background()).Where(q.TimeStamp.Eq(truncated)).Find()
 	if err != nil {
-		return nil, err
+		return false, err
 	}
 
-	md := query.SlaughterProcedureMonitoringData
-	monitoringData, err := md.WithContext(context.Background()).Where(md.PID.Eq(pid)).
-		Preload(md.SlaughterDisinfectHotWaterTempMoni).Preload(md.SlaughterStun).
-		Preload(md.BleedElectronic).Preload(md.AnalMeatPhMoni).Preload(md.ToNumGermMon).First()
-	if err != nil {
-		return nil, err
+	if len(info) == 0 {
+		return false, errors.New("Garbage disposal information has not been recorded for this time in slaughter")
 	}
 
-	if err != nil {
-		return nil, err
-	}
-	otherData1, err := query.AnalCutWeight.WithContext(context.Background()).Where(query.AnalCutWeight.PID.Eq(pid)).First()
-	if err != nil {
-		return nil, err
-	}
-
-	otherData2, err := query.AirNumGermMon.WithContext(context.Background()).Where(query.AirNumGermMon.PID.Eq(pid)).First()
-	if err != nil {
-		return nil, err
-	}
-	resData := response.ResSlaughterProcedureData{
-		SlaughterProcedureMonitoringDataInfo: slaughter.ToSlaughterProcedureMonitoringDataInfo(monitoringData),
-		OtherData1:                           slaughter.ToAnalCutWeightInfo(otherData1),
-		OtherData2:                           slaughter.ToAirNumGermMonInfo(otherData2),
-	}
-
-	return &resData, nil
+	return true, nil
 }

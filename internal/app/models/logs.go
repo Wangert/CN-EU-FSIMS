@@ -1,9 +1,8 @@
 package models
 
 import (
-	"time"
-
 	"gorm.io/gorm"
+	"time"
 )
 
 type Log struct {

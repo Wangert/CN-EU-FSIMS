@@ -12,7 +12,6 @@ import (
 	"CN-EU-FSIMS/internal/app/models/warehouse"
 	"CN-EU-FSIMS/internal/config"
 	"fmt"
-
 	"github.com/golang/glog"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
@@ -66,7 +65,7 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 		&slaughter.TotalOdorPollutantsSlaughterPerDay{}, &slaughter.TotalWasteResidueSlaughterPerDay{}, &slaughter.AllSlaughtersTrashDisposal{}, &slaughter.TotalWasteWaterSlaughterPerDay{})
 
 	//以牛为对象的数据，暂时不用
-	g.ApplyBasic(&slaughter.SlaughterProcedureMonitoringData{}, &slaughter.SlaughterDisinfectHotWaterTempMoni{}, &slaughter.SlaughterStun{}, &slaughter.BleedElectronic{}, &slaughter.PreSlaQuanPic{}, &slaughter.SlaughterAnalAfterSlaQuanCar{}, &slaughter.AnalMeatPhMoni{}, &slaughter.AnalCutWeight{},
+	g.ApplyBasic(&slaughter.SlaughterDisinfectHotWaterTempMoni{}, &slaughter.SlaughterStun{}, &slaughter.BleedElectronic{}, &slaughter.PreSlaQuanPic{}, &slaughter.SlaughterAnalAfterSlaQuanCar{}, &slaughter.AnalMeatPhMoni{}, &slaughter.AnalCutWeight{},
 		&slaughter.ToNumGermMon{}, &slaughter.AirNumGermMon{})
 
 	g.ApplyBasic(

@@ -5,32 +5,32 @@ import (
 	"CN-EU-FSIMS/internal/app/middlewares"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang/glog"
 )
 
 func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	// use middlewares
 	e.Use(gin.Recovery(), gin.Logger())
 	e.Use(mw...)
-	glog.Info("已经load")
+
 	fsims := e.Group("/fsims")
 
 	fsims.GET("home", handlers.Welcome)
 
+	// user router group
 	user := fsims.Group("/user")
 	{
 		user.POST("register", handlers.Register)
 		user.POST("login", handlers.Login)
-		user.GET("blockchain/blockByHeight", handlers.QueryBlockByHeight)
-		user.GET("blockchain/blockByHash", handlers.QueryBlockByHash)
-		user.GET("blockchain/ledgerinfo", handlers.GetLedgerInfo)
-		user.GET("blockchain/latestblock", handlers.GetLastestBlock)
 
+		//user.GET("trashperday", handlers.)
 	}
 
 	// admin router group
 	admin := fsims.Group("/admin", middlewares.JwtAuth(), middlewares.CheckPermission(), middlewares.LogMiddleware())
 	{
+		admin.GET("blockchain/block", handlers.QueryBlockByHeight)
+		admin.GET("blockchain/ledgerinfo", handlers.GetLedgerInfo)
+		admin.GET("blockchain/latestblock", handlers.GetLastestBlock)
 
 		admin.POST("addpasture", handlers.AddPasture)
 		admin.POST("addslaughterhouse", handlers.AddSlaughterHouse)
@@ -97,16 +97,10 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		pop.POST("addcow", handlers.AddCow)
 		pop.POST("newfeedingbatch", handlers.NewFeedingBatch)
 		pop.GET("getfeedingrecords", handlers.GetFeedingRecords)
-		pop.GET("searchhouse", handlers.GetUserHouse)
-		pop.GET("getcow", handlers.GetCowList)
-		//pop.POST("commitproc", handlers.CommitPastureProcedure)
-		//pop.POST("inwarehouse", handlers.PastureInWarehouse)
-		//pop.POST("sendtonext", handlers.SendToSlaughter)
 		pop.POST("endfeeding", handlers.EndFeeding)
 		pop.GET("warehouse", handlers.GetWarehouseInfos)
 		//pop.POST("inwarehouse", handlers.PastureInWarehouse)
 		pop.POST("send", handlers.SendToSlaughter)
-		pop.GET("slaughterhouses", handlers.GetSlaughterHouses)
 
 		//上传传感器数据
 		pop.POST("addfeedheavymetal", handlers.AddPastureFeedHeavyMetal)
@@ -131,6 +125,13 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		pop.GET("/query/sensor/paddingrequire", handlers.QueryPasturePaddingRequireData)
 		pop.GET("/query/sensor/wastedwaterindex", handlers.QueryPastureWastedWaterIndexData)
 		pop.GET("/query/sensor/disinfectionrecord", handlers.QueryPastureDisinfectionRecordData)
+
+		pop.POST("/upload/pasturewasteresidue", handlers.UploadPastureWasteResiduePerDay)
+		pop.POST("/upload/pasturewasteodor", handlers.UploadPastureOdorPollutantsPerDay)
+		pop.POST("/upload/pasturewastewater", handlers.UploadPastureWasteWaterPerDay)
+
+		pop.GET("/query/waste", handlers.QueryWasteResidueAndOdor)
+
 	}
 
 	//slaughteroperator router group
@@ -141,17 +142,12 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		sop.GET("receiverecords", handlers.GetSlaughterReceiveRecords)
 		sop.GET("batches", handlers.GetSlaughterBatches)
 		sop.GET("warehouserecords", handlers.GetSlaughterWarehouseRecords)
-		sop.GET("searchhouse", handlers.GetUserHouse)
+
 		sop.POST("receiveconfirm", handlers.ConfirmCowFromPasture)
 		sop.POST("newbatch", handlers.NewSlaughterBatch)
 		sop.POST("newproduct", handlers.NewSlaughterProduct)
 		sop.POST("endbatch", handlers.EndSlaughter)
 		sop.POST("send", handlers.SendToPackage)
-		sop.GET("packagehouses", handlers.GetPackageHouses)
-		sop.GET("slaughterdata", handlers.GetSlaughterData)
-		//sop.POST("receive", handlers.SlaughterReceived)
-		//sop.POST("inwarehouse", handlers.SlaughterInWarehouse)
-		//sop.POST("sendtonext", handlers.SendToPack)
 
 		sop.POST("/upload/sensor/precoolshop", handlers.UploadPreCoolShopData)
 		sop.POST("/upload/sensor/slashop", handlers.UploadSlaughterShopData)
@@ -165,13 +161,17 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		sop.GET("/query/sensor/acidshop", handlers.QueryAcidShopData)
 		sop.GET("/query/sensor/frozenshop", handlers.QueryFrozenShopData)
 
-		sop.POST("/upload/sensor/waterquality", handlers.UploadSlaughterWaterQualityData)
+		sop.POST("/upload/sensor/waterquality", handlers.UploadSlaughterWaterQualityData) //excel
 		sop.GET("/query/sensor/waterquality", handlers.QuerySlaughterWaterQualityData)
 
-		sop.POST("/upload/staffuniform", handlers.UploadSlaughterStaffUniformData)
+		sop.POST("/upload/staffuniform", handlers.UploadSlaughterStaffUniformData) //excel
 		sop.POST("/upload/light", handlers.UploadSlaughterLightRecord)
 		sop.GET("/query/staffuniform", handlers.QuerySlaughterStaffUniformData)
-		sop.GET("/query/light", handlers.QuerySlaughterLightRecord)
+		//sop.GET("/query/staffuniform", handlers.QuerySlaughterLightRecord)
+
+		pop.POST("/upload/slaughterwasteresidue", handlers.UploadSlaughterWasteResiduePerDay)
+		pop.POST("/upload/slaughterwasteodor", handlers.UploadSlaughterOdorPollutantsPerDay)
+		pop.POST("/upload/slaughterwastewater", handlers.UploadSlaughterWasteWaterPerDay)
 	}
 
 	//packoperator router group
@@ -181,29 +181,21 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 
 		kop.GET("receiverecords", handlers.GetPackageReceiveRecords)
 		kop.GET("batches", handlers.GetPackageBatches)
-		kop.GET("productsrecords", handlers.GetPackageProductsRecords)
 		kop.GET("warehouserecords", handlers.GetPackageWarehouseRecords)
-		kop.GET("searchhouse", handlers.GetUserHouse)
+
 		kop.POST("receiveconfirm", handlers.ConfirmProductFromSlaughter)
 		kop.POST("newbatch", handlers.NewPackageBatch)
 		kop.POST("newproduct", handlers.NewPackageProduct)
 		kop.POST("endbatch", handlers.EndPackage)
 		kop.POST("pretransport", handlers.PreTransport)
-		kop.GET("transportvehicles", handlers.GetTransportVehicles)
-		kop.GET("malls", handlers.GetMalls)
 
 	}
 
 	//transportoperator router group
 	top := fsims.Group("/transportoperator", middlewares.JwtAuth(), middlewares.CheckPermission())
 	{
-		top.GET("searchhouse", handlers.GetUserHouse)
 		top.POST("start", handlers.StartTransport)
-		top.GET("batches", handlers.GetTransportBatches)
-		top.GET("mall", handlers.GetMall)
 		top.POST("end", handlers.EndTransport)
-		top.GET("goods", handlers.GetMallGoods)
-		top.GET("verify", handlers.VerifyWithCheckcode)
 	}
 
 	// mall
