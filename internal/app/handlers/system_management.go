@@ -5,10 +5,9 @@ import (
 	"CN-EU-FSIMS/internal/app/handlers/response"
 	"CN-EU-FSIMS/internal/service"
 	"CN-EU-FSIMS/utils"
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
+	"net/http"
 )
 
 func SearchUsers(c *gin.Context) {
@@ -264,22 +263,6 @@ func GetTransportVehicles(c *gin.Context) {
 	return
 }
 
-func GetMall(c *gin.Context) {
-	glog.Info("################## Get Mall Name ##################")
-	number := c.Query("mall_number")
-	glog.Info("mall_number:", number)
-	mall, err := service.GetMall(number)
-	if err != nil {
-		glog.Errorln("query all package houses error!")
-		response.MakeFail(c, http.StatusBadRequest, "query all package houses error")
-		return
-	}
-	glog.Info("query all package houses successful")
-
-	response.MakeSuccess(c, http.StatusOK, mall)
-	return
-}
-
 func GetMalls(c *gin.Context) {
 	glog.Info("################## Get All Malls ##################")
 
@@ -312,7 +295,6 @@ func AddOperator(c *gin.Context) {
 	pwd, err := service.AddFsimsOperator(&o)
 	if err != nil {
 		response.MakeFail(c, http.StatusBadRequest, "The new user information insert error!")
-		glog.Info("测试error：", err)
 		return
 	}
 	glog.Info("fsims operator add successful")
@@ -320,23 +302,6 @@ func AddOperator(c *gin.Context) {
 	res := response.ResAddOperator{
 		Account:  o.Account,
 		Password: pwd,
-	}
-	response.MakeSuccess(c, http.StatusOK, res)
-	return
-}
-
-func GetUserHouse(c *gin.Context) {
-	glog.Info("################## Get House Number ##################")
-	var uuid = c.Query("uuid")
-	house, housenumber, err := service.GetUserHouse(uuid)
-	if err != nil {
-		response.MakeFail(c, http.StatusBadRequest, "Get housenumber error!")
-		return
-	}
-	glog.Info("Get house number successful")
-	res := response.ResUserHouseInfo{
-		House:       house,
-		HouseNumber: housenumber,
 	}
 	response.MakeSuccess(c, http.StatusOK, res)
 	return

@@ -12,6 +12,7 @@ type SlaughterWaterQualityMon struct {
 	TimeRecordAt             time.Time                `json:"time_record_at"`                                                                          //记录时间
 	SlaughterWaterMicroIndex SlaughterWaterMicroIndex `gorm:"foreignKey:SlaughterWaterQualityMonID; references:ID" json:"slaughter_water_micro_index"` //微生物指标
 	OapGciSla                OapGciSla                `gorm:"foreignKey:SlaughterWaterQualityMonID; references:ID" json:"oap_gci_sla"`                 //感官性状和一般化学指标
+	MicroIndexWaterMonSla    MicroIndexWaterMonSla    `gorm:"foreignKey:SlaughterWaterQualityMonID; references:ID" json:"micro_index_water_mon_sla"`   //微生物指标屠宰阶段 和 屠宰污水检测记录
 	ToxinIndexSla            SlaughterToxinIndex      `gorm:"foreignKey:SlaughterWaterQualityMonID; references:ID" json:"toxin_index_sla"`             //屠宰污水毒理指标
 }
 
@@ -148,6 +149,7 @@ type SlaughterWaterQualityMonInfo struct {
 	TimeRecordAt             string                       `json:"time_record_at"`              //记录时间
 	SlaughterWaterMicroIndex SlaughterWaterMicroIndexInfo `json:"slaughter_water_micro_index"` //微生物指标
 	OapGciSla                OapGciSlaInfo                `json:"oap_gci_sla"`                 //感官性状和一般化学指标
+	MicroIndexWaterMonSla    MicroIndexWaterMonSlaInfo    `json:"micro_index_water_mon_sla"`   //微生物指标屠宰阶段 和 屠宰污水检测记录
 	ToxinIndexSla            SlaughterToxinIndexInfo      `json:"toxin_index_sla"`             //屠宰污水毒理指标
 }
 
@@ -392,6 +394,7 @@ func ToSlaughterWaterQualityMonInfo(mon *SlaughterWaterQualityMon) SlaughterWate
 		TimeRecordAt:             mon.TimeRecordAt.Format("2006-01-02 15:04:05"),
 		SlaughterWaterMicroIndex: ToSlaughterWaterMicroIndexInfo(&mon.SlaughterWaterMicroIndex),
 		OapGciSla:                ToOapGciSlaInfo(&mon.OapGciSla),
+		MicroIndexWaterMonSla:    ToMicroIndexWaterMonSlaInfo(&mon.MicroIndexWaterMonSla),
 		ToxinIndexSla:            ToSlaughterToxinIndexInfo(&mon.ToxinIndexSla),
 	}
 }

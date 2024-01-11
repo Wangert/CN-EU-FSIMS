@@ -30,12 +30,11 @@ func newBleedElectronic(db *gorm.DB, opts ...gen.DOOption) bleedElectronic {
 	_bleedElectronic.CreatedAt = field.NewTime(tableName, "created_at")
 	_bleedElectronic.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_bleedElectronic.DeletedAt = field.NewField(tableName, "deleted_at")
-	_bleedElectronic.SlaughterProcedureMonitoringDataID = field.NewString(tableName, "slaughter_procedure_monitoring_data_id")
-	_bleedElectronic.BleedElectronic1 = field.NewFloat64(tableName, "bleed_electronic1")
-	_bleedElectronic.BleedElectronic2 = field.NewFloat64(tableName, "bleed_electronic2")
-	_bleedElectronic.BleedElectronic3 = field.NewFloat64(tableName, "bleed_electronic3")
-	_bleedElectronic.BleedElectronic4 = field.NewFloat64(tableName, "bleed_electronic4")
-	_bleedElectronic.BleedElectronic5 = field.NewFloat64(tableName, "bleed_electronic5")
+	_bleedElectronic.BleedElectronic1 = field.NewFloat32(tableName, "bleed_electronic1")
+	_bleedElectronic.BleedElectronic2 = field.NewFloat32(tableName, "bleed_electronic2")
+	_bleedElectronic.BleedElectronic3 = field.NewFloat32(tableName, "bleed_electronic3")
+	_bleedElectronic.BleedElectronic4 = field.NewFloat32(tableName, "bleed_electronic4")
+	_bleedElectronic.BleedElectronic5 = field.NewFloat32(tableName, "bleed_electronic5")
 
 	_bleedElectronic.fillFieldMap()
 
@@ -45,17 +44,16 @@ func newBleedElectronic(db *gorm.DB, opts ...gen.DOOption) bleedElectronic {
 type bleedElectronic struct {
 	bleedElectronicDo bleedElectronicDo
 
-	ALL                                field.Asterisk
-	ID                                 field.Uint
-	CreatedAt                          field.Time
-	UpdatedAt                          field.Time
-	DeletedAt                          field.Field
-	SlaughterProcedureMonitoringDataID field.String
-	BleedElectronic1                   field.Float64
-	BleedElectronic2                   field.Float64
-	BleedElectronic3                   field.Float64
-	BleedElectronic4                   field.Float64
-	BleedElectronic5                   field.Float64
+	ALL              field.Asterisk
+	ID               field.Uint
+	CreatedAt        field.Time
+	UpdatedAt        field.Time
+	DeletedAt        field.Field
+	BleedElectronic1 field.Float32
+	BleedElectronic2 field.Float32
+	BleedElectronic3 field.Float32
+	BleedElectronic4 field.Float32
+	BleedElectronic5 field.Float32
 
 	fieldMap map[string]field.Expr
 }
@@ -76,12 +74,11 @@ func (b *bleedElectronic) updateTableName(table string) *bleedElectronic {
 	b.CreatedAt = field.NewTime(table, "created_at")
 	b.UpdatedAt = field.NewTime(table, "updated_at")
 	b.DeletedAt = field.NewField(table, "deleted_at")
-	b.SlaughterProcedureMonitoringDataID = field.NewString(table, "slaughter_procedure_monitoring_data_id")
-	b.BleedElectronic1 = field.NewFloat64(table, "bleed_electronic1")
-	b.BleedElectronic2 = field.NewFloat64(table, "bleed_electronic2")
-	b.BleedElectronic3 = field.NewFloat64(table, "bleed_electronic3")
-	b.BleedElectronic4 = field.NewFloat64(table, "bleed_electronic4")
-	b.BleedElectronic5 = field.NewFloat64(table, "bleed_electronic5")
+	b.BleedElectronic1 = field.NewFloat32(table, "bleed_electronic1")
+	b.BleedElectronic2 = field.NewFloat32(table, "bleed_electronic2")
+	b.BleedElectronic3 = field.NewFloat32(table, "bleed_electronic3")
+	b.BleedElectronic4 = field.NewFloat32(table, "bleed_electronic4")
+	b.BleedElectronic5 = field.NewFloat32(table, "bleed_electronic5")
 
 	b.fillFieldMap()
 
@@ -110,12 +107,11 @@ func (b *bleedElectronic) GetFieldByName(fieldName string) (field.OrderExpr, boo
 }
 
 func (b *bleedElectronic) fillFieldMap() {
-	b.fieldMap = make(map[string]field.Expr, 10)
+	b.fieldMap = make(map[string]field.Expr, 9)
 	b.fieldMap["id"] = b.ID
 	b.fieldMap["created_at"] = b.CreatedAt
 	b.fieldMap["updated_at"] = b.UpdatedAt
 	b.fieldMap["deleted_at"] = b.DeletedAt
-	b.fieldMap["slaughter_procedure_monitoring_data_id"] = b.SlaughterProcedureMonitoringDataID
 	b.fieldMap["bleed_electronic1"] = b.BleedElectronic1
 	b.fieldMap["bleed_electronic2"] = b.BleedElectronic2
 	b.fieldMap["bleed_electronic3"] = b.BleedElectronic3

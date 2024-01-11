@@ -20,15 +20,14 @@ const (
 	SLAUGHTER_ABNORMAL_DIVISION_SHOP_INDEX_CONTENT  = "屠宰场分割车间指数异常"
 	SLAUGHTER_ABNORMAL_ACID_SHOP_INDEX_CONTENT      = "屠宰场排酸车间指数异常"
 	SLAUGHTER_ABNORMAL_FROZEN_SHOP_INDEX_CONTENT    = "屠宰场冷冻车间指数异常"
-	SLAUGHTER_ABNORMAL_PROCEDURE_CONTENT            = "屠宰过程指数异常"
 )
 
 type Event struct {
-	Source              string    `gorm:"not null" json:"source"`
-	Content             string    `gorm:"not null" json:"content"`
-	EventTime           time.Time `gorm:"not null" json:"event_time"`
-	EventType           int       `gorm:"not null" json:"event_type"`
-	Proposal            string    `gorm:"not null" json:"proposal"`
-	AffectedBatchNumber string    `json:"affected_Batch_number"`
-	RiskLevel           int       `gorm:"not null" json:"risk_level"`
+	Source                 string    `gorm:"not null" json:"source"`
+	Content                string    `gorm:"not null" json:"content"`
+	EventTime              time.Time `gorm:"not null" json:"event_time"`
+	EventType              int       `gorm:"not null" json:"event_type"`
+	Proposal               string    `gorm:"not null" json:"proposal"`
+	AffectedProductsNumber string    `json:"affected_products_number"`
+	RiskLevel              int       `gorm:"not null" json:"risk_level"`
 }
