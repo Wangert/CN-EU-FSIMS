@@ -131,6 +131,11 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		pop.GET("/query/sensor/paddingrequire", handlers.QueryPasturePaddingRequireData)
 		pop.GET("/query/sensor/wastedwaterindex", handlers.QueryPastureWastedWaterIndexData)
 		pop.GET("/query/sensor/disinfectionrecord", handlers.QueryPastureDisinfectionRecordData)
+
+		//牧场污水处理
+		pop.POST("/upload/pasturewasteresidue", handlers.UploadPastureWasteResiduePerDay)
+		pop.POST("/upload/pasturewasteodor", handlers.UploadPastureOdorPollutantsPerDay)
+		pop.POST("/upload/pasturewastewater", handlers.UploadPastureWasteWaterPerDay)
 	}
 
 	//slaughteroperator router group
@@ -172,6 +177,11 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		sop.POST("/upload/light", handlers.UploadSlaughterLightRecord)
 		sop.GET("/query/staffuniform", handlers.QuerySlaughterStaffUniformData)
 		sop.GET("/query/light", handlers.QuerySlaughterLightRecord)
+
+		//屠宰场污水处理
+		pop.POST("/upload/slaughterwasteresidue", handlers.UploadSlaughterWasteResiduePerDay)
+		pop.POST("/upload/slaughterwasteodor", handlers.UploadSlaughterOdorPollutantsPerDay)
+		pop.POST("/upload/slaughterwastewater", handlers.UploadSlaughterWasteWaterPerDay)
 	}
 
 	//packoperator router group
