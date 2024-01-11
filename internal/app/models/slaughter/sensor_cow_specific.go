@@ -27,11 +27,20 @@ type SlaughterStun struct {
 type BleedElectronic struct {
 	//放血和电刺激参数
 	gorm.Model
+<<<<<<< HEAD
 	BleedElectronic1 float32 `json:"bleed_electronic_1"` //放血刀热水消毒
 	BleedElectronic2 float32 `json:"bleed_electronic_2"` //电流
 	BleedElectronic3 float32 `json:"bleed_electronic_3"` //作用时间
 	BleedElectronic4 float32 `json:"bleed_electronic_4"` //电刺激参数
 	BleedElectronic5 float32 `json:"bleed_electronic_5"` //电刺激时间
+=======
+	SlaughterProcedureMonitoringDataID *string `json:"slaughter_procedure_monitoring_data_id"`
+	BleedElectronic1                   float64 `json:"bleed_electronic_1"` //放血刀热水消毒
+	BleedElectronic2                   float64 `json:"bleed_electronic_2"` //电流
+	BleedElectronic3                   float64 `json:"bleed_electronic_3"` //作用时间
+	BleedElectronic4                   float64 `json:"bleed_electronic_4"` //电刺激参数
+	BleedElectronic5                   float64 `json:"bleed_electronic_5"` //电刺激时间
+>>>>>>> parent of 46e6215 (modify slaughter shops)
 }
 
 type PreSlaQuanPic struct {

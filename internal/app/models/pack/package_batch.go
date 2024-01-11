@@ -7,6 +7,7 @@ import (
 
 type PackageBatch struct {
 	gorm.Model
+<<<<<<< HEAD
 	BatchNumber   string           `gorm:"not null; unique; type:varchar(256)" json:"batch_number"`
 	HouseNumber   string           `gorm:"not null; type:varchar(256)" json:"house_number"`
 	State         int              `gorm:"not null" json:"state"`
@@ -14,6 +15,17 @@ type PackageBatch struct {
 	Worker        string           `gorm:"not null; type:varchar(100)" json:"worker"`
 	ProductNumber string           `gorm:"not null; type:varchar(256)" json:"product_number"`
 	Procedure     models.Procedure `gorm:"foreignKey:BatchNumber; references:BatchNumber" json:"procedure"`
+=======
+	BatchNumber   string     `gorm:"not null; unique; type:varchar(256)" json:"batch_number"`
+	HouseNumber   string     `gorm:"not null; type:varchar(256)" json:"house_number"`
+	State         int        `gorm:"not null" json:"state"`
+	PID           string     `gorm:"not null; type:varchar(256)" json:"pid"`
+	Worker        string     `gorm:"not null; type:varchar(100)" json:"worker"`
+	StartTime     *time.Time `json:"start_time"`
+	EndTime       *time.Time `json:"end_time"`
+	ProductNumber string     `gorm:"not null; type:varchar(256)" json:"product_number"`
+	//Procedure     models.Procedure `gorm:"foreignKey:BatchNumber; references:BatchNumber" json:"procedure"`
+>>>>>>> parent of 46e6215 (modify slaughter shops)
 }
 
 type PackageBatchInfo struct {

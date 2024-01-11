@@ -57,6 +57,212 @@ func TimedTasksStart(c *cron.Cron, tts []TimedTask) {
 	c.Start()
 }
 
+<<<<<<< HEAD
+=======
+func NewAllTimedTasks() []TimedTask {
+
+	tts := make([]TimedTask, 5)
+
+	pastureFeedHeavyMetalTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureFeedHeavyMetalMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pastureFeedMycotoxinsTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureFeedMycotoxinsMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pastureWaterQualityTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureWaterQualityMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pastureBufferTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureBufferMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pastureAreaTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureAreaMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pastureCowHouse := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureCowHouseMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pastureBasicEnvironmentTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureBasicEnvironmentMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pasturePaddingTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PasturePaddingMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	slaughterWaterQualityTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := SlaughterWaterQualityMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	tts = append(tts, pastureFeedHeavyMetalTask)
+	tts = append(tts, pastureFeedMycotoxinsTask)
+	tts = append(tts, pastureWaterQualityTask)
+	tts = append(tts, pastureBufferTask)
+	tts = append(tts, pastureAreaTask)
+	tts = append(tts, pastureCowHouse)
+	tts = append(tts, pastureBasicEnvironmentTask)
+	tts = append(tts, pasturePaddingTask)
+	tts = append(tts, slaughterWaterQualityTask)
+
+	return tts
+}
+
+// 屠宰场水质监测
+func SlaughterWaterQualityMonitoring(currentTime time.Time) error {
+	m := query.Q.MonitoringTimeRecord
+	mtr, err := m.WithContext(context.Background()).Where(m.IndexName.Eq(SLAUGHTER_WATER)).First()
+	if err != nil {
+		return err
+	}
+
+	preTime := *mtr.LastTime
+
+	f := query.Q.SlaughterWaterQualityMon
+	records, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).
+		Preload(f.SlaughterWaterMicroIndex).Preload(f.OapGciSla).Preload(f.ToxinIndexSla).Find()
+	if err != nil {
+		return err
+	}
+
+	for _, record := range records {
+		// 识别危害指标
+		abnormalList, abnormalCount, err := analysis.JudgeHarmForSlaughterWaterQuality(record)
+		if err != nil {
+			return err
+		}
+
+		riskLevel := analysis.RiskLevel(abnormalCount)
+
+		if riskLevel != 1 {
+			// 获取影响的SlaughterBatch
+			b := query.Q.SlaughterBatch
+			DoneBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNotNull()).
+				Where(b.StartTime.Lte(record.TimeRecordAt)).Where(b.EndTime.Gte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			DoingBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNull()).Where(b.StartTime.Lte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			bs := append(DoingBatches, DoneBatches...)
+
+			// 受影响的batch
+			batchesNumber := []string{}
+			for _, batch := range bs {
+				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			// 获取接收人
+			u := query.Q.FSIMSUser
+			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
+			if err != nil {
+				return err
+			}
+
+			// 创建事件
+			event := Event{
+				Source:              record.HouseNumber,
+				Content:             SLAUGHTER_ABNORMAL_WATER_INDEX_CONTENT,
+				EventTime:           record.TimeRecordAt,
+				EventType:           1,
+				AffectedBatchNumber: utils.StrArrToStr(batchesNumber),
+				Proposal:            utils.StrArrToStr(abnormalList),
+				RiskLevel:           riskLevel,
+			}
+
+			// 发送通知
+			for _, user := range users {
+				err = PushNotification(user.UUID, &event)
+				if err != nil {
+					return err
+				}
+			}
+		}
+	}
+
+	_, err = m.WithContext(context.Background()).Where(m.IndexName.Eq(SLAUGHTER_WATER)).
+		Updates(map[string]interface{}{"last_time": currentTime})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+>>>>>>> parent of 46e6215 (modify slaughter shops)
 // 牧场垫料监测
 func PasturePaddingMonitoring(currentTime time.Time) error {
 	m := query.Q.MonitoringTimeRecord

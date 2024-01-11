@@ -405,7 +405,11 @@ func EndSlaughter(c *gin.Context) {
 		response.MakeFail(c, http.StatusBadRequest, "end slaughter parameters error!")
 		return
 	}
+<<<<<<< HEAD
 
+=======
+	//glog.Info("test :", r)
+>>>>>>> parent of 46e6215 (modify slaughter shops)
 	checkcode, productsNum, err := service.EndSlaughter(&r)
 	if err != nil {
 		response.MakeFail(c, http.StatusBadRequest, "end slaughter error!")

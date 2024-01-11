@@ -925,6 +925,125 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 	if err != nil {
 		_ = tx.Rollback()
 		return "", nil, err
+<<<<<<< HEAD
+=======
+	}
+
+	monitoringData := slaughter.SlaughterProcedureMonitoringData{
+		PID: pid,
+		SlaughterDisinfectHotWaterTempMoni: slaughter.SlaughterDisinfectHotWaterTempMoni{
+			SlaughterProcedureMonitoringDataID:  nil,
+			SlaughterDisinfectHotWaterTempMoni1: r.SlaughterDisinfectHotWaterTempMoni1,
+			SlaughterDisinfectHotWaterTempMoni2: r.SlaughterDisinfectHotWaterTempMoni2,
+			SlaughterDisinfectHotWaterTempMoni3: r.SlaughterDisinfectHotWaterTempMoni3,
+			SlaughterDisinfectHotWaterTempMoni4: r.SlaughterDisinfectHotWaterTempMoni4,
+			SlaughterDisinfectHotWaterTempMoni5: r.SlaughterDisinfectHotWaterTempMoni5,
+			SlaughterDisinfectHotWaterTempMoni6: r.SlaughterDisinfectHotWaterTempMoni6,
+		},
+		SlaughterStun: slaughter.SlaughterStun{
+			SlaughterProcedureMonitoringDataID: nil,
+			Stun1:                              r.Stun1,
+			Stun2:                              r.Stun2,
+			Stun3:                              r.Stun3,
+		},
+		BleedElectronic: slaughter.BleedElectronic{
+			SlaughterProcedureMonitoringDataID: nil,
+			BleedElectronic1:                   r.BleedElectronic1,
+			BleedElectronic2:                   r.BleedElectronic2,
+			BleedElectronic3:                   r.BleedElectronic3,
+			BleedElectronic4:                   r.BleedElectronic4,
+			BleedElectronic5:                   r.BleedElectronic5,
+		},
+		AnalMeatPhMoni: slaughter.AnalMeatPhMoni{
+			SlaughterProcedureMonitoringDataID: nil,
+			AnalMeatPhMoni1:                    r.AnalMeatPhMoni1,
+			AnalMeatPhMoni2:                    r.AnalMeatPhMoni2,
+			AnalMeatPhMoni3:                    r.AnalMeatPhMoni3,
+			AnalMeatPhMoni4:                    r.AnalMeatPhMoni4,
+			AnalMeatPhMoni5:                    r.AnalMeatPhMoni5,
+		},
+		ToNumGermMon: slaughter.ToNumGermMon{
+			SlaughterProcedureMonitoringDataID: nil,
+			ToNumGermMon1:                      r.ToNumGermMon1,
+			ToNumGermMon2:                      r.ToNumGermMon2,
+			ToNumGermMon3:                      r.ToNumGermMon3,
+			ToNumGermMon4:                      r.ToNumGermMon4,
+			ToNumGermMon5:                      r.ToNumGermMon5,
+			ToNumGermMon6:                      r.ToNumGermMon6,
+			ToNumGermMon7:                      r.ToNumGermMon7,
+			ToNumGermMon8:                      r.ToNumGermMon8,
+		},
+	}
+
+	err = tx.SlaughterProcedureMonitoringData.WithContext(context.Background()).Create(&monitoringData)
+	if err != nil {
+		_ = tx.Rollback()
+		return "", nil, err
+	}
+
+	otherData1 := slaughter.PreSlaQuanPic{
+		PID:            pid,
+		PreSlaQuanPic1: r.PreSlaQuanPic1,
+		PreSlaQuanPic2: r.PreSlaQuanPic2,
+		PreSlaQuanPic3: r.PreSlaQuanPic3,
+		PreSlaQuanPic4: r.PreSlaQuanPic4,
+		PreSlaQuanPic5: r.PreSlaQuanPic4,
+		PreSlaQuanPic6: r.PreSlaQuanPic6,
+		PreSlaQuanPic7: r.PreSlaQuanPic7,
+		PreSlaQuanPic8: r.PreSlaQuanPic8,
+		PreSlaQuanPic9: r.PreSlaQuanPic9,
+	}
+	err = tx.PreSlaQuanPic.WithContext(context.Background()).Create(&otherData1)
+	if err != nil {
+		_ = tx.Rollback()
+		return "", nil, err
+	}
+
+	otherData2 := slaughter.SlaughterAnalAfterSlaQuanCar{
+		PID:                           pid,
+		SlaughterAnalAfterSlaQuanCar1: r.SlaughterAnalAfterSlaQuanCar1,
+		SlaughterAnalAfterSlaQuanCar2: r.SlaughterAnalAfterSlaQuanCar2,
+		SlaughterAnalAfterSlaQuanCar3: r.SlaughterAnalAfterSlaQuanCar3,
+		SlaughterAnalAfterSlaQuanCar4: r.SlaughterAnalAfterSlaQuanCar4,
+	}
+	err = tx.SlaughterAnalAfterSlaQuanCar.WithContext(context.Background()).Create(&otherData2)
+	if err != nil {
+		_ = tx.Rollback()
+		return "", nil, err
+	}
+
+	otherData3 := slaughter.AnalCutWeight{
+		PID:             pid,
+		AnalCutWeight1:  r.AnalCutWeight1,
+		AnalCutWeight2:  r.AnalCutWeight2,
+		AnalCutWeight3:  r.AnalCutWeight3,
+		AnalCutWeight4:  r.AnalCutWeight4,
+		AnalCutWeight5:  r.AnalCutWeight5,
+		AnalCutWeight6:  r.AnalCutWeight6,
+		AnalCutWeight7:  r.AnalCutWeight7,
+		AnalCutWeight8:  r.AnalCutWeight8,
+		AnalCutWeight9:  r.AnalCutWeight9,
+		AnalCutWeight10: r.AnalCutWeight10,
+		AnalCutWeight11: r.AnalCutWeight11,
+		AnalCutWeight12: r.AnalCutWeight12,
+	}
+	err = tx.AnalCutWeight.WithContext(context.Background()).Create(&otherData3)
+	if err != nil {
+		_ = tx.Rollback()
+		return "", nil, err
+	}
+
+	otherData4 := slaughter.AirNumGermMon{
+		PID:            pid,
+		AirNumGermMon1: r.AirNumGermMon1,
+		AirNumGermMon2: r.AirNumGermMon2,
+		AirNumGermMon3: r.AirNumGermMon3,
+	}
+	err = tx.AirNumGermMon.WithContext(context.Background()).Create(&otherData4)
+	if err != nil {
+		_ = tx.Rollback()
+		return "", nil, err
+>>>>>>> parent of 46e6215 (modify slaughter shops)
 	}
 
 	// 提交Procedure
@@ -941,6 +1060,14 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, error) {
 	if err != nil {
 		_ = tx.Rollback()
 		return "", nil, err
+<<<<<<< HEAD
+=======
+	}
+	_, err = fabric.UpdateProcedure(pid, phash)
+	if err != nil {
+		_ = tx.Rollback()
+		return "", nil, err
+>>>>>>> parent of 46e6215 (modify slaughter shops)
 	}
 
 	err = tx.Commit()
