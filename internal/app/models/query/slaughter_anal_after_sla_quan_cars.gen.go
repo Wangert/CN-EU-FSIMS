@@ -30,6 +30,7 @@ func newSlaughterAnalAfterSlaQuanCar(db *gorm.DB, opts ...gen.DOOption) slaughte
 	_slaughterAnalAfterSlaQuanCar.CreatedAt = field.NewTime(tableName, "created_at")
 	_slaughterAnalAfterSlaQuanCar.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_slaughterAnalAfterSlaQuanCar.DeletedAt = field.NewField(tableName, "deleted_at")
+	_slaughterAnalAfterSlaQuanCar.PID = field.NewString(tableName, "p_id")
 	_slaughterAnalAfterSlaQuanCar.SlaughterAnalAfterSlaQuanCar1 = field.NewString(tableName, "slaughter_anal_after_sla_quan_car1")
 	_slaughterAnalAfterSlaQuanCar.SlaughterAnalAfterSlaQuanCar2 = field.NewString(tableName, "slaughter_anal_after_sla_quan_car2")
 	_slaughterAnalAfterSlaQuanCar.SlaughterAnalAfterSlaQuanCar3 = field.NewString(tableName, "slaughter_anal_after_sla_quan_car3")
@@ -48,6 +49,7 @@ type slaughterAnalAfterSlaQuanCar struct {
 	CreatedAt                     field.Time
 	UpdatedAt                     field.Time
 	DeletedAt                     field.Field
+	PID                           field.String
 	SlaughterAnalAfterSlaQuanCar1 field.String
 	SlaughterAnalAfterSlaQuanCar2 field.String
 	SlaughterAnalAfterSlaQuanCar3 field.String
@@ -72,6 +74,7 @@ func (s *slaughterAnalAfterSlaQuanCar) updateTableName(table string) *slaughterA
 	s.CreatedAt = field.NewTime(table, "created_at")
 	s.UpdatedAt = field.NewTime(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
+	s.PID = field.NewString(table, "p_id")
 	s.SlaughterAnalAfterSlaQuanCar1 = field.NewString(table, "slaughter_anal_after_sla_quan_car1")
 	s.SlaughterAnalAfterSlaQuanCar2 = field.NewString(table, "slaughter_anal_after_sla_quan_car2")
 	s.SlaughterAnalAfterSlaQuanCar3 = field.NewString(table, "slaughter_anal_after_sla_quan_car3")
@@ -106,11 +109,12 @@ func (s *slaughterAnalAfterSlaQuanCar) GetFieldByName(fieldName string) (field.O
 }
 
 func (s *slaughterAnalAfterSlaQuanCar) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 8)
+	s.fieldMap = make(map[string]field.Expr, 9)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
 	s.fieldMap["deleted_at"] = s.DeletedAt
+	s.fieldMap["p_id"] = s.PID
 	s.fieldMap["slaughter_anal_after_sla_quan_car1"] = s.SlaughterAnalAfterSlaQuanCar1
 	s.fieldMap["slaughter_anal_after_sla_quan_car2"] = s.SlaughterAnalAfterSlaQuanCar2
 	s.fieldMap["slaughter_anal_after_sla_quan_car3"] = s.SlaughterAnalAfterSlaQuanCar3

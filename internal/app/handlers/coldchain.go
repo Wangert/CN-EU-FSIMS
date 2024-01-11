@@ -4,9 +4,10 @@ import (
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/handlers/response"
 	"CN-EU-FSIMS/internal/service"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
-	"net/http"
 )
 
 func EndTransport(c *gin.Context) {
@@ -60,4 +61,22 @@ func checkStartTransportParams(r *request.ReqStartTransport) bool {
 	}
 
 	return true
+}
+
+func GetTransportBatches(c *gin.Context) {
+	glog.Info("################## FSIMS Get Package Batches ##################")
+
+	houseNum := c.Query("house_number")
+	pbs, count, err := service.GetTransportBatches(houseNum)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "get package batches error!")
+		return
+	}
+
+	res := response.ResTransportBatches{
+		Records: pbs,
+		Count:   count,
+	}
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
 }

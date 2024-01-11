@@ -157,8 +157,6 @@ const (
 	PaddingRequire6_MAX = 5000000 //TBC(细菌总数)
 	PaddingRequire7_MAX = 0.006   //AFB1（黄曲霉素B1）
 	PaddingRequire8_MAX = 0       //STC(沙门菌数)
-<<<<<<< HEAD
-=======
 
 	// 屠宰场水质
 	// 微生物
@@ -257,8 +255,35 @@ const (
 	SlaughterWaterToxinIndex19_MAX = 0.01  //溴酸盐
 	SlaughterWaterToxinIndex20_MAX = 0.7   //亚氯酸盐
 	SlaughterWaterToxinIndex21_MAX = 0.7   //氯酸盐
-	//
->>>>>>> parent of 46e6215 (modify slaughter shops)
+
+	// 屠宰过程中参数
+	Stun1_MAX            = 200 //电压
+	Stun2_MAX            = 1.5 //电流上界
+	Stun2_MIN            = 1   //电流下界
+	Stun3_MIN            = 7   //作用时间
+	BleedElectronic1_MIN = 82  //放血刀热水消毒
+	BleedElectronic2_MIN = 6   //沥血时间
+	BleedElectronic3_MAX = 15  //致昏到宰杀放血时间
+	BleedElectronic4_MAX = 42  //电刺激参数
+	BleedElectronic5_MIN = 15  //电刺激时间
+	AnalMeatPhMoni1_MAX  = 6   //宰后0 min PH上界
+	AnalMeatPhMoni1_MIN  = 5.4 //宰后0 min PH上界
+	AnalMeatPhMoni2_MAX  = 6   //宰后45min PH上界
+	AnalMeatPhMoni2_MIN  = 5.4 //宰后45min PH下界
+	AnalMeatPhMoni3_MAX  = 6   //劈半后胴体 PH上界
+	AnalMeatPhMoni3_MIN  = 5.4 //劈半后胴体 PH下界
+	AnalMeatPhMoni4_MAX  = 6   //排酸过程中胴体 PH上界
+	AnalMeatPhMoni4_MIN  = 5.4 //排酸过程中胴体 PH下界
+	AnalMeatPhMoni5_MAX  = 6   //冷鲜肉 PH上界
+	AnalMeatPhMoni5_MIN  = 5.4 //冷鲜肉 PH下界
+
+	// 屠宰场预冷间指标
+	PreCoolShop1_MAX = 4  //预冷间温度
+	PreCoolShop1_MIN = 0  //预冷间温度
+	PreCoolShop2_MAX = 90 //预冷间湿度
+	PreCoolShop2_MIN = 85 //预冷间湿度
+	PreCoolShop3_MAX = 3  //副产物温度
+
 )
 
 var PastureFeedHeavyMetalBounds = map[string]float64{"as_1": As1_MAX, "as_2": As2_MAX, "as_3": As3_MAX,
@@ -300,8 +325,6 @@ var PastureBasicEnvironmentLowerBounds = map[string]float64{"environment_1": Env
 
 var PasturePaddingUpperBounds = map[string]float64{"padding_require_1": PaddingRequire1_MAX, "padding_require_2": PaddingRequire2_MAX, "padding_require_3": PaddingRequire3_MAX, "padding_require_4": PaddingRequire4_MAX,
 	"padding_require_5": PaddingRequire5_MAX, "padding_require_6": PaddingRequire6_MAX, "padding_require_7": PaddingRequire7_MAX, "padding_require_8": PaddingRequire8_MAX}
-<<<<<<< HEAD
-=======
 
 var SlaughterWaterQualityUpperBounds = map[string]float64{"slaughter_water_micro_index_1": SlaughterWaterMicroIndex1_MAX, "slaughter_water_micro_index_2": SlaughterWaterMicroIndex2_MAX, "slaughter_water_micro_index_3": SlaughterWaterMicroIndex3_MAX,
 	"oap_gci_sla_1": OapGciSla1_MAX, "oap_gci_sla_2": OapGciSla2_MAX, "oap_gci_sla_3": OapGciSla3_MAX, "oap_gci_sla_4": OapGciSla4_MAX, "oap_gci_sla_5": OapGciSla5_MAX, "oap_gci_sla_6": OapGciSla6_MAX, "oap_gci_sla_7": OapGciSla7_MAX,
@@ -321,4 +344,8 @@ var SlaughterWaterQualityUpperBounds = map[string]float64{"slaughter_water_micro
 	"slaughter_water_toxin_index_14": SlaughterWaterToxinIndex14_MAX, "slaughter_water_toxin_index_15": SlaughterWaterToxinIndex15_MAX, "slaughter_water_toxin_index_16": SlaughterWaterToxinIndex16_MAX, "slaughter_water_toxin_index_17": SlaughterWaterToxinIndex17_MAX,
 	"slaughter_water_toxin_index_18": SlaughterWaterToxinIndex18_MAX, "slaughter_water_toxin_index_19": SlaughterWaterToxinIndex19_MAX, "slaughter_water_toxin_index_20": SlaughterWaterToxinIndex20_MAX, "slaughter_water_toxin_index_21": SlaughterWaterToxinIndex21_MAX}
 var SlaughterWaterQualityLowerBounds = map[string]float64{"oap_gci_sla_10": OapGciSla10_MIN}
->>>>>>> parent of 46e6215 (modify slaughter shops)
+
+var SlaughterProcedureSensorDataUpperBounds = map[string]float64{"stun_1": Stun1_MAX, "stun_2": Stun2_MAX, "bleed_electronic_3": BleedElectronic3_MAX, "bleed_electronic_4": BleedElectronic4_MAX, "anal_meat_ph_moni_1": AnalMeatPhMoni1_MAX, "anal_meat_ph_moni_2": AnalMeatPhMoni2_MAX,
+	"anal_meat_ph_moni_3": AnalMeatPhMoni3_MAX, "anal_meat_ph_moni_4": AnalMeatPhMoni4_MAX, "anal_meat_ph_moni_5": AnalMeatPhMoni5_MAX}
+var SlaughterProcedureSensorDataLowerBounds = map[string]float64{"stun_2": Stun2_MIN, "stun_3": Stun3_MIN, "bleed_electronic_1": BleedElectronic1_MIN, "bleed_electronic_2": BleedElectronic2_MIN, "bleed_electronic_5": BleedElectronic5_MIN, "anal_meat_ph_moni_1": AnalMeatPhMoni1_MIN,
+	"anal_meat_ph_moni_2": AnalMeatPhMoni2_MIN, "anal_meat_ph_moni_3": AnalMeatPhMoni3_MIN, "anal_meat_ph_moni_4": AnalMeatPhMoni4_MIN, "anal_meat_ph_moni_5": AnalMeatPhMoni5_MIN}

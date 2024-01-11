@@ -2,19 +2,21 @@ package analysis
 
 import (
 	"CN-EU-FSIMS/internal/app/models/pasture"
+	"CN-EU-FSIMS/internal/app/models/slaughter"
 	"CN-EU-FSIMS/utils"
 )
 
 // 判断牧场饲料重金属危害
 func JudgeHarmForPastureFeedHeavyMetal(record *pasture.PastureFeedHeavyMetal) ([]string, int, error) {
+	//glog.Info("test_record:", record)
 	indexMap := map[string]interface{}{}
 	recordMap, err := utils.StructToMap(record)
 	if err != nil {
 		return nil, 0, err
 	}
 	indexMap = utils.FlattenMap(recordMap)
-
-	abnormalList := make([]string, 3)
+	//glog.Info("test_indexMap:", indexMap)
+	abnormalList := make([]string, 0)
 	for k, v := range PastureFeedHeavyMetalBounds {
 		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
@@ -32,7 +34,7 @@ func JudgeHarmForPastureFeedMycotoxins(record *pasture.PastureFeedMycotoxins) ([
 	}
 	indexMap = utils.FlattenMap(recordMap)
 
-	abnormalList := make([]string, 3)
+	abnormalList := make([]string, 0)
 	for k, v := range PastureFeedMycotoxinsBounds {
 		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
@@ -50,7 +52,7 @@ func JudgeHarmForPastureWaterQuality(record *pasture.PastureWaterRecord) ([]stri
 	}
 	indexMap = utils.FlattenMap(recordMap)
 
-	abnormalList := make([]string, 3)
+	abnormalList := make([]string, 0)
 	for k, v := range PastureWaterQualityUpperBounds {
 		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
@@ -73,7 +75,7 @@ func JudgeHarmForPastureBuffer(record *pasture.PastureBuffer) ([]string, int, er
 	}
 	indexMap = utils.FlattenMap(recordMap)
 
-	abnormalList := make([]string, 3)
+	abnormalList := make([]string, 0)
 	for k, v := range PastureBufferUpperBounds {
 		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
@@ -92,7 +94,7 @@ func JudgeHarmForPastureArea(record *pasture.PastureArea) ([]string, int, error)
 	}
 	indexMap = utils.FlattenMap(recordMap)
 
-	abnormalList := make([]string, 3)
+	abnormalList := make([]string, 0)
 	for k, v := range PastureAreaUpperBounds {
 		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
@@ -111,7 +113,7 @@ func JudgeHarmForPastureCowHouse(record *pasture.CowHouse) ([]string, int, error
 	}
 	indexMap = utils.FlattenMap(recordMap)
 
-	abnormalList := make([]string, 3)
+	abnormalList := make([]string, 0)
 	for k, v := range PastureCowHouseUpperBounds {
 		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
@@ -130,7 +132,7 @@ func JudgeHarmForPastureBasicEnvironment(record *pasture.PastureBasicEnvironment
 	}
 	indexMap = utils.FlattenMap(recordMap)
 
-	abnormalList := make([]string, 3)
+	abnormalList := make([]string, 0)
 	for k, v := range PastureBasicEnvironmentUpperBounds {
 		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
@@ -154,7 +156,7 @@ func JudgeHarmForPasturePadding(record *pasture.PasturePaddingRequire) ([]string
 	}
 	indexMap = utils.FlattenMap(recordMap)
 
-	abnormalList := make([]string, 3)
+	abnormalList := make([]string, 0)
 	for k, v := range PasturePaddingUpperBounds {
 		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
@@ -163,8 +165,6 @@ func JudgeHarmForPasturePadding(record *pasture.PasturePaddingRequire) ([]string
 
 	return abnormalList, len(abnormalList), nil
 }
-<<<<<<< HEAD
-=======
 
 // 判断屠宰场水质危害
 func JudgeHarmForSlaughterWaterQuality(record *slaughter.SlaughterWaterQualityMon) ([]string, int, error) {
@@ -190,4 +190,28 @@ func JudgeHarmForSlaughterWaterQuality(record *slaughter.SlaughterWaterQualityMo
 
 	return abnormalList, len(abnormalList), nil
 }
->>>>>>> parent of 46e6215 (modify slaughter shops)
+
+// 判断屠宰过程危害
+func JudgeHarmForSlaughterProcedure(record *slaughter.SlaughterProcedureMonitoringData) ([]string, int, error) {
+	indexMap := map[string]interface{}{}
+	recordMap, err := utils.StructToMap(record)
+	if err != nil {
+		return nil, 0, err
+	}
+	indexMap = utils.FlattenMap(recordMap)
+
+	abnormalList := make([]string, 0)
+	for k, v := range SlaughterProcedureSensorDataUpperBounds {
+		if v < indexMap[k].(float64) {
+			abnormalList = append(abnormalList, k)
+		}
+	}
+
+	for k, v := range SlaughterProcedureSensorDataLowerBounds {
+		if v > indexMap[k].(float64) {
+			abnormalList = append(abnormalList, k)
+		}
+	}
+
+	return abnormalList, len(abnormalList), nil
+}

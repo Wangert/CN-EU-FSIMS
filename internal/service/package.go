@@ -1,6 +1,7 @@
 package service
 
 import (
+	"CN-EU-FSIMS/fabric"
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/models/coldchain"
 	"CN-EU-FSIMS/internal/app/models/pack"
@@ -9,6 +10,8 @@ import (
 	"CN-EU-FSIMS/internal/app/models/warehouse"
 	"context"
 	"time"
+
+	"github.com/golang/glog"
 )
 
 const (
@@ -46,7 +49,7 @@ func PreTransport(r *request.ReqPreTransport) error {
 			_ = tx.Rollback()
 		}
 	}()
-
+	bNum := BATCH_NUMBER_PREFIX + GenerateNumber(r)
 	// 获取package products
 	packProducts := make([]product.PackageProduct, len(r.PackageProductNumbers))
 
@@ -58,6 +61,7 @@ func PreTransport(r *request.ReqPreTransport) error {
 			Updates(map[string]interface{}{"state": PRE_TRANSPORT_PACPRO})
 		if err != nil {
 			_ = tx.Rollback()
+			glog.Info("1")
 			return err
 		}
 
@@ -79,14 +83,13 @@ func PreTransport(r *request.ReqPreTransport) error {
 		packProducts[i] = *p
 	}
 
-	bNum := BATCH_NUMBER_PREFIX + GenerateNumber(r)
-
 	// 新增transport batch，设置初始状态还未确认运输
 	tBatch := coldchain.TransportBatch{
 		BatchNumber: bNum,
 		TVNumber:    r.TVNumber,
 		State:       0,
 		Worker:      r.Worker,
+		MallNumber:  r.MallNumber,
 		Products:    packProducts,
 	}
 
@@ -96,6 +99,11 @@ func PreTransport(r *request.ReqPreTransport) error {
 		return err
 	}
 
+	err = tx.Commit()
+	if err != nil {
+		_ = tx.Rollback()
+		return err
+	}
 	return nil
 }
 
@@ -108,6 +116,8 @@ func EndPackage(r *request.ReqEndPackage) (string, []string, error) {
 			_ = tx.Rollback()
 		}
 	}()
+
+	endTime := time.Now()
 
 	// 读取PID和product number
 	pid, productNumber, err := GetPidAndProductNumByPackageBatchNumber(r.BatchNumber)
@@ -180,7 +190,13 @@ func EndPackage(r *request.ReqEndPackage) (string, []string, error) {
 		PackTemperature: r.PackTemperature,
 	}
 
-	checkcode, err := BasicCommitProcedureWithTx(tx, pid, data)
+	checkcode, phash, err := BasicCommitProcedureWithTx(tx, pid, &endTime, data)
+	if err != nil {
+		_ = tx.Rollback()
+		return "", nil, err
+	}
+
+	_, err = fabric.UpdateProcedure(pid, phash)
 	if err != nil {
 		_ = tx.Rollback()
 		return "", nil, err
@@ -269,7 +285,7 @@ func NewPackageBatch(r *request.ReqNewPackageBatch) (string, error) {
 			_ = tx.Rollback()
 		}
 	}()
-
+	startTime := time.Now()
 	bNum := BATCH_NUMBER_PREFIX + GenerateNumber(r)
 
 	pp := NewProcedureParams{
@@ -278,7 +294,7 @@ func NewPackageBatch(r *request.ReqNewPackageBatch) (string, error) {
 		PrePID:      r.PrePID,
 		BatchNumber: bNum,
 	}
-	procedure, err := NewProcedure(&pp)
+	procedure, err := NewProcedure(&pp, startTime)
 
 	pb := pack.PackageBatch{
 		BatchNumber:   bNum,
@@ -287,6 +303,7 @@ func NewPackageBatch(r *request.ReqNewPackageBatch) (string, error) {
 		PID:           procedure.PID,
 		Worker:        r.Worker,
 		ProductNumber: r.ProductNumber,
+		StartTime:     &startTime,
 	}
 
 	err = tx.Procedure.WithContext(context.Background()).Create(&procedure)
@@ -301,9 +318,15 @@ func NewPackageBatch(r *request.ReqNewPackageBatch) (string, error) {
 	}
 
 	// 更新package receive record
-	_, err = tx.SlaughterReceiveRecord.WithContext(context.Background()).
-		Where(tx.SlaughterReceiveRecord.CowNumber.Eq(r.ProductNumber)).
+	_, err = tx.PackageReceiveRecord.WithContext(context.Background()).
+		Where(tx.PackageReceiveRecord.ProductNumber.Eq(r.ProductNumber)).
 		Updates(map[string]interface{}{"state": PACKAGE_STATE_REC_PAC})
+	if err != nil {
+		_ = tx.Rollback()
+		return "", err
+	}
+
+	_, err = fabric.UploadProcedure(procedure.PID, procedure.PrePID)
 	if err != nil {
 		_ = tx.Rollback()
 		return "", err
@@ -321,7 +344,7 @@ func NewPackageBatch(r *request.ReqNewPackageBatch) (string, error) {
 func ConfirmProductFromSlaughter(num string) error {
 	var err error
 	tx := query.Q.Begin()
-
+	glog.Info("num", num)
 	defer func() {
 		if recover() != nil {
 			_ = tx.Rollback()
@@ -421,4 +444,19 @@ func GetPackageInfoByNumber(num string) (pack.PackageHouseInfo, error) {
 
 	phinfo := pack.ToPackageHouseInfo(ph)
 	return phinfo, nil
+}
+
+func GetPackageProducts(num string) ([]product.PackageProductInfo, int64, error) {
+	q := query.PackageProduct
+	products, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(num)).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+	count := len(products)
+	records := make([]product.PackageProductInfo, count)
+	for i, sw := range products {
+		records[i] = product.ToPackageProductInfo(sw)
+	}
+
+	return records, int64(count), nil
 }
