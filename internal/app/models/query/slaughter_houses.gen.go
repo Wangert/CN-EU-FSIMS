@@ -46,11 +46,6 @@ func newSlaughterHouse(db *gorm.DB, opts ...gen.DOOption) slaughterHouse {
 		db: db.Session(&gorm.Session{}),
 
 		RelationField: field.NewRelation("SlaughterRecords", "slaughter.SlaughterBatch"),
-		Procedure: struct {
-			field.RelationField
-		}{
-			RelationField: field.NewRelation("SlaughterRecords.Procedure", "models.Procedure"),
-		},
 		Products: struct {
 			field.RelationField
 		}{
@@ -125,11 +120,6 @@ func newSlaughterHouse(db *gorm.DB, opts ...gen.DOOption) slaughterHouse {
 			field.RelationField
 		}{
 			RelationField: field.NewRelation("SlaughterWaterQualityMonRecords.OapGciSla", "slaughter.OapGciSla"),
-		},
-		MicroIndexWaterMonSla: struct {
-			field.RelationField
-		}{
-			RelationField: field.NewRelation("SlaughterWaterQualityMonRecords.MicroIndexWaterMonSla", "slaughter.MicroIndexWaterMonSla"),
 		},
 		ToxinIndexSla: struct {
 			field.RelationField
@@ -339,9 +329,6 @@ type slaughterHouseHasManySlaughterRecords struct {
 
 	field.RelationField
 
-	Procedure struct {
-		field.RelationField
-	}
 	Products struct {
 		field.RelationField
 	}
@@ -1060,9 +1047,6 @@ type slaughterHouseHasManySlaughterWaterQualityMonRecords struct {
 		field.RelationField
 	}
 	OapGciSla struct {
-		field.RelationField
-	}
-	MicroIndexWaterMonSla struct {
 		field.RelationField
 	}
 	ToxinIndexSla struct {

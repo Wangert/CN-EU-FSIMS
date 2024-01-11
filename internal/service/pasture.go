@@ -1,6 +1,7 @@
 package service
 
 import (
+	"CN-EU-FSIMS/fabric"
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/models/pasture"
 	"CN-EU-FSIMS/internal/app/models/product"
@@ -8,8 +9,9 @@ import (
 	"CN-EU-FSIMS/internal/app/models/warehouse"
 	"context"
 	"errors"
-	"github.com/golang/glog"
 	"time"
+
+	"github.com/golang/glog"
 )
 
 const (
@@ -951,6 +953,8 @@ func EndFeeding(r *request.ReqEndFeeding) (string, []string, error) {
 		}
 	}()
 
+	endTime := time.Now()
+
 	// 读取PID
 	pid, err := GetPidByFeedingBatchNumber(r.BatchNumber)
 	if err != nil {
@@ -968,7 +972,7 @@ func EndFeeding(r *request.ReqEndFeeding) (string, []string, error) {
 		return "", nil, err
 	}
 	// 更新FeedingBatch状态
-	_, err = tx.FeedingBatch.WithContext(context.Background()).Where(tx.FeedingBatch.BatchNumber.Eq(r.BatchNumber)).Updates(map[string]interface{}{"state": END_STATE_BATCH_PAS})
+	_, err = tx.FeedingBatch.WithContext(context.Background()).Where(tx.FeedingBatch.BatchNumber.Eq(r.BatchNumber)).Updates(map[string]interface{}{"state": END_STATE_BATCH_PAS, "end_time": endTime})
 	if err != nil {
 		_ = tx.Rollback()
 		return "", nil, err
@@ -1003,7 +1007,12 @@ func EndFeeding(r *request.ReqEndFeeding) (string, []string, error) {
 		Stench: r.Stench,
 	}
 
-	checkcode, err := BasicCommitProcedureWithTx(tx, pid, data)
+	checkcode, pHash, err := BasicCommitProcedureWithTx(tx, pid, &endTime, data)
+	if err != nil {
+		_ = tx.Rollback()
+		return "", nil, err
+	}
+	_, err = fabric.UpdateProcedure(pid, pHash)
 	if err != nil {
 		_ = tx.Rollback()
 		return "", nil, err
@@ -1069,6 +1078,8 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 		}
 	}()
 
+	startTime := time.Now()
+
 	bNum := BATCH_NUMBER_PREFIX + GenerateNumber(r)
 
 	pp := NewProcedureParams{
@@ -1078,7 +1089,7 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 		BatchNumber: bNum,
 	}
 
-	procedure, err := NewProcedure(&pp)
+	procedure, err := NewProcedure(&pp, startTime)
 
 	glog.Infoln("CowNumbers:")
 	glog.Infoln(r.CowNumbers)
@@ -1094,14 +1105,15 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 		PID:         procedure.PID,
 		Worker:      r.Worker,
 		Cows:        cows,
+		StartTime:   &startTime,
 	}
+	err = tx.FeedingBatch.WithContext(context.Background()).Create(&fb)
 
-	err = tx.Procedure.WithContext(context.Background()).Create(&procedure)
 	if err != nil {
 		_ = tx.Rollback()
 		return "", err
 	}
-	err = tx.FeedingBatch.WithContext(context.Background()).Create(&fb)
+	err = tx.Procedure.WithContext(context.Background()).Create(&procedure)
 	if err != nil {
 		_ = tx.Rollback()
 		return "", err
@@ -1114,6 +1126,12 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 			return "", err
 		}
 	}
+	//上链
+	_, err = fabric.UploadProcedure(procedure.PID, procedure.PrePID)
+	if err != nil {
+		_ = tx.Rollback()
+		return "", err
+	}
 
 	err = tx.Commit()
 	if err != nil {
@@ -1122,6 +1140,19 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 	}
 
 	return bNum, nil
+}
+
+func GetCowList(house_number string) ([]product.Cow, error) {
+	q := query.Cow
+	cows, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(house_number)).Find()
+	if err != nil {
+		return nil, err
+	}
+	var cowsRes []product.Cow
+	for i, _ := range cows {
+		cowsRes = append(cowsRes, *cows[i])
+	}
+	return cowsRes, nil
 }
 
 func GetCowsByNumbers(numbers []string) ([]product.Cow, error) {

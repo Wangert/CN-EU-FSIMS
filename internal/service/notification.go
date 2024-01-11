@@ -19,6 +19,7 @@ func PushNotification(receiver string, event *Event) error {
 		UUID:      receiver,
 		EventTime: event.EventTime,
 		EventType: event.EventType,
+		Affected:  event.AffectedBatchNumber,
 		Proposal:  event.Proposal,
 		RiskLevel: event.RiskLevel,
 		State:     1,

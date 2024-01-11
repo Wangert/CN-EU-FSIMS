@@ -46,11 +46,6 @@ func newPackageHouse(db *gorm.DB, opts ...gen.DOOption) packageHouse {
 		db: db.Session(&gorm.Session{}),
 
 		RelationField: field.NewRelation("PackageRecords", "pack.PackageBatch"),
-		Procedure: struct {
-			field.RelationField
-		}{
-			RelationField: field.NewRelation("PackageRecords.Procedure", "models.Procedure"),
-		},
 	}
 
 	_packageHouse.PWRecords = packageHouseHasManyPWRecords{
@@ -233,10 +228,6 @@ type packageHouseHasManyPackageRecords struct {
 	db *gorm.DB
 
 	field.RelationField
-
-	Procedure struct {
-		field.RelationField
-	}
 }
 
 func (a packageHouseHasManyPackageRecords) Where(conds ...field.Expr) *packageHouseHasManyPackageRecords {

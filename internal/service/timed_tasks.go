@@ -6,8 +6,10 @@ import (
 	"CN-EU-FSIMS/internal/service/analysis"
 	"CN-EU-FSIMS/utils"
 	"context"
-	"github.com/robfig/cron/v3"
 	"time"
+
+	"github.com/golang/glog"
+	"github.com/robfig/cron/v3"
 )
 
 const (
@@ -40,7 +42,7 @@ type TimedTask struct {
 func TimedTasksStart(c *cron.Cron, tts []TimedTask) {
 
 	//tt := TimedTask{
-	//	Spec: "",
+	//	Spec: "*/5 * * * * ?",
 	//	Fc: func() {
 	//		currentTime := time.Now()
 	//		err := PastureFeedHeavyMetalMonitoring(currentTime)
@@ -57,6 +59,263 @@ func TimedTasksStart(c *cron.Cron, tts []TimedTask) {
 	c.Start()
 }
 
+func NewAllTimedTasks() []TimedTask {
+
+	tts := make([]TimedTask, 5)
+
+	pastureFeedHeavyMetalTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureFeedHeavyMetalMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pastureFeedMycotoxinsTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureFeedMycotoxinsMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pastureWaterQualityTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureWaterQualityMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pastureBufferTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureBufferMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pastureAreaTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureAreaMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pastureCowHouse := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureCowHouseMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pastureBasicEnvironmentTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PastureBasicEnvironmentMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	pasturePaddingTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := PasturePaddingMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	slaughterWaterQualityTask := TimedTask{
+		Spec: "*/5 * * * * ?",
+		Fc: func() {
+			currentTime := time.Now()
+			err := SlaughterWaterQualityMonitoring(currentTime)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		},
+	}
+
+	tts = append(tts, pastureFeedHeavyMetalTask)
+	tts = append(tts, pastureFeedMycotoxinsTask)
+	tts = append(tts, pastureWaterQualityTask)
+	tts = append(tts, pastureBufferTask)
+	tts = append(tts, pastureAreaTask)
+	tts = append(tts, pastureCowHouse)
+	tts = append(tts, pastureBasicEnvironmentTask)
+	tts = append(tts, pasturePaddingTask)
+	tts = append(tts, slaughterWaterQualityTask)
+
+	return tts
+}
+
+// 屠宰场过程监测
+func SlaughterProcedureDataMonitoring(pid string) {
+	glog.Infoln("Slaughter Procedure Data Monitoring!")
+	f := query.Q.SlaughterProcedureMonitoringData
+	record, err := f.WithContext(context.Background()).Where(f.PID.Eq(pid)).
+		Preload(f.SlaughterStun).Preload(f.BleedElectronic).Preload(f.AnalMeatPhMoni).First()
+	if err != nil {
+		glog.Errorln(err)
+	}
+
+	// 识别危害指标
+	abnormalList, abnormalCount, err := analysis.JudgeHarmForSlaughterProcedure(record)
+	if err != nil {
+		glog.Errorln(err)
+	}
+
+	riskLevel := analysis.RiskLevel(abnormalCount)
+
+	if riskLevel != 1 {
+		// 获取影响的SlaughterBatch
+		b := query.Q.SlaughterBatch
+		batch, err := b.WithContext(context.Background()).Where(b.PID.Eq(pid)).First()
+		if err != nil {
+			glog.Errorln(err)
+		}
+
+		// 获取接收人
+		u := query.Q.FSIMSUser
+		users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
+		if err != nil {
+			glog.Errorln(err)
+		}
+
+		// 创建事件
+		event := Event{
+			Source:              batch.HouseNumber,
+			Content:             SLAUGHTER_ABNORMAL_PROCEDURE_CONTENT,
+			EventTime:           *batch.EndTime,
+			EventType:           1,
+			AffectedBatchNumber: batch.BatchNumber,
+			Proposal:            utils.StrArrToStr(abnormalList),
+			RiskLevel:           riskLevel,
+		}
+
+		// 发送通知
+		for _, user := range users {
+			err = PushNotification(user.UUID, &event)
+			if err != nil {
+				glog.Errorln(err)
+			}
+		}
+	}
+}
+
+// 屠宰场水质监测
+func SlaughterWaterQualityMonitoring(currentTime time.Time) error {
+	m := query.Q.MonitoringTimeRecord
+	mtr, err := m.WithContext(context.Background()).Where(m.IndexName.Eq(SLAUGHTER_WATER)).First()
+	if err != nil {
+		return err
+	}
+
+	preTime := *mtr.LastTime
+
+	f := query.Q.SlaughterWaterQualityMon
+	records, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).
+		Preload(f.SlaughterWaterMicroIndex).Preload(f.OapGciSla).Preload(f.ToxinIndexSla).Find()
+	if err != nil {
+		return err
+	}
+
+	for _, record := range records {
+		// 识别危害指标
+		abnormalList, abnormalCount, err := analysis.JudgeHarmForSlaughterWaterQuality(record)
+		if err != nil {
+			return err
+		}
+
+		riskLevel := analysis.RiskLevel(abnormalCount)
+
+		if riskLevel != 1 {
+			// 获取影响的SlaughterBatch
+			b := query.Q.SlaughterBatch
+			DoneBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNotNull()).
+				Where(b.StartTime.Lte(record.TimeRecordAt)).Where(b.EndTime.Gte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			DoingBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNull()).Where(b.StartTime.Lte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			bs := append(DoingBatches, DoneBatches...)
+
+			// 受影响的batch
+			batchesNumber := []string{}
+			for _, batch := range bs {
+				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			// 获取接收人
+			u := query.Q.FSIMSUser
+			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
+			if err != nil {
+				return err
+			}
+
+			// 创建事件
+			event := Event{
+				Source:              record.HouseNumber,
+				Content:             SLAUGHTER_ABNORMAL_WATER_INDEX_CONTENT,
+				EventTime:           record.TimeRecordAt,
+				EventType:           1,
+				AffectedBatchNumber: utils.StrArrToStr(batchesNumber),
+				Proposal:            utils.StrArrToStr(abnormalList),
+				RiskLevel:           riskLevel,
+			}
+
+			// 发送通知
+			for _, user := range users {
+				err = PushNotification(user.UUID, &event)
+				if err != nil {
+					return err
+				}
+			}
+		}
+	}
+
+	_, err = m.WithContext(context.Background()).Where(m.IndexName.Eq(SLAUGHTER_WATER)).
+		Updates(map[string]interface{}{"last_time": currentTime})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // 牧场垫料监测
 func PasturePaddingMonitoring(currentTime time.Time) error {
 	m := query.Q.MonitoringTimeRecord
@@ -68,7 +327,7 @@ func PasturePaddingMonitoring(currentTime time.Time) error {
 	preTime := *mtr.LastTime
 
 	f := query.Q.PasturePaddingRequire
-	pasPaddings, err := f.WithContext(context.Background()).Where(f.TimeRecordAt.Between(preTime, currentTime)).Find()
+	pasPaddings, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).Find()
 	if err != nil {
 		return err
 	}
@@ -82,47 +341,54 @@ func PasturePaddingMonitoring(currentTime time.Time) error {
 
 		riskLevel := analysis.RiskLevel(abnormalCount)
 
-		// 获取影响的FeedBatch
-		b := query.Q.FeedingBatch
-		p := query.Q.Procedure
-		bs, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
-			Preload(b.Procedure.Where(p.StartTimestamp.Lte(record.TimeRecordAt)).
-				Where(p.CompletedTimestamp.Gte(record.TimeRecordAt))).Find()
-		if err != nil {
-			return err
-		}
-
-		// 受影响的cow
-		cowsNumber := []string{}
-		for _, batch := range bs {
-			for _, cow := range batch.Cows {
-				cowsNumber = append(cowsNumber, cow.Number)
-			}
-		}
-
-		// 获取接收人
-		u := query.Q.FSIMSUser
-		users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
-		if err != nil {
-			return err
-		}
-
-		// 创建事件
-		event := Event{
-			Source:                 record.HouseNumber,
-			Content:                PASTURE_ABNORMAL_PADDING_INDEX_CONTENT,
-			EventTime:              record.TimeRecordAt,
-			EventType:              1,
-			AffectedProductsNumber: utils.StrArrToStr(cowsNumber),
-			Proposal:               utils.StrArrToStr(abnormalList),
-			RiskLevel:              riskLevel,
-		}
-
-		// 发送通知
-		for _, user := range users {
-			err = PushNotification(user.UUID, &event)
+		if riskLevel != 1 {
+			// 获取影响的FeedBatch
+			b := query.Q.FeedingBatch
+			DoneBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNotNull()).
+				Where(b.StartTime.Lte(record.TimeRecordAt)).Where(b.EndTime.Gte(record.TimeRecordAt)).Find()
 			if err != nil {
 				return err
+			}
+
+			DoingBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNull()).Where(b.StartTime.Lte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			bs := append(DoingBatches, DoneBatches...)
+
+			// 受影响的batch
+			batchesNumber := []string{}
+			for _, batch := range bs {
+				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			// 获取接收人
+			u := query.Q.FSIMSUser
+			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
+			if err != nil {
+				return err
+			}
+
+			// 创建事件
+			event := Event{
+				Source:              record.HouseNumber,
+				Content:             PASTURE_ABNORMAL_PADDING_INDEX_CONTENT,
+				EventTime:           record.TimeRecordAt,
+				EventType:           1,
+				AffectedBatchNumber: utils.StrArrToStr(batchesNumber),
+				Proposal:            utils.StrArrToStr(abnormalList),
+				RiskLevel:           riskLevel,
+			}
+
+			// 发送通知
+			for _, user := range users {
+				err = PushNotification(user.UUID, &event)
+				if err != nil {
+					return err
+				}
 			}
 		}
 	}
@@ -147,7 +413,7 @@ func PastureBasicEnvironmentMonitoring(currentTime time.Time) error {
 	preTime := *mtr.LastTime
 
 	f := query.Q.PastureBasicEnvironment
-	pasBasicEnvironments, err := f.WithContext(context.Background()).Where(f.TimeRecordAt.Between(preTime, currentTime)).Find()
+	pasBasicEnvironments, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).Find()
 	if err != nil {
 		return err
 	}
@@ -161,47 +427,54 @@ func PastureBasicEnvironmentMonitoring(currentTime time.Time) error {
 
 		riskLevel := analysis.RiskLevel(abnormalCount)
 
-		// 获取影响的FeedBatch
-		b := query.Q.FeedingBatch
-		p := query.Q.Procedure
-		bs, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
-			Preload(b.Procedure.Where(p.StartTimestamp.Lte(record.TimeRecordAt)).
-				Where(p.CompletedTimestamp.Gte(record.TimeRecordAt))).Find()
-		if err != nil {
-			return err
-		}
-
-		// 受影响的cow
-		cowsNumber := []string{}
-		for _, batch := range bs {
-			for _, cow := range batch.Cows {
-				cowsNumber = append(cowsNumber, cow.Number)
-			}
-		}
-
-		// 获取接收人
-		u := query.Q.FSIMSUser
-		users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
-		if err != nil {
-			return err
-		}
-
-		// 创建事件
-		event := Event{
-			Source:                 record.HouseNumber,
-			Content:                PASTURE_ABNORMAL_BASIC_ENVIRONMENT_INDEX_CONTENT,
-			EventTime:              record.TimeRecordAt,
-			EventType:              1,
-			AffectedProductsNumber: utils.StrArrToStr(cowsNumber),
-			Proposal:               utils.StrArrToStr(abnormalList),
-			RiskLevel:              riskLevel,
-		}
-
-		// 发送通知
-		for _, user := range users {
-			err = PushNotification(user.UUID, &event)
+		if riskLevel != 1 {
+			// 获取影响的FeedBatch
+			b := query.Q.FeedingBatch
+			DoneBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNotNull()).
+				Where(b.StartTime.Lte(record.TimeRecordAt)).Where(b.EndTime.Gte(record.TimeRecordAt)).Find()
 			if err != nil {
 				return err
+			}
+
+			DoingBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNull()).Where(b.StartTime.Lte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			bs := append(DoingBatches, DoneBatches...)
+
+			// 受影响的batch
+			batchesNumber := []string{}
+			for _, batch := range bs {
+				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			// 获取接收人
+			u := query.Q.FSIMSUser
+			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
+			if err != nil {
+				return err
+			}
+
+			// 创建事件
+			event := Event{
+				Source:              record.HouseNumber,
+				Content:             PASTURE_ABNORMAL_BASIC_ENVIRONMENT_INDEX_CONTENT,
+				EventTime:           record.TimeRecordAt,
+				EventType:           1,
+				AffectedBatchNumber: utils.StrArrToStr(batchesNumber),
+				Proposal:            utils.StrArrToStr(abnormalList),
+				RiskLevel:           riskLevel,
+			}
+
+			// 发送通知
+			for _, user := range users {
+				err = PushNotification(user.UUID, &event)
+				if err != nil {
+					return err
+				}
 			}
 		}
 	}
@@ -226,7 +499,7 @@ func PastureCowHouseMonitoring(currentTime time.Time) error {
 	preTime := *mtr.LastTime
 
 	f := query.Q.CowHouse
-	pasCowhouses, err := f.WithContext(context.Background()).Where(f.TimeRecordAt.Between(preTime, currentTime)).Find()
+	pasCowhouses, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).Find()
 	if err != nil {
 		return err
 	}
@@ -240,47 +513,54 @@ func PastureCowHouseMonitoring(currentTime time.Time) error {
 
 		riskLevel := analysis.RiskLevel(abnormalCount)
 
-		// 获取影响的FeedBatch
-		b := query.Q.FeedingBatch
-		p := query.Q.Procedure
-		bs, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
-			Preload(b.Procedure.Where(p.StartTimestamp.Lte(record.TimeRecordAt)).
-				Where(p.CompletedTimestamp.Gte(record.TimeRecordAt))).Find()
-		if err != nil {
-			return err
-		}
-
-		// 受影响的cow
-		cowsNumber := []string{}
-		for _, batch := range bs {
-			for _, cow := range batch.Cows {
-				cowsNumber = append(cowsNumber, cow.Number)
-			}
-		}
-
-		// 获取接收人
-		u := query.Q.FSIMSUser
-		users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
-		if err != nil {
-			return err
-		}
-
-		// 创建事件
-		event := Event{
-			Source:                 record.HouseNumber,
-			Content:                PASTURE_ABNORMAL_COWHOUSE_INDEX_CONTENT,
-			EventTime:              record.TimeRecordAt,
-			EventType:              1,
-			AffectedProductsNumber: utils.StrArrToStr(cowsNumber),
-			Proposal:               utils.StrArrToStr(abnormalList),
-			RiskLevel:              riskLevel,
-		}
-
-		// 发送通知
-		for _, user := range users {
-			err = PushNotification(user.UUID, &event)
+		if riskLevel != 1 {
+			// 获取影响的FeedBatch
+			b := query.Q.FeedingBatch
+			DoneBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNotNull()).
+				Where(b.StartTime.Lte(record.TimeRecordAt)).Where(b.EndTime.Gte(record.TimeRecordAt)).Find()
 			if err != nil {
 				return err
+			}
+
+			DoingBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNull()).Where(b.StartTime.Lte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			bs := append(DoingBatches, DoneBatches...)
+
+			// 受影响的batch
+			batchesNumber := []string{}
+			for _, batch := range bs {
+				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			// 获取接收人
+			u := query.Q.FSIMSUser
+			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
+			if err != nil {
+				return err
+			}
+
+			// 创建事件
+			event := Event{
+				Source:              record.HouseNumber,
+				Content:             PASTURE_ABNORMAL_COWHOUSE_INDEX_CONTENT,
+				EventTime:           record.TimeRecordAt,
+				EventType:           1,
+				AffectedBatchNumber: utils.StrArrToStr(batchesNumber),
+				Proposal:            utils.StrArrToStr(abnormalList),
+				RiskLevel:           riskLevel,
+			}
+
+			// 发送通知
+			for _, user := range users {
+				err = PushNotification(user.UUID, &event)
+				if err != nil {
+					return err
+				}
 			}
 		}
 	}
@@ -305,7 +585,7 @@ func PastureAreaMonitoring(currentTime time.Time) error {
 	preTime := *mtr.LastTime
 
 	f := query.Q.PastureArea
-	pasAreas, err := f.WithContext(context.Background()).Where(f.TimeRecordAt.Between(preTime, currentTime)).Find()
+	pasAreas, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).Find()
 	if err != nil {
 		return err
 	}
@@ -319,47 +599,54 @@ func PastureAreaMonitoring(currentTime time.Time) error {
 
 		riskLevel := analysis.RiskLevel(abnormalCount)
 
-		// 获取影响的FeedBatch
-		b := query.Q.FeedingBatch
-		p := query.Q.Procedure
-		bs, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
-			Preload(b.Procedure.Where(p.StartTimestamp.Lte(record.TimeRecordAt)).
-				Where(p.CompletedTimestamp.Gte(record.TimeRecordAt))).Find()
-		if err != nil {
-			return err
-		}
-
-		// 受影响的cow
-		cowsNumber := []string{}
-		for _, batch := range bs {
-			for _, cow := range batch.Cows {
-				cowsNumber = append(cowsNumber, cow.Number)
-			}
-		}
-
-		// 获取接收人
-		u := query.Q.FSIMSUser
-		users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
-		if err != nil {
-			return err
-		}
-
-		// 创建事件
-		event := Event{
-			Source:                 record.HouseNumber,
-			Content:                PASTURE_ABNORMAL_AREA_INDEX_CONTENT,
-			EventTime:              record.TimeRecordAt,
-			EventType:              1,
-			AffectedProductsNumber: utils.StrArrToStr(cowsNumber),
-			Proposal:               utils.StrArrToStr(abnormalList),
-			RiskLevel:              riskLevel,
-		}
-
-		// 发送通知
-		for _, user := range users {
-			err = PushNotification(user.UUID, &event)
+		if riskLevel != 1 {
+			// 获取影响的FeedBatch
+			b := query.Q.FeedingBatch
+			DoneBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNotNull()).
+				Where(b.StartTime.Lte(record.TimeRecordAt)).Where(b.EndTime.Gte(record.TimeRecordAt)).Find()
 			if err != nil {
 				return err
+			}
+
+			DoingBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNull()).Where(b.StartTime.Lte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			bs := append(DoingBatches, DoneBatches...)
+
+			// 受影响的batch
+			batchesNumber := []string{}
+			for _, batch := range bs {
+				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			// 获取接收人
+			u := query.Q.FSIMSUser
+			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
+			if err != nil {
+				return err
+			}
+
+			// 创建事件
+			event := Event{
+				Source:              record.HouseNumber,
+				Content:             PASTURE_ABNORMAL_AREA_INDEX_CONTENT,
+				EventTime:           record.TimeRecordAt,
+				EventType:           1,
+				AffectedBatchNumber: utils.StrArrToStr(batchesNumber),
+				Proposal:            utils.StrArrToStr(abnormalList),
+				RiskLevel:           riskLevel,
+			}
+
+			// 发送通知
+			for _, user := range users {
+				err = PushNotification(user.UUID, &event)
+				if err != nil {
+					return err
+				}
 			}
 		}
 	}
@@ -384,7 +671,7 @@ func PastureBufferMonitoring(currentTime time.Time) error {
 	preTime := *mtr.LastTime
 
 	f := query.Q.PastureBuffer
-	pasBuffers, err := f.WithContext(context.Background()).Where(f.TimeRecordAt.Between(preTime, currentTime)).Find()
+	pasBuffers, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).Find()
 	if err != nil {
 		return err
 	}
@@ -398,47 +685,54 @@ func PastureBufferMonitoring(currentTime time.Time) error {
 
 		riskLevel := analysis.RiskLevel(abnormalCount)
 
-		// 获取影响的FeedBatch
-		b := query.Q.FeedingBatch
-		p := query.Q.Procedure
-		bs, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
-			Preload(b.Procedure.Where(p.StartTimestamp.Lte(record.TimeRecordAt)).
-				Where(p.CompletedTimestamp.Gte(record.TimeRecordAt))).Find()
-		if err != nil {
-			return err
-		}
-
-		// 受影响的cow
-		cowsNumber := []string{}
-		for _, batch := range bs {
-			for _, cow := range batch.Cows {
-				cowsNumber = append(cowsNumber, cow.Number)
-			}
-		}
-
-		// 获取接收人
-		u := query.Q.FSIMSUser
-		users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
-		if err != nil {
-			return err
-		}
-
-		// 创建事件
-		event := Event{
-			Source:                 record.HouseNumber,
-			Content:                PASTURE_ABNORMAL_BUFFER_INDEX_CONTENT,
-			EventTime:              record.TimeRecordAt,
-			EventType:              1,
-			AffectedProductsNumber: utils.StrArrToStr(cowsNumber),
-			Proposal:               utils.StrArrToStr(abnormalList),
-			RiskLevel:              riskLevel,
-		}
-
-		// 发送通知
-		for _, user := range users {
-			err = PushNotification(user.UUID, &event)
+		if riskLevel != 1 {
+			// 获取影响的FeedBatch
+			b := query.Q.FeedingBatch
+			DoneBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNotNull()).
+				Where(b.StartTime.Lte(record.TimeRecordAt)).Where(b.EndTime.Gte(record.TimeRecordAt)).Find()
 			if err != nil {
 				return err
+			}
+
+			DoingBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNull()).Where(b.StartTime.Lte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			bs := append(DoingBatches, DoneBatches...)
+
+			// 受影响的batch
+			batchesNumber := []string{}
+			for _, batch := range bs {
+				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			// 获取接收人
+			u := query.Q.FSIMSUser
+			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
+			if err != nil {
+				return err
+			}
+
+			// 创建事件
+			event := Event{
+				Source:              record.HouseNumber,
+				Content:             PASTURE_ABNORMAL_BUFFER_INDEX_CONTENT,
+				EventTime:           record.TimeRecordAt,
+				EventType:           1,
+				AffectedBatchNumber: utils.StrArrToStr(batchesNumber),
+				Proposal:            utils.StrArrToStr(abnormalList),
+				RiskLevel:           riskLevel,
+			}
+
+			// 发送通知
+			for _, user := range users {
+				err = PushNotification(user.UUID, &event)
+				if err != nil {
+					return err
+				}
 			}
 		}
 	}
@@ -463,7 +757,8 @@ func PastureWaterQualityMonitoring(currentTime time.Time) error {
 	preTime := *mtr.LastTime
 
 	f := query.Q.PastureWaterRecord
-	pasWaterRecords, err := f.WithContext(context.Background()).Where(f.TimeRecordAt.Between(preTime, currentTime)).Find()
+	pasWaterRecords, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).
+		Preload(f.OapGci).Preload(f.ToxIndex).Preload(f.MicroIndex).Find()
 	if err != nil {
 		return err
 	}
@@ -477,47 +772,54 @@ func PastureWaterQualityMonitoring(currentTime time.Time) error {
 
 		riskLevel := analysis.RiskLevel(abnormalCount)
 
-		// 获取影响的FeedBatch
-		b := query.Q.FeedingBatch
-		p := query.Q.Procedure
-		bs, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
-			Preload(b.Procedure.Where(p.StartTimestamp.Lte(record.TimeRecordAt)).
-				Where(p.CompletedTimestamp.Gte(record.TimeRecordAt))).Find()
-		if err != nil {
-			return err
-		}
-
-		// 受影响的cow
-		cowsNumber := []string{}
-		for _, batch := range bs {
-			for _, cow := range batch.Cows {
-				cowsNumber = append(cowsNumber, cow.Number)
-			}
-		}
-
-		// 获取接收人
-		u := query.Q.FSIMSUser
-		users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
-		if err != nil {
-			return err
-		}
-
-		// 创建事件
-		event := Event{
-			Source:                 record.HouseNumber,
-			Content:                PASTURE_ABNORMAL_WATER_INDEX_CONTENT,
-			EventTime:              record.TimeRecordAt,
-			EventType:              1,
-			AffectedProductsNumber: utils.StrArrToStr(cowsNumber),
-			Proposal:               utils.StrArrToStr(abnormalList),
-			RiskLevel:              riskLevel,
-		}
-
-		// 发送通知
-		for _, user := range users {
-			err = PushNotification(user.UUID, &event)
+		if riskLevel != 1 {
+			// 获取影响的FeedBatch
+			b := query.Q.FeedingBatch
+			DoneBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNotNull()).
+				Where(b.StartTime.Lte(record.TimeRecordAt)).Where(b.EndTime.Gte(record.TimeRecordAt)).Find()
 			if err != nil {
 				return err
+			}
+
+			DoingBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNull()).Where(b.StartTime.Lte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			bs := append(DoingBatches, DoneBatches...)
+
+			// 受影响的batch
+			batchesNumber := []string{}
+			for _, batch := range bs {
+				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			// 获取接收人
+			u := query.Q.FSIMSUser
+			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
+			if err != nil {
+				return err
+			}
+
+			// 创建事件
+			event := Event{
+				Source:              record.HouseNumber,
+				Content:             PASTURE_ABNORMAL_WATER_INDEX_CONTENT,
+				EventTime:           record.TimeRecordAt,
+				EventType:           1,
+				AffectedBatchNumber: utils.StrArrToStr(batchesNumber),
+				Proposal:            utils.StrArrToStr(abnormalList),
+				RiskLevel:           riskLevel,
+			}
+
+			// 发送通知
+			for _, user := range users {
+				err = PushNotification(user.UUID, &event)
+				if err != nil {
+					return err
+				}
 			}
 		}
 	}
@@ -542,7 +844,8 @@ func PastureFeedMycotoxinsMonitoring(currentTime time.Time) error {
 	preTime := *mtr.LastTime
 
 	f := query.Q.PastureFeedMycotoxins
-	pasFeedMycotoxinsRecords, err := f.WithContext(context.Background()).Where(f.TimeRecordAt.Between(preTime, currentTime)).Find()
+	pasFeedMycotoxinsRecords, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).
+		Preload(f.Afb1).Preload(f.Don).Preload(f.T2toxin).Preload(f.T2VomZea).Find()
 	if err != nil {
 		return err
 	}
@@ -556,52 +859,60 @@ func PastureFeedMycotoxinsMonitoring(currentTime time.Time) error {
 
 		riskLevel := analysis.RiskLevel(abnormalCount)
 
-		// 获取影响的FeedBatch
-		b := query.Q.FeedingBatch
-		p := query.Q.Procedure
-		bs, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
-			Preload(b.Procedure.Where(p.StartTimestamp.Lte(record.TimeRecordAt)).
-				Where(p.CompletedTimestamp.Gte(record.TimeRecordAt))).Find()
-		if err != nil {
-			return err
-		}
-
-		// 受影响的cow
-		cowsNumber := []string{}
-		for _, batch := range bs {
-			for _, cow := range batch.Cows {
-				cowsNumber = append(cowsNumber, cow.Number)
-			}
-		}
-
-		// 获取接收人
-		u := query.Q.FSIMSUser
-		users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
-		if err != nil {
-			return err
-		}
-
-		// 创建事件
-		event := Event{
-			Source:                 record.HouseNumber,
-			Content:                PASTURE_ABNORMAL_FEED_FUNGUS_INDEX_CONTENT,
-			EventTime:              record.TimeRecordAt,
-			EventType:              1,
-			AffectedProductsNumber: utils.StrArrToStr(cowsNumber),
-			Proposal:               utils.StrArrToStr(abnormalList),
-			RiskLevel:              riskLevel,
-		}
-
-		// 发送通知
-		for _, user := range users {
-			err = PushNotification(user.UUID, &event)
+		if riskLevel != 1 {
+			// 获取影响的FeedBatch
+			b := query.Q.FeedingBatch
+			DoneBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNotNull()).
+				Where(b.StartTime.Lte(record.TimeRecordAt)).Where(b.EndTime.Gte(record.TimeRecordAt)).Find()
 			if err != nil {
 				return err
 			}
+
+			DoingBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNull()).Where(b.StartTime.Lte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			bs := append(DoingBatches, DoneBatches...)
+
+			// 受影响的batch
+			batchesNumber := []string{}
+			for _, batch := range bs {
+				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			// 获取接收人
+			u := query.Q.FSIMSUser
+			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
+			if err != nil {
+				return err
+			}
+
+			// 创建事件
+			event := Event{
+				Source:              record.HouseNumber,
+				Content:             PASTURE_ABNORMAL_FEED_FUNGUS_INDEX_CONTENT,
+				EventTime:           record.TimeRecordAt,
+				EventType:           1,
+				AffectedBatchNumber: utils.StrArrToStr(batchesNumber),
+				Proposal:            utils.StrArrToStr(abnormalList),
+				RiskLevel:           riskLevel,
+			}
+
+			// 发送通知
+			for _, user := range users {
+				err = PushNotification(user.UUID, &event)
+				if err != nil {
+					return err
+				}
+			}
 		}
+
 	}
 
-	_, err = m.WithContext(context.Background()).Where(m.IndexName.Eq(PASTURE_FEED_HEAVY_METAL)).
+	_, err = m.WithContext(context.Background()).Where(m.IndexName.Eq(PASTURE_FEED_MYCOTOXINS)).
 		Updates(map[string]interface{}{"last_time": currentTime})
 	if err != nil {
 		return err
@@ -612,6 +923,8 @@ func PastureFeedMycotoxinsMonitoring(currentTime time.Time) error {
 
 // 牧场饲料重金属监测
 func PastureFeedHeavyMetalMonitoring(currentTime time.Time) error {
+	glog.Infoln("pasture feed heavy metal monitoring!")
+
 	m := query.Q.MonitoringTimeRecord
 	mtr, err := m.WithContext(context.Background()).Where(m.IndexName.Eq(PASTURE_FEED_HEAVY_METAL)).First()
 	if err != nil {
@@ -621,7 +934,8 @@ func PastureFeedHeavyMetalMonitoring(currentTime time.Time) error {
 	preTime := *mtr.LastTime
 
 	f := query.Q.PastureFeedHeavyMetal
-	pasFeedHeavyMetalRecords, err := f.WithContext(context.Background()).Where(f.TimeRecordAt.Between(preTime, currentTime)).Find()
+	pasFeedHeavyMetalRecords, err := f.WithContext(context.Background()).Where(f.CreatedAt.Between(preTime, currentTime)).
+		Preload(f.PastureFeedAs).Preload(f.PastureFeedCd).Preload(f.PastureFeedCr).Preload(f.PastureFeedPb).Find()
 	if err != nil {
 		return err
 	}
@@ -635,47 +949,54 @@ func PastureFeedHeavyMetalMonitoring(currentTime time.Time) error {
 
 		riskLevel := analysis.RiskLevel(abnormalCount)
 
-		// 获取影响的FeedBatch
-		b := query.Q.FeedingBatch
-		p := query.Q.Procedure
-		bs, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
-			Preload(b.Procedure.Where(p.StartTimestamp.Lte(record.TimeRecordAt)).
-				Where(p.CompletedTimestamp.Gte(record.TimeRecordAt))).Find()
-		if err != nil {
-			return err
-		}
-
-		// 受影响的cow
-		cowsNumber := []string{}
-		for _, batch := range bs {
-			for _, cow := range batch.Cows {
-				cowsNumber = append(cowsNumber, cow.Number)
-			}
-		}
-
-		// 获取接收人
-		u := query.Q.FSIMSUser
-		users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
-		if err != nil {
-			return err
-		}
-
-		// 创建事件
-		event := Event{
-			Source:                 record.HouseNumber,
-			Content:                PASTURE_ABNORMAL_FEED_HEAVY_METAL_INDEX_CONTENT,
-			EventTime:              record.TimeRecordAt,
-			EventType:              1,
-			AffectedProductsNumber: utils.StrArrToStr(cowsNumber),
-			Proposal:               utils.StrArrToStr(abnormalList),
-			RiskLevel:              riskLevel,
-		}
-
-		// 发送通知
-		for _, user := range users {
-			err = PushNotification(user.UUID, &event)
+		if riskLevel != 1 {
+			// 获取影响的FeedBatch
+			b := query.Q.FeedingBatch
+			DoneBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNotNull()).
+				Where(b.StartTime.Lte(record.TimeRecordAt)).Where(b.EndTime.Gte(record.TimeRecordAt)).Find()
 			if err != nil {
 				return err
+			}
+
+			DoingBatches, err := b.WithContext(context.Background()).Where(b.HouseNumber.Eq(record.HouseNumber)).
+				Where(b.StartTime.IsNotNull()).Where(b.EndTime.IsNull()).Where(b.StartTime.Lte(record.TimeRecordAt)).Find()
+			if err != nil {
+				return err
+			}
+
+			bs := append(DoingBatches, DoneBatches...)
+
+			// 受影响的batch
+			batchesNumber := []string{}
+			for _, batch := range bs {
+				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			// 获取接收人
+			u := query.Q.FSIMSUser
+			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
+			if err != nil {
+				return err
+			}
+
+			// 创建事件
+			event := Event{
+				Source:              record.HouseNumber,
+				Content:             PASTURE_ABNORMAL_FEED_HEAVY_METAL_INDEX_CONTENT,
+				EventTime:           record.TimeRecordAt,
+				EventType:           1,
+				AffectedBatchNumber: utils.StrArrToStr(batchesNumber),
+				Proposal:            utils.StrArrToStr(abnormalList),
+				RiskLevel:           riskLevel,
+			}
+
+			// 发送通知
+			for _, user := range users {
+				err = PushNotification(user.UUID, &event)
+				if err != nil {
+					return err
+				}
 			}
 		}
 	}
@@ -699,17 +1020,34 @@ func InitMonitoringTimeRecords() error {
 		}
 	}()
 
+	initTime := time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC)
+
+	count, err := query.MonitoringTimeRecord.WithContext(context.Background()).Count()
+	if err != nil {
+		return err
+	}
+
+	if count != 0 {
+		return nil
+	}
+
 	for _, name := range monitoringNames {
 		record := models.MonitoringTimeRecord{
 			IndexName: name,
-			LastTime:  nil,
+			LastTime:  &initTime,
 		}
 
-		err = query.Q.MonitoringTimeRecord.WithContext(context.Background()).Create(&record)
+		err = tx.MonitoringTimeRecord.WithContext(context.Background()).Create(&record)
 		if err != nil {
 			_ = tx.Rollback()
 			return err
 		}
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		_ = tx.Rollback()
+		return err
 	}
 
 	return nil

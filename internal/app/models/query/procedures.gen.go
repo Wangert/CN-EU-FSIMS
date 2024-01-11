@@ -36,13 +36,12 @@ func newProcedure(db *gorm.DB, opts ...gen.DOOption) procedure {
 	_procedure.State = field.NewUint(tableName, "state")
 	_procedure.PHash = field.NewString(tableName, "p_hash")
 	_procedure.CheckCode = field.NewString(tableName, "check_code")
-	_procedure.SerialNumber = field.NewUint(tableName, "serial_number")
+	_procedure.SerialNumber = field.NewInt64(tableName, "serial_number")
 	_procedure.Operator = field.NewString(tableName, "operator")
 	_procedure.StartTimestamp = field.NewTime(tableName, "start_timestamp")
 	_procedure.CompletedTimestamp = field.NewTime(tableName, "completed_timestamp")
 	_procedure.PrePID = field.NewString(tableName, "pre_p_id")
 	_procedure.ICID = field.NewString(tableName, "ic_id")
-	_procedure.BatchNumber = field.NewString(tableName, "batch_number")
 
 	_procedure.fillFieldMap()
 
@@ -63,13 +62,12 @@ type procedure struct {
 	State              field.Uint
 	PHash              field.String
 	CheckCode          field.String
-	SerialNumber       field.Uint
+	SerialNumber       field.Int64
 	Operator           field.String
 	StartTimestamp     field.Time
 	CompletedTimestamp field.Time
 	PrePID             field.String
 	ICID               field.String
-	BatchNumber        field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -96,13 +94,12 @@ func (p *procedure) updateTableName(table string) *procedure {
 	p.State = field.NewUint(table, "state")
 	p.PHash = field.NewString(table, "p_hash")
 	p.CheckCode = field.NewString(table, "check_code")
-	p.SerialNumber = field.NewUint(table, "serial_number")
+	p.SerialNumber = field.NewInt64(table, "serial_number")
 	p.Operator = field.NewString(table, "operator")
 	p.StartTimestamp = field.NewTime(table, "start_timestamp")
 	p.CompletedTimestamp = field.NewTime(table, "completed_timestamp")
 	p.PrePID = field.NewString(table, "pre_p_id")
 	p.ICID = field.NewString(table, "ic_id")
-	p.BatchNumber = field.NewString(table, "batch_number")
 
 	p.fillFieldMap()
 
@@ -129,7 +126,7 @@ func (p *procedure) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (p *procedure) fillFieldMap() {
-	p.fieldMap = make(map[string]field.Expr, 17)
+	p.fieldMap = make(map[string]field.Expr, 16)
 	p.fieldMap["id"] = p.ID
 	p.fieldMap["created_at"] = p.CreatedAt
 	p.fieldMap["updated_at"] = p.UpdatedAt
@@ -146,7 +143,6 @@ func (p *procedure) fillFieldMap() {
 	p.fieldMap["completed_timestamp"] = p.CompletedTimestamp
 	p.fieldMap["pre_p_id"] = p.PrePID
 	p.fieldMap["ic_id"] = p.ICID
-	p.fieldMap["batch_number"] = p.BatchNumber
 }
 
 func (p procedure) clone(db *gorm.DB) procedure {
