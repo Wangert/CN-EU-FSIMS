@@ -10,56 +10,57 @@ import (
 	"github.com/golang/glog"
 )
 
-func UploadSlaughterWasteWaterPerDay(c *gin.Context) {
-	var r request.ReqSlaughterWasteWaterPerDay
-	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
-		response.MakeFail(c, http.StatusBadRequest, "upload slaughter waste water  error!")
-		return
-	}
+//func UploadSlaughterWasteWaterPerDay(c *gin.Context) {
+//	var r request.ReqSlaughterWasteWaterPerDay
+//	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+//		response.MakeFail(c, http.StatusBadRequest, "upload slaughter waste water  error!")
+//		return
+//	}
+//
+//	err := service.UploadSlaughterWasteWaterPerDay(&r)
+//	if err != nil{
+//		response.MakeFail(c, http.StatusOK, "upload slaughter waste water  error!")
+//		return
+//	}
+//
+//	response.MakeSuccess(c, http.StatusOK, "upload slaughter waste residue error!")
+//	return
+//}
+//
+//func UploadSlaughterWasteResiduePerDay(c *gin.Context) {
+//	var r request.ReqSlaughterWasteResiduePerDay
+//	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+//		response.MakeFail(c, http.StatusBadRequest, "upload slaughter waste residue  error!")
+//		return
+//	}
+//
+//	err := service.UploadSlaughterWasteResiduePerDay(&r)
+//	if err != nil{
+//		response.MakeFail(c, http.StatusBadRequest, "upload slaughter waste residue error!")
+//		return
+//	}
+//
+//	response.MakeSuccess(c, http.StatusOK, "upload slaughter waste residue error!")
+//	return
+//}
+//
+//func UploadSlaughterOdorPollutantsPerDay(c *gin.Context) {
+//	var r request.ReqSlaughterOdorPollutantsPerDay
+//	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
+//		response.MakeFail(c, http.StatusBadRequest, "upload slaughter odor pollutants  error!")
+//		return
+//	}
+//
+//	err := service.UploadSlaughterOdorPollutantsPerDay(&r)
+//	if err != nil {
+//		response.MakeFail(c, http.StatusBadRequest, "upload slaughter odor pollutants error!")
+//		return
+//	}
+//
+//	response.MakeSuccess(c, http.StatusOK, "upload slaughter odor pollutants error!")
+//	return
+//}
 
-	err := service.UploadSlaughterWasteWaterPerDay(&r)
-	if err != nil{
-		response.MakeFail(c, http.StatusOK, "upload slaughter waste water  error!")
-		return
-	}
-
-	response.MakeSuccess(c, http.StatusOK, "upload slaughter waste residue error!")
-	return
-}
-
-func UploadSlaughterWasteResiduePerDay(c *gin.Context) {
-	var r request.ReqSlaughterWasteResiduePerDay
-	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
-		response.MakeFail(c, http.StatusBadRequest, "upload slaughter waste residue  error!")
-		return
-	}
-
-	err := service.UploadSlaughterWasteResiduePerDay(&r)
-	if err != nil{
-		response.MakeFail(c, http.StatusBadRequest, "upload slaughter waste residue error!")
-		return
-	}
-
-	response.MakeSuccess(c, http.StatusOK, "upload slaughter waste residue error!")
-	return
-}
-
-func UploadSlaughterOdorPollutantsPerDay(c *gin.Context) {
-	var r request.ReqSlaughterOdorPollutantsPerDay
-	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
-		response.MakeFail(c, http.StatusBadRequest, "upload slaughter odor pollutants  error!")
-		return
-	}
-
-	err := service.UploadSlaughterOdorPollutantsPerDay(&r)
-	if err != nil {
-		response.MakeFail(c, http.StatusBadRequest, "upload slaughter odor pollutants error!")
-		return
-	}
-
-	response.MakeSuccess(c, http.StatusOK, "upload slaughter odor pollutants error!")
-	return
-}
 func UploadSlaughterStaffUniformData(c *gin.Context) {
 	var r request.ReqUploadStaffUniformData
 	if err := c.ShouldBind(&r); err != nil || r.HouseNumber == "" {
