@@ -23,7 +23,7 @@ func UploadSlaughterWasteWaterPerDay(c *gin.Context) {
 		return
 	}
 
-	response.MakeSuccess(c, http.StatusOK, "upload slaughter waste residue error!")
+	response.MakeSuccess(c, http.StatusOK, "upload slaughter waste residue successfully!")
 	return
 }
 
@@ -40,7 +40,7 @@ func UploadSlaughterWasteResiduePerDay(c *gin.Context) {
 		return
 	}
 
-	response.MakeSuccess(c, http.StatusOK, "upload slaughter waste residue error!")
+	response.MakeSuccess(c, http.StatusOK, "upload slaughter waste residue successfully!")
 	return
 }
 
@@ -57,7 +57,7 @@ func UploadSlaughterOdorPollutantsPerDay(c *gin.Context) {
 		return
 	}
 
-	response.MakeSuccess(c, http.StatusOK, "upload slaughter odor pollutants error!")
+	response.MakeSuccess(c, http.StatusOK, "upload slaughter odor pollutants successfully!")
 	return
 }
 
