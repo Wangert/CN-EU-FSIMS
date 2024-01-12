@@ -41,11 +41,11 @@ func newFroShop(db *gorm.DB, opts ...gen.DOOption) froShop {
 	_froShop.FroShop7 = field.NewFloat32(tableName, "fro_shop7")
 	_froShop.FroShop8 = field.NewFloat32(tableName, "fro_shop8")
 	_froShop.FroShop9 = field.NewFloat32(tableName, "fro_shop9")
-	_froShop.FroShop10 = field.NewFloat32(tableName, "fro_shop10")
-	_froShop.FroShop11 = field.NewFloat32(tableName, "fro_shop11")
-	_froShop.FroShop12 = field.NewFloat32(tableName, "fro_shop12")
-	_froShop.FroShop13 = field.NewFloat32(tableName, "fro_shop13")
-	_froShop.FroShop14 = field.NewFloat32(tableName, "fro_shop14")
+	_froShop.FroShop10 = field.NewString(tableName, "fro_shop10")
+	_froShop.FroShop11 = field.NewString(tableName, "fro_shop11")
+	_froShop.FroShop12 = field.NewString(tableName, "fro_shop12")
+	_froShop.FroShop13 = field.NewString(tableName, "fro_shop13")
+	_froShop.FroShop14 = field.NewString(tableName, "fro_shop14")
 
 	_froShop.fillFieldMap()
 
@@ -71,11 +71,11 @@ type froShop struct {
 	FroShop7     field.Float32
 	FroShop8     field.Float32
 	FroShop9     field.Float32
-	FroShop10    field.Float32
-	FroShop11    field.Float32
-	FroShop12    field.Float32
-	FroShop13    field.Float32
-	FroShop14    field.Float32
+	FroShop10    field.String
+	FroShop11    field.String
+	FroShop12    field.String
+	FroShop13    field.String
+	FroShop14    field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -107,11 +107,11 @@ func (f *froShop) updateTableName(table string) *froShop {
 	f.FroShop7 = field.NewFloat32(table, "fro_shop7")
 	f.FroShop8 = field.NewFloat32(table, "fro_shop8")
 	f.FroShop9 = field.NewFloat32(table, "fro_shop9")
-	f.FroShop10 = field.NewFloat32(table, "fro_shop10")
-	f.FroShop11 = field.NewFloat32(table, "fro_shop11")
-	f.FroShop12 = field.NewFloat32(table, "fro_shop12")
-	f.FroShop13 = field.NewFloat32(table, "fro_shop13")
-	f.FroShop14 = field.NewFloat32(table, "fro_shop14")
+	f.FroShop10 = field.NewString(table, "fro_shop10")
+	f.FroShop11 = field.NewString(table, "fro_shop11")
+	f.FroShop12 = field.NewString(table, "fro_shop12")
+	f.FroShop13 = field.NewString(table, "fro_shop13")
+	f.FroShop14 = field.NewString(table, "fro_shop14")
 
 	f.fillFieldMap()
 

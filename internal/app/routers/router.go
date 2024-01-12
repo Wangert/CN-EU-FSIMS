@@ -26,6 +26,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.GET("blockchain/ledgerinfo", handlers.GetLedgerInfo)
 		user.GET("blockchain/latestblock", handlers.GetLastestBlock)
 
+		user.GET("foodchains", handlers.GetAllFoodchains)
 	}
 
 	// admin router group

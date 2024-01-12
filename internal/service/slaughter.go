@@ -24,10 +24,11 @@ const (
 	INIT_STATE_BATCH_SLA = 1
 	END_STATE_BATCH_SLA  = 2
 
-	INIT_SLAPRO      = 1
-	WAREHOUSE_SLAPRO = 2
-	SENDING_SLAPRO   = 3
-	CONFIRM_SLAPRO   = 4
+	INIT_SLAPRO        = 1
+	WAREHOUSE_SLAPRO   = 2
+	SENDING_SLAPRO     = 3
+	CONFIRM_SLAPRO     = 4
+	PACKAGE_END_SLAPRO = 5
 
 	INIT_SH    = 1
 	SENDING_SH = 2
@@ -757,6 +758,14 @@ func EndSlaughter(r *request.ReqEndSlaughter) (string, []string, string, error) 
 		return "", nil, "", err
 	}
 
+	// 更新Cow状态
+	_, err = tx.Cow.WithContext(context.Background()).Where(tx.Cow.Number.Eq(cowNumber)).
+		Updates(map[string]interface{}{"state": SLAUGHTER_END_STATE_COW})
+	if err != nil {
+		_ = tx.Rollback()
+		return "", nil, "", err
+	}
+
 	// 更新product状态
 	_, err = tx.SlaughterProduct.WithContext(context.Background()).
 		Where(tx.SlaughterProduct.BatchNumber.Eq(r.BatchNumber)).
@@ -1055,6 +1064,14 @@ func ConfirmCowFromPasture(num string) error {
 	_, err = tx.PastureWarehouse.WithContext(context.Background()).
 		Where(tx.PastureWarehouse.CowNumber.Eq(num)).
 		Updates(map[string]interface{}{"state": CONFIRM_STATE_PH})
+
+	_, err = tx.Cow.WithContext(context.Background()).
+		Where(tx.Cow.Number.Eq(num)).
+		Updates(map[string]interface{}{"state": CONFIRM_STATE_COW})
+	if err != nil {
+		_ = tx.Rollback()
+		return err
+	}
 
 	err = tx.Commit()
 	if err != nil {

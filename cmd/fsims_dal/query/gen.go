@@ -70,7 +70,6 @@ var (
 	PasturePaddingRequire              *pasturePaddingRequire
 	PastureProcedure                   *pastureProcedure
 	PastureSiteDisinfectionRecord      *pastureSiteDisinfectionRecord
-	PastureSlaughterTrashDisposal      *pastureSlaughterTrashDisposal
 	PastureSoil                        *pastureSoil
 	PastureSoilBiohazard               *pastureSoilBiohazard
 	PastureSoilPhysicalHazard          *pastureSoilPhysicalHazard
@@ -175,7 +174,6 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	PasturePaddingRequire = &Q.PasturePaddingRequire
 	PastureProcedure = &Q.PastureProcedure
 	PastureSiteDisinfectionRecord = &Q.PastureSiteDisinfectionRecord
-	PastureSlaughterTrashDisposal = &Q.PastureSlaughterTrashDisposal
 	PastureSoil = &Q.PastureSoil
 	PastureSoilBiohazard = &Q.PastureSoilBiohazard
 	PastureSoilPhysicalHazard = &Q.PastureSoilPhysicalHazard
@@ -281,7 +279,6 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		PasturePaddingRequire:              newPasturePaddingRequire(db, opts...),
 		PastureProcedure:                   newPastureProcedure(db, opts...),
 		PastureSiteDisinfectionRecord:      newPastureSiteDisinfectionRecord(db, opts...),
-		PastureSlaughterTrashDisposal:      newPastureSlaughterTrashDisposal(db, opts...),
 		PastureSoil:                        newPastureSoil(db, opts...),
 		PastureSoilBiohazard:               newPastureSoilBiohazard(db, opts...),
 		PastureSoilPhysicalHazard:          newPastureSoilPhysicalHazard(db, opts...),
@@ -388,7 +385,6 @@ type Query struct {
 	PasturePaddingRequire              pasturePaddingRequire
 	PastureProcedure                   pastureProcedure
 	PastureSiteDisinfectionRecord      pastureSiteDisinfectionRecord
-	PastureSlaughterTrashDisposal      pastureSlaughterTrashDisposal
 	PastureSoil                        pastureSoil
 	PastureSoilBiohazard               pastureSoilBiohazard
 	PastureSoilPhysicalHazard          pastureSoilPhysicalHazard
@@ -496,7 +492,6 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		PasturePaddingRequire:              q.PasturePaddingRequire.clone(db),
 		PastureProcedure:                   q.PastureProcedure.clone(db),
 		PastureSiteDisinfectionRecord:      q.PastureSiteDisinfectionRecord.clone(db),
-		PastureSlaughterTrashDisposal:      q.PastureSlaughterTrashDisposal.clone(db),
 		PastureSoil:                        q.PastureSoil.clone(db),
 		PastureSoilBiohazard:               q.PastureSoilBiohazard.clone(db),
 		PastureSoilPhysicalHazard:          q.PastureSoilPhysicalHazard.clone(db),
@@ -611,7 +606,6 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		PasturePaddingRequire:              q.PasturePaddingRequire.replaceDB(db),
 		PastureProcedure:                   q.PastureProcedure.replaceDB(db),
 		PastureSiteDisinfectionRecord:      q.PastureSiteDisinfectionRecord.replaceDB(db),
-		PastureSlaughterTrashDisposal:      q.PastureSlaughterTrashDisposal.replaceDB(db),
 		PastureSoil:                        q.PastureSoil.replaceDB(db),
 		PastureSoilBiohazard:               q.PastureSoilBiohazard.replaceDB(db),
 		PastureSoilPhysicalHazard:          q.PastureSoilPhysicalHazard.replaceDB(db),
@@ -716,7 +710,6 @@ type queryCtx struct {
 	PasturePaddingRequire              IPasturePaddingRequireDo
 	PastureProcedure                   IPastureProcedureDo
 	PastureSiteDisinfectionRecord      IPastureSiteDisinfectionRecordDo
-	PastureSlaughterTrashDisposal      IPastureSlaughterTrashDisposalDo
 	PastureSoil                        IPastureSoilDo
 	PastureSoilBiohazard               IPastureSoilBiohazardDo
 	PastureSoilPhysicalHazard          IPastureSoilPhysicalHazardDo
@@ -821,7 +814,6 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		PasturePaddingRequire:              q.PasturePaddingRequire.WithContext(ctx),
 		PastureProcedure:                   q.PastureProcedure.WithContext(ctx),
 		PastureSiteDisinfectionRecord:      q.PastureSiteDisinfectionRecord.WithContext(ctx),
-		PastureSlaughterTrashDisposal:      q.PastureSlaughterTrashDisposal.WithContext(ctx),
 		PastureSoil:                        q.PastureSoil.WithContext(ctx),
 		PastureSoilBiohazard:               q.PastureSoilBiohazard.WithContext(ctx),
 		PastureSoilPhysicalHazard:          q.PastureSoilPhysicalHazard.WithContext(ctx),

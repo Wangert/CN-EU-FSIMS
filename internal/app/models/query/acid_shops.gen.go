@@ -41,11 +41,11 @@ func newAcidShop(db *gorm.DB, opts ...gen.DOOption) acidShop {
 	_acidShop.AcidShop7 = field.NewFloat32(tableName, "acid_shop7")
 	_acidShop.AcidShop8 = field.NewFloat32(tableName, "acid_shop8")
 	_acidShop.AcidShop9 = field.NewFloat32(tableName, "acid_shop9")
-	_acidShop.AcidShop10 = field.NewFloat32(tableName, "acid_shop10")
-	_acidShop.AcidShop11 = field.NewFloat32(tableName, "acid_shop11")
-	_acidShop.AcidShop12 = field.NewFloat32(tableName, "acid_shop12")
-	_acidShop.AcidShop13 = field.NewFloat32(tableName, "acid_shop13")
-	_acidShop.AcidShop14 = field.NewFloat32(tableName, "acid_shop14")
+	_acidShop.AcidShop10 = field.NewString(tableName, "acid_shop10")
+	_acidShop.AcidShop11 = field.NewString(tableName, "acid_shop11")
+	_acidShop.AcidShop12 = field.NewString(tableName, "acid_shop12")
+	_acidShop.AcidShop13 = field.NewString(tableName, "acid_shop13")
+	_acidShop.AcidShop14 = field.NewString(tableName, "acid_shop14")
 
 	_acidShop.fillFieldMap()
 
@@ -71,11 +71,11 @@ type acidShop struct {
 	AcidShop7    field.Float32
 	AcidShop8    field.Float32
 	AcidShop9    field.Float32
-	AcidShop10   field.Float32
-	AcidShop11   field.Float32
-	AcidShop12   field.Float32
-	AcidShop13   field.Float32
-	AcidShop14   field.Float32
+	AcidShop10   field.String
+	AcidShop11   field.String
+	AcidShop12   field.String
+	AcidShop13   field.String
+	AcidShop14   field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -107,11 +107,11 @@ func (a *acidShop) updateTableName(table string) *acidShop {
 	a.AcidShop7 = field.NewFloat32(table, "acid_shop7")
 	a.AcidShop8 = field.NewFloat32(table, "acid_shop8")
 	a.AcidShop9 = field.NewFloat32(table, "acid_shop9")
-	a.AcidShop10 = field.NewFloat32(table, "acid_shop10")
-	a.AcidShop11 = field.NewFloat32(table, "acid_shop11")
-	a.AcidShop12 = field.NewFloat32(table, "acid_shop12")
-	a.AcidShop13 = field.NewFloat32(table, "acid_shop13")
-	a.AcidShop14 = field.NewFloat32(table, "acid_shop14")
+	a.AcidShop10 = field.NewString(table, "acid_shop10")
+	a.AcidShop11 = field.NewString(table, "acid_shop11")
+	a.AcidShop12 = field.NewString(table, "acid_shop12")
+	a.AcidShop13 = field.NewString(table, "acid_shop13")
+	a.AcidShop14 = field.NewString(table, "acid_shop14")
 
 	a.fillFieldMap()
 

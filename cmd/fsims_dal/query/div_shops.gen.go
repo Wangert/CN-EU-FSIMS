@@ -41,11 +41,11 @@ func newDivShop(db *gorm.DB, opts ...gen.DOOption) divShop {
 	_divShop.DivShop7 = field.NewFloat32(tableName, "div_shop7")
 	_divShop.DivShop8 = field.NewFloat32(tableName, "div_shop8")
 	_divShop.DivShop9 = field.NewFloat32(tableName, "div_shop9")
-	_divShop.DivShop10 = field.NewFloat32(tableName, "div_shop10")
-	_divShop.DivShop11 = field.NewFloat32(tableName, "div_shop11")
-	_divShop.DivShop12 = field.NewFloat32(tableName, "div_shop12")
-	_divShop.DivShop13 = field.NewFloat32(tableName, "div_shop13")
-	_divShop.DivShop14 = field.NewFloat32(tableName, "div_shop14")
+	_divShop.DivShop10 = field.NewString(tableName, "div_shop10")
+	_divShop.DivShop11 = field.NewString(tableName, "div_shop11")
+	_divShop.DivShop12 = field.NewString(tableName, "div_shop12")
+	_divShop.DivShop13 = field.NewString(tableName, "div_shop13")
+	_divShop.DivShop14 = field.NewString(tableName, "div_shop14")
 
 	_divShop.fillFieldMap()
 
@@ -71,11 +71,11 @@ type divShop struct {
 	DivShop7     field.Float32
 	DivShop8     field.Float32
 	DivShop9     field.Float32
-	DivShop10    field.Float32
-	DivShop11    field.Float32
-	DivShop12    field.Float32
-	DivShop13    field.Float32
-	DivShop14    field.Float32
+	DivShop10    field.String
+	DivShop11    field.String
+	DivShop12    field.String
+	DivShop13    field.String
+	DivShop14    field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -107,11 +107,11 @@ func (d *divShop) updateTableName(table string) *divShop {
 	d.DivShop7 = field.NewFloat32(table, "div_shop7")
 	d.DivShop8 = field.NewFloat32(table, "div_shop8")
 	d.DivShop9 = field.NewFloat32(table, "div_shop9")
-	d.DivShop10 = field.NewFloat32(table, "div_shop10")
-	d.DivShop11 = field.NewFloat32(table, "div_shop11")
-	d.DivShop12 = field.NewFloat32(table, "div_shop12")
-	d.DivShop13 = field.NewFloat32(table, "div_shop13")
-	d.DivShop14 = field.NewFloat32(table, "div_shop14")
+	d.DivShop10 = field.NewString(table, "div_shop10")
+	d.DivShop11 = field.NewString(table, "div_shop11")
+	d.DivShop12 = field.NewString(table, "div_shop12")
+	d.DivShop13 = field.NewString(table, "div_shop13")
+	d.DivShop14 = field.NewString(table, "div_shop14")
 
 	d.fillFieldMap()
 

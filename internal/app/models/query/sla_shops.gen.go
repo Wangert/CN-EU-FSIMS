@@ -41,11 +41,11 @@ func newSlaShop(db *gorm.DB, opts ...gen.DOOption) slaShop {
 	_slaShop.SlaShop7 = field.NewFloat32(tableName, "sla_shop7")
 	_slaShop.SlaShop8 = field.NewFloat32(tableName, "sla_shop8")
 	_slaShop.SlaShop9 = field.NewFloat32(tableName, "sla_shop9")
-	_slaShop.SlaShop10 = field.NewFloat32(tableName, "sla_shop10")
-	_slaShop.SlaShop11 = field.NewFloat32(tableName, "sla_shop11")
-	_slaShop.SlaShop12 = field.NewFloat32(tableName, "sla_shop12")
-	_slaShop.SlaShop13 = field.NewFloat32(tableName, "sla_shop13")
-	_slaShop.SlaShop14 = field.NewFloat32(tableName, "sla_shop14")
+	_slaShop.SlaShop10 = field.NewString(tableName, "sla_shop10")
+	_slaShop.SlaShop11 = field.NewString(tableName, "sla_shop11")
+	_slaShop.SlaShop12 = field.NewString(tableName, "sla_shop12")
+	_slaShop.SlaShop13 = field.NewString(tableName, "sla_shop13")
+	_slaShop.SlaShop14 = field.NewString(tableName, "sla_shop14")
 
 	_slaShop.fillFieldMap()
 
@@ -71,11 +71,11 @@ type slaShop struct {
 	SlaShop7     field.Float32
 	SlaShop8     field.Float32
 	SlaShop9     field.Float32
-	SlaShop10    field.Float32
-	SlaShop11    field.Float32
-	SlaShop12    field.Float32
-	SlaShop13    field.Float32
-	SlaShop14    field.Float32
+	SlaShop10    field.String
+	SlaShop11    field.String
+	SlaShop12    field.String
+	SlaShop13    field.String
+	SlaShop14    field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -107,11 +107,11 @@ func (s *slaShop) updateTableName(table string) *slaShop {
 	s.SlaShop7 = field.NewFloat32(table, "sla_shop7")
 	s.SlaShop8 = field.NewFloat32(table, "sla_shop8")
 	s.SlaShop9 = field.NewFloat32(table, "sla_shop9")
-	s.SlaShop10 = field.NewFloat32(table, "sla_shop10")
-	s.SlaShop11 = field.NewFloat32(table, "sla_shop11")
-	s.SlaShop12 = field.NewFloat32(table, "sla_shop12")
-	s.SlaShop13 = field.NewFloat32(table, "sla_shop13")
-	s.SlaShop14 = field.NewFloat32(table, "sla_shop14")
+	s.SlaShop10 = field.NewString(table, "sla_shop10")
+	s.SlaShop11 = field.NewString(table, "sla_shop11")
+	s.SlaShop12 = field.NewString(table, "sla_shop12")
+	s.SlaShop13 = field.NewString(table, "sla_shop13")
+	s.SlaShop14 = field.NewString(table, "sla_shop14")
 
 	s.fillFieldMap()
 
