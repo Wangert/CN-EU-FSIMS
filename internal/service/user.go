@@ -145,13 +145,13 @@ func QueryFsimsUserPwdHash(account string) (string, error) {
 	return fsimsUser.PasswordHash, nil
 }
 
-func QueryFsimsUserUuidAndPwdHash(account string) (uuid, password string, usertype int, err error) {
+func QueryFsimsUserUuidAndPwdHash(account string) (uuid, password, housenumber string, usertype int, err error) {
 	u := query.FSIMSUser
-	fsimsUser, err := u.WithContext(context.Background()).Where(u.Account.Eq(account)).Select(u.UUID, u.PasswordHash, u.Type).First()
+	fsimsUser, err := u.WithContext(context.Background()).Where(u.Account.Eq(account)).Select(u.UUID, u.PasswordHash, u.Type, u.HouseNumber).First()
 	if err != nil {
-		return "", "", 0, err
+		return "", "", "", 0, err
 	}
-	return fsimsUser.UUID, fsimsUser.PasswordHash, fsimsUser.Type, nil
+	return fsimsUser.UUID, fsimsUser.PasswordHash, fsimsUser.HouseNumber, fsimsUser.Type, nil
 }
 
 func AddFsimsUser(user *request.ReqUser) error {
