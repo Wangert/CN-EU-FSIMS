@@ -10,6 +10,7 @@ import (
 	"CN-EU-FSIMS/internal/app/models/warehouse"
 	"context"
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/golang/glog"
@@ -224,6 +225,7 @@ func UploadSlaughterStaffUniformData(r *request.ReqUploadStaffUniformData) error
 
 	timeRecordAt := time.Unix(r.TimestampRecordAt, 0).UTC().Local()
 
+	fmt.Println("******测试", r.StaUni1)
 	staffUni := slaughter.StaUni{
 		HouseNumber:  r.HouseNumber,
 		TimeRecordAt: timeRecordAt,
