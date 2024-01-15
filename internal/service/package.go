@@ -175,6 +175,10 @@ func EndPackage(r *request.ReqEndPackage) (string, []string, error) {
 		return "", nil, err
 	}
 
+	// 更新Slaughter Product状态
+	_, err = tx.SlaughterProduct.WithContext(context.Background()).Where(tx.SlaughterProduct.Number.Eq(productNumber)).
+		Updates(map[string]interface{}{"state": PACKAGE_END_SLAPRO})
+
 	// 更新product状态
 	_, err = tx.PackageProduct.WithContext(context.Background()).
 		Where(tx.PackageProduct.BatchNumber.Eq(r.BatchNumber)).

@@ -41,11 +41,11 @@ func newPackShop(db *gorm.DB, opts ...gen.DOOption) packShop {
 	_packShop.PackShop7 = field.NewFloat32(tableName, "pack_shop7")
 	_packShop.PackShop8 = field.NewFloat32(tableName, "pack_shop8")
 	_packShop.PackShop9 = field.NewFloat32(tableName, "pack_shop9")
-	_packShop.PackShop10 = field.NewFloat32(tableName, "pack_shop10")
-	_packShop.PackShop11 = field.NewFloat32(tableName, "pack_shop11")
-	_packShop.PackShop12 = field.NewFloat32(tableName, "pack_shop12")
-	_packShop.PackShop13 = field.NewFloat32(tableName, "pack_shop13")
-	_packShop.PackShop14 = field.NewFloat32(tableName, "pack_shop14")
+	_packShop.PackShop10 = field.NewString(tableName, "pack_shop10")
+	_packShop.PackShop11 = field.NewString(tableName, "pack_shop11")
+	_packShop.PackShop12 = field.NewString(tableName, "pack_shop12")
+	_packShop.PackShop13 = field.NewString(tableName, "pack_shop13")
+	_packShop.PackShop14 = field.NewString(tableName, "pack_shop14")
 
 	_packShop.fillFieldMap()
 
@@ -71,11 +71,11 @@ type packShop struct {
 	PackShop7    field.Float32
 	PackShop8    field.Float32
 	PackShop9    field.Float32
-	PackShop10   field.Float32
-	PackShop11   field.Float32
-	PackShop12   field.Float32
-	PackShop13   field.Float32
-	PackShop14   field.Float32
+	PackShop10   field.String
+	PackShop11   field.String
+	PackShop12   field.String
+	PackShop13   field.String
+	PackShop14   field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -107,11 +107,11 @@ func (p *packShop) updateTableName(table string) *packShop {
 	p.PackShop7 = field.NewFloat32(table, "pack_shop7")
 	p.PackShop8 = field.NewFloat32(table, "pack_shop8")
 	p.PackShop9 = field.NewFloat32(table, "pack_shop9")
-	p.PackShop10 = field.NewFloat32(table, "pack_shop10")
-	p.PackShop11 = field.NewFloat32(table, "pack_shop11")
-	p.PackShop12 = field.NewFloat32(table, "pack_shop12")
-	p.PackShop13 = field.NewFloat32(table, "pack_shop13")
-	p.PackShop14 = field.NewFloat32(table, "pack_shop14")
+	p.PackShop10 = field.NewString(table, "pack_shop10")
+	p.PackShop11 = field.NewString(table, "pack_shop11")
+	p.PackShop12 = field.NewString(table, "pack_shop12")
+	p.PackShop13 = field.NewString(table, "pack_shop13")
+	p.PackShop14 = field.NewString(table, "pack_shop14")
 
 	p.fillFieldMap()
 

@@ -29,6 +29,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.GET("getnotification", handlers.GetNotification)
 		user.POST("readnotification", handlers.ReadNotification)
 
+		user.GET("foodchains", handlers.GetAllFoodchains)
 	}
 
 	// admin router group
