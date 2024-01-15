@@ -157,9 +157,9 @@ type ReqAddPastureDisinfectionRecord struct {
 }
 
 type ReqPastureSensorData struct {
-	HouseNumber    string `json:"house_number"`
-	StartTimestamp int64  `json:"start_timestamp"`
-	EndTimestamp   int64  `json:"end_timestamp"`
+	HouseNumber    string `json:"house_number" form:"house_number"`
+	StartTimestamp int64  `json:"start_timestamp"  form:"start_timestamp"`
+	EndTimestamp   int64  `json:"end_timestamp" form:"end_timestamp"`
 }
 
 type ReqPastureWasteWaterPerDay struct {
