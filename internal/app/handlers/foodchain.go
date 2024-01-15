@@ -9,7 +9,7 @@ import (
 )
 
 func GetAllFoodchains(c *gin.Context) {
-	fcs, count, err := service.QueryAllFoodchains()
+	fcs, totalCount, completedCount, err := service.QueryAllFoodchains()
 	if err != nil {
 		glog.Errorln("query all foodchains error!")
 		response.MakeFail(c, http.StatusBadRequest, "query all foodchains error")
@@ -18,8 +18,9 @@ func GetAllFoodchains(c *gin.Context) {
 	glog.Info("query all foodchains successful")
 
 	res := response.ResFoodchains{
-		Foodchains: fcs,
-		Count:      count,
+		Foodchains:     fcs,
+		TotalCount:     totalCount,
+		CompletedCount: completedCount,
 	}
 	response.MakeSuccess(c, http.StatusOK, res)
 	return
