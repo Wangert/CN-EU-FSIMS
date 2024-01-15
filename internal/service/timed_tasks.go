@@ -189,6 +189,10 @@ func SlaughterFroShopMonitoring(currentTime time.Time) error {
 				batchesNumber = append(batchesNumber, batch.BatchNumber)
 			}
 
+			if len(batchesNumber) == 0 {
+				continue
+			}
+
 			// 获取接收人
 			u := query.Q.FSIMSUser
 			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
@@ -273,6 +277,10 @@ func SlaughterAcidShopMonitoring(currentTime time.Time) error {
 			batchesNumber := []string{}
 			for _, batch := range bs {
 				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			if len(batchesNumber) == 0 {
+				continue
 			}
 
 			// 获取接收人
@@ -361,6 +369,10 @@ func SlaughterDivShopMonitoring(currentTime time.Time) error {
 				batchesNumber = append(batchesNumber, batch.BatchNumber)
 			}
 
+			if len(batchesNumber) == 0 {
+				continue
+			}
+
 			// 获取接收人
 			u := query.Q.FSIMSUser
 			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
@@ -447,6 +459,10 @@ func SlaughterSlaShopMonitoring(currentTime time.Time) error {
 				batchesNumber = append(batchesNumber, batch.BatchNumber)
 			}
 
+			if len(batchesNumber) == 0 {
+				continue
+			}
+
 			// 获取接收人
 			u := query.Q.FSIMSUser
 			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
@@ -531,6 +547,10 @@ func SlaughterPreCoolShopMonitoring(currentTime time.Time) error {
 			batchesNumber := []string{}
 			for _, batch := range bs {
 				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			if len(batchesNumber) == 0 {
+				continue
 			}
 
 			// 获取接收人
@@ -676,6 +696,10 @@ func SlaughterWaterQualityMonitoring(currentTime time.Time) error {
 				batchesNumber = append(batchesNumber, batch.BatchNumber)
 			}
 
+			if len(batchesNumber) == 0 {
+				continue
+			}
+
 			// 获取接收人
 			u := query.Q.FSIMSUser
 			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
@@ -760,6 +784,10 @@ func PasturePaddingMonitoring(currentTime time.Time) error {
 			batchesNumber := []string{}
 			for _, batch := range bs {
 				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			if len(batchesNumber) == 0 {
+				continue
 			}
 
 			// 获取接收人
@@ -848,6 +876,10 @@ func PastureBasicEnvironmentMonitoring(currentTime time.Time) error {
 				batchesNumber = append(batchesNumber, batch.BatchNumber)
 			}
 
+			if len(batchesNumber) == 0 {
+				continue
+			}
+
 			// 获取接收人
 			u := query.Q.FSIMSUser
 			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
@@ -932,6 +964,10 @@ func PastureCowHouseMonitoring(currentTime time.Time) error {
 			batchesNumber := []string{}
 			for _, batch := range bs {
 				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			if len(batchesNumber) == 0 {
+				continue
 			}
 
 			// 获取接收人
@@ -1020,6 +1056,10 @@ func PastureAreaMonitoring(currentTime time.Time) error {
 				batchesNumber = append(batchesNumber, batch.BatchNumber)
 			}
 
+			if len(batchesNumber) == 0 {
+				continue
+			}
+
 			// 获取接收人
 			u := query.Q.FSIMSUser
 			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
@@ -1104,6 +1144,10 @@ func PastureBufferMonitoring(currentTime time.Time) error {
 			batchesNumber := []string{}
 			for _, batch := range bs {
 				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			if len(batchesNumber) == 0 {
+				continue
 			}
 
 			// 获取接收人
@@ -1193,6 +1237,10 @@ func PastureWaterQualityMonitoring(currentTime time.Time) error {
 				batchesNumber = append(batchesNumber, batch.BatchNumber)
 			}
 
+			if len(batchesNumber) == 0 {
+				continue
+			}
+
 			// 获取接收人
 			u := query.Q.FSIMSUser
 			users, err := u.WithContext(context.Background()).Where(u.Type.Neq(CUSTOMER_USER_TYPE)).Find()
@@ -1278,6 +1326,10 @@ func PastureFeedMycotoxinsMonitoring(currentTime time.Time) error {
 			batchesNumber := []string{}
 			for _, batch := range bs {
 				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			if len(batchesNumber) == 0 {
+				continue
 			}
 
 			// 获取接收人
@@ -1368,6 +1420,10 @@ func PastureFeedHeavyMetalMonitoring(currentTime time.Time) error {
 			batchesNumber := []string{}
 			for _, batch := range bs {
 				batchesNumber = append(batchesNumber, batch.BatchNumber)
+			}
+
+			if len(batchesNumber) == 0 {
+				continue
 			}
 
 			// 获取接收人
