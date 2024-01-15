@@ -94,7 +94,7 @@ func QueryAllFoodchains() ([]models.Foodchain, int64, error) {
 	}
 
 	for _, pro := range allSlaughterProducts {
-		slaBatch, err := query.Q.PackageBatch.WithContext(context.Background()).Where(query.PackageBatch.BatchNumber.Eq(pro.BatchNumber)).First()
+		slaBatch, err := query.Q.SlaughterBatch.WithContext(context.Background()).Where(query.SlaughterBatch.BatchNumber.Eq(pro.BatchNumber)).First()
 		if err != nil {
 			return nil, 0, err
 		}
