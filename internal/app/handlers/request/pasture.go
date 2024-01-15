@@ -47,13 +47,13 @@ type ReqAddPastureFeedCass struct {
 	RecordAt    int64                `json:"record_at"`
 	Afb1        pasture.Afb1Info     `json:"afb_1"`       //黄曲霉毒素B1
 	Don         pasture.DonInfo      `json:"don"`         //玉米赤霉烯酮
-	T2toxin     pasture.T2toxinInfo  `json:"t_2_toxin"`   //脱氧雪腐镰刀菌烯醇（呕吐毒素）
+	T2toxin     pasture.T2toxinInfo  `json:"t2Toxin"`     //脱氧雪腐镰刀菌烯醇（呕吐毒素）
 	T2VomZea    pasture.T2VomZeaInfo `json:"t_2_vom_zea"` //T-2毒素 伏马毒素 赭曲霉毒素A
 }
 
 type ReqAddPastureWaterRecord struct {
 	HouseNumber string                        `json:"house_number"` //时间记录
-	RecordAt    int64                         `json:"record_at"`
+	RecordAt    int64                         `json:"recordAt"`
 	OapGci      pasture.PastureOapGciInfo     `json:"oap_gci"`     //感官性状和一般化学指标
 	ToxIndex    pasture.PastureToxIndexInfo   `json:"tox_index"`   //毒理性指标
 	MicroIndex  pasture.PastureMicroIndexInfo `json:"micro_index"` //微生物指标
