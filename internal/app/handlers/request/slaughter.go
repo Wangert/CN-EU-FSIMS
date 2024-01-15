@@ -349,7 +349,7 @@ type ReqUploadStaffUniformData struct {
 	StaUni11          float32 `json:"sta_uni_11"`          //消毒记录 浓度
 	StaUni12          float32 `json:"sta_uni_12"`          //消毒记录 班次
 	StaUni13          float32 `json:"sta_uni_13"`          //消毒记录 器具
-	StaUni14          float32 `json:"sta_uni_15"`          //消毒记录 环境
+	StaUni14          float32 `json:"sta_uni_14"`          //消毒记录 环境
 }
 
 type ReqUploadSlaughterLightRecord struct {

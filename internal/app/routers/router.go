@@ -138,6 +138,11 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		pop.GET("/query/sensor/paddingrequire", handlers.QueryPasturePaddingRequireData)
 		pop.GET("/query/sensor/wastedwaterindex", handlers.QueryPastureWastedWaterIndexData)
 		pop.GET("/query/sensor/disinfectionrecord", handlers.QueryPastureDisinfectionRecordData)
+
+		//牧场污水处理
+		pop.POST("/upload/pasturewasteresidue", handlers.UploadPastureWasteResiduePerDay)
+		pop.POST("/upload/pasturewasteodor", handlers.UploadPastureOdorPollutantsPerDay)
+		pop.POST("/upload/pasturewastewater", handlers.UploadPastureWasteWaterPerDay)
 	}
 
 	//slaughteroperator router group
@@ -163,11 +168,11 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		//sop.POST("inwarehouse", handlers.SlaughterInWarehouse)
 		//sop.POST("sendtonext", handlers.SendToPack)
 
-		sop.POST("/upload/sensor/precoolshop", handlers.UploadPreCoolShopData)
-		sop.POST("/upload/sensor/slashop", handlers.UploadSlaughterShopData)
-		sop.POST("/upload/sensor/divshop", handlers.UploadDivisionShopData)
-		sop.POST("/upload/sensor/acidshop", handlers.UploadAcidShopData)
-		sop.POST("/upload/sensor/frozenshop", handlers.UploadFrozenShopData)
+		sop.POST("/upload/sensor/precoolshop", handlers.UploadPreCoolShopData) //1
+		sop.POST("/upload/sensor/slashop", handlers.UploadSlaughterShopData)   //1
+		sop.POST("/upload/sensor/divshop", handlers.UploadDivisionShopData)    //1
+		sop.POST("/upload/sensor/acidshop", handlers.UploadAcidShopData)       //1
+		sop.POST("/upload/sensor/frozenshop", handlers.UploadFrozenShopData)   //1
 
 		sop.GET("/query/sensor/precoolshop", handlers.QueryPreCoolShopData)
 		sop.GET("/query/sensor/slashop", handlers.QuerySlaughterShopData)
@@ -175,13 +180,18 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		sop.GET("/query/sensor/acidshop", handlers.QueryAcidShopData)
 		sop.GET("/query/sensor/frozenshop", handlers.QueryFrozenShopData)
 
-		sop.POST("/upload/sensor/waterquality", handlers.UploadSlaughterWaterQualityData)
+		sop.POST("/upload/sensor/waterquality", handlers.UploadSlaughterWaterQualityData) //1
 		sop.GET("/query/sensor/waterquality", handlers.QuerySlaughterWaterQualityData)
 
-		sop.POST("/upload/staffuniform", handlers.UploadSlaughterStaffUniformData)
-		sop.POST("/upload/light", handlers.UploadSlaughterLightRecord)
+		sop.POST("/upload/staffuniform", handlers.UploadSlaughterStaffUniformData) //1
+		sop.POST("/upload/light", handlers.UploadSlaughterLightRecord)             // 1
 		sop.GET("/query/staffuniform", handlers.QuerySlaughterStaffUniformData)
 		sop.GET("/query/light", handlers.QuerySlaughterLightRecord)
+
+		//屠宰场污水处理
+		sop.POST("/upload/slaughterwasteresidue", handlers.UploadSlaughterWasteResiduePerDay)
+		sop.POST("/upload/slaughterwasteodor", handlers.UploadSlaughterOdorPollutantsPerDay)
+		sop.POST("/upload/slaughterwastewater", handlers.UploadSlaughterWasteWaterPerDay)
 	}
 
 	//packoperator router group
