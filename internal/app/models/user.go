@@ -32,18 +32,18 @@ type UserInfo struct {
 
 type TrashDisposalPerDayInfo struct {
 	timeStamp                       string  `json:"time_stamp"`
-	TrashDisposalPerDayWaterInfo1   float32 `json:"trash_disposal_per_day_water_info_1"`
-	TrashDisposalPerDayWaterInfo2   float32 `json:"trash_disposal_per_day_water_info_2"`
-	TrashDisposalPerDayWaterInfo3   float32 `json:"trash_disposal_per_day_water_info_3"`
-	TrashDisposalPerDayWaterInfo4   float32 `json:"trash_disposal_per_day_water_info_4"`
-	TrashDisposalPerDayResidueInfo1 float32 `json:"trash_disposal_per_day_residue_info_1"`
-	TrashDisposalPerDayResidueInfo2 float32 `json:"trash_disposal_per_day_residue_info_2"`
-	TrashDisposalPerDayResidueInfo3 float32 `json:"trash_disposal_per_day_residue_info_3"`
-	TrashDisposalPerDayResidueInfo4 float32 `json:"trash_disposal_per_day_residue_info_4"`
-	TrashDisposalPerDayOdorInfo1    float32 `json:"trash_disposal_per_day_odor_info_1"`
-	TrashDisposalPerDayOdorInfo2    float32 `json:"trash_disposal_per_day_odor_info_2"`
-	TrashDisposalPerDayOdorInfo3    float32 `json:"trash_disposal_per_day_odor_info_3"`
-	TrashDisposalPerDayOdorInfo4    float32 `json:"trash_disposal_per_day_odor_info_4"`
+	TrashDisposalPerDayWaterInfo1   float64 `json:"trash_disposal_per_day_water_info_1"`
+	TrashDisposalPerDayWaterInfo2   float64 `json:"trash_disposal_per_day_water_info_2"`
+	TrashDisposalPerDayWaterInfo3   float64 `json:"trash_disposal_per_day_water_info_3"`
+	TrashDisposalPerDayWaterInfo4   float64 `json:"trash_disposal_per_day_water_info_4"`
+	TrashDisposalPerDayResidueInfo1 float64 `json:"trash_disposal_per_day_residue_info_1"`
+	TrashDisposalPerDayResidueInfo2 float64 `json:"trash_disposal_per_day_residue_info_2"`
+	TrashDisposalPerDayResidueInfo3 float64 `json:"trash_disposal_per_day_residue_info_3"`
+	TrashDisposalPerDayResidueInfo4 float64 `json:"trash_disposal_per_day_residue_info_4"`
+	TrashDisposalPerDayOdorInfo1    float64 `json:"trash_disposal_per_day_odor_info_1"`
+	TrashDisposalPerDayOdorInfo2    float64 `json:"trash_disposal_per_day_odor_info_2"`
+	TrashDisposalPerDayOdorInfo3    float64 `json:"trash_disposal_per_day_odor_info_3"`
+	TrashDisposalPerDayOdorInfo4    float64 `json:"trash_disposal_per_day_odor_info_4"`
 }
 
 func FsimsUserToResUser(fsimsUser *FSIMSUser) UserInfo {

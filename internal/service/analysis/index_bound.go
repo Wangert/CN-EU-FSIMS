@@ -393,17 +393,17 @@ var SlaughterProcedureSensorDataUpperBounds = map[string]float64{"stun_1": Stun1
 var SlaughterProcedureSensorDataLowerBounds = map[string]float64{"stun_2": Stun2_MIN, "stun_3": Stun3_MIN, "bleed_electronic_1": BleedElectronic1_MIN, "bleed_electronic_2": BleedElectronic2_MIN, "bleed_electronic_5": BleedElectronic5_MIN, "anal_meat_ph_moni_1": AnalMeatPhMoni1_MIN,
 	"anal_meat_ph_moni_2": AnalMeatPhMoni2_MIN, "anal_meat_ph_moni_3": AnalMeatPhMoni3_MIN, "anal_meat_ph_moni_4": AnalMeatPhMoni4_MIN, "anal_meat_ph_moni_5": AnalMeatPhMoni5_MIN}
 
-var SlaughterPreCoolShopUpperBounds = map[string]float32{"pre_cool_shop_1": PreCoolShop1_MAX, "pre_cool_shop_2": PreCoolShop2_MAX, "pre_cool_shop_3": PreCoolShop3_MAX}
-var SlaughterPreCoolShopLowerBounds = map[string]float32{"pre_cool_shop_1": PreCoolShop1_MIN, "pre_cool_shop_2": PreCoolShop2_MIN}
+var SlaughterPreCoolShopUpperBounds = map[string]float64{"pre_cool_shop_1": PreCoolShop1_MAX, "pre_cool_shop_2": PreCoolShop2_MAX, "pre_cool_shop_3": PreCoolShop3_MAX}
+var SlaughterPreCoolShopLowerBounds = map[string]float64{"pre_cool_shop_1": PreCoolShop1_MIN, "pre_cool_shop_2": PreCoolShop2_MIN}
 
-var SlaughterSlaShopUpperBounds = map[string]float32{"sla_shop_3": SlaShop3_MAX, "sla_shop_5": SlaShop5_MAX, "sla_shop_7": SlaShop7_MAX, "sla_shop_8": SlaShop8_MAX}
-var SlaughterSlaShopLowerBounds = map[string]float32{"sla_shop_2": SlaShop2_MIN, "sla_shop_4": SlaShop4_MIN, "sla_shop_7": SlaShop7_MIN, "sla_shop_8": SlaShop8_MIN, "sla_shop_9": SlaShop9_MIN}
+var SlaughterSlaShopUpperBounds = map[string]float64{"sla_shop_3": SlaShop3_MAX, "sla_shop_5": SlaShop5_MAX, "sla_shop_7": SlaShop7_MAX, "sla_shop_8": SlaShop8_MAX}
+var SlaughterSlaShopLowerBounds = map[string]float64{"sla_shop_2": SlaShop2_MIN, "sla_shop_4": SlaShop4_MIN, "sla_shop_7": SlaShop7_MIN, "sla_shop_8": SlaShop8_MIN, "sla_shop_9": SlaShop9_MIN}
 
-var SlaughterDivShopUpperBounds = map[string]float32{"div_shop_3": DivShop3_MAX, "div_shop_5": DivShop5_MAX, "div_shop_7": DivShop7_MAX, "div_shop_8": DivShop8_MAX}
-var SlaughterDivShopLowerBounds = map[string]float32{"div_shop_2": DivShop2_MIN, "div_shop_4": DivShop4_MIN, "div_shop_7": DivShop7_MIN, "div_shop_8": DivShop8_MIN, "div_shop_9": DivShop9_MIN}
+var SlaughterDivShopUpperBounds = map[string]float64{"div_shop_3": DivShop3_MAX, "div_shop_5": DivShop5_MAX, "div_shop_7": DivShop7_MAX, "div_shop_8": DivShop8_MAX}
+var SlaughterDivShopLowerBounds = map[string]float64{"div_shop_2": DivShop2_MIN, "div_shop_4": DivShop4_MIN, "div_shop_7": DivShop7_MIN, "div_shop_8": DivShop8_MIN, "div_shop_9": DivShop9_MIN}
 
-var SlaughterAcidShopUpperBounds = map[string]float32{"acid_shop_3": AcidShop3_MAX, "acid_shop_5": AcidShop5_MAX, "acid_shop_7": AcidShop7_MAX, "acid_shop_8": AcidShop8_MAX}
-var SlaughterAcidShopLowerBounds = map[string]float32{"acid_shop_2": AcidShop2_MIN, "acid_shop_4": AcidShop4_MIN, "acid_shop_7": AcidShop7_MIN, "acid_shop_8": AcidShop8_MIN, "acid_shop_9": AcidShop9_MIN}
+var SlaughterAcidShopUpperBounds = map[string]float64{"acid_shop_3": AcidShop3_MAX, "acid_shop_5": AcidShop5_MAX, "acid_shop_7": AcidShop7_MAX, "acid_shop_8": AcidShop8_MAX}
+var SlaughterAcidShopLowerBounds = map[string]float64{"acid_shop_2": AcidShop2_MIN, "acid_shop_4": AcidShop4_MIN, "acid_shop_7": AcidShop7_MIN, "acid_shop_8": AcidShop8_MIN, "acid_shop_9": AcidShop9_MIN}
 
-var SlaughterFroShopUpperBounds = map[string]float32{"fro_shop_3": FroShop3_MAX, "fro_shop_5": FroShop5_MAX, "fro_shop_7": FroShop7_MAX, "fro_shop_8": FroShop8_MAX}
-var SlaughterFroShopLowerBounds = map[string]float32{"fro_shop_2": FroShop2_MIN, "fro_shop_4": FroShop4_MIN, "fro_shop_7": FroShop7_MIN, "fro_shop_8": FroShop8_MIN, "fro_shop_9": FroShop9_MIN}
+var SlaughterFroShopUpperBounds = map[string]float64{"fro_shop_3": FroShop3_MAX, "fro_shop_5": FroShop5_MAX, "fro_shop_7": FroShop7_MAX, "fro_shop_8": FroShop8_MAX}
+var SlaughterFroShopLowerBounds = map[string]float64{"fro_shop_2": FroShop2_MIN, "fro_shop_4": FroShop4_MIN, "fro_shop_7": FroShop7_MIN, "fro_shop_8": FroShop8_MIN, "fro_shop_9": FroShop9_MIN}

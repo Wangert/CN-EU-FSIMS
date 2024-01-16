@@ -32,15 +32,15 @@ func newFroShop(db *gorm.DB, opts ...gen.DOOption) froShop {
 	_froShop.DeletedAt = field.NewField(tableName, "deleted_at")
 	_froShop.HouseNumber = field.NewString(tableName, "house_number")
 	_froShop.TimeRecordAt = field.NewTime(tableName, "time_record_at")
-	_froShop.FroShop1 = field.NewFloat32(tableName, "fro_shop1")
-	_froShop.FroShop2 = field.NewFloat32(tableName, "fro_shop2")
-	_froShop.FroShop3 = field.NewFloat32(tableName, "fro_shop3")
-	_froShop.FroShop4 = field.NewFloat32(tableName, "fro_shop4")
-	_froShop.FroShop5 = field.NewFloat32(tableName, "fro_shop5")
-	_froShop.FroShop6 = field.NewFloat32(tableName, "fro_shop6")
-	_froShop.FroShop7 = field.NewFloat32(tableName, "fro_shop7")
-	_froShop.FroShop8 = field.NewFloat32(tableName, "fro_shop8")
-	_froShop.FroShop9 = field.NewFloat32(tableName, "fro_shop9")
+	_froShop.FroShop1 = field.NewFloat64(tableName, "fro_shop1")
+	_froShop.FroShop2 = field.NewFloat64(tableName, "fro_shop2")
+	_froShop.FroShop3 = field.NewFloat64(tableName, "fro_shop3")
+	_froShop.FroShop4 = field.NewFloat64(tableName, "fro_shop4")
+	_froShop.FroShop5 = field.NewFloat64(tableName, "fro_shop5")
+	_froShop.FroShop6 = field.NewFloat64(tableName, "fro_shop6")
+	_froShop.FroShop7 = field.NewFloat64(tableName, "fro_shop7")
+	_froShop.FroShop8 = field.NewFloat64(tableName, "fro_shop8")
+	_froShop.FroShop9 = field.NewFloat64(tableName, "fro_shop9")
 	_froShop.FroShop10 = field.NewString(tableName, "fro_shop10")
 	_froShop.FroShop11 = field.NewString(tableName, "fro_shop11")
 	_froShop.FroShop12 = field.NewString(tableName, "fro_shop12")
@@ -62,15 +62,15 @@ type froShop struct {
 	DeletedAt    field.Field
 	HouseNumber  field.String
 	TimeRecordAt field.Time
-	FroShop1     field.Float32
-	FroShop2     field.Float32
-	FroShop3     field.Float32
-	FroShop4     field.Float32
-	FroShop5     field.Float32
-	FroShop6     field.Float32
-	FroShop7     field.Float32
-	FroShop8     field.Float32
-	FroShop9     field.Float32
+	FroShop1     field.Float64
+	FroShop2     field.Float64
+	FroShop3     field.Float64
+	FroShop4     field.Float64
+	FroShop5     field.Float64
+	FroShop6     field.Float64
+	FroShop7     field.Float64
+	FroShop8     field.Float64
+	FroShop9     field.Float64
 	FroShop10    field.String
 	FroShop11    field.String
 	FroShop12    field.String
@@ -98,15 +98,15 @@ func (f *froShop) updateTableName(table string) *froShop {
 	f.DeletedAt = field.NewField(table, "deleted_at")
 	f.HouseNumber = field.NewString(table, "house_number")
 	f.TimeRecordAt = field.NewTime(table, "time_record_at")
-	f.FroShop1 = field.NewFloat32(table, "fro_shop1")
-	f.FroShop2 = field.NewFloat32(table, "fro_shop2")
-	f.FroShop3 = field.NewFloat32(table, "fro_shop3")
-	f.FroShop4 = field.NewFloat32(table, "fro_shop4")
-	f.FroShop5 = field.NewFloat32(table, "fro_shop5")
-	f.FroShop6 = field.NewFloat32(table, "fro_shop6")
-	f.FroShop7 = field.NewFloat32(table, "fro_shop7")
-	f.FroShop8 = field.NewFloat32(table, "fro_shop8")
-	f.FroShop9 = field.NewFloat32(table, "fro_shop9")
+	f.FroShop1 = field.NewFloat64(table, "fro_shop1")
+	f.FroShop2 = field.NewFloat64(table, "fro_shop2")
+	f.FroShop3 = field.NewFloat64(table, "fro_shop3")
+	f.FroShop4 = field.NewFloat64(table, "fro_shop4")
+	f.FroShop5 = field.NewFloat64(table, "fro_shop5")
+	f.FroShop6 = field.NewFloat64(table, "fro_shop6")
+	f.FroShop7 = field.NewFloat64(table, "fro_shop7")
+	f.FroShop8 = field.NewFloat64(table, "fro_shop8")
+	f.FroShop9 = field.NewFloat64(table, "fro_shop9")
 	f.FroShop10 = field.NewString(table, "fro_shop10")
 	f.FroShop11 = field.NewString(table, "fro_shop11")
 	f.FroShop12 = field.NewString(table, "fro_shop12")

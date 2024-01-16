@@ -265,7 +265,7 @@ func QueryPastureWaterRecord(r *request.ReqPastureSensorData) ([]pasture.Pasture
 
 	q := query.Q.PastureWaterRecord
 	results, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(r.HouseNumber)).
-		Where(q.TimeRecordAt.Between(startTime, endTime)).Find()
+		Where(q.TimeRecordAt.Between(startTime, endTime)).Preload(q.OapGci).Preload(q.ToxIndex).Preload(q.MicroIndex).Find()
 	if err != nil {
 		return nil, 0, err
 	}

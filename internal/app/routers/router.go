@@ -28,7 +28,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.GET("getnotificationcount", handlers.GetNotificationCount)
 		user.GET("getnotification", handlers.GetNotification)
 		user.POST("readnotification", handlers.ReadNotification)
-
+		user.GET("searchhouse", handlers.GetUserHouse)
 		user.GET("foodchains", handlers.GetAllFoodchains)
 	}
 

@@ -32,20 +32,20 @@ func newDivShop(db *gorm.DB, opts ...gen.DOOption) divShop {
 	_divShop.DeletedAt = field.NewField(tableName, "deleted_at")
 	_divShop.HouseNumber = field.NewString(tableName, "house_number")
 	_divShop.TimeRecordAt = field.NewTime(tableName, "time_record_at")
-	_divShop.DivShop1 = field.NewFloat32(tableName, "div_shop1")
-	_divShop.DivShop2 = field.NewFloat32(tableName, "div_shop2")
-	_divShop.DivShop3 = field.NewFloat32(tableName, "div_shop3")
-	_divShop.DivShop4 = field.NewFloat32(tableName, "div_shop4")
-	_divShop.DivShop5 = field.NewFloat32(tableName, "div_shop5")
-	_divShop.DivShop6 = field.NewFloat32(tableName, "div_shop6")
-	_divShop.DivShop7 = field.NewFloat32(tableName, "div_shop7")
-	_divShop.DivShop8 = field.NewFloat32(tableName, "div_shop8")
-	_divShop.DivShop9 = field.NewFloat32(tableName, "div_shop9")
-	_divShop.DivShop10 = field.NewFloat32(tableName, "div_shop10")
-	_divShop.DivShop11 = field.NewFloat32(tableName, "div_shop11")
-	_divShop.DivShop12 = field.NewFloat32(tableName, "div_shop12")
-	_divShop.DivShop13 = field.NewFloat32(tableName, "div_shop13")
-	_divShop.DivShop14 = field.NewFloat32(tableName, "div_shop14")
+	_divShop.DivShop1 = field.NewFloat64(tableName, "div_shop1")
+	_divShop.DivShop2 = field.NewFloat64(tableName, "div_shop2")
+	_divShop.DivShop3 = field.NewFloat64(tableName, "div_shop3")
+	_divShop.DivShop4 = field.NewFloat64(tableName, "div_shop4")
+	_divShop.DivShop5 = field.NewFloat64(tableName, "div_shop5")
+	_divShop.DivShop6 = field.NewFloat64(tableName, "div_shop6")
+	_divShop.DivShop7 = field.NewFloat64(tableName, "div_shop7")
+	_divShop.DivShop8 = field.NewFloat64(tableName, "div_shop8")
+	_divShop.DivShop9 = field.NewFloat64(tableName, "div_shop9")
+	_divShop.DivShop10 = field.NewString(tableName, "div_shop10")
+	_divShop.DivShop11 = field.NewString(tableName, "div_shop11")
+	_divShop.DivShop12 = field.NewString(tableName, "div_shop12")
+	_divShop.DivShop13 = field.NewString(tableName, "div_shop13")
+	_divShop.DivShop14 = field.NewString(tableName, "div_shop14")
 
 	_divShop.fillFieldMap()
 
@@ -62,20 +62,20 @@ type divShop struct {
 	DeletedAt    field.Field
 	HouseNumber  field.String
 	TimeRecordAt field.Time
-	DivShop1     field.Float32
-	DivShop2     field.Float32
-	DivShop3     field.Float32
-	DivShop4     field.Float32
-	DivShop5     field.Float32
-	DivShop6     field.Float32
-	DivShop7     field.Float32
-	DivShop8     field.Float32
-	DivShop9     field.Float32
-	DivShop10    field.Float32
-	DivShop11    field.Float32
-	DivShop12    field.Float32
-	DivShop13    field.Float32
-	DivShop14    field.Float32
+	DivShop1     field.Float64
+	DivShop2     field.Float64
+	DivShop3     field.Float64
+	DivShop4     field.Float64
+	DivShop5     field.Float64
+	DivShop6     field.Float64
+	DivShop7     field.Float64
+	DivShop8     field.Float64
+	DivShop9     field.Float64
+	DivShop10    field.String
+	DivShop11    field.String
+	DivShop12    field.String
+	DivShop13    field.String
+	DivShop14    field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -98,20 +98,20 @@ func (d *divShop) updateTableName(table string) *divShop {
 	d.DeletedAt = field.NewField(table, "deleted_at")
 	d.HouseNumber = field.NewString(table, "house_number")
 	d.TimeRecordAt = field.NewTime(table, "time_record_at")
-	d.DivShop1 = field.NewFloat32(table, "div_shop1")
-	d.DivShop2 = field.NewFloat32(table, "div_shop2")
-	d.DivShop3 = field.NewFloat32(table, "div_shop3")
-	d.DivShop4 = field.NewFloat32(table, "div_shop4")
-	d.DivShop5 = field.NewFloat32(table, "div_shop5")
-	d.DivShop6 = field.NewFloat32(table, "div_shop6")
-	d.DivShop7 = field.NewFloat32(table, "div_shop7")
-	d.DivShop8 = field.NewFloat32(table, "div_shop8")
-	d.DivShop9 = field.NewFloat32(table, "div_shop9")
-	d.DivShop10 = field.NewFloat32(table, "div_shop10")
-	d.DivShop11 = field.NewFloat32(table, "div_shop11")
-	d.DivShop12 = field.NewFloat32(table, "div_shop12")
-	d.DivShop13 = field.NewFloat32(table, "div_shop13")
-	d.DivShop14 = field.NewFloat32(table, "div_shop14")
+	d.DivShop1 = field.NewFloat64(table, "div_shop1")
+	d.DivShop2 = field.NewFloat64(table, "div_shop2")
+	d.DivShop3 = field.NewFloat64(table, "div_shop3")
+	d.DivShop4 = field.NewFloat64(table, "div_shop4")
+	d.DivShop5 = field.NewFloat64(table, "div_shop5")
+	d.DivShop6 = field.NewFloat64(table, "div_shop6")
+	d.DivShop7 = field.NewFloat64(table, "div_shop7")
+	d.DivShop8 = field.NewFloat64(table, "div_shop8")
+	d.DivShop9 = field.NewFloat64(table, "div_shop9")
+	d.DivShop10 = field.NewString(table, "div_shop10")
+	d.DivShop11 = field.NewString(table, "div_shop11")
+	d.DivShop12 = field.NewString(table, "div_shop12")
+	d.DivShop13 = field.NewString(table, "div_shop13")
+	d.DivShop14 = field.NewString(table, "div_shop14")
 
 	d.fillFieldMap()
 

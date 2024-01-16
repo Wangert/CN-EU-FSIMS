@@ -20,7 +20,7 @@ type PastureProcedureData struct {
 	Air            PastureAirData
 	FloorBedding   PastureFloorBeddingData
 	WasteDischarge PastureWasteDischargeData
-	PM10           float32 `json:"pm_10"`  // PM10
-	TSP            float32 `json:"tsp"`    // TSP
+	PM10           float64 `json:"pm_10"`  // PM10
+	TSP            float64 `json:"tsp"`    // TSP
 	Stench         uint    `json:"stench"` // 恶臭稀释程度
 }

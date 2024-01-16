@@ -227,13 +227,13 @@ func JudgeHarmForSlaughterPreCoolShop(record *slaughter.PreCoolShop) ([]string, 
 
 	abnormalList := make([]string, 0)
 	for k, v := range SlaughterPreCoolShopUpperBounds {
-		if v < indexMap[k].(float32) {
+		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
 		}
 	}
 
 	for k, v := range SlaughterPreCoolShopLowerBounds {
-		if v > indexMap[k].(float32) {
+		if v > indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
 		}
 	}
@@ -252,13 +252,13 @@ func JudgeHarmForSlaughterSlaShop(record *slaughter.SlaShop) ([]string, int, err
 
 	abnormalList := make([]string, 0)
 	for k, v := range SlaughterSlaShopUpperBounds {
-		if v < indexMap[k].(float32) {
+		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
 		}
 	}
 
 	for k, v := range SlaughterSlaShopLowerBounds {
-		if v > indexMap[k].(float32) {
+		if v > indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
 		}
 	}
@@ -277,13 +277,13 @@ func JudgeHarmForSlaughterDivShop(record *slaughter.DivShop) ([]string, int, err
 
 	abnormalList := make([]string, 0)
 	for k, v := range SlaughterDivShopUpperBounds {
-		if v < indexMap[k].(float32) {
+		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
 		}
 	}
 
 	for k, v := range SlaughterDivShopLowerBounds {
-		if v > indexMap[k].(float32) {
+		if v > indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
 		}
 	}
@@ -302,13 +302,13 @@ func JudgeHarmForSlaughterAcidShop(record *slaughter.AcidShop) ([]string, int, e
 
 	abnormalList := make([]string, 0)
 	for k, v := range SlaughterAcidShopUpperBounds {
-		if v < indexMap[k].(float32) {
+		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
 		}
 	}
 
 	for k, v := range SlaughterAcidShopLowerBounds {
-		if v > indexMap[k].(float32) {
+		if v > indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
 		}
 	}
@@ -327,13 +327,13 @@ func JudgeHarmForSlaughterFroShop(record *slaughter.FroShop) ([]string, int, err
 
 	abnormalList := make([]string, 0)
 	for k, v := range SlaughterFroShopUpperBounds {
-		if v < indexMap[k].(float32) {
+		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
 		}
 	}
 
 	for k, v := range SlaughterFroShopLowerBounds {
-		if v > indexMap[k].(float32) {
+		if v > indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
 		}
 	}
