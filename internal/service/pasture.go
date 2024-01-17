@@ -1186,13 +1186,20 @@ func PastureIsExist(number string) (bool, error) {
 
 func AddCow(r *request.ReqAddCow) (product.CowInfo, error) {
 	cowNum := GenerateNumber(r)
+
+	et := time.Unix(r.EntryTime, 0).UTC().Local()
+
 	cow := product.Cow{
-		Number:      COW_NUMBER_PREFIX + cowNum,
-		Age:         r.Age,
-		Weight:      r.Weight,
-		State:       INIT_STATE_COW,
-		HouseNumber: r.HouseNumber,
-		BatchNumber: nil,
+		Number:               COW_NUMBER_PREFIX + cowNum,
+		Age:                  r.Age,
+		Weight:               r.Weight,
+		QuarantineCertNumber: &r.QuarantineCertNumber,
+		OwnerIDCard:          r.OwnerIDCard,
+		OwnerAddress:         r.OwnerAddress,
+		EntryTime:            &et,
+		State:                INIT_STATE_COW,
+		HouseNumber:          r.HouseNumber,
+		BatchNumber:          nil,
 	}
 
 	q := query.Cow

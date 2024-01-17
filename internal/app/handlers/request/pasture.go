@@ -5,9 +5,13 @@ import (
 )
 
 type ReqAddCow struct {
-	Age         int     `json:"age" form:"age"`
-	Weight      float64 `json:"weight" form:"weight"`
-	HouseNumber string  `json:"house_number" form:"house_number"`
+	Age                  int     `json:"age" form:"age"`
+	Weight               float64 `json:"weight" form:"weight"`
+	QuarantineCertNumber string  `json:"quarantine_cert_number" form:"quarantine_cert_number"`
+	OwnerIDCard          string  `json:"owner_id_card" form:"owner_id_card"`
+	OwnerAddress         string  `json:"owner_address" form:"owner_address"`
+	EntryTime            int64   `json:"entry_time" form:"entry_time"`
+	HouseNumber          string  `json:"house_number" form:"house_number"`
 }
 
 type ReqNewFeedingBatch struct {
