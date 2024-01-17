@@ -4,6 +4,7 @@ import (
 	"CN-EU-FSIMS/internal/app/handlers/response"
 	"CN-EU-FSIMS/internal/service"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
@@ -46,4 +47,24 @@ func GetPidInfo(c *gin.Context) {
 	response.MakeSuccess(c, http.StatusOK, res)
 	return
 
+}
+
+func GetProductsByPid(c *gin.Context) {
+	pid := c.Query("pid")
+	ptypeStr := c.Query("type")
+
+	ptype, err := strconv.Atoi(ptypeStr)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "type is error!")
+		return
+	}
+
+	res, err := service.QueryProductsByPid(pid, ptype)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "query products by pid error!")
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
 }

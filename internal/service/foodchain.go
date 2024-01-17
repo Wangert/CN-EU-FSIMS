@@ -1,10 +1,95 @@
 package service
 
 import (
+	"CN-EU-FSIMS/internal/app/handlers/response"
 	"CN-EU-FSIMS/internal/app/models"
+	"CN-EU-FSIMS/internal/app/models/product"
 	"CN-EU-FSIMS/internal/app/models/query"
 	"context"
+	"errors"
 )
+
+func QueryProductsByPid(pid string, ptype int) (*response.ResProductsInfo, error) {
+
+	switch ptype {
+	case PASTURE_TYPE:
+		q := query.Q.FeedingBatch
+		batch, err := q.WithContext(context.Background()).Where(q.PID.Eq(pid)).Preload(q.Cows).First()
+		if err != nil {
+			return nil, err
+		}
+
+		cowsInfo := make([]product.CowInfo, len(batch.Cows))
+		for i, cow := range batch.Cows {
+			cowsInfo[i] = product.ToCowInfo(&cow)
+		}
+
+		return &response.ResProductsInfo{CowsInfo: cowsInfo}, nil
+
+	case SLAUGHTER_TYPE:
+		q := query.SlaughterBatch
+		batch, err := q.WithContext(context.Background()).Where(q.PID.Eq(pid)).Preload(q.Products).First()
+		if err != nil {
+			return nil, err
+		}
+
+		psInfo := make([]product.SlaughterProductInfo, len(batch.Products))
+		for i, slaughterProduct := range batch.Products {
+			psInfo[i] = product.ToSlaughterProductInfo(&slaughterProduct)
+		}
+
+		return &response.ResProductsInfo{SlaughterProductsInfo: psInfo}, nil
+	case PACKAGE_TYPE:
+		q1 := query.PackageBatch
+		batch, err := q1.WithContext(context.Background()).Where(q1.PID.Eq(pid)).First()
+		if err != nil {
+			return nil, err
+		}
+
+		q2 := query.PackageProduct
+		pp, err := q2.WithContext(context.Background()).Where(q2.Number.Eq(batch.ProductNumber)).First()
+
+		psInfo := make([]product.PackageProductInfo, 1)
+
+		psInfo[0] = product.ToPackageProductInfo(pp)
+
+		return &response.ResProductsInfo{PackageProductsInfo: psInfo}, nil
+	case COLDCHAIN_TRANSPORT_TYPE:
+		q1 := query.PackageProductAndTransportPIDMap
+		m, err := q1.WithContext(context.Background()).Where(q1.TransportPID.Eq(pid)).First()
+		if err != nil {
+			return nil, err
+		}
+
+		q2 := query.PackageProduct
+		packProduct, err := q2.WithContext(context.Background()).Where(q2.Number.Eq(m.PackageProductNumber)).First()
+		if err != nil {
+			return nil, err
+		}
+
+		q3 := query.TransportBatch
+		batch, err := q3.WithContext(context.Background()).Where(q3.BatchNumber.Eq(*packProduct.TransportBatchNumber)).First()
+		if err != nil {
+			return nil, err
+		}
+
+		q4 := query.Mall
+		mall, err := q4.WithContext(context.Background()).Where(q4.Number.Eq(batch.MallNumber)).First()
+		if err != nil {
+			return nil, err
+		}
+
+		ccInfo := response.ColdchainInfo{
+			TVNumber:   batch.TVNumber,
+			MallNumber: batch.MallNumber,
+			MallName:   mall.Name,
+		}
+
+		return &response.ResProductsInfo{ColdchainInfo: &ccInfo}, nil
+	default:
+		return nil, errors.New("type is error")
+	}
+}
 
 func QueryAllFoodchains() ([]models.Foodchain, int64, int64, error) {
 	fcs := make([]models.Foodchain, 0)
