@@ -33,6 +33,10 @@ func newCow(db *gorm.DB, opts ...gen.DOOption) cow {
 	_cow.Number = field.NewString(tableName, "number")
 	_cow.Age = field.NewInt(tableName, "age")
 	_cow.Weight = field.NewFloat64(tableName, "weight")
+	_cow.QuarantineCertNumber = field.NewString(tableName, "quarantine_cert_number")
+	_cow.OwnerIDCard = field.NewString(tableName, "owner_id_card")
+	_cow.OwnerAddress = field.NewString(tableName, "owner_address")
+	_cow.EntryTime = field.NewTime(tableName, "entry_time")
 	_cow.State = field.NewInt(tableName, "state")
 	_cow.HouseNumber = field.NewString(tableName, "house_number")
 	_cow.BatchNumber = field.NewString(tableName, "batch_number")
@@ -45,17 +49,21 @@ func newCow(db *gorm.DB, opts ...gen.DOOption) cow {
 type cow struct {
 	cowDo cowDo
 
-	ALL         field.Asterisk
-	ID          field.Uint
-	CreatedAt   field.Time
-	UpdatedAt   field.Time
-	DeletedAt   field.Field
-	Number      field.String
-	Age         field.Int
-	Weight      field.Float64
-	State       field.Int
-	HouseNumber field.String
-	BatchNumber field.String
+	ALL                  field.Asterisk
+	ID                   field.Uint
+	CreatedAt            field.Time
+	UpdatedAt            field.Time
+	DeletedAt            field.Field
+	Number               field.String
+	Age                  field.Int
+	Weight               field.Float64
+	QuarantineCertNumber field.String
+	OwnerIDCard          field.String
+	OwnerAddress         field.String
+	EntryTime            field.Time
+	State                field.Int
+	HouseNumber          field.String
+	BatchNumber          field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -79,6 +87,10 @@ func (c *cow) updateTableName(table string) *cow {
 	c.Number = field.NewString(table, "number")
 	c.Age = field.NewInt(table, "age")
 	c.Weight = field.NewFloat64(table, "weight")
+	c.QuarantineCertNumber = field.NewString(table, "quarantine_cert_number")
+	c.OwnerIDCard = field.NewString(table, "owner_id_card")
+	c.OwnerAddress = field.NewString(table, "owner_address")
+	c.EntryTime = field.NewTime(table, "entry_time")
 	c.State = field.NewInt(table, "state")
 	c.HouseNumber = field.NewString(table, "house_number")
 	c.BatchNumber = field.NewString(table, "batch_number")
@@ -106,7 +118,7 @@ func (c *cow) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (c *cow) fillFieldMap() {
-	c.fieldMap = make(map[string]field.Expr, 10)
+	c.fieldMap = make(map[string]field.Expr, 14)
 	c.fieldMap["id"] = c.ID
 	c.fieldMap["created_at"] = c.CreatedAt
 	c.fieldMap["updated_at"] = c.UpdatedAt
@@ -114,6 +126,10 @@ func (c *cow) fillFieldMap() {
 	c.fieldMap["number"] = c.Number
 	c.fieldMap["age"] = c.Age
 	c.fieldMap["weight"] = c.Weight
+	c.fieldMap["quarantine_cert_number"] = c.QuarantineCertNumber
+	c.fieldMap["owner_id_card"] = c.OwnerIDCard
+	c.fieldMap["owner_address"] = c.OwnerAddress
+	c.fieldMap["entry_time"] = c.EntryTime
 	c.fieldMap["state"] = c.State
 	c.fieldMap["house_number"] = c.HouseNumber
 	c.fieldMap["batch_number"] = c.BatchNumber
