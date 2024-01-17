@@ -142,7 +142,7 @@ func QueryAllFoodchains() ([]models.Foodchain, int64, error) {
 		fc := models.Foodchain{
 			Checkcode:            checkcode,
 			CurrentProductNumber: cow.Number,
-			CurrentLastProcedure: "slaughter",
+			CurrentLastProcedure: "pasture",
 			PasturePID:           pasturePID,
 			SlaughterPID:         "",
 			PackagePID:           "",
@@ -153,4 +153,25 @@ func QueryAllFoodchains() ([]models.Foodchain, int64, error) {
 	}
 
 	return fcs, int64(len(fcs)), nil
+}
+
+func QueryPidInfo(pid string) (string, string, string, string, error) {
+	q := query.Procedure
+	pro, err := q.WithContext(context.Background()).Where(q.PID.Eq(pid)).First()
+	if err != nil {
+		return "", "", "", "", err
+	}
+	starttimestamp := pro.StartTimestamp
+	endtimestamp := pro.CompletedTimestamp
+	op := pro.Operator
+	p := query.FSIMSUser
+	user, err := p.WithContext(context.Background()).Where(p.Account.Eq(op)).First()
+	if err != nil {
+		return "", "", "", "", err
+	}
+	starttime := starttimestamp.Format("2006-01-02 15:04:05")
+	endtime := endtimestamp.Format("2006-01-02 15:04:05")
+	address := user.Company
+	housenumber := user.HouseNumber
+	return starttime, endtime, address, housenumber, nil
 }

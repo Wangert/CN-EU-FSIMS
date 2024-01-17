@@ -30,6 +30,28 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.POST("readnotification", handlers.ReadNotification)
 		user.GET("searchhouse", handlers.GetUserHouse)
 		user.GET("foodchains", handlers.GetAllFoodchains)
+		user.GET("pidinfo", handlers.GetPidInfo)
+
+		//查询牧场数据
+		user.GET("/query/sensor/heavymetal", handlers.QueryFeedHeavyMetalData)
+		user.GET("/query/sensor/mycotoxins", handlers.QueryPastureFeedMycotoxinsData)
+		user.GET("/query/sensor/waterrecord", handlers.QueryPastureWaterRecordData)
+		user.GET("/query/sensor/buffer", handlers.QueryPastureBufferData)
+		user.GET("/query/sensor/area", handlers.QueryPastureAreaData)
+		user.GET("/query/sensor/cowhouse", handlers.QueryPastureCowHouseData)
+		user.GET("/query/sensor/basicenvironment", handlers.QueryPastureBasicEnvironmentData)
+		user.GET("/query/sensor/paddingrequire", handlers.QueryPasturePaddingRequireData)
+		user.GET("/query/sensor/wastedwaterindex", handlers.QueryPastureWastedWaterIndexData)
+		user.GET("/query/sensor/disinfectionrecord", handlers.QueryPastureDisinfectionRecordData)
+
+		//查询屠宰数据
+		user.GET("/query/sensor/slashop", handlers.QuerySlaughterShopData)
+		user.GET("/query/sensor/divshop", handlers.QueryDivisionShopData)
+		user.GET("/query/sensor/acidshop", handlers.QueryAcidShopData)
+		user.GET("/query/sensor/frozenshop", handlers.QueryFrozenShopData)
+		user.GET("/query/sensor/waterquality", handlers.QuerySlaughterWaterQualityData)
+		user.GET("/query/staffuniform", handlers.QuerySlaughterStaffUniformData)
+		user.GET("/query/light", handlers.QuerySlaughterLightRecord)
 	}
 
 	// admin router group
