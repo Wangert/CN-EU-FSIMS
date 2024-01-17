@@ -1,6 +1,9 @@
 package response
 
-import "CN-EU-FSIMS/internal/app/models"
+import (
+	"CN-EU-FSIMS/internal/app/models"
+	"CN-EU-FSIMS/internal/app/models/product"
+)
 
 type ResFoodchains struct {
 	Foodchains     []models.Foodchain `json:"foodchains"`
@@ -13,4 +16,17 @@ type ResPidInfo struct {
 	EndTime     string `json:"end_time"`
 	Address     string `json:"address"`
 	HouseNumber string `json:"house_number"`
+}
+
+type ResProductsInfo struct {
+	CowsInfo              []product.CowInfo              `json:"cows_info"`
+	SlaughterProductsInfo []product.SlaughterProductInfo `json:"slaughter_products_info"`
+	PackageProductsInfo   []product.PackageProductInfo   `json:"package_products_info"`
+	ColdchainInfo         *ColdchainInfo                 `json:"coldchain_info"`
+}
+
+type ColdchainInfo struct {
+	TVNumber   string `json:"tv_number"`
+	MallNumber string `json:"mall_number"`
+	MallName   string `json:"mall_name"`
 }
