@@ -246,11 +246,20 @@ func GetPidByPackageProductNumber(num string) (string, error) {
 }
 
 func NewPackageProduct(r *request.ReqNewPackageProduct) (string, error) {
+	batch, err := query.PackageBatch.WithContext(context.Background()).Where(query.PackageBatch.BatchNumber.Eq(r.BatchNumber)).First()
+	if err != nil {
+		return "", err
+	}
+	sp, err := query.SlaughterProduct.WithContext(context.Background()).Where(query.SlaughterProduct.Number.Eq(batch.ProductNumber)).First()
+	if err != nil {
+		return "", err
+	}
+
 	number := PACKAGE_PRODUCT_PREFIX + GenerateNumber(r)
 	p := product.PackageProduct{
 		Number:         number,
-		Type:           r.Type,
-		TypeName:       typeName(r.Type),
+		Type:           sp.Type,
+		TypeName:       typeName(sp.Type),
 		PackMethod:     r.PackMethod,
 		PackMethodName: packMethodName(r.PackMethod),
 		ShelfLife:      r.ShelfLife,
@@ -261,7 +270,7 @@ func NewPackageProduct(r *request.ReqNewPackageProduct) (string, error) {
 	}
 
 	q := query.PackageProduct
-	err := q.WithContext(context.Background()).Create(&p)
+	err = q.WithContext(context.Background()).Create(&p)
 	if err != nil {
 		return "", err
 	}

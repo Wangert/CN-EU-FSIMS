@@ -47,11 +47,13 @@ func QueryProductsByPid(pid string, ptype int) (*response.ResProductsInfo, error
 		}
 
 		q2 := query.PackageProduct
-		pp, err := q2.WithContext(context.Background()).Where(q2.Number.Eq(batch.ProductNumber)).First()
+		pp, err := q2.WithContext(context.Background()).Where(q2.BatchNumber.Eq(batch.BatchNumber)).Find()
 
-		psInfo := make([]product.PackageProductInfo, 1)
+		psInfo := make([]product.PackageProductInfo, len(pp))
 
-		psInfo[0] = product.ToPackageProductInfo(pp)
+		for i, p := range pp {
+			psInfo[i] = product.ToPackageProductInfo(p)
+		}
 
 		return &response.ResProductsInfo{PackageProductsInfo: psInfo}, nil
 	case COLDCHAIN_TRANSPORT_TYPE:
