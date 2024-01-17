@@ -30,7 +30,7 @@ func newSlaughterStun(db *gorm.DB, opts ...gen.DOOption) slaughterStun {
 	_slaughterStun.CreatedAt = field.NewTime(tableName, "created_at")
 	_slaughterStun.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_slaughterStun.DeletedAt = field.NewField(tableName, "deleted_at")
-	_slaughterStun.SlaughterProcedureMonitoringDataID = field.NewString(tableName, "slaughter_procedure_monitoring_data_id")
+	_slaughterStun.SlaughterProcedureMonitoringDataID = field.NewUint(tableName, "slaughter_procedure_monitoring_data_id")
 	_slaughterStun.Stun1 = field.NewFloat64(tableName, "stun1")
 	_slaughterStun.Stun2 = field.NewFloat64(tableName, "stun2")
 	_slaughterStun.Stun3 = field.NewFloat64(tableName, "stun3")
@@ -48,7 +48,7 @@ type slaughterStun struct {
 	CreatedAt                          field.Time
 	UpdatedAt                          field.Time
 	DeletedAt                          field.Field
-	SlaughterProcedureMonitoringDataID field.String
+	SlaughterProcedureMonitoringDataID field.Uint
 	Stun1                              field.Float64
 	Stun2                              field.Float64
 	Stun3                              field.Float64
@@ -72,7 +72,7 @@ func (s *slaughterStun) updateTableName(table string) *slaughterStun {
 	s.CreatedAt = field.NewTime(table, "created_at")
 	s.UpdatedAt = field.NewTime(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
-	s.SlaughterProcedureMonitoringDataID = field.NewString(table, "slaughter_procedure_monitoring_data_id")
+	s.SlaughterProcedureMonitoringDataID = field.NewUint(table, "slaughter_procedure_monitoring_data_id")
 	s.Stun1 = field.NewFloat64(table, "stun1")
 	s.Stun2 = field.NewFloat64(table, "stun2")
 	s.Stun3 = field.NewFloat64(table, "stun3")

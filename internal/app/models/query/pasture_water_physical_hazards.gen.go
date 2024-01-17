@@ -30,12 +30,12 @@ func newPastureWaterPhysicalHazard(db *gorm.DB, opts ...gen.DOOption) pastureWat
 	_pastureWaterPhysicalHazard.CreatedAt = field.NewTime(tableName, "created_at")
 	_pastureWaterPhysicalHazard.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_pastureWaterPhysicalHazard.DeletedAt = field.NewField(tableName, "deleted_at")
-	_pastureWaterPhysicalHazard.Mercury = field.NewFloat32(tableName, "mercury")
-	_pastureWaterPhysicalHazard.Cadmium = field.NewFloat32(tableName, "cadmium")
-	_pastureWaterPhysicalHazard.Lead = field.NewFloat32(tableName, "lead")
-	_pastureWaterPhysicalHazard.Chromium = field.NewFloat32(tableName, "chromium")
-	_pastureWaterPhysicalHazard.Arsenic = field.NewFloat32(tableName, "arsenic")
-	_pastureWaterPhysicalHazard.Copper = field.NewFloat32(tableName, "copper")
+	_pastureWaterPhysicalHazard.Mercury = field.NewFloat64(tableName, "mercury")
+	_pastureWaterPhysicalHazard.Cadmium = field.NewFloat64(tableName, "cadmium")
+	_pastureWaterPhysicalHazard.Lead = field.NewFloat64(tableName, "lead")
+	_pastureWaterPhysicalHazard.Chromium = field.NewFloat64(tableName, "chromium")
+	_pastureWaterPhysicalHazard.Arsenic = field.NewFloat64(tableName, "arsenic")
+	_pastureWaterPhysicalHazard.Copper = field.NewFloat64(tableName, "copper")
 	_pastureWaterPhysicalHazard.PastureWaterID = field.NewUint(tableName, "pasture_water_id")
 
 	_pastureWaterPhysicalHazard.fillFieldMap()
@@ -51,12 +51,12 @@ type pastureWaterPhysicalHazard struct {
 	CreatedAt      field.Time
 	UpdatedAt      field.Time
 	DeletedAt      field.Field
-	Mercury        field.Float32
-	Cadmium        field.Float32
-	Lead           field.Float32
-	Chromium       field.Float32
-	Arsenic        field.Float32
-	Copper         field.Float32
+	Mercury        field.Float64
+	Cadmium        field.Float64
+	Lead           field.Float64
+	Chromium       field.Float64
+	Arsenic        field.Float64
+	Copper         field.Float64
 	PastureWaterID field.Uint
 
 	fieldMap map[string]field.Expr
@@ -78,12 +78,12 @@ func (p *pastureWaterPhysicalHazard) updateTableName(table string) *pastureWater
 	p.CreatedAt = field.NewTime(table, "created_at")
 	p.UpdatedAt = field.NewTime(table, "updated_at")
 	p.DeletedAt = field.NewField(table, "deleted_at")
-	p.Mercury = field.NewFloat32(table, "mercury")
-	p.Cadmium = field.NewFloat32(table, "cadmium")
-	p.Lead = field.NewFloat32(table, "lead")
-	p.Chromium = field.NewFloat32(table, "chromium")
-	p.Arsenic = field.NewFloat32(table, "arsenic")
-	p.Copper = field.NewFloat32(table, "copper")
+	p.Mercury = field.NewFloat64(table, "mercury")
+	p.Cadmium = field.NewFloat64(table, "cadmium")
+	p.Lead = field.NewFloat64(table, "lead")
+	p.Chromium = field.NewFloat64(table, "chromium")
+	p.Arsenic = field.NewFloat64(table, "arsenic")
+	p.Copper = field.NewFloat64(table, "copper")
 	p.PastureWaterID = field.NewUint(table, "pasture_water_id")
 
 	p.fillFieldMap()

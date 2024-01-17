@@ -30,7 +30,7 @@ func newAnalMeatPhMoni(db *gorm.DB, opts ...gen.DOOption) analMeatPhMoni {
 	_analMeatPhMoni.CreatedAt = field.NewTime(tableName, "created_at")
 	_analMeatPhMoni.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_analMeatPhMoni.DeletedAt = field.NewField(tableName, "deleted_at")
-	_analMeatPhMoni.SlaughterProcedureMonitoringDataID = field.NewString(tableName, "slaughter_procedure_monitoring_data_id")
+	_analMeatPhMoni.SlaughterProcedureMonitoringDataID = field.NewUint(tableName, "slaughter_procedure_monitoring_data_id")
 	_analMeatPhMoni.AnalMeatPhMoni1 = field.NewFloat64(tableName, "anal_meat_ph_moni1")
 	_analMeatPhMoni.AnalMeatPhMoni2 = field.NewFloat64(tableName, "anal_meat_ph_moni2")
 	_analMeatPhMoni.AnalMeatPhMoni3 = field.NewFloat64(tableName, "anal_meat_ph_moni3")
@@ -50,7 +50,7 @@ type analMeatPhMoni struct {
 	CreatedAt                          field.Time
 	UpdatedAt                          field.Time
 	DeletedAt                          field.Field
-	SlaughterProcedureMonitoringDataID field.String
+	SlaughterProcedureMonitoringDataID field.Uint
 	AnalMeatPhMoni1                    field.Float64
 	AnalMeatPhMoni2                    field.Float64
 	AnalMeatPhMoni3                    field.Float64
@@ -76,7 +76,7 @@ func (a *analMeatPhMoni) updateTableName(table string) *analMeatPhMoni {
 	a.CreatedAt = field.NewTime(table, "created_at")
 	a.UpdatedAt = field.NewTime(table, "updated_at")
 	a.DeletedAt = field.NewField(table, "deleted_at")
-	a.SlaughterProcedureMonitoringDataID = field.NewString(table, "slaughter_procedure_monitoring_data_id")
+	a.SlaughterProcedureMonitoringDataID = field.NewUint(table, "slaughter_procedure_monitoring_data_id")
 	a.AnalMeatPhMoni1 = field.NewFloat64(table, "anal_meat_ph_moni1")
 	a.AnalMeatPhMoni2 = field.NewFloat64(table, "anal_meat_ph_moni2")
 	a.AnalMeatPhMoni3 = field.NewFloat64(table, "anal_meat_ph_moni3")

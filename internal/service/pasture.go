@@ -265,7 +265,7 @@ func QueryPastureWaterRecord(r *request.ReqPastureSensorData) ([]pasture.Pasture
 
 	q := query.Q.PastureWaterRecord
 	results, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(r.HouseNumber)).
-		Where(q.TimeRecordAt.Between(startTime, endTime)).Find()
+		Where(q.TimeRecordAt.Between(startTime, endTime)).Preload(q.OapGci).Preload(q.ToxIndex).Preload(q.MicroIndex).Find()
 	if err != nil {
 		return nil, 0, err
 	}
@@ -476,6 +476,15 @@ func UploadPastureOdorPollutantsPerDay(r *request.ReqPastureOdorPollutantsPerDay
 		if err != nil {
 			return err
 		}
+	} else {
+		result, err := qall.WithContext(context.Background()).UpdateSimple(qall.OdorPasturesTrashDisposal1.Add(r.PastureOdorPollutantsPerDay1), qall.OdorPasturesTrashDisposal2.Add(r.PastureOdorPollutantsPerDay2),
+			qall.OdorPasturesTrashDisposal3.Add(r.PastureOdorPollutantsPerDay3), qall.OdorPasturesTrashDisposal4.Add(r.PastureOdorPollutantsPerDay4))
+		if err != nil {
+			return err
+		}
+		if result.RowsAffected == 0 {
+			return errors.New("No match was found!")
+		}
 	}
 	op := pasture.TotalOdorPollutantsPasturePerDay{
 		TimeStamp:                  time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour),
@@ -488,16 +497,6 @@ func UploadPastureOdorPollutantsPerDay(r *request.ReqPastureOdorPollutantsPerDay
 	err = q.WithContext(context.Background()).Create(&op)
 	if err != nil {
 		return err
-	}
-
-	//更新总表信息
-	result, err := qall.WithContext(context.Background()).UpdateSimple(qall.OdorPasturesTrashDisposal1.Add(r.PastureOdorPollutantsPerDay1), qall.OdorPasturesTrashDisposal2.Add(r.PastureOdorPollutantsPerDay2),
-		qall.OdorPasturesTrashDisposal3.Add(r.PastureOdorPollutantsPerDay3), qall.OdorPasturesTrashDisposal4.Add(r.PastureOdorPollutantsPerDay4))
-	if err != nil {
-		return err
-	}
-	if result.RowsAffected == 0 {
-		return errors.New("No match was found!")
 	}
 
 	return nil
@@ -531,6 +530,13 @@ func UploadPastureWasteWaterPerDay(r *request.ReqPastureWasteWaterPerDay) error 
 		if err != nil {
 			return err
 		}
+	} else {
+		//更新总表信息
+		result, _ := qall.WithContext(context.Background()).UpdateSimple(qall.WaterPasturesTrashDisposal1.Add(r.ReqPastureWasteWaterPerDay1),
+			qall.WaterPasturesTrashDisposal2.Add(r.ReqPastureWasteWaterPerDay2), qall.WaterPasturesTrashDisposal3.Add(r.ReqPastureWasteWaterPerDay3))
+		if result.RowsAffected == 0 {
+			return errors.New("No match was found!")
+		}
 	}
 	ww := pasture.TotalWastedWaterPasturePerDay{
 		TimeStamp:               time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour),
@@ -545,15 +551,6 @@ func UploadPastureWasteWaterPerDay(r *request.ReqPastureWasteWaterPerDay) error 
 		return err
 	}
 
-	//更新总表信息
-	result, err := qall.WithContext(context.Background()).UpdateSimple(qall.WaterPasturesTrashDisposal1.Add(r.ReqPastureWasteWaterPerDay1),
-		qall.WaterPasturesTrashDisposal2.Add(r.ReqPastureWasteWaterPerDay2), qall.WaterPasturesTrashDisposal3.Add(r.ReqPastureWasteWaterPerDay3))
-	if err != nil {
-		return err
-	}
-	if result.RowsAffected == 0 {
-		return errors.New("No match was found!")
-	}
 	return nil
 }
 
@@ -583,6 +580,14 @@ func UploadPastureWasteResidue(r *request.ReqPastureWasteResiduePerDay) error {
 		if err != nil {
 			return err
 		}
+	} else {
+		//更新总表信息
+		result, _ := qall.WithContext(context.Background()).Where(qall.TimeStamp.Eq(t)).UpdateSimple(qall.ResiduePasturesTrashDisposal1.Add(r.PastureWasteResiduePerDay1),
+			qall.ResiduePasturesTrashDisposal2.Add(r.PastureWasteResiduePerDay2), qall.ResiduePasturesTrashDisposal3.Add(r.PastureWasteResiduePerDay3),
+			qall.ResiduePasturesTrashDisposal4.Add(r.PastureWasteResiduePerDay4))
+		if result.RowsAffected == 0 {
+			return errors.New("No match was found!")
+		}
 	}
 
 	wr := pasture.TotalWasteResiduePasturePerDay{
@@ -596,17 +601,6 @@ func UploadPastureWasteResidue(r *request.ReqPastureWasteResiduePerDay) error {
 	err = q.WithContext(context.Background()).Create(&wr)
 	if err != nil {
 		return err
-	}
-
-	//更新总表信息
-	result, err := qall.WithContext(context.Background()).Where(qall.TimeStamp.Eq(t)).UpdateSimple(qall.ResiduePasturesTrashDisposal1.Add(r.PastureWasteResiduePerDay1),
-		qall.ResiduePasturesTrashDisposal2.Add(r.PastureWasteResiduePerDay2), qall.ResiduePasturesTrashDisposal3.Add(r.PastureWasteResiduePerDay3),
-		qall.ResiduePasturesTrashDisposal4.Add(r.PastureWasteResiduePerDay4))
-	if err != nil {
-		return nil
-	}
-	if result.RowsAffected == 0 {
-		return errors.New("No match was found!")
 	}
 	return nil
 }

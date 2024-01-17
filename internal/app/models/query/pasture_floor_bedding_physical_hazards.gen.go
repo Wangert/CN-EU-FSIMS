@@ -30,10 +30,10 @@ func newPastureFloorBeddingPhysicalHazard(db *gorm.DB, opts ...gen.DOOption) pas
 	_pastureFloorBeddingPhysicalHazard.CreatedAt = field.NewTime(tableName, "created_at")
 	_pastureFloorBeddingPhysicalHazard.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_pastureFloorBeddingPhysicalHazard.DeletedAt = field.NewField(tableName, "deleted_at")
-	_pastureFloorBeddingPhysicalHazard.Mercury = field.NewFloat32(tableName, "mercury")
-	_pastureFloorBeddingPhysicalHazard.Cadmium = field.NewFloat32(tableName, "cadmium")
-	_pastureFloorBeddingPhysicalHazard.Lead = field.NewFloat32(tableName, "lead")
-	_pastureFloorBeddingPhysicalHazard.Chromium = field.NewFloat32(tableName, "chromium")
+	_pastureFloorBeddingPhysicalHazard.Mercury = field.NewFloat64(tableName, "mercury")
+	_pastureFloorBeddingPhysicalHazard.Cadmium = field.NewFloat64(tableName, "cadmium")
+	_pastureFloorBeddingPhysicalHazard.Lead = field.NewFloat64(tableName, "lead")
+	_pastureFloorBeddingPhysicalHazard.Chromium = field.NewFloat64(tableName, "chromium")
 	_pastureFloorBeddingPhysicalHazard.PastureFloorBeddingID = field.NewUint(tableName, "pasture_floor_bedding_id")
 
 	_pastureFloorBeddingPhysicalHazard.fillFieldMap()
@@ -49,10 +49,10 @@ type pastureFloorBeddingPhysicalHazard struct {
 	CreatedAt             field.Time
 	UpdatedAt             field.Time
 	DeletedAt             field.Field
-	Mercury               field.Float32
-	Cadmium               field.Float32
-	Lead                  field.Float32
-	Chromium              field.Float32
+	Mercury               field.Float64
+	Cadmium               field.Float64
+	Lead                  field.Float64
+	Chromium              field.Float64
 	PastureFloorBeddingID field.Uint
 
 	fieldMap map[string]field.Expr
@@ -74,10 +74,10 @@ func (p *pastureFloorBeddingPhysicalHazard) updateTableName(table string) *pastu
 	p.CreatedAt = field.NewTime(table, "created_at")
 	p.UpdatedAt = field.NewTime(table, "updated_at")
 	p.DeletedAt = field.NewField(table, "deleted_at")
-	p.Mercury = field.NewFloat32(table, "mercury")
-	p.Cadmium = field.NewFloat32(table, "cadmium")
-	p.Lead = field.NewFloat32(table, "lead")
-	p.Chromium = field.NewFloat32(table, "chromium")
+	p.Mercury = field.NewFloat64(table, "mercury")
+	p.Cadmium = field.NewFloat64(table, "cadmium")
+	p.Lead = field.NewFloat64(table, "lead")
+	p.Chromium = field.NewFloat64(table, "chromium")
 	p.PastureFloorBeddingID = field.NewUint(table, "pasture_floor_bedding_id")
 
 	p.fillFieldMap()

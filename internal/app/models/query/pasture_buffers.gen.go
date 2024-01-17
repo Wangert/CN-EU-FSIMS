@@ -32,18 +32,18 @@ func newPastureBuffer(db *gorm.DB, opts ...gen.DOOption) pastureBuffer {
 	_pastureBuffer.DeletedAt = field.NewField(tableName, "deleted_at")
 	_pastureBuffer.TimeRecordAt = field.NewTime(tableName, "time_record_at")
 	_pastureBuffer.HouseNumber = field.NewString(tableName, "house_number")
-	_pastureBuffer.Buffer1 = field.NewFloat32(tableName, "buffer1")
-	_pastureBuffer.Buffer2 = field.NewFloat32(tableName, "buffer2")
-	_pastureBuffer.Buffer3 = field.NewFloat32(tableName, "buffer3")
-	_pastureBuffer.Buffer4 = field.NewFloat32(tableName, "buffer4")
-	_pastureBuffer.Buffer5 = field.NewFloat32(tableName, "buffer5")
-	_pastureBuffer.Buffer6 = field.NewFloat32(tableName, "buffer6")
-	_pastureBuffer.Buffer7 = field.NewFloat32(tableName, "buffer7")
-	_pastureBuffer.Buffer8 = field.NewFloat32(tableName, "buffer8")
-	_pastureBuffer.Buffer9 = field.NewFloat32(tableName, "buffer9")
-	_pastureBuffer.Buffer10 = field.NewFloat32(tableName, "buffer10")
-	_pastureBuffer.Buffer11 = field.NewFloat32(tableName, "buffer11")
-	_pastureBuffer.Buffer12 = field.NewFloat32(tableName, "buffer12")
+	_pastureBuffer.Buffer1 = field.NewFloat64(tableName, "buffer1")
+	_pastureBuffer.Buffer2 = field.NewFloat64(tableName, "buffer2")
+	_pastureBuffer.Buffer3 = field.NewFloat64(tableName, "buffer3")
+	_pastureBuffer.Buffer4 = field.NewFloat64(tableName, "buffer4")
+	_pastureBuffer.Buffer5 = field.NewFloat64(tableName, "buffer5")
+	_pastureBuffer.Buffer6 = field.NewFloat64(tableName, "buffer6")
+	_pastureBuffer.Buffer7 = field.NewFloat64(tableName, "buffer7")
+	_pastureBuffer.Buffer8 = field.NewFloat64(tableName, "buffer8")
+	_pastureBuffer.Buffer9 = field.NewFloat64(tableName, "buffer9")
+	_pastureBuffer.Buffer10 = field.NewFloat64(tableName, "buffer10")
+	_pastureBuffer.Buffer11 = field.NewFloat64(tableName, "buffer11")
+	_pastureBuffer.Buffer12 = field.NewFloat64(tableName, "buffer12")
 
 	_pastureBuffer.fillFieldMap()
 
@@ -60,18 +60,18 @@ type pastureBuffer struct {
 	DeletedAt    field.Field
 	TimeRecordAt field.Time
 	HouseNumber  field.String
-	Buffer1      field.Float32
-	Buffer2      field.Float32
-	Buffer3      field.Float32
-	Buffer4      field.Float32
-	Buffer5      field.Float32
-	Buffer6      field.Float32
-	Buffer7      field.Float32
-	Buffer8      field.Float32
-	Buffer9      field.Float32
-	Buffer10     field.Float32
-	Buffer11     field.Float32
-	Buffer12     field.Float32
+	Buffer1      field.Float64
+	Buffer2      field.Float64
+	Buffer3      field.Float64
+	Buffer4      field.Float64
+	Buffer5      field.Float64
+	Buffer6      field.Float64
+	Buffer7      field.Float64
+	Buffer8      field.Float64
+	Buffer9      field.Float64
+	Buffer10     field.Float64
+	Buffer11     field.Float64
+	Buffer12     field.Float64
 
 	fieldMap map[string]field.Expr
 }
@@ -94,18 +94,18 @@ func (p *pastureBuffer) updateTableName(table string) *pastureBuffer {
 	p.DeletedAt = field.NewField(table, "deleted_at")
 	p.TimeRecordAt = field.NewTime(table, "time_record_at")
 	p.HouseNumber = field.NewString(table, "house_number")
-	p.Buffer1 = field.NewFloat32(table, "buffer1")
-	p.Buffer2 = field.NewFloat32(table, "buffer2")
-	p.Buffer3 = field.NewFloat32(table, "buffer3")
-	p.Buffer4 = field.NewFloat32(table, "buffer4")
-	p.Buffer5 = field.NewFloat32(table, "buffer5")
-	p.Buffer6 = field.NewFloat32(table, "buffer6")
-	p.Buffer7 = field.NewFloat32(table, "buffer7")
-	p.Buffer8 = field.NewFloat32(table, "buffer8")
-	p.Buffer9 = field.NewFloat32(table, "buffer9")
-	p.Buffer10 = field.NewFloat32(table, "buffer10")
-	p.Buffer11 = field.NewFloat32(table, "buffer11")
-	p.Buffer12 = field.NewFloat32(table, "buffer12")
+	p.Buffer1 = field.NewFloat64(table, "buffer1")
+	p.Buffer2 = field.NewFloat64(table, "buffer2")
+	p.Buffer3 = field.NewFloat64(table, "buffer3")
+	p.Buffer4 = field.NewFloat64(table, "buffer4")
+	p.Buffer5 = field.NewFloat64(table, "buffer5")
+	p.Buffer6 = field.NewFloat64(table, "buffer6")
+	p.Buffer7 = field.NewFloat64(table, "buffer7")
+	p.Buffer8 = field.NewFloat64(table, "buffer8")
+	p.Buffer9 = field.NewFloat64(table, "buffer9")
+	p.Buffer10 = field.NewFloat64(table, "buffer10")
+	p.Buffer11 = field.NewFloat64(table, "buffer11")
+	p.Buffer12 = field.NewFloat64(table, "buffer12")
 
 	p.fillFieldMap()
 

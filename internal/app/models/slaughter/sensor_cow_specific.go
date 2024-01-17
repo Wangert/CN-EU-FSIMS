@@ -1,8 +1,9 @@
 package slaughter
 
 import (
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 /*
@@ -22,7 +23,7 @@ type SlaughterProcedureMonitoringData struct {
 type SlaughterDisinfectHotWaterTempMoni struct {
 	//消毒热水温度监控
 	gorm.Model
-	SlaughterProcedureMonitoringDataID  *string `json:"slaughter_procedure_monitoring_data_id"`
+	SlaughterProcedureMonitoringDataID  *uint   `json:"slaughter_procedure_monitoring_data_id"`
 	SlaughterDisinfectHotWaterTempMoni1 float64 `json:"slaughter_disinfect_hot_water_temp_moni_1"` //预剥皮
 	SlaughterDisinfectHotWaterTempMoni2 float64 `json:"slaughter_disinfect_hot_water_temp_moni_2"` //检疫台
 	SlaughterDisinfectHotWaterTempMoni3 float64 `json:"slaughter_disinfect_hot_water_temp_moni_3"` //去皮后修正
@@ -33,7 +34,7 @@ type SlaughterDisinfectHotWaterTempMoni struct {
 type SlaughterStun struct {
 	//击晕参数
 	gorm.Model
-	SlaughterProcedureMonitoringDataID *string `json:"slaughter_procedure_monitoring_data_id"`
+	SlaughterProcedureMonitoringDataID *uint   `json:"slaughter_procedure_monitoring_data_id"`
 	Stun1                              float64 `json:"stun_1"` //电压
 	Stun2                              float64 `json:"stun_2"` //电流
 	Stun3                              float64 `json:"stun_3"` //作用时间
@@ -42,7 +43,7 @@ type SlaughterStun struct {
 type BleedElectronic struct {
 	//放血和电刺激参数
 	gorm.Model
-	SlaughterProcedureMonitoringDataID *string `json:"slaughter_procedure_monitoring_data_id"`
+	SlaughterProcedureMonitoringDataID *uint   `json:"slaughter_procedure_monitoring_data_id"`
 	BleedElectronic1                   float64 `json:"bleed_electronic_1"` //放血刀热水消毒
 	BleedElectronic2                   float64 `json:"bleed_electronic_2"` //沥血时间
 	BleedElectronic3                   float64 `json:"bleed_electronic_3"` //致昏到宰杀放血时间
@@ -80,7 +81,7 @@ type SlaughterAnalAfterSlaQuanCar struct {
 type AnalMeatPhMoni struct {
 	gorm.Model
 	//胴体、肉pH监控
-	SlaughterProcedureMonitoringDataID *string `json:"slaughter_procedure_monitoring_data_id"`
+	SlaughterProcedureMonitoringDataID *uint   `json:"slaughter_procedure_monitoring_data_id"`
 	AnalMeatPhMoni1                    float64 `json:"anal_meat_ph_moni_1"` //宰后0 min
 	AnalMeatPhMoni2                    float64 `json:"anal_meat_ph_moni_2"` //宰后45min
 	AnalMeatPhMoni3                    float64 `json:"anal_meat_ph_moni_3"` //劈半后胴体
@@ -115,7 +116,7 @@ type AnalCutWeight struct {
 type ToNumGermMon struct {
 	//接触面菌落总数监控
 	gorm.Model
-	SlaughterProcedureMonitoringDataID *string `json:"slaughter_procedure_monitoring_data_id"`
+	SlaughterProcedureMonitoringDataID *uint   `json:"slaughter_procedure_monitoring_data_id"`
 	ToNumGermMon1                      float64 `json:"to_num_germ_mon_1"` //喷淋后胴体
 	ToNumGermMon2                      float64 `json:"to_num_germ_mon_2"` //剔骨案板
 	ToNumGermMon3                      float64 `json:"to_num_germ_mon_3"` //传送带

@@ -7,3 +7,10 @@ type ResFoodchains struct {
 	TotalCount     int64              `json:"total_count"`
 	CompletedCount int64              `json:"completed_count"`
 }
+
+type ResPidInfo struct {
+	StartTime   string `json:"start_time"`
+	EndTime     string `json:"end_time"`
+	Address     string `json:"address"`
+	HouseNumber string `json:"house_number"`
+}

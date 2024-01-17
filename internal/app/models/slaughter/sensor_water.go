@@ -1,8 +1,9 @@
 package slaughter
 
 import (
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type SlaughterWaterQualityMon struct {
@@ -19,99 +20,99 @@ type SlaughterWaterMicroIndex struct {
 	//微生物监控
 	gorm.Model
 	SlaughterWaterQualityMonID *uint   `json:"slaughter_water_quality_mon_id"`
-	SlaughterWaterMicroIndex1  float32 `json:"slaughter_water_micro_index_1"` //总大肠菌群
-	SlaughterWaterMicroIndex2  float32 `json:"slaughter_water_micro_index_2"` //大肠埃希氏菌
-	SlaughterWaterMicroIndex3  float32 `json:"slaughter_water_micro_index_3"` //菌落总数
+	SlaughterWaterMicroIndex1  float64 `json:"slaughter_water_micro_index_1"` //总大肠菌群
+	SlaughterWaterMicroIndex2  float64 `json:"slaughter_water_micro_index_2"` //大肠埃希氏菌
+	SlaughterWaterMicroIndex3  float64 `json:"slaughter_water_micro_index_3"` //菌落总数
 }
 
 type OapGciSla struct {
 	//感官性状和一般化学指标
 	gorm.Model
 	SlaughterWaterQualityMonID *uint   `json:"slaughter_water_quality_mon_id"`
-	OapGciSla1                 float32 `json:"oap_gci_sla_1"`  //钠
-	OapGciSla2                 float32 `json:"oap_gci_sla_2"`  //挥发酚类
-	OapGciSla3                 float32 `json:"oap_gci_sla_3"`  //阴离子合成洗涤剂
-	OapGciSla4                 float32 `json:"oap_gci_sla_4"`  //2-甲基异莰醇
-	OapGciSla5                 float32 `json:"oap_gci_sla_5"`  //土臭素
-	OapGciSla6                 float32 `json:"oap_gci_sla_6"`  //色度（铂钴色度单位）/度
-	OapGciSla7                 float32 `json:"oap_gci_sla_7"`  //浑浊度（散射浑浊度单位）/NTU
-	OapGciSla8                 float32 `json:"oap_gci_sla_8"`  //臭和味
-	OapGciSla9                 float32 `json:"oap_gci_sla_9"`  //肉眼可见物
-	OapGciSla10                float32 `json:"oap_gci_sla_10"` //pH
-	OapGciSla11                float32 `json:"oap_gci_sla_11"` //铝/（mg/L）
-	OapGciSla12                float32 `json:"oap_gci_sla_12"` //铁/（mg/L）
-	OapGciSla13                float32 `json:"oap_gci_sla_13"` //锰/（mg/L）
-	OapGciSla14                float32 `json:"oap_gci_sla_14"` //铜/（mg/L）
-	OapGciSla15                float32 `json:"oap_gci_sla_15"` //锌/（mg/L）
-	OapGciSla16                float32 `json:"oap_gci_sla_16"` //氯化物/（mg/L）
-	OapGciSla17                float32 `json:"oap_gci_sla_17"` //硫酸盐/（mg/L）
-	OapGciSla18                float32 `json:"oap_gci_sla_18"` //溶解性总固体/（mg/L）
-	OapGciSla19                float32 `json:"oap_gci_sla_19"` //总硬度（以CaCO3计）/（mg/L）
-	OapGciSla20                float32 `json:"oap_gci_sla_20"` //高锰酸盐指数（以O2计）/（mg/L）
-	OapGciSla21                float32 `json:"oap_gci_sla_21"` //氨（以N计）/（mg/L）
+	OapGciSla1                 float64 `json:"oap_gci_sla_1"`  //钠
+	OapGciSla2                 float64 `json:"oap_gci_sla_2"`  //挥发酚类
+	OapGciSla3                 float64 `json:"oap_gci_sla_3"`  //阴离子合成洗涤剂
+	OapGciSla4                 float64 `json:"oap_gci_sla_4"`  //2-甲基异莰醇
+	OapGciSla5                 float64 `json:"oap_gci_sla_5"`  //土臭素
+	OapGciSla6                 float64 `json:"oap_gci_sla_6"`  //色度（铂钴色度单位）/度
+	OapGciSla7                 float64 `json:"oap_gci_sla_7"`  //浑浊度（散射浑浊度单位）/NTU
+	OapGciSla8                 float64 `json:"oap_gci_sla_8"`  //臭和味
+	OapGciSla9                 float64 `json:"oap_gci_sla_9"`  //肉眼可见物
+	OapGciSla10                float64 `json:"oap_gci_sla_10"` //pH
+	OapGciSla11                float64 `json:"oap_gci_sla_11"` //铝/（mg/L）
+	OapGciSla12                float64 `json:"oap_gci_sla_12"` //铁/（mg/L）
+	OapGciSla13                float64 `json:"oap_gci_sla_13"` //锰/（mg/L）
+	OapGciSla14                float64 `json:"oap_gci_sla_14"` //铜/（mg/L）
+	OapGciSla15                float64 `json:"oap_gci_sla_15"` //锌/（mg/L）
+	OapGciSla16                float64 `json:"oap_gci_sla_16"` //氯化物/（mg/L）
+	OapGciSla17                float64 `json:"oap_gci_sla_17"` //硫酸盐/（mg/L）
+	OapGciSla18                float64 `json:"oap_gci_sla_18"` //溶解性总固体/（mg/L）
+	OapGciSla19                float64 `json:"oap_gci_sla_19"` //总硬度（以CaCO3计）/（mg/L）
+	OapGciSla20                float64 `json:"oap_gci_sla_20"` //高锰酸盐指数（以O2计）/（mg/L）
+	OapGciSla21                float64 `json:"oap_gci_sla_21"` //氨（以N计）/（mg/L）
 }
 
 type MicroIndexWaterMonSla struct {
 	//微生物指标屠宰阶段 和 屠宰污水检测记录
 	gorm.Model
 	SlaughterWaterQualityMonID *uint   `json:"slaughter_water_quality_mon_id"`
-	MicroIndexWaterMonSla1     float32 `json:"micro_index_water_mon_sla_1"` //贾第鞭毛虫/（个/10L)
-	MicroIndexWaterMonSla2     float32 `json:"micro_index_water_mon_sla_2"` //隐孢子虫/（个/10L）
-	MicroIndexWaterMonSla3     float32 `json:"micro_index_water_mon_sla_3"` //生化需氧
-	MicroIndexWaterMonSla4     float32 `json:"micro_index_water_mon_sla_4"` //化学需氧
+	MicroIndexWaterMonSla1     float64 `json:"micro_index_water_mon_sla_1"` //贾第鞭毛虫/（个/10L)
+	MicroIndexWaterMonSla2     float64 `json:"micro_index_water_mon_sla_2"` //隐孢子虫/（个/10L）
+	MicroIndexWaterMonSla3     float64 `json:"micro_index_water_mon_sla_3"` //生化需氧
+	MicroIndexWaterMonSla4     float64 `json:"micro_index_water_mon_sla_4"` //化学需氧
 }
 
 type SlaughterToxinIndex struct {
 	//屠宰阶段毒理性指标
 	gorm.Model
 	SlaughterWaterQualityMonID *uint                    `json:"slaughter_water_quality_mon_id"`
-	ToxinIndexSla1             float32                  `json:"toxin_index_sla_1"`                                                                  //锑/（mg/L）
-	ToxinIndexSla2             float32                  `json:"toxin_index_sla_2"`                                                                  //钡/（mg/L）
-	ToxinIndexSla3             float32                  `json:"toxin_index_sla_3"`                                                                  //铍/（mg/L）
-	ToxinIndexSla4             float32                  `json:"toxin_index_sla_4"`                                                                  //硼/（mg/L）
-	ToxinIndexSla5             float32                  `json:"toxin_index_sla_5"`                                                                  //钼/（mg/L）
-	ToxinIndexSla6             float32                  `json:"toxin_index_sla_6"`                                                                  //镍/（mg/L）
-	ToxinIndexSla7             float32                  `json:"toxin_index_sla_7"`                                                                  //银/（mg/L）
-	ToxinIndexSla8             float32                  `json:"toxin_index_sla_8"`                                                                  //铊/（mg/L）
-	ToxinIndexSla9             float32                  `json:"toxin_index_sla_9"`                                                                  //硒/（mg/L）
-	ToxinIndexSla10            float32                  `json:"toxin_index_sla_10"`                                                                 //高氯酸钾/（mg/L）
-	ToxinIndexSla11            float32                  `json:"toxin_index_sla_11"`                                                                 //二氯甲烷/（mg/L）
-	ToxinIndexSla12            float32                  `json:"toxin_index_sla_12"`                                                                 //1，2-二氯甲烷/（mg/L）
-	ToxinIndexSla13            float32                  `json:"toxin_index_sla_13"`                                                                 //四氯化碳/（mg/L）
-	ToxinIndexSla14            float32                  `json:"toxin_index_sla_14"`                                                                 //氯乙烯/（mg/L）
-	ToxinIndexSla15            float32                  `json:"toxin_index_sla_15"`                                                                 //1，1-二氯乙烯/（mg/L）
-	ToxinIndexSla16            float32                  `json:"toxin_index_sla_16"`                                                                 //1，2-二氯乙烯（总量）/（mg/L）
-	ToxinIndexSla17            float32                  `json:"toxin_index_sla_17"`                                                                 //三氯乙烯/（mg/L）
-	ToxinIndexSla18            float32                  `json:"toxin_index_sla_18"`                                                                 //四氯乙烯/（mg/L）
-	ToxinIndexSla19            float32                  `json:"toxin_index_sla_19"`                                                                 //六氯丁二烯/（mg/L）
-	ToxinIndexSla20            float32                  `json:"toxin_index_sla_20"`                                                                 //苯/（mg/L）
-	ToxinIndexSla21            float32                  `json:"toxin_index_sla_21"`                                                                 //甲苯/（mg/L）
-	ToxinIndexSla22            float32                  `json:"toxin_index_sla_22"`                                                                 //二甲苯（总量）/（mg/L）
-	ToxinIndexSla23            float32                  `json:"toxin_index_sla_23"`                                                                 //苯乙烯/（mg/L）
-	ToxinIndexSla24            float32                  `json:"toxin_index_sla_24"`                                                                 //氯苯/（mg/L）
-	ToxinIndexSla25            float32                  `json:"toxin_index_sla_25"`                                                                 //1，4-二氯苯/（mg/L）
-	ToxinIndexSla26            float32                  `json:"toxin_index_sla_26"`                                                                 //三氯苯（总量）/（mg/L）
-	ToxinIndexSla27            float32                  `json:"toxin_index_sla_27"`                                                                 //六氯苯/（mg/L）
-	ToxinIndexSla28            float32                  `json:"toxin_index_sla_28"`                                                                 //七氯/（mg/L）
-	ToxinIndexSla29            float32                  `json:"toxin_index_sla_29"`                                                                 //马拉硫磷/（mg/L）
-	ToxinIndexSla30            float32                  `json:"toxin_index_sla_30"`                                                                 //乐果/（mg/L）
-	ToxinIndexSla31            float32                  `json:"toxin_index_sla_31"`                                                                 //灭草松/（mg/L）
-	ToxinIndexSla32            float32                  `json:"toxin_index_sla_32"`                                                                 //百菌清/（mg/L）
-	ToxinIndexSla33            float32                  `json:"toxin_index_sla_33"`                                                                 //呋喃丹/（mg/L）
-	ToxinIndexSla34            float32                  `json:"toxin_index_sla_34"`                                                                 //毒死蜱/（mg/L）
-	ToxinIndexSla35            float32                  `json:"toxin_index_sla_35"`                                                                 //草甘膦/（mg/L）
-	ToxinIndexSla36            float32                  `json:"toxin_index_sla_36"`                                                                 //敌敌畏/（mg/L）
-	ToxinIndexSla37            float32                  `json:"toxin_index_sla_37"`                                                                 //莠去津/（mg/L）
-	ToxinIndexSla38            float32                  `json:"toxin_index_sla_38"`                                                                 //溴氰菊酯/（mg/L）
-	ToxinIndexSla39            float32                  `json:"toxin_index_sla_39"`                                                                 //2，4-滴/（mg/L）
-	ToxinIndexSla40            float32                  `json:"toxin_index_sla_40"`                                                                 //乙草胺/（mg/L）
-	ToxinIndexSla41            float32                  `json:"toxin_index_sla_41"`                                                                 //五氯酚/（mg/L）
-	ToxinIndexSla42            float32                  `json:"toxin_index_sla_42"`                                                                 //2，4，6-三氯酚/（mg/L）
-	ToxinIndexSla43            float32                  `json:"toxin_index_sla_43"`                                                                 //苯并（a）芘/（mg/L）
-	ToxinIndexSla44            float32                  `json:"toxin_index_sla_44"`                                                                 //邻苯二甲酸二（2-乙基己基）脂/（mg/L）
-	ToxinIndexSla45            float32                  `json:"toxin_index_sla_45"`                                                                 //丙烯酰胺/（mg/L）
-	ToxinIndexSla46            float32                  `json:"toxin_index_sla_46"`                                                                 //环氧氯丙烷/（mg/L）
-	ToxinIndexSla47            float32                  `json:"toxin_index_sla_47"`                                                                 //微囊藻毒素-LR（藻类爆发情况发生时）/（mg/L）
+	ToxinIndexSla1             float64                  `json:"toxin_index_sla_1"`                                                                  //锑/（mg/L）
+	ToxinIndexSla2             float64                  `json:"toxin_index_sla_2"`                                                                  //钡/（mg/L）
+	ToxinIndexSla3             float64                  `json:"toxin_index_sla_3"`                                                                  //铍/（mg/L）
+	ToxinIndexSla4             float64                  `json:"toxin_index_sla_4"`                                                                  //硼/（mg/L）
+	ToxinIndexSla5             float64                  `json:"toxin_index_sla_5"`                                                                  //钼/（mg/L）
+	ToxinIndexSla6             float64                  `json:"toxin_index_sla_6"`                                                                  //镍/（mg/L）
+	ToxinIndexSla7             float64                  `json:"toxin_index_sla_7"`                                                                  //银/（mg/L）
+	ToxinIndexSla8             float64                  `json:"toxin_index_sla_8"`                                                                  //铊/（mg/L）
+	ToxinIndexSla9             float64                  `json:"toxin_index_sla_9"`                                                                  //硒/（mg/L）
+	ToxinIndexSla10            float64                  `json:"toxin_index_sla_10"`                                                                 //高氯酸钾/（mg/L）
+	ToxinIndexSla11            float64                  `json:"toxin_index_sla_11"`                                                                 //二氯甲烷/（mg/L）
+	ToxinIndexSla12            float64                  `json:"toxin_index_sla_12"`                                                                 //1，2-二氯甲烷/（mg/L）
+	ToxinIndexSla13            float64                  `json:"toxin_index_sla_13"`                                                                 //四氯化碳/（mg/L）
+	ToxinIndexSla14            float64                  `json:"toxin_index_sla_14"`                                                                 //氯乙烯/（mg/L）
+	ToxinIndexSla15            float64                  `json:"toxin_index_sla_15"`                                                                 //1，1-二氯乙烯/（mg/L）
+	ToxinIndexSla16            float64                  `json:"toxin_index_sla_16"`                                                                 //1，2-二氯乙烯（总量）/（mg/L）
+	ToxinIndexSla17            float64                  `json:"toxin_index_sla_17"`                                                                 //三氯乙烯/（mg/L）
+	ToxinIndexSla18            float64                  `json:"toxin_index_sla_18"`                                                                 //四氯乙烯/（mg/L）
+	ToxinIndexSla19            float64                  `json:"toxin_index_sla_19"`                                                                 //六氯丁二烯/（mg/L）
+	ToxinIndexSla20            float64                  `json:"toxin_index_sla_20"`                                                                 //苯/（mg/L）
+	ToxinIndexSla21            float64                  `json:"toxin_index_sla_21"`                                                                 //甲苯/（mg/L）
+	ToxinIndexSla22            float64                  `json:"toxin_index_sla_22"`                                                                 //二甲苯（总量）/（mg/L）
+	ToxinIndexSla23            float64                  `json:"toxin_index_sla_23"`                                                                 //苯乙烯/（mg/L）
+	ToxinIndexSla24            float64                  `json:"toxin_index_sla_24"`                                                                 //氯苯/（mg/L）
+	ToxinIndexSla25            float64                  `json:"toxin_index_sla_25"`                                                                 //1，4-二氯苯/（mg/L）
+	ToxinIndexSla26            float64                  `json:"toxin_index_sla_26"`                                                                 //三氯苯（总量）/（mg/L）
+	ToxinIndexSla27            float64                  `json:"toxin_index_sla_27"`                                                                 //六氯苯/（mg/L）
+	ToxinIndexSla28            float64                  `json:"toxin_index_sla_28"`                                                                 //七氯/（mg/L）
+	ToxinIndexSla29            float64                  `json:"toxin_index_sla_29"`                                                                 //马拉硫磷/（mg/L）
+	ToxinIndexSla30            float64                  `json:"toxin_index_sla_30"`                                                                 //乐果/（mg/L）
+	ToxinIndexSla31            float64                  `json:"toxin_index_sla_31"`                                                                 //灭草松/（mg/L）
+	ToxinIndexSla32            float64                  `json:"toxin_index_sla_32"`                                                                 //百菌清/（mg/L）
+	ToxinIndexSla33            float64                  `json:"toxin_index_sla_33"`                                                                 //呋喃丹/（mg/L）
+	ToxinIndexSla34            float64                  `json:"toxin_index_sla_34"`                                                                 //毒死蜱/（mg/L）
+	ToxinIndexSla35            float64                  `json:"toxin_index_sla_35"`                                                                 //草甘膦/（mg/L）
+	ToxinIndexSla36            float64                  `json:"toxin_index_sla_36"`                                                                 //敌敌畏/（mg/L）
+	ToxinIndexSla37            float64                  `json:"toxin_index_sla_37"`                                                                 //莠去津/（mg/L）
+	ToxinIndexSla38            float64                  `json:"toxin_index_sla_38"`                                                                 //溴氰菊酯/（mg/L）
+	ToxinIndexSla39            float64                  `json:"toxin_index_sla_39"`                                                                 //2，4-滴/（mg/L）
+	ToxinIndexSla40            float64                  `json:"toxin_index_sla_40"`                                                                 //乙草胺/（mg/L）
+	ToxinIndexSla41            float64                  `json:"toxin_index_sla_41"`                                                                 //五氯酚/（mg/L）
+	ToxinIndexSla42            float64                  `json:"toxin_index_sla_42"`                                                                 //2，4，6-三氯酚/（mg/L）
+	ToxinIndexSla43            float64                  `json:"toxin_index_sla_43"`                                                                 //苯并（a）芘/（mg/L）
+	ToxinIndexSla44            float64                  `json:"toxin_index_sla_44"`                                                                 //邻苯二甲酸二（2-乙基己基）脂/（mg/L）
+	ToxinIndexSla45            float64                  `json:"toxin_index_sla_45"`                                                                 //丙烯酰胺/（mg/L）
+	ToxinIndexSla46            float64                  `json:"toxin_index_sla_46"`                                                                 //环氧氯丙烷/（mg/L）
+	ToxinIndexSla47            float64                  `json:"toxin_index_sla_47"`                                                                 //微囊藻毒素-LR（藻类爆发情况发生时）/（mg/L）
 	SlaughterWaterToxinIndex   SlaughterWaterToxinIndex `gorm:"foreignKey:SlaughterToxinIndexID; references:ID" json:"slaughter_water_toxin_index"` //其他毒理指标
 }
 
@@ -119,27 +120,27 @@ type SlaughterWaterToxinIndex struct {
 	//毒理性指标
 	gorm.Model
 	SlaughterToxinIndexID      *uint   `json:"slaughter_toxin_index_id"`
-	SlaughterWaterToxinIndex1  float32 `json:"slaughter_water_toxin_index_1"`  //氰化物
-	SlaughterWaterToxinIndex2  float32 `json:"slaughter_water_toxin_index_2"`  //总砷
-	SlaughterWaterToxinIndex3  float32 `json:"slaughter_water_toxin_index_3"`  //总汞
-	SlaughterWaterToxinIndex4  float32 `json:"slaughter_water_toxin_index_4"`  //总铅
-	SlaughterWaterToxinIndex5  float32 `json:"slaughter_water_toxin_index_5"`  //铬（六价）
-	SlaughterWaterToxinIndex6  float32 `json:"slaughter_water_toxin_index_6"`  //总镉
-	SlaughterWaterToxinIndex7  float32 `json:"slaughter_water_toxin_index_7"`  //硝酸盐
-	SlaughterWaterToxinIndex8  float32 `json:"slaughter_water_toxin_index_8"`  //砷
-	SlaughterWaterToxinIndex9  float32 `json:"slaughter_water_toxin_index_9"`  //镉
-	SlaughterWaterToxinIndex10 float32 `json:"slaughter_water_toxin_index_10"` //氯化物
-	SlaughterWaterToxinIndex11 float32 `json:"slaughter_water_toxin_index_11"` //硝酸钾
-	SlaughterWaterToxinIndex12 float32 `json:"slaughter_water_toxin_index_12"` //三氯甲烷
-	SlaughterWaterToxinIndex13 float32 `json:"slaughter_water_toxin_index_13"` //一氯二溴甲烷
-	SlaughterWaterToxinIndex14 float32 `json:"slaughter_water_toxin_index_14"` //二氯一溴甲烷
-	SlaughterWaterToxinIndex15 float32 `json:"slaughter_water_toxin_index_15"` //三溴甲烷
-	SlaughterWaterToxinIndex16 float32 `json:"slaughter_water_toxin_index_16"` //三卤甲烷（三氯甲烷、一氯二溴甲烷、二氯一溴甲烷、三溴甲烷的总和）
-	SlaughterWaterToxinIndex17 float32 `json:"slaughter_water_toxin_index_17"` //二氯乙酸
-	SlaughterWaterToxinIndex18 float32 `json:"slaughter_water_toxin_index_18"` //三氯乙酸
-	SlaughterWaterToxinIndex19 float32 `json:"slaughter_water_toxin_index_19"` //溴酸盐
-	SlaughterWaterToxinIndex20 float32 `json:"slaughter_water_toxin_index_20"` //亚氯酸盐
-	SlaughterWaterToxinIndex21 float32 `json:"slaughter_water_toxin_index_21"` //氯酸盐
+	SlaughterWaterToxinIndex1  float64 `json:"slaughter_water_toxin_index_1"`  //氰化物
+	SlaughterWaterToxinIndex2  float64 `json:"slaughter_water_toxin_index_2"`  //总砷
+	SlaughterWaterToxinIndex3  float64 `json:"slaughter_water_toxin_index_3"`  //总汞
+	SlaughterWaterToxinIndex4  float64 `json:"slaughter_water_toxin_index_4"`  //总铅
+	SlaughterWaterToxinIndex5  float64 `json:"slaughter_water_toxin_index_5"`  //铬（六价）
+	SlaughterWaterToxinIndex6  float64 `json:"slaughter_water_toxin_index_6"`  //总镉
+	SlaughterWaterToxinIndex7  float64 `json:"slaughter_water_toxin_index_7"`  //硝酸盐
+	SlaughterWaterToxinIndex8  float64 `json:"slaughter_water_toxin_index_8"`  //砷
+	SlaughterWaterToxinIndex9  float64 `json:"slaughter_water_toxin_index_9"`  //镉
+	SlaughterWaterToxinIndex10 float64 `json:"slaughter_water_toxin_index_10"` //氯化物
+	SlaughterWaterToxinIndex11 float64 `json:"slaughter_water_toxin_index_11"` //硝酸钾
+	SlaughterWaterToxinIndex12 float64 `json:"slaughter_water_toxin_index_12"` //三氯甲烷
+	SlaughterWaterToxinIndex13 float64 `json:"slaughter_water_toxin_index_13"` //一氯二溴甲烷
+	SlaughterWaterToxinIndex14 float64 `json:"slaughter_water_toxin_index_14"` //二氯一溴甲烷
+	SlaughterWaterToxinIndex15 float64 `json:"slaughter_water_toxin_index_15"` //三溴甲烷
+	SlaughterWaterToxinIndex16 float64 `json:"slaughter_water_toxin_index_16"` //三卤甲烷（三氯甲烷、一氯二溴甲烷、二氯一溴甲烷、三溴甲烷的总和）
+	SlaughterWaterToxinIndex17 float64 `json:"slaughter_water_toxin_index_17"` //二氯乙酸
+	SlaughterWaterToxinIndex18 float64 `json:"slaughter_water_toxin_index_18"` //三氯乙酸
+	SlaughterWaterToxinIndex19 float64 `json:"slaughter_water_toxin_index_19"` //溴酸盐
+	SlaughterWaterToxinIndex20 float64 `json:"slaughter_water_toxin_index_20"` //亚氯酸盐
+	SlaughterWaterToxinIndex21 float64 `json:"slaughter_water_toxin_index_21"` //氯酸盐
 }
 
 type SlaughterWaterQualityMonInfo struct {
@@ -153,119 +154,119 @@ type SlaughterWaterQualityMonInfo struct {
 
 type SlaughterWaterMicroIndexInfo struct {
 	//微生物监控
-	SlaughterWaterMicroIndex1 float32 `json:"slaughter_water_micro_index_1"` //总大肠菌群
-	SlaughterWaterMicroIndex2 float32 `json:"slaughter_water_micro_index_2"` //大肠埃希氏菌
-	SlaughterWaterMicroIndex3 float32 `json:"slaughter_water_micro_index_3"` //菌落总数
+	SlaughterWaterMicroIndex1 float64 `json:"slaughter_water_micro_index_1"` //总大肠菌群
+	SlaughterWaterMicroIndex2 float64 `json:"slaughter_water_micro_index_2"` //大肠埃希氏菌
+	SlaughterWaterMicroIndex3 float64 `json:"slaughter_water_micro_index_3"` //菌落总数
 }
 
 type OapGciSlaInfo struct {
 	//感官性状和一般化学指标
-	OapGciSla1  float32 `json:"oap_gci_sla_1"`  //钠
-	OapGciSla2  float32 `json:"oap_gci_sla_2"`  //挥发酚类
-	OapGciSla3  float32 `json:"oap_gci_sla_3"`  //阴离子合成洗涤剂
-	OapGciSla4  float32 `json:"oap_gci_sla_4"`  //2-甲基异莰醇
-	OapGciSla5  float32 `json:"oap_gci_sla_5"`  //土臭素
-	OapGciSla6  float32 `json:"oap_gci_sla_6"`  //色度（铂钴色度单位）/度
-	OapGciSla7  float32 `json:"oap_gci_sla_7"`  //浑浊度（散射浑浊度单位）/NTU
-	OapGciSla8  float32 `json:"oap_gci_sla_8"`  //臭和味
-	OapGciSla9  float32 `json:"oap_gci_sla_9"`  //肉眼可见物
-	OapGciSla10 float32 `json:"oap_gci_sla_10"` //pH
-	OapGciSla11 float32 `json:"oap_gci_sla_11"` //铝/（mg/L）
-	OapGciSla12 float32 `json:"oap_gci_sla_12"` //铁/（mg/L）
-	OapGciSla13 float32 `json:"oap_gci_sla_13"` //锰/（mg/L）
-	OapGciSla14 float32 `json:"oap_gci_sla_14"` //铜/（mg/L）
-	OapGciSla15 float32 `json:"oap_gci_sla_15"` //锌/（mg/L）
-	OapGciSla16 float32 `json:"oap_gci_sla_16"` //氯化物/（mg/L）
-	OapGciSla17 float32 `json:"oap_gci_sla_17"` //硫酸盐/（mg/L）
-	OapGciSla18 float32 `json:"oap_gci_sla_18"` //溶解性总固体/（mg/L）
-	OapGciSla19 float32 `json:"oap_gci_sla_19"` //总硬度（以CaCO3计）/（mg/L）
-	OapGciSla20 float32 `json:"oap_gci_sla_20"` //高锰酸盐指数（以O2计）/（mg/L）
-	OapGciSla21 float32 `json:"oap_gci_sla_21"` //氨（以N计）/（mg/L）
+	OapGciSla1  float64 `json:"oap_gci_sla_1"`  //钠
+	OapGciSla2  float64 `json:"oap_gci_sla_2"`  //挥发酚类
+	OapGciSla3  float64 `json:"oap_gci_sla_3"`  //阴离子合成洗涤剂
+	OapGciSla4  float64 `json:"oap_gci_sla_4"`  //2-甲基异莰醇
+	OapGciSla5  float64 `json:"oap_gci_sla_5"`  //土臭素
+	OapGciSla6  float64 `json:"oap_gci_sla_6"`  //色度（铂钴色度单位）/度
+	OapGciSla7  float64 `json:"oap_gci_sla_7"`  //浑浊度（散射浑浊度单位）/NTU
+	OapGciSla8  float64 `json:"oap_gci_sla_8"`  //臭和味
+	OapGciSla9  float64 `json:"oap_gci_sla_9"`  //肉眼可见物
+	OapGciSla10 float64 `json:"oap_gci_sla_10"` //pH
+	OapGciSla11 float64 `json:"oap_gci_sla_11"` //铝/（mg/L）
+	OapGciSla12 float64 `json:"oap_gci_sla_12"` //铁/（mg/L）
+	OapGciSla13 float64 `json:"oap_gci_sla_13"` //锰/（mg/L）
+	OapGciSla14 float64 `json:"oap_gci_sla_14"` //铜/（mg/L）
+	OapGciSla15 float64 `json:"oap_gci_sla_15"` //锌/（mg/L）
+	OapGciSla16 float64 `json:"oap_gci_sla_16"` //氯化物/（mg/L）
+	OapGciSla17 float64 `json:"oap_gci_sla_17"` //硫酸盐/（mg/L）
+	OapGciSla18 float64 `json:"oap_gci_sla_18"` //溶解性总固体/（mg/L）
+	OapGciSla19 float64 `json:"oap_gci_sla_19"` //总硬度（以CaCO3计）/（mg/L）
+	OapGciSla20 float64 `json:"oap_gci_sla_20"` //高锰酸盐指数（以O2计）/（mg/L）
+	OapGciSla21 float64 `json:"oap_gci_sla_21"` //氨（以N计）/（mg/L）
 }
 
 type MicroIndexWaterMonSlaInfo struct {
 	//微生物指标屠宰阶段 和 屠宰污水检测记录
-	MicroIndexWaterMonSla1 float32 `json:"micro_index_water_mon_sla_1"` //贾第鞭毛虫/（个/10L)
-	MicroIndexWaterMonSla2 float32 `json:"micro_index_water_mon_sla_2"` //隐孢子虫/（个/10L）
-	MicroIndexWaterMonSla3 float32 `json:"micro_index_water_mon_sla_3"` //生化需氧
-	MicroIndexWaterMonSla4 float32 `json:"micro_index_water_mon_sla_4"` //化学需氧
+	MicroIndexWaterMonSla1 float64 `json:"micro_index_water_mon_sla_1"` //贾第鞭毛虫/（个/10L)
+	MicroIndexWaterMonSla2 float64 `json:"micro_index_water_mon_sla_2"` //隐孢子虫/（个/10L）
+	MicroIndexWaterMonSla3 float64 `json:"micro_index_water_mon_sla_3"` //生化需氧
+	MicroIndexWaterMonSla4 float64 `json:"micro_index_water_mon_sla_4"` //化学需氧
 }
 
 type SlaughterToxinIndexInfo struct {
 	//屠宰阶段毒理性指标
-	ToxinIndexSla1           float32                      `json:"toxin_index_sla_1"`                                                                  //锑/（mg/L）
-	ToxinIndexSla2           float32                      `json:"toxin_index_sla_2"`                                                                  //钡/（mg/L）
-	ToxinIndexSla3           float32                      `json:"toxin_index_sla_3"`                                                                  //铍/（mg/L）
-	ToxinIndexSla4           float32                      `json:"toxin_index_sla_4"`                                                                  //硼/（mg/L）
-	ToxinIndexSla5           float32                      `json:"toxin_index_sla_5"`                                                                  //钼/（mg/L）
-	ToxinIndexSla6           float32                      `json:"toxin_index_sla_6"`                                                                  //镍/（mg/L）
-	ToxinIndexSla7           float32                      `json:"toxin_index_sla_7"`                                                                  //银/（mg/L）
-	ToxinIndexSla8           float32                      `json:"toxin_index_sla_8"`                                                                  //铊/（mg/L）
-	ToxinIndexSla9           float32                      `json:"toxin_index_sla_9"`                                                                  //硒/（mg/L）
-	ToxinIndexSla10          float32                      `json:"toxin_index_sla_10"`                                                                 //高氯酸钾/（mg/L）
-	ToxinIndexSla11          float32                      `json:"toxin_index_sla_11"`                                                                 //二氯甲烷/（mg/L）
-	ToxinIndexSla12          float32                      `json:"toxin_index_sla_12"`                                                                 //1，2-二氯甲烷/（mg/L）
-	ToxinIndexSla13          float32                      `json:"toxin_index_sla_13"`                                                                 //四氯化碳/（mg/L）
-	ToxinIndexSla14          float32                      `json:"toxin_index_sla_14"`                                                                 //氯乙烯/（mg/L）
-	ToxinIndexSla15          float32                      `json:"toxin_index_sla_15"`                                                                 //1，1-二氯乙烯/（mg/L）
-	ToxinIndexSla16          float32                      `json:"toxin_index_sla_16"`                                                                 //1，2-二氯乙烯（总量）/（mg/L）
-	ToxinIndexSla17          float32                      `json:"toxin_index_sla_17"`                                                                 //三氯乙烯/（mg/L）
-	ToxinIndexSla18          float32                      `json:"toxin_index_sla_18"`                                                                 //四氯乙烯/（mg/L）
-	ToxinIndexSla19          float32                      `json:"toxin_index_sla_19"`                                                                 //六氯丁二烯/（mg/L）
-	ToxinIndexSla20          float32                      `json:"toxin_index_sla_20"`                                                                 //苯/（mg/L）
-	ToxinIndexSla21          float32                      `json:"toxin_index_sla_21"`                                                                 //甲苯/（mg/L）
-	ToxinIndexSla22          float32                      `json:"toxin_index_sla_22"`                                                                 //二甲苯（总量）/（mg/L）
-	ToxinIndexSla23          float32                      `json:"toxin_index_sla_23"`                                                                 //苯乙烯/（mg/L）
-	ToxinIndexSla24          float32                      `json:"toxin_index_sla_24"`                                                                 //氯苯/（mg/L）
-	ToxinIndexSla25          float32                      `json:"toxin_index_sla_25"`                                                                 //1，4-二氯苯/（mg/L）
-	ToxinIndexSla26          float32                      `json:"toxin_index_sla_26"`                                                                 //三氯苯（总量）/（mg/L）
-	ToxinIndexSla27          float32                      `json:"toxin_index_sla_27"`                                                                 //六氯苯/（mg/L）
-	ToxinIndexSla28          float32                      `json:"toxin_index_sla_28"`                                                                 //七氯/（mg/L）
-	ToxinIndexSla29          float32                      `json:"toxin_index_sla_29"`                                                                 //马拉硫磷/（mg/L）
-	ToxinIndexSla30          float32                      `json:"toxin_index_sla_30"`                                                                 //乐果/（mg/L）
-	ToxinIndexSla31          float32                      `json:"toxin_index_sla_31"`                                                                 //灭草松/（mg/L）
-	ToxinIndexSla32          float32                      `json:"toxin_index_sla_32"`                                                                 //百菌清/（mg/L）
-	ToxinIndexSla33          float32                      `json:"toxin_index_sla_33"`                                                                 //呋喃丹/（mg/L）
-	ToxinIndexSla34          float32                      `json:"toxin_index_sla_34"`                                                                 //毒死蜱/（mg/L）
-	ToxinIndexSla35          float32                      `json:"toxin_index_sla_35"`                                                                 //草甘膦/（mg/L）
-	ToxinIndexSla36          float32                      `json:"toxin_index_sla_36"`                                                                 //敌敌畏/（mg/L）
-	ToxinIndexSla37          float32                      `json:"toxin_index_sla_37"`                                                                 //莠去津/（mg/L）
-	ToxinIndexSla38          float32                      `json:"toxin_index_sla_38"`                                                                 //溴氰菊酯/（mg/L）
-	ToxinIndexSla39          float32                      `json:"toxin_index_sla_39"`                                                                 //2，4-滴/（mg/L）
-	ToxinIndexSla40          float32                      `json:"toxin_index_sla_40"`                                                                 //乙草胺/（mg/L）
-	ToxinIndexSla41          float32                      `json:"toxin_index_sla_41"`                                                                 //五氯酚/（mg/L）
-	ToxinIndexSla42          float32                      `json:"toxin_index_sla_42"`                                                                 //2，4，6-三氯酚/（mg/L）
-	ToxinIndexSla43          float32                      `json:"toxin_index_sla_43"`                                                                 //苯并（a）芘/（mg/L）
-	ToxinIndexSla44          float32                      `json:"toxin_index_sla_44"`                                                                 //邻苯二甲酸二（2-乙基己基）脂/（mg/L）
-	ToxinIndexSla45          float32                      `json:"toxin_index_sla_45"`                                                                 //丙烯酰胺/（mg/L）
-	ToxinIndexSla46          float32                      `json:"toxin_index_sla_46"`                                                                 //环氧氯丙烷/（mg/L）
-	ToxinIndexSla47          float32                      `json:"toxin_index_sla_47"`                                                                 //微囊藻毒素-LR（藻类爆发情况发生时）/（mg/L）
+	ToxinIndexSla1           float64                      `json:"toxin_index_sla_1"`                                                                  //锑/（mg/L）
+	ToxinIndexSla2           float64                      `json:"toxin_index_sla_2"`                                                                  //钡/（mg/L）
+	ToxinIndexSla3           float64                      `json:"toxin_index_sla_3"`                                                                  //铍/（mg/L）
+	ToxinIndexSla4           float64                      `json:"toxin_index_sla_4"`                                                                  //硼/（mg/L）
+	ToxinIndexSla5           float64                      `json:"toxin_index_sla_5"`                                                                  //钼/（mg/L）
+	ToxinIndexSla6           float64                      `json:"toxin_index_sla_6"`                                                                  //镍/（mg/L）
+	ToxinIndexSla7           float64                      `json:"toxin_index_sla_7"`                                                                  //银/（mg/L）
+	ToxinIndexSla8           float64                      `json:"toxin_index_sla_8"`                                                                  //铊/（mg/L）
+	ToxinIndexSla9           float64                      `json:"toxin_index_sla_9"`                                                                  //硒/（mg/L）
+	ToxinIndexSla10          float64                      `json:"toxin_index_sla_10"`                                                                 //高氯酸钾/（mg/L）
+	ToxinIndexSla11          float64                      `json:"toxin_index_sla_11"`                                                                 //二氯甲烷/（mg/L）
+	ToxinIndexSla12          float64                      `json:"toxin_index_sla_12"`                                                                 //1，2-二氯甲烷/（mg/L）
+	ToxinIndexSla13          float64                      `json:"toxin_index_sla_13"`                                                                 //四氯化碳/（mg/L）
+	ToxinIndexSla14          float64                      `json:"toxin_index_sla_14"`                                                                 //氯乙烯/（mg/L）
+	ToxinIndexSla15          float64                      `json:"toxin_index_sla_15"`                                                                 //1，1-二氯乙烯/（mg/L）
+	ToxinIndexSla16          float64                      `json:"toxin_index_sla_16"`                                                                 //1，2-二氯乙烯（总量）/（mg/L）
+	ToxinIndexSla17          float64                      `json:"toxin_index_sla_17"`                                                                 //三氯乙烯/（mg/L）
+	ToxinIndexSla18          float64                      `json:"toxin_index_sla_18"`                                                                 //四氯乙烯/（mg/L）
+	ToxinIndexSla19          float64                      `json:"toxin_index_sla_19"`                                                                 //六氯丁二烯/（mg/L）
+	ToxinIndexSla20          float64                      `json:"toxin_index_sla_20"`                                                                 //苯/（mg/L）
+	ToxinIndexSla21          float64                      `json:"toxin_index_sla_21"`                                                                 //甲苯/（mg/L）
+	ToxinIndexSla22          float64                      `json:"toxin_index_sla_22"`                                                                 //二甲苯（总量）/（mg/L）
+	ToxinIndexSla23          float64                      `json:"toxin_index_sla_23"`                                                                 //苯乙烯/（mg/L）
+	ToxinIndexSla24          float64                      `json:"toxin_index_sla_24"`                                                                 //氯苯/（mg/L）
+	ToxinIndexSla25          float64                      `json:"toxin_index_sla_25"`                                                                 //1，4-二氯苯/（mg/L）
+	ToxinIndexSla26          float64                      `json:"toxin_index_sla_26"`                                                                 //三氯苯（总量）/（mg/L）
+	ToxinIndexSla27          float64                      `json:"toxin_index_sla_27"`                                                                 //六氯苯/（mg/L）
+	ToxinIndexSla28          float64                      `json:"toxin_index_sla_28"`                                                                 //七氯/（mg/L）
+	ToxinIndexSla29          float64                      `json:"toxin_index_sla_29"`                                                                 //马拉硫磷/（mg/L）
+	ToxinIndexSla30          float64                      `json:"toxin_index_sla_30"`                                                                 //乐果/（mg/L）
+	ToxinIndexSla31          float64                      `json:"toxin_index_sla_31"`                                                                 //灭草松/（mg/L）
+	ToxinIndexSla32          float64                      `json:"toxin_index_sla_32"`                                                                 //百菌清/（mg/L）
+	ToxinIndexSla33          float64                      `json:"toxin_index_sla_33"`                                                                 //呋喃丹/（mg/L）
+	ToxinIndexSla34          float64                      `json:"toxin_index_sla_34"`                                                                 //毒死蜱/（mg/L）
+	ToxinIndexSla35          float64                      `json:"toxin_index_sla_35"`                                                                 //草甘膦/（mg/L）
+	ToxinIndexSla36          float64                      `json:"toxin_index_sla_36"`                                                                 //敌敌畏/（mg/L）
+	ToxinIndexSla37          float64                      `json:"toxin_index_sla_37"`                                                                 //莠去津/（mg/L）
+	ToxinIndexSla38          float64                      `json:"toxin_index_sla_38"`                                                                 //溴氰菊酯/（mg/L）
+	ToxinIndexSla39          float64                      `json:"toxin_index_sla_39"`                                                                 //2，4-滴/（mg/L）
+	ToxinIndexSla40          float64                      `json:"toxin_index_sla_40"`                                                                 //乙草胺/（mg/L）
+	ToxinIndexSla41          float64                      `json:"toxin_index_sla_41"`                                                                 //五氯酚/（mg/L）
+	ToxinIndexSla42          float64                      `json:"toxin_index_sla_42"`                                                                 //2，4，6-三氯酚/（mg/L）
+	ToxinIndexSla43          float64                      `json:"toxin_index_sla_43"`                                                                 //苯并（a）芘/（mg/L）
+	ToxinIndexSla44          float64                      `json:"toxin_index_sla_44"`                                                                 //邻苯二甲酸二（2-乙基己基）脂/（mg/L）
+	ToxinIndexSla45          float64                      `json:"toxin_index_sla_45"`                                                                 //丙烯酰胺/（mg/L）
+	ToxinIndexSla46          float64                      `json:"toxin_index_sla_46"`                                                                 //环氧氯丙烷/（mg/L）
+	ToxinIndexSla47          float64                      `json:"toxin_index_sla_47"`                                                                 //微囊藻毒素-LR（藻类爆发情况发生时）/（mg/L）
 	SlaughterWaterToxinIndex SlaughterWaterToxinIndexInfo `gorm:"foreignKey:SlaughterToxinIndexID; references:ID" json:"slaughter_water_toxin_index"` //其他毒理指标
 }
 
 type SlaughterWaterToxinIndexInfo struct {
 	//毒理性指标
-	SlaughterWaterToxinIndex1  float32 `json:"slaughter_water_toxin_index_1"`  //氰化物
-	SlaughterWaterToxinIndex2  float32 `json:"slaughter_water_toxin_index_2"`  //总砷
-	SlaughterWaterToxinIndex3  float32 `json:"slaughter_water_toxin_index_3"`  //总汞
-	SlaughterWaterToxinIndex4  float32 `json:"slaughter_water_toxin_index_4"`  //总铅
-	SlaughterWaterToxinIndex5  float32 `json:"slaughter_water_toxin_index_5"`  //铬（六价）
-	SlaughterWaterToxinIndex6  float32 `json:"slaughter_water_toxin_index_6"`  //总镉
-	SlaughterWaterToxinIndex7  float32 `json:"slaughter_water_toxin_index_7"`  //硝酸盐
-	SlaughterWaterToxinIndex8  float32 `json:"slaughter_water_toxin_index_8"`  //砷
-	SlaughterWaterToxinIndex9  float32 `json:"slaughter_water_toxin_index_9"`  //镉
-	SlaughterWaterToxinIndex10 float32 `json:"slaughter_water_toxin_index_10"` //氯化物
-	SlaughterWaterToxinIndex11 float32 `json:"slaughter_water_toxin_index_11"` //硝酸钾
-	SlaughterWaterToxinIndex12 float32 `json:"slaughter_water_toxin_index_12"` //三氯甲烷
-	SlaughterWaterToxinIndex13 float32 `json:"slaughter_water_toxin_index_13"` //一氯二溴甲烷
-	SlaughterWaterToxinIndex14 float32 `json:"slaughter_water_toxin_index_14"` //二氯一溴甲烷
-	SlaughterWaterToxinIndex15 float32 `json:"slaughter_water_toxin_index_15"` //三溴甲烷
-	SlaughterWaterToxinIndex16 float32 `json:"slaughter_water_toxin_index_16"` //三卤甲烷（三氯甲烷、一氯二溴甲烷、二氯一溴甲烷、三溴甲烷的总和）
-	SlaughterWaterToxinIndex17 float32 `json:"slaughter_water_toxin_index_17"` //二氯乙酸
-	SlaughterWaterToxinIndex18 float32 `json:"slaughter_water_toxin_index_18"` //三氯乙酸
-	SlaughterWaterToxinIndex19 float32 `json:"slaughter_water_toxin_index_19"` //溴酸盐
-	SlaughterWaterToxinIndex20 float32 `json:"slaughter_water_toxin_index_20"` //亚氯酸盐
-	SlaughterWaterToxinIndex21 float32 `json:"slaughter_water_toxin_index_21"` //氯酸盐
+	SlaughterWaterToxinIndex1  float64 `json:"slaughter_water_toxin_index_1"`  //氰化物
+	SlaughterWaterToxinIndex2  float64 `json:"slaughter_water_toxin_index_2"`  //总砷
+	SlaughterWaterToxinIndex3  float64 `json:"slaughter_water_toxin_index_3"`  //总汞
+	SlaughterWaterToxinIndex4  float64 `json:"slaughter_water_toxin_index_4"`  //总铅
+	SlaughterWaterToxinIndex5  float64 `json:"slaughter_water_toxin_index_5"`  //铬（六价）
+	SlaughterWaterToxinIndex6  float64 `json:"slaughter_water_toxin_index_6"`  //总镉
+	SlaughterWaterToxinIndex7  float64 `json:"slaughter_water_toxin_index_7"`  //硝酸盐
+	SlaughterWaterToxinIndex8  float64 `json:"slaughter_water_toxin_index_8"`  //砷
+	SlaughterWaterToxinIndex9  float64 `json:"slaughter_water_toxin_index_9"`  //镉
+	SlaughterWaterToxinIndex10 float64 `json:"slaughter_water_toxin_index_10"` //氯化物
+	SlaughterWaterToxinIndex11 float64 `json:"slaughter_water_toxin_index_11"` //硝酸钾
+	SlaughterWaterToxinIndex12 float64 `json:"slaughter_water_toxin_index_12"` //三氯甲烷
+	SlaughterWaterToxinIndex13 float64 `json:"slaughter_water_toxin_index_13"` //一氯二溴甲烷
+	SlaughterWaterToxinIndex14 float64 `json:"slaughter_water_toxin_index_14"` //二氯一溴甲烷
+	SlaughterWaterToxinIndex15 float64 `json:"slaughter_water_toxin_index_15"` //三溴甲烷
+	SlaughterWaterToxinIndex16 float64 `json:"slaughter_water_toxin_index_16"` //三卤甲烷（三氯甲烷、一氯二溴甲烷、二氯一溴甲烷、三溴甲烷的总和）
+	SlaughterWaterToxinIndex17 float64 `json:"slaughter_water_toxin_index_17"` //二氯乙酸
+	SlaughterWaterToxinIndex18 float64 `json:"slaughter_water_toxin_index_18"` //三氯乙酸
+	SlaughterWaterToxinIndex19 float64 `json:"slaughter_water_toxin_index_19"` //溴酸盐
+	SlaughterWaterToxinIndex20 float64 `json:"slaughter_water_toxin_index_20"` //亚氯酸盐
+	SlaughterWaterToxinIndex21 float64 `json:"slaughter_water_toxin_index_21"` //氯酸盐
 }
 
 func ToSlaughterWaterMicroIndexInfo(index *SlaughterWaterMicroIndex) SlaughterWaterMicroIndexInfo {

@@ -21,7 +21,7 @@ import (
 	"gorm.io/gorm"
 )
 
-const GLOBALCONFIGPATH = "../conf/config.yaml"
+const GLOBALCONFIGPATH = "D:\\A-中欧\\CN-EU-FSIMS\\conf\\config.yaml"
 
 var DB *gorm.DB
 
@@ -92,17 +92,18 @@ func AutoMigrate() {
 	}
 
 	err = DB.AutoMigrate(&slaughter.SlaughterProcedureMonitoringData{}, &slaughter.SlaughterDisinfectHotWaterTempMoni{}, &slaughter.SlaughterStun{}, &slaughter.BleedElectronic{}, &slaughter.PreSlaQuanPic{}, &slaughter.SlaughterAnalAfterSlaQuanCar{}, &slaughter.AnalMeatPhMoni{}, &slaughter.AnalCutWeight{},
-		&slaughter.ToNumGermMon{}, &slaughter.AirNumGermMon{}, &slaughter.PreSlaDietManage{}, &slaughter.PreSlaPicAndEn{},
+		&slaughter.ToNumGermMon{}, &slaughter.AirNumGermMon{}, &slaughter.PreSlaDietManage{}, &slaughter.PreSlaPicAndEn{}, &slaughter.SlaughterProcedureMonitoringData{},
 	)
 	//传感器数据
 	err = DB.AutoMigrate(&pasture.PastureFeedMycotoxins{}, &pasture.Afb1{}, &pasture.Don{}, &pasture.T2toxin{}, &pasture.T2VomZea{},
 		&pasture.PastureBuffer{}, &pasture.PastureArea{}, &pasture.PastureBasicEnvironment{}, &pasture.PasturePaddingRequire{}, &pasture.PastureWastedWaterIndex{},
 		&pasture.PastureDisinfectionRecord{}, &pasture.PastureFeedHeavyMetal{}, &pasture.PastureFeedAs{}, &pasture.PastureFeedPb{}, &pasture.PastureFeedCd{}, &pasture.PastureFeedCr{},
-		&pasture.PastureWaterRecord{}, &pasture.PastureOapGci{}, &pasture.PastureToxIndex{}, &pasture.PastureMicroIndex{}, &pasture.CowHouse{},
+		&pasture.PastureWaterRecord{}, &pasture.PastureOapGci{}, &pasture.PastureToxIndex{}, &pasture.PastureMicroIndex{}, &pasture.CowHouse{}, &pasture.AllPasturesTrashDisposal{}, &pasture.TotalWastedWaterPasturePerDay{},
+		&pasture.TotalOdorPollutantsPasturePerDay{}, &pasture.TotalWasteResiduePasturePerDay{},
 		&premortem.WaitingSlaughterCircle{}, &premortem.Gps{}, &premortem.WaitingSlaughterCircleGerms{},
 		&slaughter.PreCoolShop{}, &slaughter.SlaShop{}, &slaughter.DivShop{}, &slaughter.AcidShop{}, &slaughter.FroShop{}, &slaughter.PackShop{}, &slaughter.StaUni{}, &slaughter.SlaughterLightRecord{}, &slaughter.SlaughterWaterQualityMon{},
 		&slaughter.SlaughterWaterMicroIndex{}, &slaughter.OapGciSla{}, &slaughter.MicroIndexWaterMonSla{}, &slaughter.SlaughterToxinIndex{}, &slaughter.SlaughterWaterToxinIndex{}, &pasture.TotalWastedWaterPasturePerDay{}, &pasture.TotalOdorPollutantsPasturePerDay{}, &pasture.TotalWasteResiduePasturePerDay{},
-		&slaughter.TotalWasteWaterSlaughterPerDay{}, &slaughter.TotalOdorPollutantsSlaughterPerDay{}, &slaughter.TotalWasteResidueSlaughterPerDay{},
+		&slaughter.TotalWasteWaterSlaughterPerDay{}, &slaughter.TotalOdorPollutantsSlaughterPerDay{}, &slaughter.TotalWasteResidueSlaughterPerDay{}, &slaughter.AllSlaughtersTrashDisposal{},
 	)
 
 	err = DB.AutoMigrate(&models.Notification{}, &models.MonitoringTimeRecord{})

@@ -6,6 +6,7 @@ import (
 	"CN-EU-FSIMS/internal/service/analysis"
 	"CN-EU-FSIMS/utils"
 	"context"
+
 	"time"
 
 	"github.com/golang/glog"
@@ -622,13 +623,15 @@ func SlaughterProcedureDataMonitoring(pid string) {
 			glog.Errorln(err)
 		}
 
+		abn := "[" + batch.BatchNumber + "];"
+
 		// 创建事件
 		event := Event{
 			Source:              batch.HouseNumber,
 			Content:             SLAUGHTER_ABNORMAL_PROCEDURE_CONTENT,
 			EventTime:           *batch.EndTime,
 			EventType:           1,
-			AffectedBatchNumber: batch.BatchNumber,
+			AffectedBatchNumber: abn,
 			Proposal:            utils.StrArrToStr(abnormalList),
 			RiskLevel:           riskLevel,
 		}

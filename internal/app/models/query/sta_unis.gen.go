@@ -32,20 +32,20 @@ func newStaUni(db *gorm.DB, opts ...gen.DOOption) staUni {
 	_staUni.DeletedAt = field.NewField(tableName, "deleted_at")
 	_staUni.HouseNumber = field.NewString(tableName, "house_number")
 	_staUni.TimeRecordAt = field.NewTime(tableName, "time_record_at")
-	_staUni.StaUni1 = field.NewFloat32(tableName, "sta_uni1")
-	_staUni.StaUni2 = field.NewFloat32(tableName, "sta_uni2")
-	_staUni.StaUni3 = field.NewFloat32(tableName, "sta_uni3")
-	_staUni.StaUni4 = field.NewFloat32(tableName, "sta_uni4")
-	_staUni.StaUni5 = field.NewFloat32(tableName, "sta_uni5")
-	_staUni.StaUni6 = field.NewFloat32(tableName, "sta_uni6")
-	_staUni.StaUni7 = field.NewFloat32(tableName, "sta_uni7")
-	_staUni.StaUni8 = field.NewFloat32(tableName, "sta_uni8")
-	_staUni.StaUni9 = field.NewFloat32(tableName, "sta_uni9")
-	_staUni.StaUni10 = field.NewFloat32(tableName, "sta_uni10")
-	_staUni.StaUni11 = field.NewFloat32(tableName, "sta_uni11")
-	_staUni.StaUni12 = field.NewFloat32(tableName, "sta_uni12")
-	_staUni.StaUni13 = field.NewFloat32(tableName, "sta_uni13")
-	_staUni.StaUni14 = field.NewFloat32(tableName, "sta_uni14")
+	_staUni.StaUni1 = field.NewFloat64(tableName, "sta_uni1")
+	_staUni.StaUni2 = field.NewFloat64(tableName, "sta_uni2")
+	_staUni.StaUni3 = field.NewFloat64(tableName, "sta_uni3")
+	_staUni.StaUni4 = field.NewFloat64(tableName, "sta_uni4")
+	_staUni.StaUni5 = field.NewFloat64(tableName, "sta_uni5")
+	_staUni.StaUni6 = field.NewFloat64(tableName, "sta_uni6")
+	_staUni.StaUni7 = field.NewFloat64(tableName, "sta_uni7")
+	_staUni.StaUni8 = field.NewFloat64(tableName, "sta_uni8")
+	_staUni.StaUni9 = field.NewFloat64(tableName, "sta_uni9")
+	_staUni.StaUni10 = field.NewString(tableName, "sta_uni10")
+	_staUni.StaUni11 = field.NewString(tableName, "sta_uni11")
+	_staUni.StaUni12 = field.NewString(tableName, "sta_uni12")
+	_staUni.StaUni13 = field.NewString(tableName, "sta_uni13")
+	_staUni.StaUni14 = field.NewString(tableName, "sta_uni14")
 
 	_staUni.fillFieldMap()
 
@@ -62,20 +62,20 @@ type staUni struct {
 	DeletedAt    field.Field
 	HouseNumber  field.String
 	TimeRecordAt field.Time
-	StaUni1      field.Float32
-	StaUni2      field.Float32
-	StaUni3      field.Float32
-	StaUni4      field.Float32
-	StaUni5      field.Float32
-	StaUni6      field.Float32
-	StaUni7      field.Float32
-	StaUni8      field.Float32
-	StaUni9      field.Float32
-	StaUni10     field.Float32
-	StaUni11     field.Float32
-	StaUni12     field.Float32
-	StaUni13     field.Float32
-	StaUni14     field.Float32
+	StaUni1      field.Float64
+	StaUni2      field.Float64
+	StaUni3      field.Float64
+	StaUni4      field.Float64
+	StaUni5      field.Float64
+	StaUni6      field.Float64
+	StaUni7      field.Float64
+	StaUni8      field.Float64
+	StaUni9      field.Float64
+	StaUni10     field.String
+	StaUni11     field.String
+	StaUni12     field.String
+	StaUni13     field.String
+	StaUni14     field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -98,20 +98,20 @@ func (s *staUni) updateTableName(table string) *staUni {
 	s.DeletedAt = field.NewField(table, "deleted_at")
 	s.HouseNumber = field.NewString(table, "house_number")
 	s.TimeRecordAt = field.NewTime(table, "time_record_at")
-	s.StaUni1 = field.NewFloat32(table, "sta_uni1")
-	s.StaUni2 = field.NewFloat32(table, "sta_uni2")
-	s.StaUni3 = field.NewFloat32(table, "sta_uni3")
-	s.StaUni4 = field.NewFloat32(table, "sta_uni4")
-	s.StaUni5 = field.NewFloat32(table, "sta_uni5")
-	s.StaUni6 = field.NewFloat32(table, "sta_uni6")
-	s.StaUni7 = field.NewFloat32(table, "sta_uni7")
-	s.StaUni8 = field.NewFloat32(table, "sta_uni8")
-	s.StaUni9 = field.NewFloat32(table, "sta_uni9")
-	s.StaUni10 = field.NewFloat32(table, "sta_uni10")
-	s.StaUni11 = field.NewFloat32(table, "sta_uni11")
-	s.StaUni12 = field.NewFloat32(table, "sta_uni12")
-	s.StaUni13 = field.NewFloat32(table, "sta_uni13")
-	s.StaUni14 = field.NewFloat32(table, "sta_uni14")
+	s.StaUni1 = field.NewFloat64(table, "sta_uni1")
+	s.StaUni2 = field.NewFloat64(table, "sta_uni2")
+	s.StaUni3 = field.NewFloat64(table, "sta_uni3")
+	s.StaUni4 = field.NewFloat64(table, "sta_uni4")
+	s.StaUni5 = field.NewFloat64(table, "sta_uni5")
+	s.StaUni6 = field.NewFloat64(table, "sta_uni6")
+	s.StaUni7 = field.NewFloat64(table, "sta_uni7")
+	s.StaUni8 = field.NewFloat64(table, "sta_uni8")
+	s.StaUni9 = field.NewFloat64(table, "sta_uni9")
+	s.StaUni10 = field.NewString(table, "sta_uni10")
+	s.StaUni11 = field.NewString(table, "sta_uni11")
+	s.StaUni12 = field.NewString(table, "sta_uni12")
+	s.StaUni13 = field.NewString(table, "sta_uni13")
+	s.StaUni14 = field.NewString(table, "sta_uni14")
 
 	s.fillFieldMap()
 

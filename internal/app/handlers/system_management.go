@@ -6,6 +6,7 @@ import (
 	"CN-EU-FSIMS/internal/service"
 	"CN-EU-FSIMS/utils"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
@@ -189,6 +190,55 @@ func SearchMalls(c *gin.Context) {
 	}
 
 	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func GetNotificationCount(c *gin.Context) {
+	glog.Info("################## Get Notification Count ##################")
+
+	var uuid = c.Query("uuid")
+	count, err := service.GetNotificationCount(uuid)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "get notification count error!")
+		return
+	}
+	response.MakeSuccess(c, http.StatusOK, count)
+	return
+}
+
+func GetNotification(c *gin.Context) {
+	glog.Info("################## Get Notification ##################")
+
+	var uuid = c.Query("uuid")
+	nf, count, err := service.GetNotification(uuid)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "get package batches error!")
+		return
+	}
+
+	res := response.ResNotifications{
+		Notifications: nf,
+		Count:         int64(count),
+	}
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func ReadNotification(c *gin.Context) {
+	glog.Info("################## Read Notification ##################")
+	id := c.PostForm("id")
+	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "string to id error!")
+		return
+	}
+	err = service.ReadNotification(idInt)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "send to package error!")
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, "sending to package successful!")
 	return
 }
 

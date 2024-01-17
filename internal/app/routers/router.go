@@ -25,8 +25,33 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.GET("blockchain/blockByHash", handlers.QueryBlockByHash)
 		user.GET("blockchain/ledgerinfo", handlers.GetLedgerInfo)
 		user.GET("blockchain/latestblock", handlers.GetLastestBlock)
-
+		user.GET("getnotificationcount", handlers.GetNotificationCount)
+		user.GET("getnotification", handlers.GetNotification)
+		user.POST("readnotification", handlers.ReadNotification)
+		user.GET("searchhouse", handlers.GetUserHouse)
 		user.GET("foodchains", handlers.GetAllFoodchains)
+		user.GET("pidinfo", handlers.GetPidInfo)
+
+		//查询牧场数据
+		user.GET("/query/sensor/heavymetal", handlers.QueryFeedHeavyMetalData)
+		user.GET("/query/sensor/mycotoxins", handlers.QueryPastureFeedMycotoxinsData)
+		user.GET("/query/sensor/waterrecord", handlers.QueryPastureWaterRecordData)
+		user.GET("/query/sensor/buffer", handlers.QueryPastureBufferData)
+		user.GET("/query/sensor/area", handlers.QueryPastureAreaData)
+		user.GET("/query/sensor/cowhouse", handlers.QueryPastureCowHouseData)
+		user.GET("/query/sensor/basicenvironment", handlers.QueryPastureBasicEnvironmentData)
+		user.GET("/query/sensor/paddingrequire", handlers.QueryPasturePaddingRequireData)
+		user.GET("/query/sensor/wastedwaterindex", handlers.QueryPastureWastedWaterIndexData)
+		user.GET("/query/sensor/disinfectionrecord", handlers.QueryPastureDisinfectionRecordData)
+
+		//查询屠宰数据
+		user.GET("/query/sensor/slashop", handlers.QuerySlaughterShopData)
+		user.GET("/query/sensor/divshop", handlers.QueryDivisionShopData)
+		user.GET("/query/sensor/acidshop", handlers.QueryAcidShopData)
+		user.GET("/query/sensor/frozenshop", handlers.QueryFrozenShopData)
+		user.GET("/query/sensor/waterquality", handlers.QuerySlaughterWaterQualityData)
+		user.GET("/query/staffuniform", handlers.QuerySlaughterStaffUniformData)
+		user.GET("/query/light", handlers.QuerySlaughterLightRecord)
 	}
 
 	// admin router group
@@ -108,6 +133,9 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		//pop.POST("inwarehouse", handlers.PastureInWarehouse)
 		pop.POST("send", handlers.SendToSlaughter)
 		pop.GET("slaughterhouses", handlers.GetSlaughterHouses)
+		pop.GET("getnotificationcount", handlers.GetNotificationCount)
+		pop.GET("getnotification", handlers.GetNotification)
+		pop.POST("readnotification", handlers.ReadNotification)
 
 		//上传传感器数据
 		pop.POST("addfeedheavymetal", handlers.AddPastureFeedHeavyMetal)
@@ -132,6 +160,11 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		pop.GET("/query/sensor/paddingrequire", handlers.QueryPasturePaddingRequireData)
 		pop.GET("/query/sensor/wastedwaterindex", handlers.QueryPastureWastedWaterIndexData)
 		pop.GET("/query/sensor/disinfectionrecord", handlers.QueryPastureDisinfectionRecordData)
+
+		//牧场污水处理
+		pop.POST("/upload/pasturewasteresidue", handlers.UploadPastureWasteResiduePerDay)
+		pop.POST("/upload/pasturewasteodor", handlers.UploadPastureOdorPollutantsPerDay)
+		pop.POST("/upload/pasturewastewater", handlers.UploadPastureWasteWaterPerDay)
 	}
 
 	//slaughteroperator router group
@@ -150,15 +183,18 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		sop.POST("send", handlers.SendToPackage)
 		sop.GET("packagehouses", handlers.GetPackageHouses)
 		sop.GET("slaughterdata", handlers.GetSlaughterData)
+		sop.GET("getnotificationcount", handlers.GetNotificationCount)
+		sop.GET("getnotification", handlers.GetNotification)
+		sop.POST("readnotification", handlers.ReadNotification)
 		//sop.POST("receive", handlers.SlaughterReceived)
 		//sop.POST("inwarehouse", handlers.SlaughterInWarehouse)
 		//sop.POST("sendtonext", handlers.SendToPack)
 
-		sop.POST("/upload/sensor/precoolshop", handlers.UploadPreCoolShopData)
-		sop.POST("/upload/sensor/slashop", handlers.UploadSlaughterShopData)
-		sop.POST("/upload/sensor/divshop", handlers.UploadDivisionShopData)
-		sop.POST("/upload/sensor/acidshop", handlers.UploadAcidShopData)
-		sop.POST("/upload/sensor/frozenshop", handlers.UploadFrozenShopData)
+		sop.POST("/upload/sensor/precoolshop", handlers.UploadPreCoolShopData) //1
+		sop.POST("/upload/sensor/slashop", handlers.UploadSlaughterShopData)   //1
+		sop.POST("/upload/sensor/divshop", handlers.UploadDivisionShopData)    //1
+		sop.POST("/upload/sensor/acidshop", handlers.UploadAcidShopData)       //1
+		sop.POST("/upload/sensor/frozenshop", handlers.UploadFrozenShopData)   //1
 
 		sop.GET("/query/sensor/precoolshop", handlers.QueryPreCoolShopData)
 		sop.GET("/query/sensor/slashop", handlers.QuerySlaughterShopData)
@@ -166,13 +202,18 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		sop.GET("/query/sensor/acidshop", handlers.QueryAcidShopData)
 		sop.GET("/query/sensor/frozenshop", handlers.QueryFrozenShopData)
 
-		sop.POST("/upload/sensor/waterquality", handlers.UploadSlaughterWaterQualityData)
+		sop.POST("/upload/sensor/waterquality", handlers.UploadSlaughterWaterQualityData) //1
 		sop.GET("/query/sensor/waterquality", handlers.QuerySlaughterWaterQualityData)
 
-		sop.POST("/upload/staffuniform", handlers.UploadSlaughterStaffUniformData)
-		sop.POST("/upload/light", handlers.UploadSlaughterLightRecord)
+		sop.POST("/upload/staffuniform", handlers.UploadSlaughterStaffUniformData) //1
+		sop.POST("/upload/light", handlers.UploadSlaughterLightRecord)             // 1
 		sop.GET("/query/staffuniform", handlers.QuerySlaughterStaffUniformData)
 		sop.GET("/query/light", handlers.QuerySlaughterLightRecord)
+
+		//屠宰场污水处理
+		sop.POST("/upload/slaughterwasteresidue", handlers.UploadSlaughterWasteResiduePerDay)
+		sop.POST("/upload/slaughterwasteodor", handlers.UploadSlaughterOdorPollutantsPerDay)
+		sop.POST("/upload/slaughterwastewater", handlers.UploadSlaughterWasteWaterPerDay)
 	}
 
 	//packoperator router group
@@ -192,6 +233,9 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		kop.POST("pretransport", handlers.PreTransport)
 		kop.GET("transportvehicles", handlers.GetTransportVehicles)
 		kop.GET("malls", handlers.GetMalls)
+		kop.GET("getnotificationcount", handlers.GetNotificationCount)
+		kop.GET("getnotification", handlers.GetNotification)
+		kop.POST("readnotification", handlers.ReadNotification)
 
 	}
 
@@ -205,6 +249,9 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		top.POST("end", handlers.EndTransport)
 		top.GET("goods", handlers.GetMallGoods)
 		top.GET("verify", handlers.VerifyWithCheckcode)
+		top.GET("getnotificationcount", handlers.GetNotificationCount)
+		top.GET("getnotification", handlers.GetNotification)
+		top.POST("readnotification", handlers.ReadNotification)
 	}
 
 	// mall
