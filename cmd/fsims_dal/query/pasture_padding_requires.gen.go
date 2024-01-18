@@ -32,14 +32,14 @@ func newPasturePaddingRequire(db *gorm.DB, opts ...gen.DOOption) pasturePaddingR
 	_pasturePaddingRequire.DeletedAt = field.NewField(tableName, "deleted_at")
 	_pasturePaddingRequire.TimeRecordAt = field.NewTime(tableName, "time_record_at")
 	_pasturePaddingRequire.HouseNumber = field.NewString(tableName, "house_number")
-	_pasturePaddingRequire.PaddingRequire1 = field.NewFloat32(tableName, "padding_require1")
-	_pasturePaddingRequire.PaddingRequire2 = field.NewFloat32(tableName, "padding_require2")
-	_pasturePaddingRequire.PaddingRequire3 = field.NewFloat32(tableName, "padding_require3")
-	_pasturePaddingRequire.PaddingRequire4 = field.NewFloat32(tableName, "padding_require4")
-	_pasturePaddingRequire.PaddingRequire5 = field.NewFloat32(tableName, "padding_require5")
-	_pasturePaddingRequire.PaddingRequire6 = field.NewFloat32(tableName, "padding_require6")
-	_pasturePaddingRequire.PaddingRequire7 = field.NewFloat32(tableName, "padding_require7")
-	_pasturePaddingRequire.PaddingRequire8 = field.NewFloat32(tableName, "padding_require8")
+	_pasturePaddingRequire.PaddingRequire1 = field.NewFloat64(tableName, "padding_require1")
+	_pasturePaddingRequire.PaddingRequire2 = field.NewFloat64(tableName, "padding_require2")
+	_pasturePaddingRequire.PaddingRequire3 = field.NewFloat64(tableName, "padding_require3")
+	_pasturePaddingRequire.PaddingRequire4 = field.NewFloat64(tableName, "padding_require4")
+	_pasturePaddingRequire.PaddingRequire5 = field.NewFloat64(tableName, "padding_require5")
+	_pasturePaddingRequire.PaddingRequire6 = field.NewFloat64(tableName, "padding_require6")
+	_pasturePaddingRequire.PaddingRequire7 = field.NewFloat64(tableName, "padding_require7")
+	_pasturePaddingRequire.PaddingRequire8 = field.NewFloat64(tableName, "padding_require8")
 
 	_pasturePaddingRequire.fillFieldMap()
 
@@ -56,14 +56,14 @@ type pasturePaddingRequire struct {
 	DeletedAt       field.Field
 	TimeRecordAt    field.Time
 	HouseNumber     field.String
-	PaddingRequire1 field.Float32
-	PaddingRequire2 field.Float32
-	PaddingRequire3 field.Float32
-	PaddingRequire4 field.Float32
-	PaddingRequire5 field.Float32
-	PaddingRequire6 field.Float32
-	PaddingRequire7 field.Float32
-	PaddingRequire8 field.Float32
+	PaddingRequire1 field.Float64
+	PaddingRequire2 field.Float64
+	PaddingRequire3 field.Float64
+	PaddingRequire4 field.Float64
+	PaddingRequire5 field.Float64
+	PaddingRequire6 field.Float64
+	PaddingRequire7 field.Float64
+	PaddingRequire8 field.Float64
 
 	fieldMap map[string]field.Expr
 }
@@ -86,14 +86,14 @@ func (p *pasturePaddingRequire) updateTableName(table string) *pasturePaddingReq
 	p.DeletedAt = field.NewField(table, "deleted_at")
 	p.TimeRecordAt = field.NewTime(table, "time_record_at")
 	p.HouseNumber = field.NewString(table, "house_number")
-	p.PaddingRequire1 = field.NewFloat32(table, "padding_require1")
-	p.PaddingRequire2 = field.NewFloat32(table, "padding_require2")
-	p.PaddingRequire3 = field.NewFloat32(table, "padding_require3")
-	p.PaddingRequire4 = field.NewFloat32(table, "padding_require4")
-	p.PaddingRequire5 = field.NewFloat32(table, "padding_require5")
-	p.PaddingRequire6 = field.NewFloat32(table, "padding_require6")
-	p.PaddingRequire7 = field.NewFloat32(table, "padding_require7")
-	p.PaddingRequire8 = field.NewFloat32(table, "padding_require8")
+	p.PaddingRequire1 = field.NewFloat64(table, "padding_require1")
+	p.PaddingRequire2 = field.NewFloat64(table, "padding_require2")
+	p.PaddingRequire3 = field.NewFloat64(table, "padding_require3")
+	p.PaddingRequire4 = field.NewFloat64(table, "padding_require4")
+	p.PaddingRequire5 = field.NewFloat64(table, "padding_require5")
+	p.PaddingRequire6 = field.NewFloat64(table, "padding_require6")
+	p.PaddingRequire7 = field.NewFloat64(table, "padding_require7")
+	p.PaddingRequire8 = field.NewFloat64(table, "padding_require8")
 
 	p.fillFieldMap()
 

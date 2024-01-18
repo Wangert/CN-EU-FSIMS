@@ -31,18 +31,18 @@ func newAllPasturesTrashDisposal(db *gorm.DB, opts ...gen.DOOption) allPasturesT
 	_allPasturesTrashDisposal.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_allPasturesTrashDisposal.DeletedAt = field.NewField(tableName, "deleted_at")
 	_allPasturesTrashDisposal.TimeStamp = field.NewTime(tableName, "time_stamp")
-	_allPasturesTrashDisposal.OdorPasturesTrashDisposal1 = field.NewFloat32(tableName, "odor_pastures_trash_disposal1")
-	_allPasturesTrashDisposal.OdorPasturesTrashDisposal2 = field.NewFloat32(tableName, "odor_pastures_trash_disposal2")
-	_allPasturesTrashDisposal.OdorPasturesTrashDisposal3 = field.NewFloat32(tableName, "odor_pastures_trash_disposal3")
-	_allPasturesTrashDisposal.OdorPasturesTrashDisposal4 = field.NewFloat32(tableName, "odor_pastures_trash_disposal4")
-	_allPasturesTrashDisposal.ResiduePasturesTrashDisposal1 = field.NewFloat32(tableName, "residue_pastures_trash_disposal1")
-	_allPasturesTrashDisposal.ResiduePasturesTrashDisposal2 = field.NewFloat32(tableName, "residue_pastures_trash_disposal2")
-	_allPasturesTrashDisposal.ResiduePasturesTrashDisposal3 = field.NewFloat32(tableName, "residue_pastures_trash_disposal3")
-	_allPasturesTrashDisposal.ResiduePasturesTrashDisposal4 = field.NewFloat32(tableName, "residue_pastures_trash_disposal4")
-	_allPasturesTrashDisposal.WaterPasturesTrashDisposal1 = field.NewFloat32(tableName, "water_pastures_trash_disposal1")
-	_allPasturesTrashDisposal.WaterPasturesTrashDisposal2 = field.NewFloat32(tableName, "water_pastures_trash_disposal2")
-	_allPasturesTrashDisposal.WaterPasturesTrashDisposal3 = field.NewFloat32(tableName, "water_pastures_trash_disposal3")
-	_allPasturesTrashDisposal.WaterPasturesTrashDisposal4 = field.NewFloat32(tableName, "water_pastures_trash_disposal4")
+	_allPasturesTrashDisposal.OdorPasturesTrashDisposal1 = field.NewFloat64(tableName, "odor_pastures_trash_disposal1")
+	_allPasturesTrashDisposal.OdorPasturesTrashDisposal2 = field.NewFloat64(tableName, "odor_pastures_trash_disposal2")
+	_allPasturesTrashDisposal.OdorPasturesTrashDisposal3 = field.NewFloat64(tableName, "odor_pastures_trash_disposal3")
+	_allPasturesTrashDisposal.OdorPasturesTrashDisposal4 = field.NewFloat64(tableName, "odor_pastures_trash_disposal4")
+	_allPasturesTrashDisposal.ResiduePasturesTrashDisposal1 = field.NewFloat64(tableName, "residue_pastures_trash_disposal1")
+	_allPasturesTrashDisposal.ResiduePasturesTrashDisposal2 = field.NewFloat64(tableName, "residue_pastures_trash_disposal2")
+	_allPasturesTrashDisposal.ResiduePasturesTrashDisposal3 = field.NewFloat64(tableName, "residue_pastures_trash_disposal3")
+	_allPasturesTrashDisposal.ResiduePasturesTrashDisposal4 = field.NewFloat64(tableName, "residue_pastures_trash_disposal4")
+	_allPasturesTrashDisposal.WaterPasturesTrashDisposal1 = field.NewFloat64(tableName, "water_pastures_trash_disposal1")
+	_allPasturesTrashDisposal.WaterPasturesTrashDisposal2 = field.NewFloat64(tableName, "water_pastures_trash_disposal2")
+	_allPasturesTrashDisposal.WaterPasturesTrashDisposal3 = field.NewFloat64(tableName, "water_pastures_trash_disposal3")
+	_allPasturesTrashDisposal.WaterPasturesTrashDisposal4 = field.NewFloat64(tableName, "water_pastures_trash_disposal4")
 
 	_allPasturesTrashDisposal.fillFieldMap()
 
@@ -58,18 +58,18 @@ type allPasturesTrashDisposal struct {
 	UpdatedAt                     field.Time
 	DeletedAt                     field.Field
 	TimeStamp                     field.Time
-	OdorPasturesTrashDisposal1    field.Float32
-	OdorPasturesTrashDisposal2    field.Float32
-	OdorPasturesTrashDisposal3    field.Float32
-	OdorPasturesTrashDisposal4    field.Float32
-	ResiduePasturesTrashDisposal1 field.Float32
-	ResiduePasturesTrashDisposal2 field.Float32
-	ResiduePasturesTrashDisposal3 field.Float32
-	ResiduePasturesTrashDisposal4 field.Float32
-	WaterPasturesTrashDisposal1   field.Float32
-	WaterPasturesTrashDisposal2   field.Float32
-	WaterPasturesTrashDisposal3   field.Float32
-	WaterPasturesTrashDisposal4   field.Float32
+	OdorPasturesTrashDisposal1    field.Float64
+	OdorPasturesTrashDisposal2    field.Float64
+	OdorPasturesTrashDisposal3    field.Float64
+	OdorPasturesTrashDisposal4    field.Float64
+	ResiduePasturesTrashDisposal1 field.Float64
+	ResiduePasturesTrashDisposal2 field.Float64
+	ResiduePasturesTrashDisposal3 field.Float64
+	ResiduePasturesTrashDisposal4 field.Float64
+	WaterPasturesTrashDisposal1   field.Float64
+	WaterPasturesTrashDisposal2   field.Float64
+	WaterPasturesTrashDisposal3   field.Float64
+	WaterPasturesTrashDisposal4   field.Float64
 
 	fieldMap map[string]field.Expr
 }
@@ -91,18 +91,18 @@ func (a *allPasturesTrashDisposal) updateTableName(table string) *allPasturesTra
 	a.UpdatedAt = field.NewTime(table, "updated_at")
 	a.DeletedAt = field.NewField(table, "deleted_at")
 	a.TimeStamp = field.NewTime(table, "time_stamp")
-	a.OdorPasturesTrashDisposal1 = field.NewFloat32(table, "odor_pastures_trash_disposal1")
-	a.OdorPasturesTrashDisposal2 = field.NewFloat32(table, "odor_pastures_trash_disposal2")
-	a.OdorPasturesTrashDisposal3 = field.NewFloat32(table, "odor_pastures_trash_disposal3")
-	a.OdorPasturesTrashDisposal4 = field.NewFloat32(table, "odor_pastures_trash_disposal4")
-	a.ResiduePasturesTrashDisposal1 = field.NewFloat32(table, "residue_pastures_trash_disposal1")
-	a.ResiduePasturesTrashDisposal2 = field.NewFloat32(table, "residue_pastures_trash_disposal2")
-	a.ResiduePasturesTrashDisposal3 = field.NewFloat32(table, "residue_pastures_trash_disposal3")
-	a.ResiduePasturesTrashDisposal4 = field.NewFloat32(table, "residue_pastures_trash_disposal4")
-	a.WaterPasturesTrashDisposal1 = field.NewFloat32(table, "water_pastures_trash_disposal1")
-	a.WaterPasturesTrashDisposal2 = field.NewFloat32(table, "water_pastures_trash_disposal2")
-	a.WaterPasturesTrashDisposal3 = field.NewFloat32(table, "water_pastures_trash_disposal3")
-	a.WaterPasturesTrashDisposal4 = field.NewFloat32(table, "water_pastures_trash_disposal4")
+	a.OdorPasturesTrashDisposal1 = field.NewFloat64(table, "odor_pastures_trash_disposal1")
+	a.OdorPasturesTrashDisposal2 = field.NewFloat64(table, "odor_pastures_trash_disposal2")
+	a.OdorPasturesTrashDisposal3 = field.NewFloat64(table, "odor_pastures_trash_disposal3")
+	a.OdorPasturesTrashDisposal4 = field.NewFloat64(table, "odor_pastures_trash_disposal4")
+	a.ResiduePasturesTrashDisposal1 = field.NewFloat64(table, "residue_pastures_trash_disposal1")
+	a.ResiduePasturesTrashDisposal2 = field.NewFloat64(table, "residue_pastures_trash_disposal2")
+	a.ResiduePasturesTrashDisposal3 = field.NewFloat64(table, "residue_pastures_trash_disposal3")
+	a.ResiduePasturesTrashDisposal4 = field.NewFloat64(table, "residue_pastures_trash_disposal4")
+	a.WaterPasturesTrashDisposal1 = field.NewFloat64(table, "water_pastures_trash_disposal1")
+	a.WaterPasturesTrashDisposal2 = field.NewFloat64(table, "water_pastures_trash_disposal2")
+	a.WaterPasturesTrashDisposal3 = field.NewFloat64(table, "water_pastures_trash_disposal3")
+	a.WaterPasturesTrashDisposal4 = field.NewFloat64(table, "water_pastures_trash_disposal4")
 
 	a.fillFieldMap()
 

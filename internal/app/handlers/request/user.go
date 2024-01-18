@@ -33,5 +33,10 @@ type ReqAccount struct {
 }
 
 type ReqTrashPerDay struct {
-	TimeStamp int64 `json:"time_stamp"`
+	TimeStamp int64 `json:"time_stamp" form:"time_stamp"`
+}
+
+type ReqTrashFifteenDays struct {
+	StartTimeStamp int64 `json:"start_time_stamp" form:"start_time_stamp"`
+	EndTimeStamp   int64 `json:"end_time_stamp" form:"end_time_stamp"`
 }

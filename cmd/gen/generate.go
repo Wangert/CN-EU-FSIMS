@@ -21,7 +21,7 @@ import (
 )
 
 const DEFAULTDSN = "root:root@tcp(127.0.0.1:3306)/fsims?charset=utf8mb4&parseTime=True"
-const GLOBALCONFIGPATH = "../../conf/config.yaml"
+const GLOBALCONFIGPATH = "conf/config.yaml"
 
 func generateModelAndQueryWithDB(dsn string, dbName string) {
 	db, err := gorm.Open(mysql.Open(dsn))

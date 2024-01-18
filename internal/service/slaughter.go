@@ -10,7 +10,6 @@ import (
 	"CN-EU-FSIMS/internal/app/models/warehouse"
 	"context"
 	"errors"
-	"fmt"
 	"time"
 
 	"github.com/golang/glog"
@@ -89,7 +88,7 @@ func UploadSlaughterWasteWaterPerDay(r *request.ReqSlaughterWasteWaterPerDay) er
 		}
 	} else {
 		//更新总表信息
-		result, _ := qall.WithContext(context.Background()).UpdateSimple(qall.WaterSlaughtersTrashDisposal1.Add(r.ReqSlaughterWasteWaterPerDay1),
+		result, _ := qall.WithContext(context.Background()).Where(qall.TimeStamp.Eq(t)).UpdateSimple(qall.WaterSlaughtersTrashDisposal1.Add(r.ReqSlaughterWasteWaterPerDay1),
 			qall.WaterSlaughtersTrashDisposal2.Add(r.ReqSlaughterWasteWaterPerDay2), qall.WaterSlaughtersTrashDisposal3.Add(r.ReqSlaughterWasteWaterPerDay3),
 			qall.WaterSlaughtersTrashDisposal4.Add(r.ReqSlaughterWasteWaterPerDay4))
 		if result.RowsAffected == 0 {
@@ -226,7 +225,6 @@ func UploadSlaughterStaffUniformData(r *request.ReqUploadStaffUniformData) error
 
 	timeRecordAt := time.Unix(r.TimestampRecordAt, 0).UTC().Local()
 
-	fmt.Println("******测试", r.StaUni1)
 	staffUni := slaughter.StaUni{
 		HouseNumber:  r.HouseNumber,
 		TimeRecordAt: timeRecordAt,

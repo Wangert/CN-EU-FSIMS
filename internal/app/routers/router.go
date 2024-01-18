@@ -53,6 +53,9 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.GET("/query/sensor/waterquality", handlers.QuerySlaughterWaterQualityData)
 		user.GET("/query/staffuniform", handlers.QuerySlaughterStaffUniformData)
 		user.GET("/query/light", handlers.QuerySlaughterLightRecord)
+		user.GET("all_trash_perday", handlers.QuerySlaAndPasTrashPerDay)
+		user.GET("all_pasture_trash_fifteen_days", handlers.QueryPastureTrashFifteenDays)
+		user.GET("all_slaughter_trash_fifteen_days", handlers.QuerySlaughterFifteenDays)
 	}
 
 	// admin router group
@@ -215,6 +218,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		sop.POST("/upload/slaughterwasteresidue", handlers.UploadSlaughterWasteResiduePerDay)
 		sop.POST("/upload/slaughterwasteodor", handlers.UploadSlaughterOdorPollutantsPerDay)
 		sop.POST("/upload/slaughterwastewater", handlers.UploadSlaughterWasteWaterPerDay)
+
 	}
 
 	//packoperator router group

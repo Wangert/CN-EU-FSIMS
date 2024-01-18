@@ -56,3 +56,37 @@ type AllSlaughtersTrashDisposal struct {
 	WaterSlaughtersTrashDisposal3   float64   `json:"water_slaughters_trash_disposal_3"`
 	WaterSlaughtersTrashDisposal4   float64   `json:"water_slaughters_trash_disposal_4"`
 }
+
+type AllSlaughtersTrashDisposalInfo struct {
+	TimeStamp                       string  `json:"time_stamp"`
+	OdorAllSlaughtersTrashDisposal1 float64 `json:"odor_all_slaughters_trash_disposal_1"`
+	OdorAllSlaughtersTrashDisposal2 float64 `json:"odor_all_slaughters_trash_disposal_2"`
+	OdorAllSlaughtersTrashDisposal3 float64 `json:"odor_all_slaughters_trash_disposal_3"`
+	OdorAllSlaughtersTrashDisposal4 float64 `json:"odor_all_slaughters_trash_disposal_4"`
+	ResidueSlaughtersTrashDisposal1 float64 `json:"residue_slaughters_trash_disposal_1"`
+	ResidueSlaughtersTrashDisposal2 float64 `json:"residue_slaughters_trash_disposal_2"`
+	ResidueSlaughtersTrashDisposal3 float64 `json:"residue_slaughters_trash_disposal_3"`
+	ResidueSlaughtersTrashDisposal4 float64 `json:"residue_slaughters_trash_disposal_4"`
+	WaterSlaughtersTrashDisposal1   float64 `json:"water_slaughters_trash_disposal_1"`
+	WaterSlaughtersTrashDisposal2   float64 `json:"water_slaughters_trash_disposal_2"`
+	WaterSlaughtersTrashDisposal3   float64 `json:"water_slaughters_trash_disposal_3"`
+	WaterSlaughtersTrashDisposal4   float64 `json:"water_slaughters_trash_disposal_4"`
+}
+
+func ToAllSlaughtersTrashDisposalInfo(as *AllSlaughtersTrashDisposal) AllSlaughtersTrashDisposalInfo {
+	return AllSlaughtersTrashDisposalInfo{
+		TimeStamp:                       as.TimeStamp.Format("2006-01-02 15:04:05"),
+		OdorAllSlaughtersTrashDisposal1: as.OdorAllSlaughtersTrashDisposal1,
+		OdorAllSlaughtersTrashDisposal2: as.OdorAllSlaughtersTrashDisposal2,
+		OdorAllSlaughtersTrashDisposal3: as.OdorAllSlaughtersTrashDisposal3,
+		OdorAllSlaughtersTrashDisposal4: as.OdorAllSlaughtersTrashDisposal4,
+		ResidueSlaughtersTrashDisposal1: as.ResidueSlaughtersTrashDisposal1,
+		ResidueSlaughtersTrashDisposal2: as.ResidueSlaughtersTrashDisposal2,
+		ResidueSlaughtersTrashDisposal3: as.ResidueSlaughtersTrashDisposal3,
+		ResidueSlaughtersTrashDisposal4: as.ResidueSlaughtersTrashDisposal4,
+		WaterSlaughtersTrashDisposal1:   as.WaterSlaughtersTrashDisposal1,
+		WaterSlaughtersTrashDisposal2:   as.WaterSlaughtersTrashDisposal2,
+		WaterSlaughtersTrashDisposal3:   as.WaterSlaughtersTrashDisposal3,
+		WaterSlaughtersTrashDisposal4:   as.WaterSlaughtersTrashDisposal4,
+	}
+}
