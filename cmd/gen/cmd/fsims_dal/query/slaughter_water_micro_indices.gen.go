@@ -31,9 +31,9 @@ func newSlaughterWaterMicroIndex(db *gorm.DB, opts ...gen.DOOption) slaughterWat
 	_slaughterWaterMicroIndex.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_slaughterWaterMicroIndex.DeletedAt = field.NewField(tableName, "deleted_at")
 	_slaughterWaterMicroIndex.SlaughterWaterQualityMonID = field.NewUint(tableName, "slaughter_water_quality_mon_id")
-	_slaughterWaterMicroIndex.SlaughterWaterMicroIndex1 = field.NewFloat32(tableName, "slaughter_water_micro_index1")
-	_slaughterWaterMicroIndex.SlaughterWaterMicroIndex2 = field.NewFloat32(tableName, "slaughter_water_micro_index2")
-	_slaughterWaterMicroIndex.SlaughterWaterMicroIndex3 = field.NewFloat32(tableName, "slaughter_water_micro_index3")
+	_slaughterWaterMicroIndex.SlaughterWaterMicroIndex1 = field.Newfloat64(tableName, "slaughter_water_micro_index1")
+	_slaughterWaterMicroIndex.SlaughterWaterMicroIndex2 = field.Newfloat64(tableName, "slaughter_water_micro_index2")
+	_slaughterWaterMicroIndex.SlaughterWaterMicroIndex3 = field.Newfloat64(tableName, "slaughter_water_micro_index3")
 
 	_slaughterWaterMicroIndex.fillFieldMap()
 
@@ -49,9 +49,9 @@ type slaughterWaterMicroIndex struct {
 	UpdatedAt                  field.Time
 	DeletedAt                  field.Field
 	SlaughterWaterQualityMonID field.Uint
-	SlaughterWaterMicroIndex1  field.Float32
-	SlaughterWaterMicroIndex2  field.Float32
-	SlaughterWaterMicroIndex3  field.Float32
+	SlaughterWaterMicroIndex1  field.float64
+	SlaughterWaterMicroIndex2  field.float64
+	SlaughterWaterMicroIndex3  field.float64
 
 	fieldMap map[string]field.Expr
 }
@@ -73,9 +73,9 @@ func (s *slaughterWaterMicroIndex) updateTableName(table string) *slaughterWater
 	s.UpdatedAt = field.NewTime(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
 	s.SlaughterWaterQualityMonID = field.NewUint(table, "slaughter_water_quality_mon_id")
-	s.SlaughterWaterMicroIndex1 = field.NewFloat32(table, "slaughter_water_micro_index1")
-	s.SlaughterWaterMicroIndex2 = field.NewFloat32(table, "slaughter_water_micro_index2")
-	s.SlaughterWaterMicroIndex3 = field.NewFloat32(table, "slaughter_water_micro_index3")
+	s.SlaughterWaterMicroIndex1 = field.Newfloat64(table, "slaughter_water_micro_index1")
+	s.SlaughterWaterMicroIndex2 = field.Newfloat64(table, "slaughter_water_micro_index2")
+	s.SlaughterWaterMicroIndex3 = field.Newfloat64(table, "slaughter_water_micro_index3")
 
 	s.fillFieldMap()
 

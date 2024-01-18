@@ -32,10 +32,10 @@ func newTotalOdorPollutantsPasturePerDay(db *gorm.DB, opts ...gen.DOOption) tota
 	_totalOdorPollutantsPasturePerDay.DeletedAt = field.NewField(tableName, "deleted_at")
 	_totalOdorPollutantsPasturePerDay.TimeStamp = field.NewTime(tableName, "time_stamp")
 	_totalOdorPollutantsPasturePerDay.HouseNumber = field.NewString(tableName, "house_number")
-	_totalOdorPollutantsPasturePerDay.TotalOdorPollutantsPerDay1 = field.NewFloat32(tableName, "total_odor_pollutants_per_day1")
-	_totalOdorPollutantsPasturePerDay.TotalOdorPollutantsPerDay2 = field.NewFloat32(tableName, "total_odor_pollutants_per_day2")
-	_totalOdorPollutantsPasturePerDay.TotalOdorPollutantsPerDay3 = field.NewFloat32(tableName, "total_odor_pollutants_per_day3")
-	_totalOdorPollutantsPasturePerDay.TotalOdorPollutantsPerDay4 = field.NewFloat32(tableName, "total_odor_pollutants_per_day4")
+	_totalOdorPollutantsPasturePerDay.TotalOdorPollutantsPerDay1 = field.NewFloat64(tableName, "total_odor_pollutants_per_day1")
+	_totalOdorPollutantsPasturePerDay.TotalOdorPollutantsPerDay2 = field.NewFloat64(tableName, "total_odor_pollutants_per_day2")
+	_totalOdorPollutantsPasturePerDay.TotalOdorPollutantsPerDay3 = field.NewFloat64(tableName, "total_odor_pollutants_per_day3")
+	_totalOdorPollutantsPasturePerDay.TotalOdorPollutantsPerDay4 = field.NewFloat64(tableName, "total_odor_pollutants_per_day4")
 
 	_totalOdorPollutantsPasturePerDay.fillFieldMap()
 
@@ -52,10 +52,10 @@ type totalOdorPollutantsPasturePerDay struct {
 	DeletedAt                  field.Field
 	TimeStamp                  field.Time
 	HouseNumber                field.String
-	TotalOdorPollutantsPerDay1 field.Float32
-	TotalOdorPollutantsPerDay2 field.Float32
-	TotalOdorPollutantsPerDay3 field.Float32
-	TotalOdorPollutantsPerDay4 field.Float32
+	TotalOdorPollutantsPerDay1 field.Float64
+	TotalOdorPollutantsPerDay2 field.Float64
+	TotalOdorPollutantsPerDay3 field.Float64
+	TotalOdorPollutantsPerDay4 field.Float64
 
 	fieldMap map[string]field.Expr
 }
@@ -78,10 +78,10 @@ func (t *totalOdorPollutantsPasturePerDay) updateTableName(table string) *totalO
 	t.DeletedAt = field.NewField(table, "deleted_at")
 	t.TimeStamp = field.NewTime(table, "time_stamp")
 	t.HouseNumber = field.NewString(table, "house_number")
-	t.TotalOdorPollutantsPerDay1 = field.NewFloat32(table, "total_odor_pollutants_per_day1")
-	t.TotalOdorPollutantsPerDay2 = field.NewFloat32(table, "total_odor_pollutants_per_day2")
-	t.TotalOdorPollutantsPerDay3 = field.NewFloat32(table, "total_odor_pollutants_per_day3")
-	t.TotalOdorPollutantsPerDay4 = field.NewFloat32(table, "total_odor_pollutants_per_day4")
+	t.TotalOdorPollutantsPerDay1 = field.NewFloat64(table, "total_odor_pollutants_per_day1")
+	t.TotalOdorPollutantsPerDay2 = field.NewFloat64(table, "total_odor_pollutants_per_day2")
+	t.TotalOdorPollutantsPerDay3 = field.NewFloat64(table, "total_odor_pollutants_per_day3")
+	t.TotalOdorPollutantsPerDay4 = field.NewFloat64(table, "total_odor_pollutants_per_day4")
 
 	t.fillFieldMap()
 

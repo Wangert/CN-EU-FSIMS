@@ -30,16 +30,16 @@ func newPastureWasteDischarge(db *gorm.DB, opts ...gen.DOOption) pastureWasteDis
 	_pastureWasteDischarge.CreatedAt = field.NewTime(tableName, "created_at")
 	_pastureWasteDischarge.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_pastureWasteDischarge.DeletedAt = field.NewField(tableName, "deleted_at")
-	_pastureWasteDischarge.WaterFivedayBOD = field.NewFloat32(tableName, "water_fiveday_bod")
-	_pastureWasteDischarge.WaterChemicalOxygen = field.NewFloat32(tableName, "water_chemical_oxygen")
-	_pastureWasteDischarge.WaterAmmoniaNitrogen = field.NewFloat32(tableName, "water_ammonia_nitrogen")
-	_pastureWasteDischarge.WaterPhosphorus = field.NewFloat32(tableName, "water_phosphorus")
-	_pastureWasteDischarge.WaterSuspendedMatter = field.NewFloat32(tableName, "water_suspended_matter")
+	_pastureWasteDischarge.WaterFivedayBOD = field.Newfloat64(tableName, "water_fiveday_bod")
+	_pastureWasteDischarge.WaterChemicalOxygen = field.Newfloat64(tableName, "water_chemical_oxygen")
+	_pastureWasteDischarge.WaterAmmoniaNitrogen = field.Newfloat64(tableName, "water_ammonia_nitrogen")
+	_pastureWasteDischarge.WaterPhosphorus = field.Newfloat64(tableName, "water_phosphorus")
+	_pastureWasteDischarge.WaterSuspendedMatter = field.Newfloat64(tableName, "water_suspended_matter")
 	_pastureWasteDischarge.WaterFecalColiform = field.NewUint(tableName, "water_fecal_coliform")
-	_pastureWasteDischarge.WaterAO = field.NewFloat32(tableName, "water_ao")
+	_pastureWasteDischarge.WaterAO = field.Newfloat64(tableName, "water_ao")
 	_pastureWasteDischarge.WasteSlagFecalColiform = field.NewUint(tableName, "waste_slag_fecal_coliform")
-	_pastureWasteDischarge.WasteSlagAOMortalityRate = field.NewFloat32(tableName, "waste_slag_ao_mortality_rate")
-	_pastureWasteDischarge.O3Concentration = field.NewFloat32(tableName, "o3_concentration")
+	_pastureWasteDischarge.WasteSlagAOMortalityRate = field.Newfloat64(tableName, "waste_slag_ao_mortality_rate")
+	_pastureWasteDischarge.O3Concentration = field.Newfloat64(tableName, "o3_concentration")
 	_pastureWasteDischarge.PasPID = field.NewString(tableName, "pas_p_id")
 
 	_pastureWasteDischarge.fillFieldMap()
@@ -55,16 +55,16 @@ type pastureWasteDischarge struct {
 	CreatedAt                field.Time
 	UpdatedAt                field.Time
 	DeletedAt                field.Field
-	WaterFivedayBOD          field.Float32
-	WaterChemicalOxygen      field.Float32
-	WaterAmmoniaNitrogen     field.Float32
-	WaterPhosphorus          field.Float32
-	WaterSuspendedMatter     field.Float32
+	WaterFivedayBOD          field.float64
+	WaterChemicalOxygen      field.float64
+	WaterAmmoniaNitrogen     field.float64
+	WaterPhosphorus          field.float64
+	WaterSuspendedMatter     field.float64
 	WaterFecalColiform       field.Uint
-	WaterAO                  field.Float32
+	WaterAO                  field.float64
 	WasteSlagFecalColiform   field.Uint
-	WasteSlagAOMortalityRate field.Float32
-	O3Concentration          field.Float32
+	WasteSlagAOMortalityRate field.float64
+	O3Concentration          field.float64
 	PasPID                   field.String
 
 	fieldMap map[string]field.Expr
@@ -86,16 +86,16 @@ func (p *pastureWasteDischarge) updateTableName(table string) *pastureWasteDisch
 	p.CreatedAt = field.NewTime(table, "created_at")
 	p.UpdatedAt = field.NewTime(table, "updated_at")
 	p.DeletedAt = field.NewField(table, "deleted_at")
-	p.WaterFivedayBOD = field.NewFloat32(table, "water_fiveday_bod")
-	p.WaterChemicalOxygen = field.NewFloat32(table, "water_chemical_oxygen")
-	p.WaterAmmoniaNitrogen = field.NewFloat32(table, "water_ammonia_nitrogen")
-	p.WaterPhosphorus = field.NewFloat32(table, "water_phosphorus")
-	p.WaterSuspendedMatter = field.NewFloat32(table, "water_suspended_matter")
+	p.WaterFivedayBOD = field.Newfloat64(table, "water_fiveday_bod")
+	p.WaterChemicalOxygen = field.Newfloat64(table, "water_chemical_oxygen")
+	p.WaterAmmoniaNitrogen = field.Newfloat64(table, "water_ammonia_nitrogen")
+	p.WaterPhosphorus = field.Newfloat64(table, "water_phosphorus")
+	p.WaterSuspendedMatter = field.Newfloat64(table, "water_suspended_matter")
 	p.WaterFecalColiform = field.NewUint(table, "water_fecal_coliform")
-	p.WaterAO = field.NewFloat32(table, "water_ao")
+	p.WaterAO = field.Newfloat64(table, "water_ao")
 	p.WasteSlagFecalColiform = field.NewUint(table, "waste_slag_fecal_coliform")
-	p.WasteSlagAOMortalityRate = field.NewFloat32(table, "waste_slag_ao_mortality_rate")
-	p.O3Concentration = field.NewFloat32(table, "o3_concentration")
+	p.WasteSlagAOMortalityRate = field.Newfloat64(table, "waste_slag_ao_mortality_rate")
+	p.O3Concentration = field.Newfloat64(table, "o3_concentration")
 	p.PasPID = field.NewString(table, "pas_p_id")
 
 	p.fillFieldMap()

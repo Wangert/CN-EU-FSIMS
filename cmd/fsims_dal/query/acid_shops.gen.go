@@ -32,15 +32,15 @@ func newAcidShop(db *gorm.DB, opts ...gen.DOOption) acidShop {
 	_acidShop.DeletedAt = field.NewField(tableName, "deleted_at")
 	_acidShop.HouseNumber = field.NewString(tableName, "house_number")
 	_acidShop.TimeRecordAt = field.NewTime(tableName, "time_record_at")
-	_acidShop.AcidShop1 = field.NewFloat32(tableName, "acid_shop1")
-	_acidShop.AcidShop2 = field.NewFloat32(tableName, "acid_shop2")
-	_acidShop.AcidShop3 = field.NewFloat32(tableName, "acid_shop3")
-	_acidShop.AcidShop4 = field.NewFloat32(tableName, "acid_shop4")
-	_acidShop.AcidShop5 = field.NewFloat32(tableName, "acid_shop5")
-	_acidShop.AcidShop6 = field.NewFloat32(tableName, "acid_shop6")
-	_acidShop.AcidShop7 = field.NewFloat32(tableName, "acid_shop7")
-	_acidShop.AcidShop8 = field.NewFloat32(tableName, "acid_shop8")
-	_acidShop.AcidShop9 = field.NewFloat32(tableName, "acid_shop9")
+	_acidShop.AcidShop1 = field.NewFloat64(tableName, "acid_shop1")
+	_acidShop.AcidShop2 = field.NewFloat64(tableName, "acid_shop2")
+	_acidShop.AcidShop3 = field.NewFloat64(tableName, "acid_shop3")
+	_acidShop.AcidShop4 = field.NewFloat64(tableName, "acid_shop4")
+	_acidShop.AcidShop5 = field.NewFloat64(tableName, "acid_shop5")
+	_acidShop.AcidShop6 = field.NewFloat64(tableName, "acid_shop6")
+	_acidShop.AcidShop7 = field.NewFloat64(tableName, "acid_shop7")
+	_acidShop.AcidShop8 = field.NewFloat64(tableName, "acid_shop8")
+	_acidShop.AcidShop9 = field.NewFloat64(tableName, "acid_shop9")
 	_acidShop.AcidShop10 = field.NewString(tableName, "acid_shop10")
 	_acidShop.AcidShop11 = field.NewString(tableName, "acid_shop11")
 	_acidShop.AcidShop12 = field.NewString(tableName, "acid_shop12")
@@ -62,15 +62,15 @@ type acidShop struct {
 	DeletedAt    field.Field
 	HouseNumber  field.String
 	TimeRecordAt field.Time
-	AcidShop1    field.Float32
-	AcidShop2    field.Float32
-	AcidShop3    field.Float32
-	AcidShop4    field.Float32
-	AcidShop5    field.Float32
-	AcidShop6    field.Float32
-	AcidShop7    field.Float32
-	AcidShop8    field.Float32
-	AcidShop9    field.Float32
+	AcidShop1    field.Float64
+	AcidShop2    field.Float64
+	AcidShop3    field.Float64
+	AcidShop4    field.Float64
+	AcidShop5    field.Float64
+	AcidShop6    field.Float64
+	AcidShop7    field.Float64
+	AcidShop8    field.Float64
+	AcidShop9    field.Float64
 	AcidShop10   field.String
 	AcidShop11   field.String
 	AcidShop12   field.String
@@ -98,15 +98,15 @@ func (a *acidShop) updateTableName(table string) *acidShop {
 	a.DeletedAt = field.NewField(table, "deleted_at")
 	a.HouseNumber = field.NewString(table, "house_number")
 	a.TimeRecordAt = field.NewTime(table, "time_record_at")
-	a.AcidShop1 = field.NewFloat32(table, "acid_shop1")
-	a.AcidShop2 = field.NewFloat32(table, "acid_shop2")
-	a.AcidShop3 = field.NewFloat32(table, "acid_shop3")
-	a.AcidShop4 = field.NewFloat32(table, "acid_shop4")
-	a.AcidShop5 = field.NewFloat32(table, "acid_shop5")
-	a.AcidShop6 = field.NewFloat32(table, "acid_shop6")
-	a.AcidShop7 = field.NewFloat32(table, "acid_shop7")
-	a.AcidShop8 = field.NewFloat32(table, "acid_shop8")
-	a.AcidShop9 = field.NewFloat32(table, "acid_shop9")
+	a.AcidShop1 = field.NewFloat64(table, "acid_shop1")
+	a.AcidShop2 = field.NewFloat64(table, "acid_shop2")
+	a.AcidShop3 = field.NewFloat64(table, "acid_shop3")
+	a.AcidShop4 = field.NewFloat64(table, "acid_shop4")
+	a.AcidShop5 = field.NewFloat64(table, "acid_shop5")
+	a.AcidShop6 = field.NewFloat64(table, "acid_shop6")
+	a.AcidShop7 = field.NewFloat64(table, "acid_shop7")
+	a.AcidShop8 = field.NewFloat64(table, "acid_shop8")
+	a.AcidShop9 = field.NewFloat64(table, "acid_shop9")
 	a.AcidShop10 = field.NewString(table, "acid_shop10")
 	a.AcidShop11 = field.NewString(table, "acid_shop11")
 	a.AcidShop12 = field.NewString(table, "acid_shop12")

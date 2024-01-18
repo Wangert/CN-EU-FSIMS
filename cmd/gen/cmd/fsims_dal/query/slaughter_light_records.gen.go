@@ -32,10 +32,10 @@ func newSlaughterLightRecord(db *gorm.DB, opts ...gen.DOOption) slaughterLightRe
 	_slaughterLightRecord.DeletedAt = field.NewField(tableName, "deleted_at")
 	_slaughterLightRecord.HouseNumber = field.NewString(tableName, "house_number")
 	_slaughterLightRecord.TimeRecordAt = field.NewTime(tableName, "time_record_at")
-	_slaughterLightRecord.SlaEnvLigRec1 = field.NewFloat32(tableName, "sla_env_lig_rec1")
-	_slaughterLightRecord.SlaEnvLigRec2 = field.NewFloat32(tableName, "sla_env_lig_rec2")
-	_slaughterLightRecord.SlaEnvLigRec3 = field.NewFloat32(tableName, "sla_env_lig_rec3")
-	_slaughterLightRecord.SlaEnvLigRec4 = field.NewFloat32(tableName, "sla_env_lig_rec4")
+	_slaughterLightRecord.SlaEnvLigRec1 = field.Newfloat64(tableName, "sla_env_lig_rec1")
+	_slaughterLightRecord.SlaEnvLigRec2 = field.Newfloat64(tableName, "sla_env_lig_rec2")
+	_slaughterLightRecord.SlaEnvLigRec3 = field.Newfloat64(tableName, "sla_env_lig_rec3")
+	_slaughterLightRecord.SlaEnvLigRec4 = field.Newfloat64(tableName, "sla_env_lig_rec4")
 
 	_slaughterLightRecord.fillFieldMap()
 
@@ -52,10 +52,10 @@ type slaughterLightRecord struct {
 	DeletedAt     field.Field
 	HouseNumber   field.String
 	TimeRecordAt  field.Time
-	SlaEnvLigRec1 field.Float32
-	SlaEnvLigRec2 field.Float32
-	SlaEnvLigRec3 field.Float32
-	SlaEnvLigRec4 field.Float32
+	SlaEnvLigRec1 field.float64
+	SlaEnvLigRec2 field.float64
+	SlaEnvLigRec3 field.float64
+	SlaEnvLigRec4 field.float64
 
 	fieldMap map[string]field.Expr
 }
@@ -78,10 +78,10 @@ func (s *slaughterLightRecord) updateTableName(table string) *slaughterLightReco
 	s.DeletedAt = field.NewField(table, "deleted_at")
 	s.HouseNumber = field.NewString(table, "house_number")
 	s.TimeRecordAt = field.NewTime(table, "time_record_at")
-	s.SlaEnvLigRec1 = field.NewFloat32(table, "sla_env_lig_rec1")
-	s.SlaEnvLigRec2 = field.NewFloat32(table, "sla_env_lig_rec2")
-	s.SlaEnvLigRec3 = field.NewFloat32(table, "sla_env_lig_rec3")
-	s.SlaEnvLigRec4 = field.NewFloat32(table, "sla_env_lig_rec4")
+	s.SlaEnvLigRec1 = field.Newfloat64(table, "sla_env_lig_rec1")
+	s.SlaEnvLigRec2 = field.Newfloat64(table, "sla_env_lig_rec2")
+	s.SlaEnvLigRec3 = field.Newfloat64(table, "sla_env_lig_rec3")
+	s.SlaEnvLigRec4 = field.Newfloat64(table, "sla_env_lig_rec4")
 
 	s.fillFieldMap()
 

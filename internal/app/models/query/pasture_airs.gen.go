@@ -31,11 +31,11 @@ func newPastureAir(db *gorm.DB, opts ...gen.DOOption) pastureAir {
 	_pastureAir.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_pastureAir.DeletedAt = field.NewField(tableName, "deleted_at")
 	_pastureAir.TotalBacteria = field.NewUint(tableName, "total_bacteria")
-	_pastureAir.AmmoniaGas = field.NewFloat32(tableName, "ammonia_gas")
-	_pastureAir.HydrogenSulfide = field.NewFloat32(tableName, "hydrogen_sulfide")
-	_pastureAir.CarbonDioxide = field.NewFloat32(tableName, "carbon_dioxide")
-	_pastureAir.PM10 = field.NewFloat32(tableName, "pm10")
-	_pastureAir.TSP = field.NewFloat32(tableName, "tsp")
+	_pastureAir.AmmoniaGas = field.NewFloat64(tableName, "ammonia_gas")
+	_pastureAir.HydrogenSulfide = field.NewFloat64(tableName, "hydrogen_sulfide")
+	_pastureAir.CarbonDioxide = field.NewFloat64(tableName, "carbon_dioxide")
+	_pastureAir.PM10 = field.NewFloat64(tableName, "pm10")
+	_pastureAir.TSP = field.NewFloat64(tableName, "tsp")
 	_pastureAir.Stench = field.NewUint(tableName, "stench")
 	_pastureAir.PasPID = field.NewString(tableName, "pas_p_id")
 
@@ -53,11 +53,11 @@ type pastureAir struct {
 	UpdatedAt       field.Time
 	DeletedAt       field.Field
 	TotalBacteria   field.Uint
-	AmmoniaGas      field.Float32
-	HydrogenSulfide field.Float32
-	CarbonDioxide   field.Float32
-	PM10            field.Float32
-	TSP             field.Float32
+	AmmoniaGas      field.Float64
+	HydrogenSulfide field.Float64
+	CarbonDioxide   field.Float64
+	PM10            field.Float64
+	TSP             field.Float64
 	Stench          field.Uint
 	PasPID          field.String
 
@@ -81,11 +81,11 @@ func (p *pastureAir) updateTableName(table string) *pastureAir {
 	p.UpdatedAt = field.NewTime(table, "updated_at")
 	p.DeletedAt = field.NewField(table, "deleted_at")
 	p.TotalBacteria = field.NewUint(table, "total_bacteria")
-	p.AmmoniaGas = field.NewFloat32(table, "ammonia_gas")
-	p.HydrogenSulfide = field.NewFloat32(table, "hydrogen_sulfide")
-	p.CarbonDioxide = field.NewFloat32(table, "carbon_dioxide")
-	p.PM10 = field.NewFloat32(table, "pm10")
-	p.TSP = field.NewFloat32(table, "tsp")
+	p.AmmoniaGas = field.NewFloat64(table, "ammonia_gas")
+	p.HydrogenSulfide = field.NewFloat64(table, "hydrogen_sulfide")
+	p.CarbonDioxide = field.NewFloat64(table, "carbon_dioxide")
+	p.PM10 = field.NewFloat64(table, "pm10")
+	p.TSP = field.NewFloat64(table, "tsp")
 	p.Stench = field.NewUint(table, "stench")
 	p.PasPID = field.NewString(table, "pas_p_id")
 

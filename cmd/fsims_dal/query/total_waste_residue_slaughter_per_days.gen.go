@@ -32,10 +32,10 @@ func newTotalWasteResidueSlaughterPerDay(db *gorm.DB, opts ...gen.DOOption) tota
 	_totalWasteResidueSlaughterPerDay.DeletedAt = field.NewField(tableName, "deleted_at")
 	_totalWasteResidueSlaughterPerDay.TimeStamp = field.NewTime(tableName, "time_stamp")
 	_totalWasteResidueSlaughterPerDay.HouseNumber = field.NewString(tableName, "house_number")
-	_totalWasteResidueSlaughterPerDay.TotalWasteResidueSlaughterPerDay1 = field.NewFloat32(tableName, "total_waste_residue_slaughter_per_day1")
-	_totalWasteResidueSlaughterPerDay.TotalWasteResidueSlaughterPerDay2 = field.NewFloat32(tableName, "total_waste_residue_slaughter_per_day2")
-	_totalWasteResidueSlaughterPerDay.TotalWasteResidueSlaughterPerDay3 = field.NewFloat32(tableName, "total_waste_residue_slaughter_per_day3")
-	_totalWasteResidueSlaughterPerDay.TotalWasteResidueSlaughterPerDay4 = field.NewFloat32(tableName, "total_waste_residue_slaughter_per_day4")
+	_totalWasteResidueSlaughterPerDay.TotalWasteResidueSlaughterPerDay1 = field.NewFloat64(tableName, "total_waste_residue_slaughter_per_day1")
+	_totalWasteResidueSlaughterPerDay.TotalWasteResidueSlaughterPerDay2 = field.NewFloat64(tableName, "total_waste_residue_slaughter_per_day2")
+	_totalWasteResidueSlaughterPerDay.TotalWasteResidueSlaughterPerDay3 = field.NewFloat64(tableName, "total_waste_residue_slaughter_per_day3")
+	_totalWasteResidueSlaughterPerDay.TotalWasteResidueSlaughterPerDay4 = field.NewFloat64(tableName, "total_waste_residue_slaughter_per_day4")
 
 	_totalWasteResidueSlaughterPerDay.fillFieldMap()
 
@@ -52,10 +52,10 @@ type totalWasteResidueSlaughterPerDay struct {
 	DeletedAt                         field.Field
 	TimeStamp                         field.Time
 	HouseNumber                       field.String
-	TotalWasteResidueSlaughterPerDay1 field.Float32
-	TotalWasteResidueSlaughterPerDay2 field.Float32
-	TotalWasteResidueSlaughterPerDay3 field.Float32
-	TotalWasteResidueSlaughterPerDay4 field.Float32
+	TotalWasteResidueSlaughterPerDay1 field.Float64
+	TotalWasteResidueSlaughterPerDay2 field.Float64
+	TotalWasteResidueSlaughterPerDay3 field.Float64
+	TotalWasteResidueSlaughterPerDay4 field.Float64
 
 	fieldMap map[string]field.Expr
 }
@@ -78,10 +78,10 @@ func (t *totalWasteResidueSlaughterPerDay) updateTableName(table string) *totalW
 	t.DeletedAt = field.NewField(table, "deleted_at")
 	t.TimeStamp = field.NewTime(table, "time_stamp")
 	t.HouseNumber = field.NewString(table, "house_number")
-	t.TotalWasteResidueSlaughterPerDay1 = field.NewFloat32(table, "total_waste_residue_slaughter_per_day1")
-	t.TotalWasteResidueSlaughterPerDay2 = field.NewFloat32(table, "total_waste_residue_slaughter_per_day2")
-	t.TotalWasteResidueSlaughterPerDay3 = field.NewFloat32(table, "total_waste_residue_slaughter_per_day3")
-	t.TotalWasteResidueSlaughterPerDay4 = field.NewFloat32(table, "total_waste_residue_slaughter_per_day4")
+	t.TotalWasteResidueSlaughterPerDay1 = field.NewFloat64(table, "total_waste_residue_slaughter_per_day1")
+	t.TotalWasteResidueSlaughterPerDay2 = field.NewFloat64(table, "total_waste_residue_slaughter_per_day2")
+	t.TotalWasteResidueSlaughterPerDay3 = field.NewFloat64(table, "total_waste_residue_slaughter_per_day3")
+	t.TotalWasteResidueSlaughterPerDay4 = field.NewFloat64(table, "total_waste_residue_slaughter_per_day4")
 
 	t.fillFieldMap()
 

@@ -32,20 +32,20 @@ func newSlaShop(db *gorm.DB, opts ...gen.DOOption) slaShop {
 	_slaShop.DeletedAt = field.NewField(tableName, "deleted_at")
 	_slaShop.HouseNumber = field.NewString(tableName, "house_number")
 	_slaShop.TimeRecordAt = field.NewTime(tableName, "time_record_at")
-	_slaShop.SlaShop1 = field.NewFloat32(tableName, "sla_shop1")
-	_slaShop.SlaShop2 = field.NewFloat32(tableName, "sla_shop2")
-	_slaShop.SlaShop3 = field.NewFloat32(tableName, "sla_shop3")
-	_slaShop.SlaShop4 = field.NewFloat32(tableName, "sla_shop4")
-	_slaShop.SlaShop5 = field.NewFloat32(tableName, "sla_shop5")
-	_slaShop.SlaShop6 = field.NewFloat32(tableName, "sla_shop6")
-	_slaShop.SlaShop7 = field.NewFloat32(tableName, "sla_shop7")
-	_slaShop.SlaShop8 = field.NewFloat32(tableName, "sla_shop8")
-	_slaShop.SlaShop9 = field.NewFloat32(tableName, "sla_shop9")
-	_slaShop.SlaShop10 = field.NewFloat32(tableName, "sla_shop10")
-	_slaShop.SlaShop11 = field.NewFloat32(tableName, "sla_shop11")
-	_slaShop.SlaShop12 = field.NewFloat32(tableName, "sla_shop12")
-	_slaShop.SlaShop13 = field.NewFloat32(tableName, "sla_shop13")
-	_slaShop.SlaShop14 = field.NewFloat32(tableName, "sla_shop14")
+	_slaShop.SlaShop1 = field.Newfloat64(tableName, "sla_shop1")
+	_slaShop.SlaShop2 = field.Newfloat64(tableName, "sla_shop2")
+	_slaShop.SlaShop3 = field.Newfloat64(tableName, "sla_shop3")
+	_slaShop.SlaShop4 = field.Newfloat64(tableName, "sla_shop4")
+	_slaShop.SlaShop5 = field.Newfloat64(tableName, "sla_shop5")
+	_slaShop.SlaShop6 = field.Newfloat64(tableName, "sla_shop6")
+	_slaShop.SlaShop7 = field.Newfloat64(tableName, "sla_shop7")
+	_slaShop.SlaShop8 = field.Newfloat64(tableName, "sla_shop8")
+	_slaShop.SlaShop9 = field.Newfloat64(tableName, "sla_shop9")
+	_slaShop.SlaShop10 = field.Newfloat64(tableName, "sla_shop10")
+	_slaShop.SlaShop11 = field.Newfloat64(tableName, "sla_shop11")
+	_slaShop.SlaShop12 = field.Newfloat64(tableName, "sla_shop12")
+	_slaShop.SlaShop13 = field.Newfloat64(tableName, "sla_shop13")
+	_slaShop.SlaShop14 = field.Newfloat64(tableName, "sla_shop14")
 
 	_slaShop.fillFieldMap()
 
@@ -62,20 +62,20 @@ type slaShop struct {
 	DeletedAt    field.Field
 	HouseNumber  field.String
 	TimeRecordAt field.Time
-	SlaShop1     field.Float32
-	SlaShop2     field.Float32
-	SlaShop3     field.Float32
-	SlaShop4     field.Float32
-	SlaShop5     field.Float32
-	SlaShop6     field.Float32
-	SlaShop7     field.Float32
-	SlaShop8     field.Float32
-	SlaShop9     field.Float32
-	SlaShop10    field.Float32
-	SlaShop11    field.Float32
-	SlaShop12    field.Float32
-	SlaShop13    field.Float32
-	SlaShop14    field.Float32
+	SlaShop1     field.float64
+	SlaShop2     field.float64
+	SlaShop3     field.float64
+	SlaShop4     field.float64
+	SlaShop5     field.float64
+	SlaShop6     field.float64
+	SlaShop7     field.float64
+	SlaShop8     field.float64
+	SlaShop9     field.float64
+	SlaShop10    field.float64
+	SlaShop11    field.float64
+	SlaShop12    field.float64
+	SlaShop13    field.float64
+	SlaShop14    field.float64
 
 	fieldMap map[string]field.Expr
 }
@@ -98,20 +98,20 @@ func (s *slaShop) updateTableName(table string) *slaShop {
 	s.DeletedAt = field.NewField(table, "deleted_at")
 	s.HouseNumber = field.NewString(table, "house_number")
 	s.TimeRecordAt = field.NewTime(table, "time_record_at")
-	s.SlaShop1 = field.NewFloat32(table, "sla_shop1")
-	s.SlaShop2 = field.NewFloat32(table, "sla_shop2")
-	s.SlaShop3 = field.NewFloat32(table, "sla_shop3")
-	s.SlaShop4 = field.NewFloat32(table, "sla_shop4")
-	s.SlaShop5 = field.NewFloat32(table, "sla_shop5")
-	s.SlaShop6 = field.NewFloat32(table, "sla_shop6")
-	s.SlaShop7 = field.NewFloat32(table, "sla_shop7")
-	s.SlaShop8 = field.NewFloat32(table, "sla_shop8")
-	s.SlaShop9 = field.NewFloat32(table, "sla_shop9")
-	s.SlaShop10 = field.NewFloat32(table, "sla_shop10")
-	s.SlaShop11 = field.NewFloat32(table, "sla_shop11")
-	s.SlaShop12 = field.NewFloat32(table, "sla_shop12")
-	s.SlaShop13 = field.NewFloat32(table, "sla_shop13")
-	s.SlaShop14 = field.NewFloat32(table, "sla_shop14")
+	s.SlaShop1 = field.Newfloat64(table, "sla_shop1")
+	s.SlaShop2 = field.Newfloat64(table, "sla_shop2")
+	s.SlaShop3 = field.Newfloat64(table, "sla_shop3")
+	s.SlaShop4 = field.Newfloat64(table, "sla_shop4")
+	s.SlaShop5 = field.Newfloat64(table, "sla_shop5")
+	s.SlaShop6 = field.Newfloat64(table, "sla_shop6")
+	s.SlaShop7 = field.Newfloat64(table, "sla_shop7")
+	s.SlaShop8 = field.Newfloat64(table, "sla_shop8")
+	s.SlaShop9 = field.Newfloat64(table, "sla_shop9")
+	s.SlaShop10 = field.Newfloat64(table, "sla_shop10")
+	s.SlaShop11 = field.Newfloat64(table, "sla_shop11")
+	s.SlaShop12 = field.Newfloat64(table, "sla_shop12")
+	s.SlaShop13 = field.Newfloat64(table, "sla_shop13")
+	s.SlaShop14 = field.Newfloat64(table, "sla_shop14")
 
 	s.fillFieldMap()
 

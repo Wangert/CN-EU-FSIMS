@@ -30,12 +30,12 @@ func newPastureSoilPhysicalHazard(db *gorm.DB, opts ...gen.DOOption) pastureSoil
 	_pastureSoilPhysicalHazard.CreatedAt = field.NewTime(tableName, "created_at")
 	_pastureSoilPhysicalHazard.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_pastureSoilPhysicalHazard.DeletedAt = field.NewField(tableName, "deleted_at")
-	_pastureSoilPhysicalHazard.Cadmium = field.NewFloat32(tableName, "cadmium")
-	_pastureSoilPhysicalHazard.Arsenic = field.NewFloat32(tableName, "arsenic")
-	_pastureSoilPhysicalHazard.Copper = field.NewFloat32(tableName, "copper")
-	_pastureSoilPhysicalHazard.Lead = field.NewFloat32(tableName, "lead")
-	_pastureSoilPhysicalHazard.Chromium = field.NewFloat32(tableName, "chromium")
-	_pastureSoilPhysicalHazard.Zinc = field.NewFloat32(tableName, "zinc")
+	_pastureSoilPhysicalHazard.Cadmium = field.Newfloat64(tableName, "cadmium")
+	_pastureSoilPhysicalHazard.Arsenic = field.Newfloat64(tableName, "arsenic")
+	_pastureSoilPhysicalHazard.Copper = field.Newfloat64(tableName, "copper")
+	_pastureSoilPhysicalHazard.Lead = field.Newfloat64(tableName, "lead")
+	_pastureSoilPhysicalHazard.Chromium = field.Newfloat64(tableName, "chromium")
+	_pastureSoilPhysicalHazard.Zinc = field.Newfloat64(tableName, "zinc")
 	_pastureSoilPhysicalHazard.PastureSoilID = field.NewUint(tableName, "pasture_soil_id")
 
 	_pastureSoilPhysicalHazard.fillFieldMap()
@@ -51,12 +51,12 @@ type pastureSoilPhysicalHazard struct {
 	CreatedAt     field.Time
 	UpdatedAt     field.Time
 	DeletedAt     field.Field
-	Cadmium       field.Float32
-	Arsenic       field.Float32
-	Copper        field.Float32
-	Lead          field.Float32
-	Chromium      field.Float32
-	Zinc          field.Float32
+	Cadmium       field.float64
+	Arsenic       field.float64
+	Copper        field.float64
+	Lead          field.float64
+	Chromium      field.float64
+	Zinc          field.float64
 	PastureSoilID field.Uint
 
 	fieldMap map[string]field.Expr
@@ -78,12 +78,12 @@ func (p *pastureSoilPhysicalHazard) updateTableName(table string) *pastureSoilPh
 	p.CreatedAt = field.NewTime(table, "created_at")
 	p.UpdatedAt = field.NewTime(table, "updated_at")
 	p.DeletedAt = field.NewField(table, "deleted_at")
-	p.Cadmium = field.NewFloat32(table, "cadmium")
-	p.Arsenic = field.NewFloat32(table, "arsenic")
-	p.Copper = field.NewFloat32(table, "copper")
-	p.Lead = field.NewFloat32(table, "lead")
-	p.Chromium = field.NewFloat32(table, "chromium")
-	p.Zinc = field.NewFloat32(table, "zinc")
+	p.Cadmium = field.Newfloat64(table, "cadmium")
+	p.Arsenic = field.Newfloat64(table, "arsenic")
+	p.Copper = field.Newfloat64(table, "copper")
+	p.Lead = field.Newfloat64(table, "lead")
+	p.Chromium = field.Newfloat64(table, "chromium")
+	p.Zinc = field.Newfloat64(table, "zinc")
 	p.PastureSoilID = field.NewUint(table, "pasture_soil_id")
 
 	p.fillFieldMap()

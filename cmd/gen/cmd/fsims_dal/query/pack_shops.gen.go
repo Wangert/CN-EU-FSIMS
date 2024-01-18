@@ -32,20 +32,20 @@ func newPackShop(db *gorm.DB, opts ...gen.DOOption) packShop {
 	_packShop.DeletedAt = field.NewField(tableName, "deleted_at")
 	_packShop.HouseNumber = field.NewString(tableName, "house_number")
 	_packShop.TimeRecordAt = field.NewTime(tableName, "time_record_at")
-	_packShop.PackShop1 = field.NewFloat32(tableName, "pack_shop1")
-	_packShop.PackShop2 = field.NewFloat32(tableName, "pack_shop2")
-	_packShop.PackShop3 = field.NewFloat32(tableName, "pack_shop3")
-	_packShop.PackShop4 = field.NewFloat32(tableName, "pack_shop4")
-	_packShop.PackShop5 = field.NewFloat32(tableName, "pack_shop5")
-	_packShop.PackShop6 = field.NewFloat32(tableName, "pack_shop6")
-	_packShop.PackShop7 = field.NewFloat32(tableName, "pack_shop7")
-	_packShop.PackShop8 = field.NewFloat32(tableName, "pack_shop8")
-	_packShop.PackShop9 = field.NewFloat32(tableName, "pack_shop9")
-	_packShop.PackShop10 = field.NewFloat32(tableName, "pack_shop10")
-	_packShop.PackShop11 = field.NewFloat32(tableName, "pack_shop11")
-	_packShop.PackShop12 = field.NewFloat32(tableName, "pack_shop12")
-	_packShop.PackShop13 = field.NewFloat32(tableName, "pack_shop13")
-	_packShop.PackShop14 = field.NewFloat32(tableName, "pack_shop14")
+	_packShop.PackShop1 = field.Newfloat64(tableName, "pack_shop1")
+	_packShop.PackShop2 = field.Newfloat64(tableName, "pack_shop2")
+	_packShop.PackShop3 = field.Newfloat64(tableName, "pack_shop3")
+	_packShop.PackShop4 = field.Newfloat64(tableName, "pack_shop4")
+	_packShop.PackShop5 = field.Newfloat64(tableName, "pack_shop5")
+	_packShop.PackShop6 = field.Newfloat64(tableName, "pack_shop6")
+	_packShop.PackShop7 = field.Newfloat64(tableName, "pack_shop7")
+	_packShop.PackShop8 = field.Newfloat64(tableName, "pack_shop8")
+	_packShop.PackShop9 = field.Newfloat64(tableName, "pack_shop9")
+	_packShop.PackShop10 = field.Newfloat64(tableName, "pack_shop10")
+	_packShop.PackShop11 = field.Newfloat64(tableName, "pack_shop11")
+	_packShop.PackShop12 = field.Newfloat64(tableName, "pack_shop12")
+	_packShop.PackShop13 = field.Newfloat64(tableName, "pack_shop13")
+	_packShop.PackShop14 = field.Newfloat64(tableName, "pack_shop14")
 
 	_packShop.fillFieldMap()
 
@@ -62,20 +62,20 @@ type packShop struct {
 	DeletedAt    field.Field
 	HouseNumber  field.String
 	TimeRecordAt field.Time
-	PackShop1    field.Float32
-	PackShop2    field.Float32
-	PackShop3    field.Float32
-	PackShop4    field.Float32
-	PackShop5    field.Float32
-	PackShop6    field.Float32
-	PackShop7    field.Float32
-	PackShop8    field.Float32
-	PackShop9    field.Float32
-	PackShop10   field.Float32
-	PackShop11   field.Float32
-	PackShop12   field.Float32
-	PackShop13   field.Float32
-	PackShop14   field.Float32
+	PackShop1    field.float64
+	PackShop2    field.float64
+	PackShop3    field.float64
+	PackShop4    field.float64
+	PackShop5    field.float64
+	PackShop6    field.float64
+	PackShop7    field.float64
+	PackShop8    field.float64
+	PackShop9    field.float64
+	PackShop10   field.float64
+	PackShop11   field.float64
+	PackShop12   field.float64
+	PackShop13   field.float64
+	PackShop14   field.float64
 
 	fieldMap map[string]field.Expr
 }
@@ -98,20 +98,20 @@ func (p *packShop) updateTableName(table string) *packShop {
 	p.DeletedAt = field.NewField(table, "deleted_at")
 	p.HouseNumber = field.NewString(table, "house_number")
 	p.TimeRecordAt = field.NewTime(table, "time_record_at")
-	p.PackShop1 = field.NewFloat32(table, "pack_shop1")
-	p.PackShop2 = field.NewFloat32(table, "pack_shop2")
-	p.PackShop3 = field.NewFloat32(table, "pack_shop3")
-	p.PackShop4 = field.NewFloat32(table, "pack_shop4")
-	p.PackShop5 = field.NewFloat32(table, "pack_shop5")
-	p.PackShop6 = field.NewFloat32(table, "pack_shop6")
-	p.PackShop7 = field.NewFloat32(table, "pack_shop7")
-	p.PackShop8 = field.NewFloat32(table, "pack_shop8")
-	p.PackShop9 = field.NewFloat32(table, "pack_shop9")
-	p.PackShop10 = field.NewFloat32(table, "pack_shop10")
-	p.PackShop11 = field.NewFloat32(table, "pack_shop11")
-	p.PackShop12 = field.NewFloat32(table, "pack_shop12")
-	p.PackShop13 = field.NewFloat32(table, "pack_shop13")
-	p.PackShop14 = field.NewFloat32(table, "pack_shop14")
+	p.PackShop1 = field.Newfloat64(table, "pack_shop1")
+	p.PackShop2 = field.Newfloat64(table, "pack_shop2")
+	p.PackShop3 = field.Newfloat64(table, "pack_shop3")
+	p.PackShop4 = field.Newfloat64(table, "pack_shop4")
+	p.PackShop5 = field.Newfloat64(table, "pack_shop5")
+	p.PackShop6 = field.Newfloat64(table, "pack_shop6")
+	p.PackShop7 = field.Newfloat64(table, "pack_shop7")
+	p.PackShop8 = field.Newfloat64(table, "pack_shop8")
+	p.PackShop9 = field.Newfloat64(table, "pack_shop9")
+	p.PackShop10 = field.Newfloat64(table, "pack_shop10")
+	p.PackShop11 = field.Newfloat64(table, "pack_shop11")
+	p.PackShop12 = field.Newfloat64(table, "pack_shop12")
+	p.PackShop13 = field.Newfloat64(table, "pack_shop13")
+	p.PackShop14 = field.Newfloat64(table, "pack_shop14")
 
 	p.fillFieldMap()
 

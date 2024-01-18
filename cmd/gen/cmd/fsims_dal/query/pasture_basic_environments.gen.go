@@ -32,12 +32,12 @@ func newPastureBasicEnvironment(db *gorm.DB, opts ...gen.DOOption) pastureBasicE
 	_pastureBasicEnvironment.DeletedAt = field.NewField(tableName, "deleted_at")
 	_pastureBasicEnvironment.TimeRecordAt = field.NewTime(tableName, "time_record_at")
 	_pastureBasicEnvironment.HouseNumber = field.NewString(tableName, "house_number")
-	_pastureBasicEnvironment.Environment1 = field.NewFloat32(tableName, "environment1")
-	_pastureBasicEnvironment.Environment2 = field.NewFloat32(tableName, "environment2")
-	_pastureBasicEnvironment.Environment3 = field.NewFloat32(tableName, "environment3")
-	_pastureBasicEnvironment.Environment4 = field.NewFloat32(tableName, "environment4")
-	_pastureBasicEnvironment.Environment5 = field.NewFloat32(tableName, "environment5")
-	_pastureBasicEnvironment.Environment6 = field.NewFloat32(tableName, "environment6")
+	_pastureBasicEnvironment.Environment1 = field.Newfloat64(tableName, "environment1")
+	_pastureBasicEnvironment.Environment2 = field.Newfloat64(tableName, "environment2")
+	_pastureBasicEnvironment.Environment3 = field.Newfloat64(tableName, "environment3")
+	_pastureBasicEnvironment.Environment4 = field.Newfloat64(tableName, "environment4")
+	_pastureBasicEnvironment.Environment5 = field.Newfloat64(tableName, "environment5")
+	_pastureBasicEnvironment.Environment6 = field.Newfloat64(tableName, "environment6")
 
 	_pastureBasicEnvironment.fillFieldMap()
 
@@ -54,12 +54,12 @@ type pastureBasicEnvironment struct {
 	DeletedAt    field.Field
 	TimeRecordAt field.Time
 	HouseNumber  field.String
-	Environment1 field.Float32
-	Environment2 field.Float32
-	Environment3 field.Float32
-	Environment4 field.Float32
-	Environment5 field.Float32
-	Environment6 field.Float32
+	Environment1 field.float64
+	Environment2 field.float64
+	Environment3 field.float64
+	Environment4 field.float64
+	Environment5 field.float64
+	Environment6 field.float64
 
 	fieldMap map[string]field.Expr
 }
@@ -82,12 +82,12 @@ func (p *pastureBasicEnvironment) updateTableName(table string) *pastureBasicEnv
 	p.DeletedAt = field.NewField(table, "deleted_at")
 	p.TimeRecordAt = field.NewTime(table, "time_record_at")
 	p.HouseNumber = field.NewString(table, "house_number")
-	p.Environment1 = field.NewFloat32(table, "environment1")
-	p.Environment2 = field.NewFloat32(table, "environment2")
-	p.Environment3 = field.NewFloat32(table, "environment3")
-	p.Environment4 = field.NewFloat32(table, "environment4")
-	p.Environment5 = field.NewFloat32(table, "environment5")
-	p.Environment6 = field.NewFloat32(table, "environment6")
+	p.Environment1 = field.Newfloat64(table, "environment1")
+	p.Environment2 = field.Newfloat64(table, "environment2")
+	p.Environment3 = field.Newfloat64(table, "environment3")
+	p.Environment4 = field.Newfloat64(table, "environment4")
+	p.Environment5 = field.Newfloat64(table, "environment5")
+	p.Environment6 = field.Newfloat64(table, "environment6")
 
 	p.fillFieldMap()
 

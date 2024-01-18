@@ -32,18 +32,18 @@ func newCowHouse(db *gorm.DB, opts ...gen.DOOption) cowHouse {
 	_cowHouse.DeletedAt = field.NewField(tableName, "deleted_at")
 	_cowHouse.TimeRecordAt = field.NewTime(tableName, "time_record_at")
 	_cowHouse.HouseNumber = field.NewString(tableName, "house_number")
-	_cowHouse.CowHouse1 = field.NewFloat32(tableName, "cow_house1")
-	_cowHouse.CowHouse2 = field.NewFloat32(tableName, "cow_house2")
-	_cowHouse.CowHouse3 = field.NewFloat32(tableName, "cow_house3")
-	_cowHouse.CowHouse4 = field.NewFloat32(tableName, "cow_house4")
-	_cowHouse.CowHouse5 = field.NewFloat32(tableName, "cow_house5")
-	_cowHouse.CowHouse6 = field.NewFloat32(tableName, "cow_house6")
-	_cowHouse.CowHouse7 = field.NewFloat32(tableName, "cow_house7")
-	_cowHouse.CowHouse8 = field.NewFloat32(tableName, "cow_house8")
-	_cowHouse.CowHouse9 = field.NewFloat32(tableName, "cow_house9")
-	_cowHouse.CowHouse10 = field.NewFloat32(tableName, "cow_house10")
-	_cowHouse.CowHouse11 = field.NewFloat32(tableName, "cow_house11")
-	_cowHouse.CowHouse12 = field.NewFloat32(tableName, "cow_house12")
+	_cowHouse.CowHouse1 = field.Newfloat64(tableName, "cow_house1")
+	_cowHouse.CowHouse2 = field.Newfloat64(tableName, "cow_house2")
+	_cowHouse.CowHouse3 = field.Newfloat64(tableName, "cow_house3")
+	_cowHouse.CowHouse4 = field.Newfloat64(tableName, "cow_house4")
+	_cowHouse.CowHouse5 = field.Newfloat64(tableName, "cow_house5")
+	_cowHouse.CowHouse6 = field.Newfloat64(tableName, "cow_house6")
+	_cowHouse.CowHouse7 = field.Newfloat64(tableName, "cow_house7")
+	_cowHouse.CowHouse8 = field.Newfloat64(tableName, "cow_house8")
+	_cowHouse.CowHouse9 = field.Newfloat64(tableName, "cow_house9")
+	_cowHouse.CowHouse10 = field.Newfloat64(tableName, "cow_house10")
+	_cowHouse.CowHouse11 = field.Newfloat64(tableName, "cow_house11")
+	_cowHouse.CowHouse12 = field.Newfloat64(tableName, "cow_house12")
 
 	_cowHouse.fillFieldMap()
 
@@ -60,18 +60,18 @@ type cowHouse struct {
 	DeletedAt    field.Field
 	TimeRecordAt field.Time
 	HouseNumber  field.String
-	CowHouse1    field.Float32
-	CowHouse2    field.Float32
-	CowHouse3    field.Float32
-	CowHouse4    field.Float32
-	CowHouse5    field.Float32
-	CowHouse6    field.Float32
-	CowHouse7    field.Float32
-	CowHouse8    field.Float32
-	CowHouse9    field.Float32
-	CowHouse10   field.Float32
-	CowHouse11   field.Float32
-	CowHouse12   field.Float32
+	CowHouse1    field.float64
+	CowHouse2    field.float64
+	CowHouse3    field.float64
+	CowHouse4    field.float64
+	CowHouse5    field.float64
+	CowHouse6    field.float64
+	CowHouse7    field.float64
+	CowHouse8    field.float64
+	CowHouse9    field.float64
+	CowHouse10   field.float64
+	CowHouse11   field.float64
+	CowHouse12   field.float64
 
 	fieldMap map[string]field.Expr
 }
@@ -94,18 +94,18 @@ func (c *cowHouse) updateTableName(table string) *cowHouse {
 	c.DeletedAt = field.NewField(table, "deleted_at")
 	c.TimeRecordAt = field.NewTime(table, "time_record_at")
 	c.HouseNumber = field.NewString(table, "house_number")
-	c.CowHouse1 = field.NewFloat32(table, "cow_house1")
-	c.CowHouse2 = field.NewFloat32(table, "cow_house2")
-	c.CowHouse3 = field.NewFloat32(table, "cow_house3")
-	c.CowHouse4 = field.NewFloat32(table, "cow_house4")
-	c.CowHouse5 = field.NewFloat32(table, "cow_house5")
-	c.CowHouse6 = field.NewFloat32(table, "cow_house6")
-	c.CowHouse7 = field.NewFloat32(table, "cow_house7")
-	c.CowHouse8 = field.NewFloat32(table, "cow_house8")
-	c.CowHouse9 = field.NewFloat32(table, "cow_house9")
-	c.CowHouse10 = field.NewFloat32(table, "cow_house10")
-	c.CowHouse11 = field.NewFloat32(table, "cow_house11")
-	c.CowHouse12 = field.NewFloat32(table, "cow_house12")
+	c.CowHouse1 = field.Newfloat64(table, "cow_house1")
+	c.CowHouse2 = field.Newfloat64(table, "cow_house2")
+	c.CowHouse3 = field.Newfloat64(table, "cow_house3")
+	c.CowHouse4 = field.Newfloat64(table, "cow_house4")
+	c.CowHouse5 = field.Newfloat64(table, "cow_house5")
+	c.CowHouse6 = field.Newfloat64(table, "cow_house6")
+	c.CowHouse7 = field.Newfloat64(table, "cow_house7")
+	c.CowHouse8 = field.Newfloat64(table, "cow_house8")
+	c.CowHouse9 = field.Newfloat64(table, "cow_house9")
+	c.CowHouse10 = field.Newfloat64(table, "cow_house10")
+	c.CowHouse11 = field.Newfloat64(table, "cow_house11")
+	c.CowHouse12 = field.Newfloat64(table, "cow_house12")
 
 	c.fillFieldMap()
 

@@ -41,7 +41,7 @@ func newProcedure(db *gorm.DB, opts ...gen.DOOption) procedure {
 	_procedure.StartTimestamp = field.NewTime(tableName, "start_timestamp")
 	_procedure.CompletedTimestamp = field.NewTime(tableName, "completed_timestamp")
 	_procedure.PrePID = field.NewString(tableName, "pre_p_id")
-	_procedure.LastFlag = field.NewString(tableName, "last_flag")
+	_procedure.UnprocessedProductsCount = field.NewUint(tableName, "unprocessed_products_count")
 	_procedure.ICID = field.NewString(tableName, "ic_id")
 
 	_procedure.fillFieldMap()
@@ -52,24 +52,24 @@ func newProcedure(db *gorm.DB, opts ...gen.DOOption) procedure {
 type procedure struct {
 	procedureDo procedureDo
 
-	ALL                field.Asterisk
-	ID                 field.Uint
-	CreatedAt          field.Time
-	UpdatedAt          field.Time
-	DeletedAt          field.Field
-	PID                field.String
-	Type               field.Uint
-	Name               field.String
-	State              field.Uint
-	PHash              field.String
-	CheckCode          field.String
-	SerialNumber       field.Int64
-	Operator           field.String
-	StartTimestamp     field.Time
-	CompletedTimestamp field.Time
-	PrePID             field.String
-	LastFlag           field.String
-	ICID               field.String
+	ALL                      field.Asterisk
+	ID                       field.Uint
+	CreatedAt                field.Time
+	UpdatedAt                field.Time
+	DeletedAt                field.Field
+	PID                      field.String
+	Type                     field.Uint
+	Name                     field.String
+	State                    field.Uint
+	PHash                    field.String
+	CheckCode                field.String
+	SerialNumber             field.Int64
+	Operator                 field.String
+	StartTimestamp           field.Time
+	CompletedTimestamp       field.Time
+	PrePID                   field.String
+	UnprocessedProductsCount field.Uint
+	ICID                     field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -101,7 +101,7 @@ func (p *procedure) updateTableName(table string) *procedure {
 	p.StartTimestamp = field.NewTime(table, "start_timestamp")
 	p.CompletedTimestamp = field.NewTime(table, "completed_timestamp")
 	p.PrePID = field.NewString(table, "pre_p_id")
-	p.LastFlag = field.NewString(table, "last_flag")
+	p.UnprocessedProductsCount = field.NewUint(table, "unprocessed_products_count")
 	p.ICID = field.NewString(table, "ic_id")
 
 	p.fillFieldMap()
@@ -145,7 +145,7 @@ func (p *procedure) fillFieldMap() {
 	p.fieldMap["start_timestamp"] = p.StartTimestamp
 	p.fieldMap["completed_timestamp"] = p.CompletedTimestamp
 	p.fieldMap["pre_p_id"] = p.PrePID
-	p.fieldMap["last_flag"] = p.LastFlag
+	p.fieldMap["unprocessed_products_count"] = p.UnprocessedProductsCount
 	p.fieldMap["ic_id"] = p.ICID
 }
 

@@ -88,7 +88,7 @@ func UploadSlaughterWasteWaterPerDay(r *request.ReqSlaughterWasteWaterPerDay) er
 		}
 	} else {
 		//更新总表信息
-		result, _ := qall.WithContext(context.Background()).UpdateSimple(qall.WaterSlaughtersTrashDisposal1.Add(r.ReqSlaughterWasteWaterPerDay1),
+		result, _ := qall.WithContext(context.Background()).Where(qall.TimeStamp.Eq(t)).UpdateSimple(qall.WaterSlaughtersTrashDisposal1.Add(r.ReqSlaughterWasteWaterPerDay1),
 			qall.WaterSlaughtersTrashDisposal2.Add(r.ReqSlaughterWasteWaterPerDay2), qall.WaterSlaughtersTrashDisposal3.Add(r.ReqSlaughterWasteWaterPerDay3),
 			qall.WaterSlaughtersTrashDisposal4.Add(r.ReqSlaughterWasteWaterPerDay4))
 		if result.RowsAffected == 0 {

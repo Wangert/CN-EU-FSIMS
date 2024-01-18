@@ -32,15 +32,15 @@ func newPastureWastedWaterIndex(db *gorm.DB, opts ...gen.DOOption) pastureWasted
 	_pastureWastedWaterIndex.DeletedAt = field.NewField(tableName, "deleted_at")
 	_pastureWastedWaterIndex.TimeRecordAt = field.NewTime(tableName, "time_record_at")
 	_pastureWastedWaterIndex.HouseNumber = field.NewString(tableName, "house_number")
-	_pastureWastedWaterIndex.WastedWaterIndex1 = field.NewFloat32(tableName, "wasted_water_index1")
-	_pastureWastedWaterIndex.WastedWaterIndex2 = field.NewFloat32(tableName, "wasted_water_index2")
-	_pastureWastedWaterIndex.WastedWaterIndex3 = field.NewFloat32(tableName, "wasted_water_index3")
-	_pastureWastedWaterIndex.WastedWaterIndex4 = field.NewFloat32(tableName, "wasted_water_index4")
-	_pastureWastedWaterIndex.WastedWaterIndex5 = field.NewFloat32(tableName, "wasted_water_index5")
-	_pastureWastedWaterIndex.WastedWaterIndex6 = field.NewFloat32(tableName, "wasted_water_index6")
-	_pastureWastedWaterIndex.WastedWaterIndex7 = field.NewFloat32(tableName, "wasted_water_index7")
-	_pastureWastedWaterIndex.WastedWaterIndex8 = field.NewFloat32(tableName, "wasted_water_index8")
-	_pastureWastedWaterIndex.WastedWaterIndex9 = field.NewFloat32(tableName, "wasted_water_index9")
+	_pastureWastedWaterIndex.WastedWaterIndex1 = field.NewFloat64(tableName, "wasted_water_index1")
+	_pastureWastedWaterIndex.WastedWaterIndex2 = field.NewFloat64(tableName, "wasted_water_index2")
+	_pastureWastedWaterIndex.WastedWaterIndex3 = field.NewFloat64(tableName, "wasted_water_index3")
+	_pastureWastedWaterIndex.WastedWaterIndex4 = field.NewFloat64(tableName, "wasted_water_index4")
+	_pastureWastedWaterIndex.WastedWaterIndex5 = field.NewFloat64(tableName, "wasted_water_index5")
+	_pastureWastedWaterIndex.WastedWaterIndex6 = field.NewFloat64(tableName, "wasted_water_index6")
+	_pastureWastedWaterIndex.WastedWaterIndex7 = field.NewFloat64(tableName, "wasted_water_index7")
+	_pastureWastedWaterIndex.WastedWaterIndex8 = field.NewFloat64(tableName, "wasted_water_index8")
+	_pastureWastedWaterIndex.WastedWaterIndex9 = field.NewFloat64(tableName, "wasted_water_index9")
 
 	_pastureWastedWaterIndex.fillFieldMap()
 
@@ -57,15 +57,15 @@ type pastureWastedWaterIndex struct {
 	DeletedAt         field.Field
 	TimeRecordAt      field.Time
 	HouseNumber       field.String
-	WastedWaterIndex1 field.Float32
-	WastedWaterIndex2 field.Float32
-	WastedWaterIndex3 field.Float32
-	WastedWaterIndex4 field.Float32
-	WastedWaterIndex5 field.Float32
-	WastedWaterIndex6 field.Float32
-	WastedWaterIndex7 field.Float32
-	WastedWaterIndex8 field.Float32
-	WastedWaterIndex9 field.Float32
+	WastedWaterIndex1 field.Float64
+	WastedWaterIndex2 field.Float64
+	WastedWaterIndex3 field.Float64
+	WastedWaterIndex4 field.Float64
+	WastedWaterIndex5 field.Float64
+	WastedWaterIndex6 field.Float64
+	WastedWaterIndex7 field.Float64
+	WastedWaterIndex8 field.Float64
+	WastedWaterIndex9 field.Float64
 
 	fieldMap map[string]field.Expr
 }
@@ -88,15 +88,15 @@ func (p *pastureWastedWaterIndex) updateTableName(table string) *pastureWastedWa
 	p.DeletedAt = field.NewField(table, "deleted_at")
 	p.TimeRecordAt = field.NewTime(table, "time_record_at")
 	p.HouseNumber = field.NewString(table, "house_number")
-	p.WastedWaterIndex1 = field.NewFloat32(table, "wasted_water_index1")
-	p.WastedWaterIndex2 = field.NewFloat32(table, "wasted_water_index2")
-	p.WastedWaterIndex3 = field.NewFloat32(table, "wasted_water_index3")
-	p.WastedWaterIndex4 = field.NewFloat32(table, "wasted_water_index4")
-	p.WastedWaterIndex5 = field.NewFloat32(table, "wasted_water_index5")
-	p.WastedWaterIndex6 = field.NewFloat32(table, "wasted_water_index6")
-	p.WastedWaterIndex7 = field.NewFloat32(table, "wasted_water_index7")
-	p.WastedWaterIndex8 = field.NewFloat32(table, "wasted_water_index8")
-	p.WastedWaterIndex9 = field.NewFloat32(table, "wasted_water_index9")
+	p.WastedWaterIndex1 = field.NewFloat64(table, "wasted_water_index1")
+	p.WastedWaterIndex2 = field.NewFloat64(table, "wasted_water_index2")
+	p.WastedWaterIndex3 = field.NewFloat64(table, "wasted_water_index3")
+	p.WastedWaterIndex4 = field.NewFloat64(table, "wasted_water_index4")
+	p.WastedWaterIndex5 = field.NewFloat64(table, "wasted_water_index5")
+	p.WastedWaterIndex6 = field.NewFloat64(table, "wasted_water_index6")
+	p.WastedWaterIndex7 = field.NewFloat64(table, "wasted_water_index7")
+	p.WastedWaterIndex8 = field.NewFloat64(table, "wasted_water_index8")
+	p.WastedWaterIndex9 = field.NewFloat64(table, "wasted_water_index9")
 
 	p.fillFieldMap()
 

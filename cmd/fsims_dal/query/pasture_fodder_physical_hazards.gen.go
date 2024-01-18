@@ -30,17 +30,17 @@ func newPastureFodderPhysicalHazard(db *gorm.DB, opts ...gen.DOOption) pastureFo
 	_pastureFodderPhysicalHazard.CreatedAt = field.NewTime(tableName, "created_at")
 	_pastureFodderPhysicalHazard.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_pastureFodderPhysicalHazard.DeletedAt = field.NewField(tableName, "deleted_at")
-	_pastureFodderPhysicalHazard.Mercury = field.NewFloat32(tableName, "mercury")
-	_pastureFodderPhysicalHazard.Cadmium = field.NewFloat32(tableName, "cadmium")
-	_pastureFodderPhysicalHazard.Lead = field.NewFloat32(tableName, "lead")
-	_pastureFodderPhysicalHazard.Chromium = field.NewFloat32(tableName, "chromium")
-	_pastureFodderPhysicalHazard.Arsenic = field.NewFloat32(tableName, "arsenic")
-	_pastureFodderPhysicalHazard.Fluorine = field.NewFloat32(tableName, "fluorine")
-	_pastureFodderPhysicalHazard.Nitrite = field.NewFloat32(tableName, "nitrite")
-	_pastureFodderPhysicalHazard.PolychlorinatedBiphenyls = field.NewFloat32(tableName, "polychlorinated_biphenyls")
-	_pastureFodderPhysicalHazard.Sixsixsix = field.NewFloat32(tableName, "sixsixsix")
-	_pastureFodderPhysicalHazard.DDT = field.NewFloat32(tableName, "ddt")
-	_pastureFodderPhysicalHazard.Bexachlorobenzene = field.NewFloat32(tableName, "bexachlorobenzene")
+	_pastureFodderPhysicalHazard.Mercury = field.NewFloat64(tableName, "mercury")
+	_pastureFodderPhysicalHazard.Cadmium = field.NewFloat64(tableName, "cadmium")
+	_pastureFodderPhysicalHazard.Lead = field.NewFloat64(tableName, "lead")
+	_pastureFodderPhysicalHazard.Chromium = field.NewFloat64(tableName, "chromium")
+	_pastureFodderPhysicalHazard.Arsenic = field.NewFloat64(tableName, "arsenic")
+	_pastureFodderPhysicalHazard.Fluorine = field.NewFloat64(tableName, "fluorine")
+	_pastureFodderPhysicalHazard.Nitrite = field.NewFloat64(tableName, "nitrite")
+	_pastureFodderPhysicalHazard.PolychlorinatedBiphenyls = field.NewFloat64(tableName, "polychlorinated_biphenyls")
+	_pastureFodderPhysicalHazard.Sixsixsix = field.NewFloat64(tableName, "sixsixsix")
+	_pastureFodderPhysicalHazard.DDT = field.NewFloat64(tableName, "ddt")
+	_pastureFodderPhysicalHazard.Bexachlorobenzene = field.NewFloat64(tableName, "bexachlorobenzene")
 	_pastureFodderPhysicalHazard.PastureFodderID = field.NewUint(tableName, "pasture_fodder_id")
 
 	_pastureFodderPhysicalHazard.fillFieldMap()
@@ -56,17 +56,17 @@ type pastureFodderPhysicalHazard struct {
 	CreatedAt                field.Time
 	UpdatedAt                field.Time
 	DeletedAt                field.Field
-	Mercury                  field.Float32
-	Cadmium                  field.Float32
-	Lead                     field.Float32
-	Chromium                 field.Float32
-	Arsenic                  field.Float32
-	Fluorine                 field.Float32
-	Nitrite                  field.Float32
-	PolychlorinatedBiphenyls field.Float32
-	Sixsixsix                field.Float32
-	DDT                      field.Float32
-	Bexachlorobenzene        field.Float32
+	Mercury                  field.Float64
+	Cadmium                  field.Float64
+	Lead                     field.Float64
+	Chromium                 field.Float64
+	Arsenic                  field.Float64
+	Fluorine                 field.Float64
+	Nitrite                  field.Float64
+	PolychlorinatedBiphenyls field.Float64
+	Sixsixsix                field.Float64
+	DDT                      field.Float64
+	Bexachlorobenzene        field.Float64
 	PastureFodderID          field.Uint
 
 	fieldMap map[string]field.Expr
@@ -88,17 +88,17 @@ func (p *pastureFodderPhysicalHazard) updateTableName(table string) *pastureFodd
 	p.CreatedAt = field.NewTime(table, "created_at")
 	p.UpdatedAt = field.NewTime(table, "updated_at")
 	p.DeletedAt = field.NewField(table, "deleted_at")
-	p.Mercury = field.NewFloat32(table, "mercury")
-	p.Cadmium = field.NewFloat32(table, "cadmium")
-	p.Lead = field.NewFloat32(table, "lead")
-	p.Chromium = field.NewFloat32(table, "chromium")
-	p.Arsenic = field.NewFloat32(table, "arsenic")
-	p.Fluorine = field.NewFloat32(table, "fluorine")
-	p.Nitrite = field.NewFloat32(table, "nitrite")
-	p.PolychlorinatedBiphenyls = field.NewFloat32(table, "polychlorinated_biphenyls")
-	p.Sixsixsix = field.NewFloat32(table, "sixsixsix")
-	p.DDT = field.NewFloat32(table, "ddt")
-	p.Bexachlorobenzene = field.NewFloat32(table, "bexachlorobenzene")
+	p.Mercury = field.NewFloat64(table, "mercury")
+	p.Cadmium = field.NewFloat64(table, "cadmium")
+	p.Lead = field.NewFloat64(table, "lead")
+	p.Chromium = field.NewFloat64(table, "chromium")
+	p.Arsenic = field.NewFloat64(table, "arsenic")
+	p.Fluorine = field.NewFloat64(table, "fluorine")
+	p.Nitrite = field.NewFloat64(table, "nitrite")
+	p.PolychlorinatedBiphenyls = field.NewFloat64(table, "polychlorinated_biphenyls")
+	p.Sixsixsix = field.NewFloat64(table, "sixsixsix")
+	p.DDT = field.NewFloat64(table, "ddt")
+	p.Bexachlorobenzene = field.NewFloat64(table, "bexachlorobenzene")
 	p.PastureFodderID = field.NewUint(table, "pasture_fodder_id")
 
 	p.fillFieldMap()

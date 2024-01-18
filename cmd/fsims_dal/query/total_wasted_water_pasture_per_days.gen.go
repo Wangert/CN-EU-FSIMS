@@ -32,10 +32,10 @@ func newTotalWastedWaterPasturePerDay(db *gorm.DB, opts ...gen.DOOption) totalWa
 	_totalWastedWaterPasturePerDay.DeletedAt = field.NewField(tableName, "deleted_at")
 	_totalWastedWaterPasturePerDay.TimeStamp = field.NewTime(tableName, "time_stamp")
 	_totalWastedWaterPasturePerDay.HouseNumber = field.NewString(tableName, "house_number")
-	_totalWastedWaterPasturePerDay.TotalWastedWaterPerDay1 = field.NewFloat32(tableName, "total_wasted_water_per_day1")
-	_totalWastedWaterPasturePerDay.TotalWastedWaterPerDay2 = field.NewFloat32(tableName, "total_wasted_water_per_day2")
-	_totalWastedWaterPasturePerDay.TotalWastedWaterPerDay3 = field.NewFloat32(tableName, "total_wasted_water_per_day3")
-	_totalWastedWaterPasturePerDay.TotalWastedWaterPerDay4 = field.NewFloat32(tableName, "total_wasted_water_per_day4")
+	_totalWastedWaterPasturePerDay.TotalWastedWaterPerDay1 = field.NewFloat64(tableName, "total_wasted_water_per_day1")
+	_totalWastedWaterPasturePerDay.TotalWastedWaterPerDay2 = field.NewFloat64(tableName, "total_wasted_water_per_day2")
+	_totalWastedWaterPasturePerDay.TotalWastedWaterPerDay3 = field.NewFloat64(tableName, "total_wasted_water_per_day3")
+	_totalWastedWaterPasturePerDay.TotalWastedWaterPerDay4 = field.NewFloat64(tableName, "total_wasted_water_per_day4")
 
 	_totalWastedWaterPasturePerDay.fillFieldMap()
 
@@ -52,10 +52,10 @@ type totalWastedWaterPasturePerDay struct {
 	DeletedAt               field.Field
 	TimeStamp               field.Time
 	HouseNumber             field.String
-	TotalWastedWaterPerDay1 field.Float32
-	TotalWastedWaterPerDay2 field.Float32
-	TotalWastedWaterPerDay3 field.Float32
-	TotalWastedWaterPerDay4 field.Float32
+	TotalWastedWaterPerDay1 field.Float64
+	TotalWastedWaterPerDay2 field.Float64
+	TotalWastedWaterPerDay3 field.Float64
+	TotalWastedWaterPerDay4 field.Float64
 
 	fieldMap map[string]field.Expr
 }
@@ -78,10 +78,10 @@ func (t *totalWastedWaterPasturePerDay) updateTableName(table string) *totalWast
 	t.DeletedAt = field.NewField(table, "deleted_at")
 	t.TimeStamp = field.NewTime(table, "time_stamp")
 	t.HouseNumber = field.NewString(table, "house_number")
-	t.TotalWastedWaterPerDay1 = field.NewFloat32(table, "total_wasted_water_per_day1")
-	t.TotalWastedWaterPerDay2 = field.NewFloat32(table, "total_wasted_water_per_day2")
-	t.TotalWastedWaterPerDay3 = field.NewFloat32(table, "total_wasted_water_per_day3")
-	t.TotalWastedWaterPerDay4 = field.NewFloat32(table, "total_wasted_water_per_day4")
+	t.TotalWastedWaterPerDay1 = field.NewFloat64(table, "total_wasted_water_per_day1")
+	t.TotalWastedWaterPerDay2 = field.NewFloat64(table, "total_wasted_water_per_day2")
+	t.TotalWastedWaterPerDay3 = field.NewFloat64(table, "total_wasted_water_per_day3")
+	t.TotalWastedWaterPerDay4 = field.NewFloat64(table, "total_wasted_water_per_day4")
 
 	t.fillFieldMap()
 

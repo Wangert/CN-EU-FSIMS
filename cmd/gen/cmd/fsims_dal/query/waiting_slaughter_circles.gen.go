@@ -30,9 +30,9 @@ func newWaitingSlaughterCircle(db *gorm.DB, opts ...gen.DOOption) waitingSlaught
 	_waitingSlaughterCircle.CreatedAt = field.NewTime(tableName, "created_at")
 	_waitingSlaughterCircle.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_waitingSlaughterCircle.DeletedAt = field.NewField(tableName, "deleted_at")
-	_waitingSlaughterCircle.WaitingSlaughterCircle2 = field.NewFloat32(tableName, "waiting_slaughter_circle2")
-	_waitingSlaughterCircle.WaitingSlaughterCircle3 = field.NewFloat32(tableName, "waiting_slaughter_circle3")
-	_waitingSlaughterCircle.WaitingSlaughterCircle4 = field.NewFloat32(tableName, "waiting_slaughter_circle4")
+	_waitingSlaughterCircle.WaitingSlaughterCircle2 = field.Newfloat64(tableName, "waiting_slaughter_circle2")
+	_waitingSlaughterCircle.WaitingSlaughterCircle3 = field.Newfloat64(tableName, "waiting_slaughter_circle3")
+	_waitingSlaughterCircle.WaitingSlaughterCircle4 = field.Newfloat64(tableName, "waiting_slaughter_circle4")
 	_waitingSlaughterCircle.WaitingSlaughterCircle1 = waitingSlaughterCircleHasOneWaitingSlaughterCircle1{
 		db: db.Session(&gorm.Session{}),
 
@@ -52,9 +52,9 @@ type waitingSlaughterCircle struct {
 	CreatedAt               field.Time
 	UpdatedAt               field.Time
 	DeletedAt               field.Field
-	WaitingSlaughterCircle2 field.Float32
-	WaitingSlaughterCircle3 field.Float32
-	WaitingSlaughterCircle4 field.Float32
+	WaitingSlaughterCircle2 field.float64
+	WaitingSlaughterCircle3 field.float64
+	WaitingSlaughterCircle4 field.float64
 	WaitingSlaughterCircle1 waitingSlaughterCircleHasOneWaitingSlaughterCircle1
 
 	fieldMap map[string]field.Expr
@@ -76,9 +76,9 @@ func (w *waitingSlaughterCircle) updateTableName(table string) *waitingSlaughter
 	w.CreatedAt = field.NewTime(table, "created_at")
 	w.UpdatedAt = field.NewTime(table, "updated_at")
 	w.DeletedAt = field.NewField(table, "deleted_at")
-	w.WaitingSlaughterCircle2 = field.NewFloat32(table, "waiting_slaughter_circle2")
-	w.WaitingSlaughterCircle3 = field.NewFloat32(table, "waiting_slaughter_circle3")
-	w.WaitingSlaughterCircle4 = field.NewFloat32(table, "waiting_slaughter_circle4")
+	w.WaitingSlaughterCircle2 = field.Newfloat64(table, "waiting_slaughter_circle2")
+	w.WaitingSlaughterCircle3 = field.Newfloat64(table, "waiting_slaughter_circle3")
+	w.WaitingSlaughterCircle4 = field.Newfloat64(table, "waiting_slaughter_circle4")
 
 	w.fillFieldMap()
 

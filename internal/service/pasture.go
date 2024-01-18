@@ -477,7 +477,7 @@ func UploadPastureOdorPollutantsPerDay(r *request.ReqPastureOdorPollutantsPerDay
 			return err
 		}
 	} else {
-		result, err := qall.WithContext(context.Background()).UpdateSimple(qall.OdorPasturesTrashDisposal1.Add(r.PastureOdorPollutantsPerDay1), qall.OdorPasturesTrashDisposal2.Add(r.PastureOdorPollutantsPerDay2),
+		result, err := qall.WithContext(context.Background()).Where(qall.TimeStamp.Eq(t)).UpdateSimple(qall.OdorPasturesTrashDisposal1.Add(r.PastureOdorPollutantsPerDay1), qall.OdorPasturesTrashDisposal2.Add(r.PastureOdorPollutantsPerDay2),
 			qall.OdorPasturesTrashDisposal3.Add(r.PastureOdorPollutantsPerDay3), qall.OdorPasturesTrashDisposal4.Add(r.PastureOdorPollutantsPerDay4))
 		if err != nil {
 			return err
@@ -532,7 +532,7 @@ func UploadPastureWasteWaterPerDay(r *request.ReqPastureWasteWaterPerDay) error 
 		}
 	} else {
 		//更新总表信息
-		result, _ := qall.WithContext(context.Background()).UpdateSimple(qall.WaterPasturesTrashDisposal1.Add(r.ReqPastureWasteWaterPerDay1),
+		result, _ := qall.WithContext(context.Background()).Where(qall.TimeStamp.Eq(t)).UpdateSimple(qall.WaterPasturesTrashDisposal1.Add(r.ReqPastureWasteWaterPerDay1),
 			qall.WaterPasturesTrashDisposal2.Add(r.ReqPastureWasteWaterPerDay2), qall.WaterPasturesTrashDisposal3.Add(r.ReqPastureWasteWaterPerDay3))
 		if result.RowsAffected == 0 {
 			return errors.New("No match was found!")

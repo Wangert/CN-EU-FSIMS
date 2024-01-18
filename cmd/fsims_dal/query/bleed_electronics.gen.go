@@ -30,7 +30,7 @@ func newBleedElectronic(db *gorm.DB, opts ...gen.DOOption) bleedElectronic {
 	_bleedElectronic.CreatedAt = field.NewTime(tableName, "created_at")
 	_bleedElectronic.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_bleedElectronic.DeletedAt = field.NewField(tableName, "deleted_at")
-	_bleedElectronic.SlaughterProcedureMonitoringDataID = field.NewString(tableName, "slaughter_procedure_monitoring_data_id")
+	_bleedElectronic.SlaughterProcedureMonitoringDataID = field.NewUint(tableName, "slaughter_procedure_monitoring_data_id")
 	_bleedElectronic.BleedElectronic1 = field.NewFloat64(tableName, "bleed_electronic1")
 	_bleedElectronic.BleedElectronic2 = field.NewFloat64(tableName, "bleed_electronic2")
 	_bleedElectronic.BleedElectronic3 = field.NewFloat64(tableName, "bleed_electronic3")
@@ -50,7 +50,7 @@ type bleedElectronic struct {
 	CreatedAt                          field.Time
 	UpdatedAt                          field.Time
 	DeletedAt                          field.Field
-	SlaughterProcedureMonitoringDataID field.String
+	SlaughterProcedureMonitoringDataID field.Uint
 	BleedElectronic1                   field.Float64
 	BleedElectronic2                   field.Float64
 	BleedElectronic3                   field.Float64
@@ -76,7 +76,7 @@ func (b *bleedElectronic) updateTableName(table string) *bleedElectronic {
 	b.CreatedAt = field.NewTime(table, "created_at")
 	b.UpdatedAt = field.NewTime(table, "updated_at")
 	b.DeletedAt = field.NewField(table, "deleted_at")
-	b.SlaughterProcedureMonitoringDataID = field.NewString(table, "slaughter_procedure_monitoring_data_id")
+	b.SlaughterProcedureMonitoringDataID = field.NewUint(table, "slaughter_procedure_monitoring_data_id")
 	b.BleedElectronic1 = field.NewFloat64(table, "bleed_electronic1")
 	b.BleedElectronic2 = field.NewFloat64(table, "bleed_electronic2")
 	b.BleedElectronic3 = field.NewFloat64(table, "bleed_electronic3")

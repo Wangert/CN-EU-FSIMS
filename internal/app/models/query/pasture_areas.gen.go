@@ -32,18 +32,18 @@ func newPastureArea(db *gorm.DB, opts ...gen.DOOption) pastureArea {
 	_pastureArea.DeletedAt = field.NewField(tableName, "deleted_at")
 	_pastureArea.TimeRecordAt = field.NewTime(tableName, "time_record_at")
 	_pastureArea.HouseNumber = field.NewString(tableName, "house_number")
-	_pastureArea.CattleFarm1 = field.NewFloat32(tableName, "cattle_farm1")
-	_pastureArea.CattleFarm2 = field.NewFloat32(tableName, "cattle_farm2")
-	_pastureArea.CattleFarm3 = field.NewFloat32(tableName, "cattle_farm3")
-	_pastureArea.CattleFarm4 = field.NewFloat32(tableName, "cattle_farm4")
-	_pastureArea.CattleFarm5 = field.NewFloat32(tableName, "cattle_farm5")
-	_pastureArea.CattleFarm6 = field.NewFloat32(tableName, "cattle_farm6")
-	_pastureArea.CattleFarm7 = field.NewFloat32(tableName, "cattle_farm7")
-	_pastureArea.CattleFarm8 = field.NewFloat32(tableName, "cattle_farm8")
-	_pastureArea.CattleFarm9 = field.NewFloat32(tableName, "cattle_farm9")
-	_pastureArea.CattleFarm10 = field.NewFloat32(tableName, "cattle_farm10")
-	_pastureArea.CattleFarm11 = field.NewFloat32(tableName, "cattle_farm11")
-	_pastureArea.CattleFarm12 = field.NewFloat32(tableName, "cattle_farm12")
+	_pastureArea.CattleFarm1 = field.NewFloat64(tableName, "cattle_farm1")
+	_pastureArea.CattleFarm2 = field.NewFloat64(tableName, "cattle_farm2")
+	_pastureArea.CattleFarm3 = field.NewFloat64(tableName, "cattle_farm3")
+	_pastureArea.CattleFarm4 = field.NewFloat64(tableName, "cattle_farm4")
+	_pastureArea.CattleFarm5 = field.NewFloat64(tableName, "cattle_farm5")
+	_pastureArea.CattleFarm6 = field.NewFloat64(tableName, "cattle_farm6")
+	_pastureArea.CattleFarm7 = field.NewFloat64(tableName, "cattle_farm7")
+	_pastureArea.CattleFarm8 = field.NewFloat64(tableName, "cattle_farm8")
+	_pastureArea.CattleFarm9 = field.NewFloat64(tableName, "cattle_farm9")
+	_pastureArea.CattleFarm10 = field.NewFloat64(tableName, "cattle_farm10")
+	_pastureArea.CattleFarm11 = field.NewFloat64(tableName, "cattle_farm11")
+	_pastureArea.CattleFarm12 = field.NewFloat64(tableName, "cattle_farm12")
 
 	_pastureArea.fillFieldMap()
 
@@ -60,18 +60,18 @@ type pastureArea struct {
 	DeletedAt    field.Field
 	TimeRecordAt field.Time
 	HouseNumber  field.String
-	CattleFarm1  field.Float32
-	CattleFarm2  field.Float32
-	CattleFarm3  field.Float32
-	CattleFarm4  field.Float32
-	CattleFarm5  field.Float32
-	CattleFarm6  field.Float32
-	CattleFarm7  field.Float32
-	CattleFarm8  field.Float32
-	CattleFarm9  field.Float32
-	CattleFarm10 field.Float32
-	CattleFarm11 field.Float32
-	CattleFarm12 field.Float32
+	CattleFarm1  field.Float64
+	CattleFarm2  field.Float64
+	CattleFarm3  field.Float64
+	CattleFarm4  field.Float64
+	CattleFarm5  field.Float64
+	CattleFarm6  field.Float64
+	CattleFarm7  field.Float64
+	CattleFarm8  field.Float64
+	CattleFarm9  field.Float64
+	CattleFarm10 field.Float64
+	CattleFarm11 field.Float64
+	CattleFarm12 field.Float64
 
 	fieldMap map[string]field.Expr
 }
@@ -94,18 +94,18 @@ func (p *pastureArea) updateTableName(table string) *pastureArea {
 	p.DeletedAt = field.NewField(table, "deleted_at")
 	p.TimeRecordAt = field.NewTime(table, "time_record_at")
 	p.HouseNumber = field.NewString(table, "house_number")
-	p.CattleFarm1 = field.NewFloat32(table, "cattle_farm1")
-	p.CattleFarm2 = field.NewFloat32(table, "cattle_farm2")
-	p.CattleFarm3 = field.NewFloat32(table, "cattle_farm3")
-	p.CattleFarm4 = field.NewFloat32(table, "cattle_farm4")
-	p.CattleFarm5 = field.NewFloat32(table, "cattle_farm5")
-	p.CattleFarm6 = field.NewFloat32(table, "cattle_farm6")
-	p.CattleFarm7 = field.NewFloat32(table, "cattle_farm7")
-	p.CattleFarm8 = field.NewFloat32(table, "cattle_farm8")
-	p.CattleFarm9 = field.NewFloat32(table, "cattle_farm9")
-	p.CattleFarm10 = field.NewFloat32(table, "cattle_farm10")
-	p.CattleFarm11 = field.NewFloat32(table, "cattle_farm11")
-	p.CattleFarm12 = field.NewFloat32(table, "cattle_farm12")
+	p.CattleFarm1 = field.NewFloat64(table, "cattle_farm1")
+	p.CattleFarm2 = field.NewFloat64(table, "cattle_farm2")
+	p.CattleFarm3 = field.NewFloat64(table, "cattle_farm3")
+	p.CattleFarm4 = field.NewFloat64(table, "cattle_farm4")
+	p.CattleFarm5 = field.NewFloat64(table, "cattle_farm5")
+	p.CattleFarm6 = field.NewFloat64(table, "cattle_farm6")
+	p.CattleFarm7 = field.NewFloat64(table, "cattle_farm7")
+	p.CattleFarm8 = field.NewFloat64(table, "cattle_farm8")
+	p.CattleFarm9 = field.NewFloat64(table, "cattle_farm9")
+	p.CattleFarm10 = field.NewFloat64(table, "cattle_farm10")
+	p.CattleFarm11 = field.NewFloat64(table, "cattle_farm11")
+	p.CattleFarm12 = field.NewFloat64(table, "cattle_farm12")
 
 	p.fillFieldMap()
 

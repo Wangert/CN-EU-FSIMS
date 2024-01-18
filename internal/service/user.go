@@ -4,10 +4,13 @@ import (
 	"CN-EU-FSIMS/database/mysql"
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/models"
+	"CN-EU-FSIMS/internal/app/models/pasture"
 	"CN-EU-FSIMS/internal/app/models/query"
+	"CN-EU-FSIMS/internal/app/models/slaughter"
 	"CN-EU-FSIMS/utils/crypto"
 	"context"
 	"errors"
+	"fmt"
 
 	"gorm.io/gorm"
 	"time"
@@ -40,35 +43,146 @@ const (
 	INIT_PASSWORD = "Fsims123456!"
 )
 
+func QuerySlaughterTrashFifteenDays(r *request.ReqTrashFifteenDays) ([]slaughter.AllSlaughtersTrashDisposalInfo, int64, error) {
+	startTime := time.Unix(r.StartTimeStamp, 0).Truncate(24 * time.Hour).UTC()
+	endTime := time.Unix(r.EndTimeStamp, 0).Truncate(24 * time.Hour).UTC()
+	fmt.Println("startTime", startTime)
+	fmt.Println("endTime", endTime)
+	q1 := query.Q.AllSlaughtersTrashDisposal
+	res1, err := q1.WithContext(context.Background()).Where(q1.TimeStamp.Between(startTime, endTime)).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(res1)
+	infos := make([]slaughter.AllSlaughtersTrashDisposalInfo, count)
+	for i, res := range res1 {
+		infos[i] = slaughter.ToAllSlaughtersTrashDisposalInfo(res)
+	}
+	return infos, int64(count), nil
+}
+
+func QueryPastureTrashFifteenDays(r *request.ReqTrashFifteenDays) ([]pasture.AllPasturesTrashDisposalInfo, int64, error) {
+	startTime := time.Unix(r.StartTimeStamp, 0).Truncate(24 * time.Hour).UTC().Local()
+	endTime := time.Unix(r.EndTimeStamp, 0).Truncate(24 * time.Hour).UTC().Local()
+
+	q2 := query.Q.AllPasturesTrashDisposal
+	res2, err := q2.WithContext(context.Background()).Where(q2.TimeStamp.Between(startTime, endTime)).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	count := len(res2)
+	infos := make([]pasture.AllPasturesTrashDisposalInfo, count)
+	for i, res := range res2 {
+		infos[i] = pasture.ToAllPasturesTrashDisposalInfo(res)
+	}
+	return infos, int64(count), nil
+}
 func QueryTrashPerDay(r *request.ReqTrashPerDay) (models.TrashDisposalPerDayInfo, error) {
-	t := time.Unix(r.TimeStamp, 0)
-	q1 := query.Q.AllPasturesTrashDisposal
-	q2 := query.Q.AllSlaughtersTrashDisposal
-	pas, err := q1.WithContext(context.Background()).Where(q1.TimeStamp.Eq(t)).First()
+	t := time.Unix(r.TimeStamp, 0).Truncate(24 * time.Hour)
+	fmt.Println("查询的时间戳是：", t)
+	//检查slaughter和pasture是否存在
+	p, err := CheckPastureTrashIsExisted(t)
 	if err != nil {
 		return models.TrashDisposalPerDayInfo{}, err
 	}
-	sla, err := q2.WithContext(context.Background()).Where(q2.TimeStamp.Eq(t)).First()
+	s, err := CheckSlaughterTrashIsExisted(t)
+
 	if err != nil {
 		return models.TrashDisposalPerDayInfo{}, err
 	}
 
-	info := models.TrashDisposalPerDayInfo{
-		TrashDisposalPerDayWaterInfo1:   pas.WaterPasturesTrashDisposal1 + sla.WaterSlaughtersTrashDisposal1,
-		TrashDisposalPerDayWaterInfo2:   pas.WaterPasturesTrashDisposal2 + sla.WaterSlaughtersTrashDisposal2,
-		TrashDisposalPerDayWaterInfo3:   pas.WaterPasturesTrashDisposal3 + sla.WaterSlaughtersTrashDisposal3,
-		TrashDisposalPerDayWaterInfo4:   pas.WaterPasturesTrashDisposal4 + sla.WaterSlaughtersTrashDisposal4,
-		TrashDisposalPerDayResidueInfo1: pas.ResiduePasturesTrashDisposal1 + sla.ResidueSlaughtersTrashDisposal1,
-		TrashDisposalPerDayResidueInfo2: pas.ResiduePasturesTrashDisposal2 + sla.ResidueSlaughtersTrashDisposal2,
-		TrashDisposalPerDayResidueInfo3: pas.ResiduePasturesTrashDisposal3 + sla.ResidueSlaughtersTrashDisposal3,
-		TrashDisposalPerDayResidueInfo4: pas.ResiduePasturesTrashDisposal4 + sla.ResidueSlaughtersTrashDisposal4,
-		TrashDisposalPerDayOdorInfo1:    pas.OdorPasturesTrashDisposal1 + sla.OdorAllSlaughtersTrashDisposal1,
-		TrashDisposalPerDayOdorInfo2:    pas.OdorPasturesTrashDisposal2 + sla.OdorAllSlaughtersTrashDisposal2,
-		TrashDisposalPerDayOdorInfo3:    pas.OdorPasturesTrashDisposal3 + sla.OdorAllSlaughtersTrashDisposal3,
-		TrashDisposalPerDayOdorInfo4:    pas.OdorPasturesTrashDisposal4 + sla.OdorAllSlaughtersTrashDisposal4,
+	if p && s {
+		ps := query.Q.AllPasturesTrashDisposal
+		pas, err1 := ps.WithContext(context.Background()).Where(ps.TimeStamp.Eq(t)).First()
+		if err1 != nil {
+			return models.TrashDisposalPerDayInfo{}, err1
+		}
+
+		ss := query.Q.AllSlaughtersTrashDisposal
+		sla, err2 := ss.WithContext(context.Background()).Where(ss.TimeStamp.Eq(t)).First()
+		if err2 != nil {
+			return models.TrashDisposalPerDayInfo{}, err2
+		}
+
+		infos := models.TrashDisposalPerDayInfo{
+			TrashDisposalPerDayWaterInfo1:   pas.WaterPasturesTrashDisposal1 + sla.WaterSlaughtersTrashDisposal1,
+			TrashDisposalPerDayWaterInfo2:   pas.WaterPasturesTrashDisposal2 + sla.WaterSlaughtersTrashDisposal2,
+			TrashDisposalPerDayWaterInfo3:   pas.WaterPasturesTrashDisposal3 + sla.WaterSlaughtersTrashDisposal3,
+			TrashDisposalPerDayWaterInfo4:   pas.WaterPasturesTrashDisposal4 + sla.WaterSlaughtersTrashDisposal4,
+			TrashDisposalPerDayResidueInfo1: pas.ResiduePasturesTrashDisposal1 + sla.ResidueSlaughtersTrashDisposal1,
+			TrashDisposalPerDayResidueInfo2: pas.ResiduePasturesTrashDisposal2 + sla.ResidueSlaughtersTrashDisposal2,
+			TrashDisposalPerDayResidueInfo3: pas.ResiduePasturesTrashDisposal3 + sla.ResidueSlaughtersTrashDisposal3,
+			TrashDisposalPerDayResidueInfo4: pas.ResiduePasturesTrashDisposal4 + sla.ResidueSlaughtersTrashDisposal4,
+			TrashDisposalPerDayOdorInfo1:    pas.OdorPasturesTrashDisposal1 + sla.OdorAllSlaughtersTrashDisposal1,
+			TrashDisposalPerDayOdorInfo2:    pas.OdorPasturesTrashDisposal2 + sla.OdorAllSlaughtersTrashDisposal2,
+			TrashDisposalPerDayOdorInfo3:    pas.OdorPasturesTrashDisposal3 + sla.OdorAllSlaughtersTrashDisposal3,
+			TrashDisposalPerDayOdorInfo4:    pas.OdorPasturesTrashDisposal4 + sla.OdorAllSlaughtersTrashDisposal4,
+		}
+		return infos, nil
+	} else if p && !s {
+		ps := query.Q.AllPasturesTrashDisposal
+		pas, err3 := ps.WithContext(context.Background()).Where(ps.TimeStamp.Eq(t)).First()
+		if err3 != nil {
+			return models.TrashDisposalPerDayInfo{}, err3
+		}
+
+		infos := models.TrashDisposalPerDayInfo{
+			TrashDisposalPerDayWaterInfo1:   pas.WaterPasturesTrashDisposal1,
+			TrashDisposalPerDayWaterInfo2:   pas.WaterPasturesTrashDisposal2,
+			TrashDisposalPerDayWaterInfo3:   pas.WaterPasturesTrashDisposal3,
+			TrashDisposalPerDayWaterInfo4:   pas.WaterPasturesTrashDisposal4,
+			TrashDisposalPerDayResidueInfo1: pas.ResiduePasturesTrashDisposal1,
+			TrashDisposalPerDayResidueInfo2: pas.ResiduePasturesTrashDisposal2,
+			TrashDisposalPerDayResidueInfo3: pas.ResiduePasturesTrashDisposal3,
+			TrashDisposalPerDayResidueInfo4: pas.ResiduePasturesTrashDisposal4,
+			TrashDisposalPerDayOdorInfo1:    pas.OdorPasturesTrashDisposal1,
+			TrashDisposalPerDayOdorInfo2:    pas.OdorPasturesTrashDisposal2,
+			TrashDisposalPerDayOdorInfo3:    pas.OdorPasturesTrashDisposal3,
+			TrashDisposalPerDayOdorInfo4:    pas.OdorPasturesTrashDisposal4,
+		}
+		return infos, nil
+	} else if !p && s {
+		ss := query.Q.AllSlaughtersTrashDisposal
+		sla, err4 := ss.WithContext(context.Background()).Where(ss.TimeStamp.Eq(t)).First()
+		if err4 != nil {
+			return models.TrashDisposalPerDayInfo{}, err4
+		}
+
+		infos := models.TrashDisposalPerDayInfo{
+			TrashDisposalPerDayWaterInfo1:   sla.WaterSlaughtersTrashDisposal1,
+			TrashDisposalPerDayWaterInfo2:   sla.WaterSlaughtersTrashDisposal2,
+			TrashDisposalPerDayWaterInfo3:   sla.WaterSlaughtersTrashDisposal3,
+			TrashDisposalPerDayWaterInfo4:   sla.WaterSlaughtersTrashDisposal4,
+			TrashDisposalPerDayResidueInfo1: sla.ResidueSlaughtersTrashDisposal1,
+			TrashDisposalPerDayResidueInfo2: sla.ResidueSlaughtersTrashDisposal2,
+			TrashDisposalPerDayResidueInfo3: sla.ResidueSlaughtersTrashDisposal3,
+			TrashDisposalPerDayResidueInfo4: sla.ResidueSlaughtersTrashDisposal4,
+			TrashDisposalPerDayOdorInfo1:    sla.OdorAllSlaughtersTrashDisposal1,
+			TrashDisposalPerDayOdorInfo2:    sla.OdorAllSlaughtersTrashDisposal2,
+			TrashDisposalPerDayOdorInfo3:    sla.OdorAllSlaughtersTrashDisposal3,
+			TrashDisposalPerDayOdorInfo4:    sla.OdorAllSlaughtersTrashDisposal4,
+		}
+		return infos, nil
+	} else {
+		return models.TrashDisposalPerDayInfo{}, nil
 	}
-	return info, nil
+	//q1 := query.Q.AllPasturesTrashDisposal
+	//q2 := query.Q.AllSlaughtersTrashDisposal
+	//pas, err := q1.WithContext(context.Background()).Where(q1.TimeStamp.Eq(t)).First()
+	//if err != nil {
+	//	return models.TrashDisposalPerDayInfo{}, err
+	//}
+	//sla, err := q2.WithContext(context.Background()).Where(q2.TimeStamp.Eq(t)).First()
+	//if err != nil {
+	//	return models.TrashDisposalPerDayInfo{}, err
+	//}
+	//
+
+	//return info, nil
 }
+
 func GetUsersByCondition(condition map[string]interface{}) ([]models.UserInfo, int64, error) {
 	var n, r, c, h string
 	var t int
@@ -145,13 +259,13 @@ func QueryFsimsUserPwdHash(account string) (string, error) {
 	return fsimsUser.PasswordHash, nil
 }
 
-func QueryFsimsUserUuidAndPwdHash(account string) (uuid, password string, usertype int, err error) {
+func QueryFsimsUserUuidAndPwdHash(account string) (uuid, password, housenumber string, usertype int, err error) {
 	u := query.FSIMSUser
-	fsimsUser, err := u.WithContext(context.Background()).Where(u.Account.Eq(account)).Select(u.UUID, u.PasswordHash, u.Type).First()
+	fsimsUser, err := u.WithContext(context.Background()).Where(u.Account.Eq(account)).Select(u.UUID, u.PasswordHash, u.Type, u.HouseNumber).First()
 	if err != nil {
-		return "", "", 0, err
+		return "", "", "", 0, err
 	}
-	return fsimsUser.UUID, fsimsUser.PasswordHash, fsimsUser.Type, nil
+	return fsimsUser.UUID, fsimsUser.PasswordHash, fsimsUser.HouseNumber, fsimsUser.Type, nil
 }
 
 func AddFsimsUser(user *request.ReqUser) error {
@@ -378,4 +492,30 @@ func CheckUserIsExisted(uuid string) error {
 	u := query.FSIMSUser
 	_, err := u.WithContext(context.Background()).Where(u.UUID.Eq(uuid)).First()
 	return err
+}
+
+func CheckSlaughterTrashIsExisted(t time.Time) (bool, error) {
+	time := t.Truncate(24 * time.Hour)
+	fmt.Println(time)
+	q1 := query.Q.AllSlaughtersTrashDisposal
+	infos, err := q1.WithContext(context.Background()).Where(q1.TimeStamp.Eq(time)).Find()
+	if err != nil {
+		return false, err
+	}
+	if len(infos) == 0 {
+		return false, nil
+	}
+	return true, nil
+}
+
+func CheckPastureTrashIsExisted(t time.Time) (bool, error) {
+	q := query.Q.AllPasturesTrashDisposal
+	infos, err := q.WithContext(context.Background()).Where(q.TimeStamp.Eq(t)).Find()
+	if err != nil {
+		return false, err
+	}
+	if len(infos) == 0 {
+		return false, nil
+	}
+	return true, nil
 }

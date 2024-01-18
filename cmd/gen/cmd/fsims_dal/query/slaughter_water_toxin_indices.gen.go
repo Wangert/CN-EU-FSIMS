@@ -31,27 +31,27 @@ func newSlaughterWaterToxinIndex(db *gorm.DB, opts ...gen.DOOption) slaughterWat
 	_slaughterWaterToxinIndex.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_slaughterWaterToxinIndex.DeletedAt = field.NewField(tableName, "deleted_at")
 	_slaughterWaterToxinIndex.SlaughterToxinIndexID = field.NewUint(tableName, "slaughter_toxin_index_id")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex1 = field.NewFloat32(tableName, "slaughter_water_toxin_index1")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex2 = field.NewFloat32(tableName, "slaughter_water_toxin_index2")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex3 = field.NewFloat32(tableName, "slaughter_water_toxin_index3")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex4 = field.NewFloat32(tableName, "slaughter_water_toxin_index4")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex5 = field.NewFloat32(tableName, "slaughter_water_toxin_index5")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex6 = field.NewFloat32(tableName, "slaughter_water_toxin_index6")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex7 = field.NewFloat32(tableName, "slaughter_water_toxin_index7")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex8 = field.NewFloat32(tableName, "slaughter_water_toxin_index8")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex9 = field.NewFloat32(tableName, "slaughter_water_toxin_index9")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex10 = field.NewFloat32(tableName, "slaughter_water_toxin_index10")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex11 = field.NewFloat32(tableName, "slaughter_water_toxin_index11")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex12 = field.NewFloat32(tableName, "slaughter_water_toxin_index12")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex13 = field.NewFloat32(tableName, "slaughter_water_toxin_index13")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex14 = field.NewFloat32(tableName, "slaughter_water_toxin_index14")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex15 = field.NewFloat32(tableName, "slaughter_water_toxin_index15")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex16 = field.NewFloat32(tableName, "slaughter_water_toxin_index16")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex17 = field.NewFloat32(tableName, "slaughter_water_toxin_index17")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex18 = field.NewFloat32(tableName, "slaughter_water_toxin_index18")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex19 = field.NewFloat32(tableName, "slaughter_water_toxin_index19")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex20 = field.NewFloat32(tableName, "slaughter_water_toxin_index20")
-	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex21 = field.NewFloat32(tableName, "slaughter_water_toxin_index21")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex1 = field.Newfloat64(tableName, "slaughter_water_toxin_index1")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex2 = field.Newfloat64(tableName, "slaughter_water_toxin_index2")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex3 = field.Newfloat64(tableName, "slaughter_water_toxin_index3")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex4 = field.Newfloat64(tableName, "slaughter_water_toxin_index4")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex5 = field.Newfloat64(tableName, "slaughter_water_toxin_index5")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex6 = field.Newfloat64(tableName, "slaughter_water_toxin_index6")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex7 = field.Newfloat64(tableName, "slaughter_water_toxin_index7")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex8 = field.Newfloat64(tableName, "slaughter_water_toxin_index8")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex9 = field.Newfloat64(tableName, "slaughter_water_toxin_index9")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex10 = field.Newfloat64(tableName, "slaughter_water_toxin_index10")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex11 = field.Newfloat64(tableName, "slaughter_water_toxin_index11")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex12 = field.Newfloat64(tableName, "slaughter_water_toxin_index12")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex13 = field.Newfloat64(tableName, "slaughter_water_toxin_index13")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex14 = field.Newfloat64(tableName, "slaughter_water_toxin_index14")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex15 = field.Newfloat64(tableName, "slaughter_water_toxin_index15")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex16 = field.Newfloat64(tableName, "slaughter_water_toxin_index16")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex17 = field.Newfloat64(tableName, "slaughter_water_toxin_index17")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex18 = field.Newfloat64(tableName, "slaughter_water_toxin_index18")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex19 = field.Newfloat64(tableName, "slaughter_water_toxin_index19")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex20 = field.Newfloat64(tableName, "slaughter_water_toxin_index20")
+	_slaughterWaterToxinIndex.SlaughterWaterToxinIndex21 = field.Newfloat64(tableName, "slaughter_water_toxin_index21")
 
 	_slaughterWaterToxinIndex.fillFieldMap()
 
@@ -67,27 +67,27 @@ type slaughterWaterToxinIndex struct {
 	UpdatedAt                  field.Time
 	DeletedAt                  field.Field
 	SlaughterToxinIndexID      field.Uint
-	SlaughterWaterToxinIndex1  field.Float32
-	SlaughterWaterToxinIndex2  field.Float32
-	SlaughterWaterToxinIndex3  field.Float32
-	SlaughterWaterToxinIndex4  field.Float32
-	SlaughterWaterToxinIndex5  field.Float32
-	SlaughterWaterToxinIndex6  field.Float32
-	SlaughterWaterToxinIndex7  field.Float32
-	SlaughterWaterToxinIndex8  field.Float32
-	SlaughterWaterToxinIndex9  field.Float32
-	SlaughterWaterToxinIndex10 field.Float32
-	SlaughterWaterToxinIndex11 field.Float32
-	SlaughterWaterToxinIndex12 field.Float32
-	SlaughterWaterToxinIndex13 field.Float32
-	SlaughterWaterToxinIndex14 field.Float32
-	SlaughterWaterToxinIndex15 field.Float32
-	SlaughterWaterToxinIndex16 field.Float32
-	SlaughterWaterToxinIndex17 field.Float32
-	SlaughterWaterToxinIndex18 field.Float32
-	SlaughterWaterToxinIndex19 field.Float32
-	SlaughterWaterToxinIndex20 field.Float32
-	SlaughterWaterToxinIndex21 field.Float32
+	SlaughterWaterToxinIndex1  field.float64
+	SlaughterWaterToxinIndex2  field.float64
+	SlaughterWaterToxinIndex3  field.float64
+	SlaughterWaterToxinIndex4  field.float64
+	SlaughterWaterToxinIndex5  field.float64
+	SlaughterWaterToxinIndex6  field.float64
+	SlaughterWaterToxinIndex7  field.float64
+	SlaughterWaterToxinIndex8  field.float64
+	SlaughterWaterToxinIndex9  field.float64
+	SlaughterWaterToxinIndex10 field.float64
+	SlaughterWaterToxinIndex11 field.float64
+	SlaughterWaterToxinIndex12 field.float64
+	SlaughterWaterToxinIndex13 field.float64
+	SlaughterWaterToxinIndex14 field.float64
+	SlaughterWaterToxinIndex15 field.float64
+	SlaughterWaterToxinIndex16 field.float64
+	SlaughterWaterToxinIndex17 field.float64
+	SlaughterWaterToxinIndex18 field.float64
+	SlaughterWaterToxinIndex19 field.float64
+	SlaughterWaterToxinIndex20 field.float64
+	SlaughterWaterToxinIndex21 field.float64
 
 	fieldMap map[string]field.Expr
 }
@@ -109,27 +109,27 @@ func (s *slaughterWaterToxinIndex) updateTableName(table string) *slaughterWater
 	s.UpdatedAt = field.NewTime(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
 	s.SlaughterToxinIndexID = field.NewUint(table, "slaughter_toxin_index_id")
-	s.SlaughterWaterToxinIndex1 = field.NewFloat32(table, "slaughter_water_toxin_index1")
-	s.SlaughterWaterToxinIndex2 = field.NewFloat32(table, "slaughter_water_toxin_index2")
-	s.SlaughterWaterToxinIndex3 = field.NewFloat32(table, "slaughter_water_toxin_index3")
-	s.SlaughterWaterToxinIndex4 = field.NewFloat32(table, "slaughter_water_toxin_index4")
-	s.SlaughterWaterToxinIndex5 = field.NewFloat32(table, "slaughter_water_toxin_index5")
-	s.SlaughterWaterToxinIndex6 = field.NewFloat32(table, "slaughter_water_toxin_index6")
-	s.SlaughterWaterToxinIndex7 = field.NewFloat32(table, "slaughter_water_toxin_index7")
-	s.SlaughterWaterToxinIndex8 = field.NewFloat32(table, "slaughter_water_toxin_index8")
-	s.SlaughterWaterToxinIndex9 = field.NewFloat32(table, "slaughter_water_toxin_index9")
-	s.SlaughterWaterToxinIndex10 = field.NewFloat32(table, "slaughter_water_toxin_index10")
-	s.SlaughterWaterToxinIndex11 = field.NewFloat32(table, "slaughter_water_toxin_index11")
-	s.SlaughterWaterToxinIndex12 = field.NewFloat32(table, "slaughter_water_toxin_index12")
-	s.SlaughterWaterToxinIndex13 = field.NewFloat32(table, "slaughter_water_toxin_index13")
-	s.SlaughterWaterToxinIndex14 = field.NewFloat32(table, "slaughter_water_toxin_index14")
-	s.SlaughterWaterToxinIndex15 = field.NewFloat32(table, "slaughter_water_toxin_index15")
-	s.SlaughterWaterToxinIndex16 = field.NewFloat32(table, "slaughter_water_toxin_index16")
-	s.SlaughterWaterToxinIndex17 = field.NewFloat32(table, "slaughter_water_toxin_index17")
-	s.SlaughterWaterToxinIndex18 = field.NewFloat32(table, "slaughter_water_toxin_index18")
-	s.SlaughterWaterToxinIndex19 = field.NewFloat32(table, "slaughter_water_toxin_index19")
-	s.SlaughterWaterToxinIndex20 = field.NewFloat32(table, "slaughter_water_toxin_index20")
-	s.SlaughterWaterToxinIndex21 = field.NewFloat32(table, "slaughter_water_toxin_index21")
+	s.SlaughterWaterToxinIndex1 = field.Newfloat64(table, "slaughter_water_toxin_index1")
+	s.SlaughterWaterToxinIndex2 = field.Newfloat64(table, "slaughter_water_toxin_index2")
+	s.SlaughterWaterToxinIndex3 = field.Newfloat64(table, "slaughter_water_toxin_index3")
+	s.SlaughterWaterToxinIndex4 = field.Newfloat64(table, "slaughter_water_toxin_index4")
+	s.SlaughterWaterToxinIndex5 = field.Newfloat64(table, "slaughter_water_toxin_index5")
+	s.SlaughterWaterToxinIndex6 = field.Newfloat64(table, "slaughter_water_toxin_index6")
+	s.SlaughterWaterToxinIndex7 = field.Newfloat64(table, "slaughter_water_toxin_index7")
+	s.SlaughterWaterToxinIndex8 = field.Newfloat64(table, "slaughter_water_toxin_index8")
+	s.SlaughterWaterToxinIndex9 = field.Newfloat64(table, "slaughter_water_toxin_index9")
+	s.SlaughterWaterToxinIndex10 = field.Newfloat64(table, "slaughter_water_toxin_index10")
+	s.SlaughterWaterToxinIndex11 = field.Newfloat64(table, "slaughter_water_toxin_index11")
+	s.SlaughterWaterToxinIndex12 = field.Newfloat64(table, "slaughter_water_toxin_index12")
+	s.SlaughterWaterToxinIndex13 = field.Newfloat64(table, "slaughter_water_toxin_index13")
+	s.SlaughterWaterToxinIndex14 = field.Newfloat64(table, "slaughter_water_toxin_index14")
+	s.SlaughterWaterToxinIndex15 = field.Newfloat64(table, "slaughter_water_toxin_index15")
+	s.SlaughterWaterToxinIndex16 = field.Newfloat64(table, "slaughter_water_toxin_index16")
+	s.SlaughterWaterToxinIndex17 = field.Newfloat64(table, "slaughter_water_toxin_index17")
+	s.SlaughterWaterToxinIndex18 = field.Newfloat64(table, "slaughter_water_toxin_index18")
+	s.SlaughterWaterToxinIndex19 = field.Newfloat64(table, "slaughter_water_toxin_index19")
+	s.SlaughterWaterToxinIndex20 = field.Newfloat64(table, "slaughter_water_toxin_index20")
+	s.SlaughterWaterToxinIndex21 = field.Newfloat64(table, "slaughter_water_toxin_index21")
 
 	s.fillFieldMap()
 

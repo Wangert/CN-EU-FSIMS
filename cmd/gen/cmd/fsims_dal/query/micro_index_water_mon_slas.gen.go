@@ -31,10 +31,10 @@ func newMicroIndexWaterMonSla(db *gorm.DB, opts ...gen.DOOption) microIndexWater
 	_microIndexWaterMonSla.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_microIndexWaterMonSla.DeletedAt = field.NewField(tableName, "deleted_at")
 	_microIndexWaterMonSla.SlaughterWaterQualityMonID = field.NewUint(tableName, "slaughter_water_quality_mon_id")
-	_microIndexWaterMonSla.MicroIndexWaterMonSla1 = field.NewFloat32(tableName, "micro_index_water_mon_sla1")
-	_microIndexWaterMonSla.MicroIndexWaterMonSla2 = field.NewFloat32(tableName, "micro_index_water_mon_sla2")
-	_microIndexWaterMonSla.MicroIndexWaterMonSla3 = field.NewFloat32(tableName, "micro_index_water_mon_sla3")
-	_microIndexWaterMonSla.MicroIndexWaterMonSla4 = field.NewFloat32(tableName, "micro_index_water_mon_sla4")
+	_microIndexWaterMonSla.MicroIndexWaterMonSla1 = field.Newfloat64(tableName, "micro_index_water_mon_sla1")
+	_microIndexWaterMonSla.MicroIndexWaterMonSla2 = field.Newfloat64(tableName, "micro_index_water_mon_sla2")
+	_microIndexWaterMonSla.MicroIndexWaterMonSla3 = field.Newfloat64(tableName, "micro_index_water_mon_sla3")
+	_microIndexWaterMonSla.MicroIndexWaterMonSla4 = field.Newfloat64(tableName, "micro_index_water_mon_sla4")
 
 	_microIndexWaterMonSla.fillFieldMap()
 
@@ -50,10 +50,10 @@ type microIndexWaterMonSla struct {
 	UpdatedAt                  field.Time
 	DeletedAt                  field.Field
 	SlaughterWaterQualityMonID field.Uint
-	MicroIndexWaterMonSla1     field.Float32
-	MicroIndexWaterMonSla2     field.Float32
-	MicroIndexWaterMonSla3     field.Float32
-	MicroIndexWaterMonSla4     field.Float32
+	MicroIndexWaterMonSla1     field.float64
+	MicroIndexWaterMonSla2     field.float64
+	MicroIndexWaterMonSla3     field.float64
+	MicroIndexWaterMonSla4     field.float64
 
 	fieldMap map[string]field.Expr
 }
@@ -75,10 +75,10 @@ func (m *microIndexWaterMonSla) updateTableName(table string) *microIndexWaterMo
 	m.UpdatedAt = field.NewTime(table, "updated_at")
 	m.DeletedAt = field.NewField(table, "deleted_at")
 	m.SlaughterWaterQualityMonID = field.NewUint(table, "slaughter_water_quality_mon_id")
-	m.MicroIndexWaterMonSla1 = field.NewFloat32(table, "micro_index_water_mon_sla1")
-	m.MicroIndexWaterMonSla2 = field.NewFloat32(table, "micro_index_water_mon_sla2")
-	m.MicroIndexWaterMonSla3 = field.NewFloat32(table, "micro_index_water_mon_sla3")
-	m.MicroIndexWaterMonSla4 = field.NewFloat32(table, "micro_index_water_mon_sla4")
+	m.MicroIndexWaterMonSla1 = field.Newfloat64(table, "micro_index_water_mon_sla1")
+	m.MicroIndexWaterMonSla2 = field.Newfloat64(table, "micro_index_water_mon_sla2")
+	m.MicroIndexWaterMonSla3 = field.Newfloat64(table, "micro_index_water_mon_sla3")
+	m.MicroIndexWaterMonSla4 = field.Newfloat64(table, "micro_index_water_mon_sla4")
 
 	m.fillFieldMap()
 

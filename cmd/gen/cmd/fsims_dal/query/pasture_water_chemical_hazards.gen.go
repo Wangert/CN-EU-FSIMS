@@ -30,14 +30,14 @@ func newPastureWaterChemicalHazard(db *gorm.DB, opts ...gen.DOOption) pastureWat
 	_pastureWaterChemicalHazard.CreatedAt = field.NewTime(tableName, "created_at")
 	_pastureWaterChemicalHazard.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_pastureWaterChemicalHazard.DeletedAt = field.NewField(tableName, "deleted_at")
-	_pastureWaterChemicalHazard.Fluoride = field.NewFloat32(tableName, "fluoride")
-	_pastureWaterChemicalHazard.Cyanide = field.NewFloat32(tableName, "cyanide")
-	_pastureWaterChemicalHazard.Chloride = field.NewFloat32(tableName, "chloride")
-	_pastureWaterChemicalHazard.Nitrate = field.NewFloat32(tableName, "nitrate")
-	_pastureWaterChemicalHazard.Sulfate = field.NewFloat32(tableName, "sulfate")
-	_pastureWaterChemicalHazard.Sixsixsix = field.NewFloat32(tableName, "sixsixsix")
-	_pastureWaterChemicalHazard.DDT = field.NewFloat32(tableName, "ddt")
-	_pastureWaterChemicalHazard.AmmoniaNitrogen = field.NewFloat32(tableName, "ammonia_nitrogen")
+	_pastureWaterChemicalHazard.Fluoride = field.Newfloat64(tableName, "fluoride")
+	_pastureWaterChemicalHazard.Cyanide = field.Newfloat64(tableName, "cyanide")
+	_pastureWaterChemicalHazard.Chloride = field.Newfloat64(tableName, "chloride")
+	_pastureWaterChemicalHazard.Nitrate = field.Newfloat64(tableName, "nitrate")
+	_pastureWaterChemicalHazard.Sulfate = field.Newfloat64(tableName, "sulfate")
+	_pastureWaterChemicalHazard.Sixsixsix = field.Newfloat64(tableName, "sixsixsix")
+	_pastureWaterChemicalHazard.DDT = field.Newfloat64(tableName, "ddt")
+	_pastureWaterChemicalHazard.AmmoniaNitrogen = field.Newfloat64(tableName, "ammonia_nitrogen")
 	_pastureWaterChemicalHazard.PastureWaterID = field.NewUint(tableName, "pasture_water_id")
 
 	_pastureWaterChemicalHazard.fillFieldMap()
@@ -53,14 +53,14 @@ type pastureWaterChemicalHazard struct {
 	CreatedAt       field.Time
 	UpdatedAt       field.Time
 	DeletedAt       field.Field
-	Fluoride        field.Float32
-	Cyanide         field.Float32
-	Chloride        field.Float32
-	Nitrate         field.Float32
-	Sulfate         field.Float32
-	Sixsixsix       field.Float32
-	DDT             field.Float32
-	AmmoniaNitrogen field.Float32
+	Fluoride        field.float64
+	Cyanide         field.float64
+	Chloride        field.float64
+	Nitrate         field.float64
+	Sulfate         field.float64
+	Sixsixsix       field.float64
+	DDT             field.float64
+	AmmoniaNitrogen field.float64
 	PastureWaterID  field.Uint
 
 	fieldMap map[string]field.Expr
@@ -82,14 +82,14 @@ func (p *pastureWaterChemicalHazard) updateTableName(table string) *pastureWater
 	p.CreatedAt = field.NewTime(table, "created_at")
 	p.UpdatedAt = field.NewTime(table, "updated_at")
 	p.DeletedAt = field.NewField(table, "deleted_at")
-	p.Fluoride = field.NewFloat32(table, "fluoride")
-	p.Cyanide = field.NewFloat32(table, "cyanide")
-	p.Chloride = field.NewFloat32(table, "chloride")
-	p.Nitrate = field.NewFloat32(table, "nitrate")
-	p.Sulfate = field.NewFloat32(table, "sulfate")
-	p.Sixsixsix = field.NewFloat32(table, "sixsixsix")
-	p.DDT = field.NewFloat32(table, "ddt")
-	p.AmmoniaNitrogen = field.NewFloat32(table, "ammonia_nitrogen")
+	p.Fluoride = field.Newfloat64(table, "fluoride")
+	p.Cyanide = field.Newfloat64(table, "cyanide")
+	p.Chloride = field.Newfloat64(table, "chloride")
+	p.Nitrate = field.Newfloat64(table, "nitrate")
+	p.Sulfate = field.Newfloat64(table, "sulfate")
+	p.Sixsixsix = field.Newfloat64(table, "sixsixsix")
+	p.DDT = field.Newfloat64(table, "ddt")
+	p.AmmoniaNitrogen = field.Newfloat64(table, "ammonia_nitrogen")
 	p.PastureWaterID = field.NewUint(table, "pasture_water_id")
 
 	p.fillFieldMap()

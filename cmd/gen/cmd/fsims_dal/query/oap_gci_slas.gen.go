@@ -31,27 +31,27 @@ func newOapGciSla(db *gorm.DB, opts ...gen.DOOption) oapGciSla {
 	_oapGciSla.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_oapGciSla.DeletedAt = field.NewField(tableName, "deleted_at")
 	_oapGciSla.SlaughterWaterQualityMonID = field.NewUint(tableName, "slaughter_water_quality_mon_id")
-	_oapGciSla.OapGciSla1 = field.NewFloat32(tableName, "oap_gci_sla1")
-	_oapGciSla.OapGciSla2 = field.NewFloat32(tableName, "oap_gci_sla2")
-	_oapGciSla.OapGciSla3 = field.NewFloat32(tableName, "oap_gci_sla3")
-	_oapGciSla.OapGciSla4 = field.NewFloat32(tableName, "oap_gci_sla4")
-	_oapGciSla.OapGciSla5 = field.NewFloat32(tableName, "oap_gci_sla5")
-	_oapGciSla.OapGciSla6 = field.NewFloat32(tableName, "oap_gci_sla6")
-	_oapGciSla.OapGciSla7 = field.NewFloat32(tableName, "oap_gci_sla7")
-	_oapGciSla.OapGciSla8 = field.NewFloat32(tableName, "oap_gci_sla8")
-	_oapGciSla.OapGciSla9 = field.NewFloat32(tableName, "oap_gci_sla9")
-	_oapGciSla.OapGciSla10 = field.NewFloat32(tableName, "oap_gci_sla10")
-	_oapGciSla.OapGciSla11 = field.NewFloat32(tableName, "oap_gci_sla11")
-	_oapGciSla.OapGciSla12 = field.NewFloat32(tableName, "oap_gci_sla12")
-	_oapGciSla.OapGciSla13 = field.NewFloat32(tableName, "oap_gci_sla13")
-	_oapGciSla.OapGciSla14 = field.NewFloat32(tableName, "oap_gci_sla14")
-	_oapGciSla.OapGciSla15 = field.NewFloat32(tableName, "oap_gci_sla15")
-	_oapGciSla.OapGciSla16 = field.NewFloat32(tableName, "oap_gci_sla16")
-	_oapGciSla.OapGciSla17 = field.NewFloat32(tableName, "oap_gci_sla17")
-	_oapGciSla.OapGciSla18 = field.NewFloat32(tableName, "oap_gci_sla18")
-	_oapGciSla.OapGciSla19 = field.NewFloat32(tableName, "oap_gci_sla19")
-	_oapGciSla.OapGciSla20 = field.NewFloat32(tableName, "oap_gci_sla20")
-	_oapGciSla.OapGciSla21 = field.NewFloat32(tableName, "oap_gci_sla21")
+	_oapGciSla.OapGciSla1 = field.Newfloat64(tableName, "oap_gci_sla1")
+	_oapGciSla.OapGciSla2 = field.Newfloat64(tableName, "oap_gci_sla2")
+	_oapGciSla.OapGciSla3 = field.Newfloat64(tableName, "oap_gci_sla3")
+	_oapGciSla.OapGciSla4 = field.Newfloat64(tableName, "oap_gci_sla4")
+	_oapGciSla.OapGciSla5 = field.Newfloat64(tableName, "oap_gci_sla5")
+	_oapGciSla.OapGciSla6 = field.Newfloat64(tableName, "oap_gci_sla6")
+	_oapGciSla.OapGciSla7 = field.Newfloat64(tableName, "oap_gci_sla7")
+	_oapGciSla.OapGciSla8 = field.Newfloat64(tableName, "oap_gci_sla8")
+	_oapGciSla.OapGciSla9 = field.Newfloat64(tableName, "oap_gci_sla9")
+	_oapGciSla.OapGciSla10 = field.Newfloat64(tableName, "oap_gci_sla10")
+	_oapGciSla.OapGciSla11 = field.Newfloat64(tableName, "oap_gci_sla11")
+	_oapGciSla.OapGciSla12 = field.Newfloat64(tableName, "oap_gci_sla12")
+	_oapGciSla.OapGciSla13 = field.Newfloat64(tableName, "oap_gci_sla13")
+	_oapGciSla.OapGciSla14 = field.Newfloat64(tableName, "oap_gci_sla14")
+	_oapGciSla.OapGciSla15 = field.Newfloat64(tableName, "oap_gci_sla15")
+	_oapGciSla.OapGciSla16 = field.Newfloat64(tableName, "oap_gci_sla16")
+	_oapGciSla.OapGciSla17 = field.Newfloat64(tableName, "oap_gci_sla17")
+	_oapGciSla.OapGciSla18 = field.Newfloat64(tableName, "oap_gci_sla18")
+	_oapGciSla.OapGciSla19 = field.Newfloat64(tableName, "oap_gci_sla19")
+	_oapGciSla.OapGciSla20 = field.Newfloat64(tableName, "oap_gci_sla20")
+	_oapGciSla.OapGciSla21 = field.Newfloat64(tableName, "oap_gci_sla21")
 
 	_oapGciSla.fillFieldMap()
 
@@ -67,27 +67,27 @@ type oapGciSla struct {
 	UpdatedAt                  field.Time
 	DeletedAt                  field.Field
 	SlaughterWaterQualityMonID field.Uint
-	OapGciSla1                 field.Float32
-	OapGciSla2                 field.Float32
-	OapGciSla3                 field.Float32
-	OapGciSla4                 field.Float32
-	OapGciSla5                 field.Float32
-	OapGciSla6                 field.Float32
-	OapGciSla7                 field.Float32
-	OapGciSla8                 field.Float32
-	OapGciSla9                 field.Float32
-	OapGciSla10                field.Float32
-	OapGciSla11                field.Float32
-	OapGciSla12                field.Float32
-	OapGciSla13                field.Float32
-	OapGciSla14                field.Float32
-	OapGciSla15                field.Float32
-	OapGciSla16                field.Float32
-	OapGciSla17                field.Float32
-	OapGciSla18                field.Float32
-	OapGciSla19                field.Float32
-	OapGciSla20                field.Float32
-	OapGciSla21                field.Float32
+	OapGciSla1                 field.float64
+	OapGciSla2                 field.float64
+	OapGciSla3                 field.float64
+	OapGciSla4                 field.float64
+	OapGciSla5                 field.float64
+	OapGciSla6                 field.float64
+	OapGciSla7                 field.float64
+	OapGciSla8                 field.float64
+	OapGciSla9                 field.float64
+	OapGciSla10                field.float64
+	OapGciSla11                field.float64
+	OapGciSla12                field.float64
+	OapGciSla13                field.float64
+	OapGciSla14                field.float64
+	OapGciSla15                field.float64
+	OapGciSla16                field.float64
+	OapGciSla17                field.float64
+	OapGciSla18                field.float64
+	OapGciSla19                field.float64
+	OapGciSla20                field.float64
+	OapGciSla21                field.float64
 
 	fieldMap map[string]field.Expr
 }
@@ -109,27 +109,27 @@ func (o *oapGciSla) updateTableName(table string) *oapGciSla {
 	o.UpdatedAt = field.NewTime(table, "updated_at")
 	o.DeletedAt = field.NewField(table, "deleted_at")
 	o.SlaughterWaterQualityMonID = field.NewUint(table, "slaughter_water_quality_mon_id")
-	o.OapGciSla1 = field.NewFloat32(table, "oap_gci_sla1")
-	o.OapGciSla2 = field.NewFloat32(table, "oap_gci_sla2")
-	o.OapGciSla3 = field.NewFloat32(table, "oap_gci_sla3")
-	o.OapGciSla4 = field.NewFloat32(table, "oap_gci_sla4")
-	o.OapGciSla5 = field.NewFloat32(table, "oap_gci_sla5")
-	o.OapGciSla6 = field.NewFloat32(table, "oap_gci_sla6")
-	o.OapGciSla7 = field.NewFloat32(table, "oap_gci_sla7")
-	o.OapGciSla8 = field.NewFloat32(table, "oap_gci_sla8")
-	o.OapGciSla9 = field.NewFloat32(table, "oap_gci_sla9")
-	o.OapGciSla10 = field.NewFloat32(table, "oap_gci_sla10")
-	o.OapGciSla11 = field.NewFloat32(table, "oap_gci_sla11")
-	o.OapGciSla12 = field.NewFloat32(table, "oap_gci_sla12")
-	o.OapGciSla13 = field.NewFloat32(table, "oap_gci_sla13")
-	o.OapGciSla14 = field.NewFloat32(table, "oap_gci_sla14")
-	o.OapGciSla15 = field.NewFloat32(table, "oap_gci_sla15")
-	o.OapGciSla16 = field.NewFloat32(table, "oap_gci_sla16")
-	o.OapGciSla17 = field.NewFloat32(table, "oap_gci_sla17")
-	o.OapGciSla18 = field.NewFloat32(table, "oap_gci_sla18")
-	o.OapGciSla19 = field.NewFloat32(table, "oap_gci_sla19")
-	o.OapGciSla20 = field.NewFloat32(table, "oap_gci_sla20")
-	o.OapGciSla21 = field.NewFloat32(table, "oap_gci_sla21")
+	o.OapGciSla1 = field.Newfloat64(table, "oap_gci_sla1")
+	o.OapGciSla2 = field.Newfloat64(table, "oap_gci_sla2")
+	o.OapGciSla3 = field.Newfloat64(table, "oap_gci_sla3")
+	o.OapGciSla4 = field.Newfloat64(table, "oap_gci_sla4")
+	o.OapGciSla5 = field.Newfloat64(table, "oap_gci_sla5")
+	o.OapGciSla6 = field.Newfloat64(table, "oap_gci_sla6")
+	o.OapGciSla7 = field.Newfloat64(table, "oap_gci_sla7")
+	o.OapGciSla8 = field.Newfloat64(table, "oap_gci_sla8")
+	o.OapGciSla9 = field.Newfloat64(table, "oap_gci_sla9")
+	o.OapGciSla10 = field.Newfloat64(table, "oap_gci_sla10")
+	o.OapGciSla11 = field.Newfloat64(table, "oap_gci_sla11")
+	o.OapGciSla12 = field.Newfloat64(table, "oap_gci_sla12")
+	o.OapGciSla13 = field.Newfloat64(table, "oap_gci_sla13")
+	o.OapGciSla14 = field.Newfloat64(table, "oap_gci_sla14")
+	o.OapGciSla15 = field.Newfloat64(table, "oap_gci_sla15")
+	o.OapGciSla16 = field.Newfloat64(table, "oap_gci_sla16")
+	o.OapGciSla17 = field.Newfloat64(table, "oap_gci_sla17")
+	o.OapGciSla18 = field.Newfloat64(table, "oap_gci_sla18")
+	o.OapGciSla19 = field.Newfloat64(table, "oap_gci_sla19")
+	o.OapGciSla20 = field.Newfloat64(table, "oap_gci_sla20")
+	o.OapGciSla21 = field.Newfloat64(table, "oap_gci_sla21")
 
 	o.fillFieldMap()
 

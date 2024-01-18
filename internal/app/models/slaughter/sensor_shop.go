@@ -10,9 +10,9 @@ type PreCoolShop struct {
 	gorm.Model
 	HouseNumber  string    `gorm:"not null; type:varchar(256)" json:"house_number"`
 	TimeRecordAt time.Time `json:"time_record_at"`  //记录时间
-	PreCoolShop1 float32   `json:"pre_cool_shop_1"` //预冷间温度
-	PreCoolShop2 float32   `json:"pre_cool_shop_2"` //预冷间湿度
-	PreCoolShop3 float32   `json:"pre_cool_shop_3"` //副产物温度
+	PreCoolShop1 float64   `json:"pre_cool_shop_1"` //预冷间温度
+	PreCoolShop2 float64   `json:"pre_cool_shop_2"` //预冷间湿度
+	PreCoolShop3 float64   `json:"pre_cool_shop_3"` //副产物温度
 }
 
 type SlaShop struct {
@@ -20,15 +20,15 @@ type SlaShop struct {
 	gorm.Model
 	HouseNumber  string    `gorm:"not null; type:varchar(256)" json:"house_number"`
 	TimeRecordAt time.Time `json:"time_record_at"` //记录时间
-	SlaShop1     float32   `json:"sla_shop_1"`     //紫外灭菌
-	SlaShop2     float32   `json:"sla_shop_2"`     //臭氧
-	SlaShop3     float32   `json:"sla_shop_3"`     //臭氧残留
-	SlaShop4     float32   `json:"sla_shop_4"`     //湿度
-	SlaShop5     float32   `json:"sla_shop_5"`     //温度
-	SlaShop6     float32   `json:"sla_shop_6"`     //预冷间消毒记录
-	SlaShop7     float32   `json:"sla_shop_7"`     //氯含量
-	SlaShop8     float32   `json:"sla_shop_8"`     //工作服 功率
-	SlaShop9     float32   `json:"sla_shop_9"`     //工作服 时间
+	SlaShop1     float64   `json:"sla_shop_1"`     //紫外灭菌
+	SlaShop2     float64   `json:"sla_shop_2"`     //臭氧
+	SlaShop3     float64   `json:"sla_shop_3"`     //臭氧残留
+	SlaShop4     float64   `json:"sla_shop_4"`     //湿度
+	SlaShop5     float64   `json:"sla_shop_5"`     //温度
+	SlaShop6     float64   `json:"sla_shop_6"`     //预冷间消毒记录
+	SlaShop7     float64   `json:"sla_shop_7"`     //氯含量
+	SlaShop8     float64   `json:"sla_shop_8"`     //工作服 功率
+	SlaShop9     float64   `json:"sla_shop_9"`     //工作服 时间
 	SlaShop10    string    `json:"sla_shop_10"`    //消毒记录 方式
 	SlaShop11    string    `json:"sla_shop_11"`    //消毒记录 浓度
 	SlaShop12    string    `json:"sla_shop_12"`    //消毒记录 班次
@@ -41,15 +41,15 @@ type DivShop struct {
 	gorm.Model
 	HouseNumber  string    `gorm:"not null; type:varchar(256)" json:"house_number"`
 	TimeRecordAt time.Time `json:"time_record_at"` //记录时间
-	DivShop1     float32   `json:"div_shop_1"`     //紫外灭菌
-	DivShop2     float32   `json:"div_shop_2"`     //臭氧
-	DivShop3     float32   `json:"div_shop_3"`     //臭氧残留
-	DivShop4     float32   `json:"div_shop_4"`     //湿度
-	DivShop5     float32   `json:"div_shop_5"`     //温度
-	DivShop6     float32   `json:"div_shop_6"`     //预冷间消毒记录
-	DivShop7     float32   `json:"div_shop_7"`     //氯含量
-	DivShop8     float32   `json:"div_shop_8"`     //工作服 功率
-	DivShop9     float32   `json:"div_shop_9"`     //工作服 时间
+	DivShop1     float64   `json:"div_shop_1"`     //紫外灭菌
+	DivShop2     float64   `json:"div_shop_2"`     //臭氧
+	DivShop3     float64   `json:"div_shop_3"`     //臭氧残留
+	DivShop4     float64   `json:"div_shop_4"`     //湿度
+	DivShop5     float64   `json:"div_shop_5"`     //温度
+	DivShop6     float64   `json:"div_shop_6"`     //预冷间消毒记录
+	DivShop7     float64   `json:"div_shop_7"`     //氯含量
+	DivShop8     float64   `json:"div_shop_8"`     //工作服 功率
+	DivShop9     float64   `json:"div_shop_9"`     //工作服 时间
 	DivShop10    string    `json:"div_shop_10"`    //消毒记录 方式
 	DivShop11    string    `json:"div_shop_11"`    //消毒记录 浓度
 	DivShop12    string    `json:"div_shop_12"`    //消毒记录 班次
@@ -62,15 +62,15 @@ type AcidShop struct {
 	gorm.Model
 	HouseNumber  string    `gorm:"not null; type:varchar(256)" json:"house_number"`
 	TimeRecordAt time.Time `json:"time_record_at"` //记录时间
-	AcidShop1    float32   `json:"acid_shop_1"`    //紫外灭菌
-	AcidShop2    float32   `json:"acid_shop_2"`    //臭氧
-	AcidShop3    float32   `json:"acid_shop_3"`    //臭氧残留
-	AcidShop4    float32   `json:"acid_shop_4"`    //湿度
-	AcidShop5    float32   `json:"acid_shop_5"`    //温度
-	AcidShop6    float32   `json:"acid_shop_6"`    //预冷间消毒记录
-	AcidShop7    float32   `json:"acid_shop_7"`    //氯含量
-	AcidShop8    float32   `json:"acid_shop_8"`    //工作服 功率
-	AcidShop9    float32   `json:"acid_shop_9"`    //工作服 时间
+	AcidShop1    float64   `json:"acid_shop_1"`    //紫外灭菌
+	AcidShop2    float64   `json:"acid_shop_2"`    //臭氧
+	AcidShop3    float64   `json:"acid_shop_3"`    //臭氧残留
+	AcidShop4    float64   `json:"acid_shop_4"`    //湿度
+	AcidShop5    float64   `json:"acid_shop_5"`    //温度
+	AcidShop6    float64   `json:"acid_shop_6"`    //预冷间消毒记录
+	AcidShop7    float64   `json:"acid_shop_7"`    //氯含量
+	AcidShop8    float64   `json:"acid_shop_8"`    //工作服 功率
+	AcidShop9    float64   `json:"acid_shop_9"`    //工作服 时间
 	AcidShop10   string    `json:"acid_shop_10"`   //消毒记录 方式
 	AcidShop11   string    `json:"acid_shop_11"`   //消毒记录 浓度
 	AcidShop12   string    `json:"acid_shop_12"`   //消毒记录 班次
@@ -83,15 +83,15 @@ type FroShop struct {
 	gorm.Model
 	HouseNumber  string    `gorm:"not null; type:varchar(256)" json:"house_number"`
 	TimeRecordAt time.Time `json:"time_record_at"` //记录时间
-	FroShop1     float32   `json:"fro_shop_1"`     //紫外灭菌
-	FroShop2     float32   `json:"fro_shop_2"`     //臭氧
-	FroShop3     float32   `json:"fro_shop_3"`     //臭氧残留
-	FroShop4     float32   `json:"fro_shop_4"`     //湿度
-	FroShop5     float32   `json:"fro_shop_5"`     //温度
-	FroShop6     float32   `json:"fro_shop_6"`     //预冷间消毒记录
-	FroShop7     float32   `json:"fro_shop_7"`     //氯含量
-	FroShop8     float32   `json:"fro_shop_8"`     //工作服 功率
-	FroShop9     float32   `json:"fro_shop_9"`     //工作服 时间
+	FroShop1     float64   `json:"fro_shop_1"`     //紫外灭菌
+	FroShop2     float64   `json:"fro_shop_2"`     //臭氧
+	FroShop3     float64   `json:"fro_shop_3"`     //臭氧残留
+	FroShop4     float64   `json:"fro_shop_4"`     //湿度
+	FroShop5     float64   `json:"fro_shop_5"`     //温度
+	FroShop6     float64   `json:"fro_shop_6"`     //预冷间消毒记录
+	FroShop7     float64   `json:"fro_shop_7"`     //氯含量
+	FroShop8     float64   `json:"fro_shop_8"`     //工作服 功率
+	FroShop9     float64   `json:"fro_shop_9"`     //工作服 时间
 	FroShop10    string    `json:"fro_shop_10"`    //消毒记录 方式
 	FroShop11    string    `json:"fro_shop_11"`    //消毒记录 浓度
 	FroShop12    string    `json:"fro_shop_12"`    //消毒记录 班次
@@ -104,15 +104,15 @@ type PackShop struct {
 	gorm.Model
 	HouseNumber  string    `gorm:"not null; type:varchar(256)" json:"house_number"`
 	TimeRecordAt time.Time `json:"time_record_at"` //记录时间
-	PackShop1    float32   `json:"pack_shop_1"`    //紫外灭菌
-	PackShop2    float32   `json:"pack_shop_2"`    //臭氧
-	PackShop3    float32   `json:"pack_shop_3"`    //臭氧残留
-	PackShop4    float32   `json:"pack_shop_4"`    //湿度
-	PackShop5    float32   `json:"pack_shop_5"`    //温度
-	PackShop6    float32   `json:"pack_shop_6"`    //预冷间消毒记录
-	PackShop7    float32   `json:"pack_shop_7"`    //氯含量
-	PackShop8    float32   `json:"pack_shop_8"`    //工作服 功率
-	PackShop9    float32   `json:"pack_shop_9"`    //工作服 时间
+	PackShop1    float64   `json:"pack_shop_1"`    //紫外灭菌
+	PackShop2    float64   `json:"pack_shop_2"`    //臭氧
+	PackShop3    float64   `json:"pack_shop_3"`    //臭氧残留
+	PackShop4    float64   `json:"pack_shop_4"`    //湿度
+	PackShop5    float64   `json:"pack_shop_5"`    //温度
+	PackShop6    float64   `json:"pack_shop_6"`    //预冷间消毒记录
+	PackShop7    float64   `json:"pack_shop_7"`    //氯含量
+	PackShop8    float64   `json:"pack_shop_8"`    //工作服 功率
+	PackShop9    float64   `json:"pack_shop_9"`    //工作服 时间
 	PackShop10   string    `json:"pack_shop_10"`   //消毒记录 方式
 	PackShop11   string    `json:"pack_shop_11"`   //消毒记录 浓度
 	PackShop12   string    `json:"pack_shop_12"`   //消毒记录 班次
@@ -123,23 +123,23 @@ type PackShop struct {
 type PreCoolShopInfo struct {
 	//预冷间
 	TimeRecordAt string  `json:"time_record_at"`  //记录时间
-	PreCoolShop1 float32 `json:"pre_cool_shop_1"` //预冷间温度
-	PreCoolShop2 float32 `json:"pre_cool_shop_2"` //预冷间湿度
-	PreCoolShop3 float32 `json:"pre_cool_shop_3"` //副产物温度
+	PreCoolShop1 float64 `json:"pre_cool_shop_1"` //预冷间温度
+	PreCoolShop2 float64 `json:"pre_cool_shop_2"` //预冷间湿度
+	PreCoolShop3 float64 `json:"pre_cool_shop_3"` //副产物温度
 }
 
 type SlaShopInfo struct {
 	//屠宰车间
 	TimeRecordAt string  `json:"time_record_at"` //记录时间
-	SlaShop1     float32 `json:"sla_shop_1"`     //紫外灭菌
-	SlaShop2     float32 `json:"sla_shop_2"`     //臭氧
-	SlaShop3     float32 `json:"sla_shop_3"`     //臭氧残留
-	SlaShop4     float32 `json:"sla_shop_4"`     //湿度
-	SlaShop5     float32 `json:"sla_shop_5"`     //温度
-	SlaShop6     float32 `json:"sla_shop_6"`     //预冷间消毒记录
-	SlaShop7     float32 `json:"sla_shop_7"`     //氯含量
-	SlaShop8     float32 `json:"sla_shop_8"`     //工作服 功率
-	SlaShop9     float32 `json:"sla_shop_9"`     //工作服 时间
+	SlaShop1     float64 `json:"sla_shop_1"`     //紫外灭菌
+	SlaShop2     float64 `json:"sla_shop_2"`     //臭氧
+	SlaShop3     float64 `json:"sla_shop_3"`     //臭氧残留
+	SlaShop4     float64 `json:"sla_shop_4"`     //湿度
+	SlaShop5     float64 `json:"sla_shop_5"`     //温度
+	SlaShop6     float64 `json:"sla_shop_6"`     //预冷间消毒记录
+	SlaShop7     float64 `json:"sla_shop_7"`     //氯含量
+	SlaShop8     float64 `json:"sla_shop_8"`     //工作服 功率
+	SlaShop9     float64 `json:"sla_shop_9"`     //工作服 时间
 	SlaShop10    string  `json:"sla_shop_10"`    //消毒记录 方式
 	SlaShop11    string  `json:"sla_shop_11"`    //消毒记录 浓度
 	SlaShop12    string  `json:"sla_shop_12"`    //消毒记录 班次
@@ -150,15 +150,15 @@ type SlaShopInfo struct {
 type DivShopInfo struct {
 	//分割车间
 	TimeRecordAt string  `json:"time_record_at"` //记录时间
-	DivShop1     float32 `json:"div_shop_1"`     //紫外灭菌
-	DivShop2     float32 `json:"div_shop_2"`     //臭氧
-	DivShop3     float32 `json:"div_shop_3"`     //臭氧残留
-	DivShop4     float32 `json:"div_shop_4"`     //湿度
-	DivShop5     float32 `json:"div_shop_5"`     //温度
-	DivShop6     float32 `json:"div_shop_6"`     //预冷间消毒记录
-	DivShop7     float32 `json:"div_shop_7"`     //氯含量
-	DivShop8     float32 `json:"div_shop_8"`     //工作服 功率
-	DivShop9     float32 `json:"div_shop_9"`     //工作服 时间
+	DivShop1     float64 `json:"div_shop_1"`     //紫外灭菌
+	DivShop2     float64 `json:"div_shop_2"`     //臭氧
+	DivShop3     float64 `json:"div_shop_3"`     //臭氧残留
+	DivShop4     float64 `json:"div_shop_4"`     //湿度
+	DivShop5     float64 `json:"div_shop_5"`     //温度
+	DivShop6     float64 `json:"div_shop_6"`     //预冷间消毒记录
+	DivShop7     float64 `json:"div_shop_7"`     //氯含量
+	DivShop8     float64 `json:"div_shop_8"`     //工作服 功率
+	DivShop9     float64 `json:"div_shop_9"`     //工作服 时间
 	DivShop10    string  `json:"div_shop_10"`    //消毒记录 方式
 	DivShop11    string  `json:"div_shop_11"`    //消毒记录 浓度
 	DivShop12    string  `json:"div_shop_12"`    //消毒记录 班次
@@ -169,15 +169,15 @@ type DivShopInfo struct {
 type AcidShopInfo struct {
 	//排酸车间
 	TimeRecordAt string  `json:"time_record_at"` //记录时间
-	AcidShop1    float32 `json:"acid_shop_1"`    //紫外灭菌
-	AcidShop2    float32 `json:"acid_shop_2"`    //臭氧
-	AcidShop3    float32 `json:"acid_shop_3"`    //臭氧残留
-	AcidShop4    float32 `json:"acid_shop_4"`    //湿度
-	AcidShop5    float32 `json:"acid_shop_5"`    //温度
-	AcidShop6    float32 `json:"acid_shop_6"`    //预冷间消毒记录
-	AcidShop7    float32 `json:"acid_shop_7"`    //氯含量
-	AcidShop8    float32 `json:"acid_shop_8"`    //工作服 功率
-	AcidShop9    float32 `json:"acid_shop_9"`    //工作服 时间
+	AcidShop1    float64 `json:"acid_shop_1"`    //紫外灭菌
+	AcidShop2    float64 `json:"acid_shop_2"`    //臭氧
+	AcidShop3    float64 `json:"acid_shop_3"`    //臭氧残留
+	AcidShop4    float64 `json:"acid_shop_4"`    //湿度
+	AcidShop5    float64 `json:"acid_shop_5"`    //温度
+	AcidShop6    float64 `json:"acid_shop_6"`    //预冷间消毒记录
+	AcidShop7    float64 `json:"acid_shop_7"`    //氯含量
+	AcidShop8    float64 `json:"acid_shop_8"`    //工作服 功率
+	AcidShop9    float64 `json:"acid_shop_9"`    //工作服 时间
 	AcidShop10   string  `json:"acid_shop_10"`   //消毒记录 方式
 	AcidShop11   string  `json:"acid_shop_11"`   //消毒记录 浓度
 	AcidShop12   string  `json:"acid_shop_12"`   //消毒记录 班次
@@ -188,15 +188,15 @@ type AcidShopInfo struct {
 type FroShopInfo struct {
 	//冷冻库
 	TimeRecordAt string  `json:"time_record_at"` //记录时间
-	FroShop1     float32 `json:"fro_shop_1"`     //紫外灭菌
-	FroShop2     float32 `json:"fro_shop_2"`     //臭氧
-	FroShop3     float32 `json:"fro_shop_3"`     //臭氧残留
-	FroShop4     float32 `json:"fro_shop_4"`     //湿度
-	FroShop5     float32 `json:"fro_shop_5"`     //温度
-	FroShop6     float32 `json:"fro_shop_6"`     //预冷间消毒记录
-	FroShop7     float32 `json:"fro_shop_7"`     //氯含量
-	FroShop8     float32 `json:"fro_shop_8"`     //工作服 功率
-	FroShop9     float32 `json:"fro_shop_9"`     //工作服 时间
+	FroShop1     float64 `json:"fro_shop_1"`     //紫外灭菌
+	FroShop2     float64 `json:"fro_shop_2"`     //臭氧
+	FroShop3     float64 `json:"fro_shop_3"`     //臭氧残留
+	FroShop4     float64 `json:"fro_shop_4"`     //湿度
+	FroShop5     float64 `json:"fro_shop_5"`     //温度
+	FroShop6     float64 `json:"fro_shop_6"`     //预冷间消毒记录
+	FroShop7     float64 `json:"fro_shop_7"`     //氯含量
+	FroShop8     float64 `json:"fro_shop_8"`     //工作服 功率
+	FroShop9     float64 `json:"fro_shop_9"`     //工作服 时间
 	FroShop10    string  `json:"fro_shop_10"`    //消毒记录 方式
 	FroShop11    string  `json:"fro_shop_11"`    //消毒记录 浓度
 	FroShop12    string  `json:"fro_shop_12"`    //消毒记录 班次
@@ -207,15 +207,15 @@ type FroShopInfo struct {
 type PackShopInfo struct {
 	//包装车间
 	TimeRecordAt string  `json:"time_record_at"` //记录时间
-	PackShop1    float32 `json:"pack_shop_1"`    //紫外灭菌
-	PackShop2    float32 `json:"pack_shop_2"`    //臭氧
-	PackShop3    float32 `json:"pack_shop_3"`    //臭氧残留
-	PackShop4    float32 `json:"pack_shop_4"`    //湿度
-	PackShop5    float32 `json:"pack_shop_5"`    //温度
-	PackShop6    float32 `json:"pack_shop_6"`    //预冷间消毒记录
-	PackShop7    float32 `json:"pack_shop_7"`    //氯含量
-	PackShop8    float32 `json:"pack_shop_8"`    //工作服 功率
-	PackShop9    float32 `json:"pack_shop_9"`    //工作服 时间
+	PackShop1    float64 `json:"pack_shop_1"`    //紫外灭菌
+	PackShop2    float64 `json:"pack_shop_2"`    //臭氧
+	PackShop3    float64 `json:"pack_shop_3"`    //臭氧残留
+	PackShop4    float64 `json:"pack_shop_4"`    //湿度
+	PackShop5    float64 `json:"pack_shop_5"`    //温度
+	PackShop6    float64 `json:"pack_shop_6"`    //预冷间消毒记录
+	PackShop7    float64 `json:"pack_shop_7"`    //氯含量
+	PackShop8    float64 `json:"pack_shop_8"`    //工作服 功率
+	PackShop9    float64 `json:"pack_shop_9"`    //工作服 时间
 	PackShop10   string  `json:"pack_shop_10"`   //消毒记录 方式
 	PackShop11   string  `json:"pack_shop_11"`   //消毒记录 浓度
 	PackShop12   string  `json:"pack_shop_12"`   //消毒记录 班次

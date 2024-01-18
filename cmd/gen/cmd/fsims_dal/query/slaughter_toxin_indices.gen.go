@@ -31,53 +31,53 @@ func newSlaughterToxinIndex(db *gorm.DB, opts ...gen.DOOption) slaughterToxinInd
 	_slaughterToxinIndex.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_slaughterToxinIndex.DeletedAt = field.NewField(tableName, "deleted_at")
 	_slaughterToxinIndex.SlaughterWaterQualityMonID = field.NewUint(tableName, "slaughter_water_quality_mon_id")
-	_slaughterToxinIndex.ToxinIndexSla1 = field.NewFloat32(tableName, "toxin_index_sla1")
-	_slaughterToxinIndex.ToxinIndexSla2 = field.NewFloat32(tableName, "toxin_index_sla2")
-	_slaughterToxinIndex.ToxinIndexSla3 = field.NewFloat32(tableName, "toxin_index_sla3")
-	_slaughterToxinIndex.ToxinIndexSla4 = field.NewFloat32(tableName, "toxin_index_sla4")
-	_slaughterToxinIndex.ToxinIndexSla5 = field.NewFloat32(tableName, "toxin_index_sla5")
-	_slaughterToxinIndex.ToxinIndexSla6 = field.NewFloat32(tableName, "toxin_index_sla6")
-	_slaughterToxinIndex.ToxinIndexSla7 = field.NewFloat32(tableName, "toxin_index_sla7")
-	_slaughterToxinIndex.ToxinIndexSla8 = field.NewFloat32(tableName, "toxin_index_sla8")
-	_slaughterToxinIndex.ToxinIndexSla9 = field.NewFloat32(tableName, "toxin_index_sla9")
-	_slaughterToxinIndex.ToxinIndexSla10 = field.NewFloat32(tableName, "toxin_index_sla10")
-	_slaughterToxinIndex.ToxinIndexSla11 = field.NewFloat32(tableName, "toxin_index_sla11")
-	_slaughterToxinIndex.ToxinIndexSla12 = field.NewFloat32(tableName, "toxin_index_sla12")
-	_slaughterToxinIndex.ToxinIndexSla13 = field.NewFloat32(tableName, "toxin_index_sla13")
-	_slaughterToxinIndex.ToxinIndexSla14 = field.NewFloat32(tableName, "toxin_index_sla14")
-	_slaughterToxinIndex.ToxinIndexSla15 = field.NewFloat32(tableName, "toxin_index_sla15")
-	_slaughterToxinIndex.ToxinIndexSla16 = field.NewFloat32(tableName, "toxin_index_sla16")
-	_slaughterToxinIndex.ToxinIndexSla17 = field.NewFloat32(tableName, "toxin_index_sla17")
-	_slaughterToxinIndex.ToxinIndexSla18 = field.NewFloat32(tableName, "toxin_index_sla18")
-	_slaughterToxinIndex.ToxinIndexSla19 = field.NewFloat32(tableName, "toxin_index_sla19")
-	_slaughterToxinIndex.ToxinIndexSla20 = field.NewFloat32(tableName, "toxin_index_sla20")
-	_slaughterToxinIndex.ToxinIndexSla21 = field.NewFloat32(tableName, "toxin_index_sla21")
-	_slaughterToxinIndex.ToxinIndexSla22 = field.NewFloat32(tableName, "toxin_index_sla22")
-	_slaughterToxinIndex.ToxinIndexSla23 = field.NewFloat32(tableName, "toxin_index_sla23")
-	_slaughterToxinIndex.ToxinIndexSla24 = field.NewFloat32(tableName, "toxin_index_sla24")
-	_slaughterToxinIndex.ToxinIndexSla25 = field.NewFloat32(tableName, "toxin_index_sla25")
-	_slaughterToxinIndex.ToxinIndexSla26 = field.NewFloat32(tableName, "toxin_index_sla26")
-	_slaughterToxinIndex.ToxinIndexSla27 = field.NewFloat32(tableName, "toxin_index_sla27")
-	_slaughterToxinIndex.ToxinIndexSla28 = field.NewFloat32(tableName, "toxin_index_sla28")
-	_slaughterToxinIndex.ToxinIndexSla29 = field.NewFloat32(tableName, "toxin_index_sla29")
-	_slaughterToxinIndex.ToxinIndexSla30 = field.NewFloat32(tableName, "toxin_index_sla30")
-	_slaughterToxinIndex.ToxinIndexSla31 = field.NewFloat32(tableName, "toxin_index_sla31")
-	_slaughterToxinIndex.ToxinIndexSla32 = field.NewFloat32(tableName, "toxin_index_sla32")
-	_slaughterToxinIndex.ToxinIndexSla33 = field.NewFloat32(tableName, "toxin_index_sla33")
-	_slaughterToxinIndex.ToxinIndexSla34 = field.NewFloat32(tableName, "toxin_index_sla34")
-	_slaughterToxinIndex.ToxinIndexSla35 = field.NewFloat32(tableName, "toxin_index_sla35")
-	_slaughterToxinIndex.ToxinIndexSla36 = field.NewFloat32(tableName, "toxin_index_sla36")
-	_slaughterToxinIndex.ToxinIndexSla37 = field.NewFloat32(tableName, "toxin_index_sla37")
-	_slaughterToxinIndex.ToxinIndexSla38 = field.NewFloat32(tableName, "toxin_index_sla38")
-	_slaughterToxinIndex.ToxinIndexSla39 = field.NewFloat32(tableName, "toxin_index_sla39")
-	_slaughterToxinIndex.ToxinIndexSla40 = field.NewFloat32(tableName, "toxin_index_sla40")
-	_slaughterToxinIndex.ToxinIndexSla41 = field.NewFloat32(tableName, "toxin_index_sla41")
-	_slaughterToxinIndex.ToxinIndexSla42 = field.NewFloat32(tableName, "toxin_index_sla42")
-	_slaughterToxinIndex.ToxinIndexSla43 = field.NewFloat32(tableName, "toxin_index_sla43")
-	_slaughterToxinIndex.ToxinIndexSla44 = field.NewFloat32(tableName, "toxin_index_sla44")
-	_slaughterToxinIndex.ToxinIndexSla45 = field.NewFloat32(tableName, "toxin_index_sla45")
-	_slaughterToxinIndex.ToxinIndexSla46 = field.NewFloat32(tableName, "toxin_index_sla46")
-	_slaughterToxinIndex.ToxinIndexSla47 = field.NewFloat32(tableName, "toxin_index_sla47")
+	_slaughterToxinIndex.ToxinIndexSla1 = field.Newfloat64(tableName, "toxin_index_sla1")
+	_slaughterToxinIndex.ToxinIndexSla2 = field.Newfloat64(tableName, "toxin_index_sla2")
+	_slaughterToxinIndex.ToxinIndexSla3 = field.Newfloat64(tableName, "toxin_index_sla3")
+	_slaughterToxinIndex.ToxinIndexSla4 = field.Newfloat64(tableName, "toxin_index_sla4")
+	_slaughterToxinIndex.ToxinIndexSla5 = field.Newfloat64(tableName, "toxin_index_sla5")
+	_slaughterToxinIndex.ToxinIndexSla6 = field.Newfloat64(tableName, "toxin_index_sla6")
+	_slaughterToxinIndex.ToxinIndexSla7 = field.Newfloat64(tableName, "toxin_index_sla7")
+	_slaughterToxinIndex.ToxinIndexSla8 = field.Newfloat64(tableName, "toxin_index_sla8")
+	_slaughterToxinIndex.ToxinIndexSla9 = field.Newfloat64(tableName, "toxin_index_sla9")
+	_slaughterToxinIndex.ToxinIndexSla10 = field.Newfloat64(tableName, "toxin_index_sla10")
+	_slaughterToxinIndex.ToxinIndexSla11 = field.Newfloat64(tableName, "toxin_index_sla11")
+	_slaughterToxinIndex.ToxinIndexSla12 = field.Newfloat64(tableName, "toxin_index_sla12")
+	_slaughterToxinIndex.ToxinIndexSla13 = field.Newfloat64(tableName, "toxin_index_sla13")
+	_slaughterToxinIndex.ToxinIndexSla14 = field.Newfloat64(tableName, "toxin_index_sla14")
+	_slaughterToxinIndex.ToxinIndexSla15 = field.Newfloat64(tableName, "toxin_index_sla15")
+	_slaughterToxinIndex.ToxinIndexSla16 = field.Newfloat64(tableName, "toxin_index_sla16")
+	_slaughterToxinIndex.ToxinIndexSla17 = field.Newfloat64(tableName, "toxin_index_sla17")
+	_slaughterToxinIndex.ToxinIndexSla18 = field.Newfloat64(tableName, "toxin_index_sla18")
+	_slaughterToxinIndex.ToxinIndexSla19 = field.Newfloat64(tableName, "toxin_index_sla19")
+	_slaughterToxinIndex.ToxinIndexSla20 = field.Newfloat64(tableName, "toxin_index_sla20")
+	_slaughterToxinIndex.ToxinIndexSla21 = field.Newfloat64(tableName, "toxin_index_sla21")
+	_slaughterToxinIndex.ToxinIndexSla22 = field.Newfloat64(tableName, "toxin_index_sla22")
+	_slaughterToxinIndex.ToxinIndexSla23 = field.Newfloat64(tableName, "toxin_index_sla23")
+	_slaughterToxinIndex.ToxinIndexSla24 = field.Newfloat64(tableName, "toxin_index_sla24")
+	_slaughterToxinIndex.ToxinIndexSla25 = field.Newfloat64(tableName, "toxin_index_sla25")
+	_slaughterToxinIndex.ToxinIndexSla26 = field.Newfloat64(tableName, "toxin_index_sla26")
+	_slaughterToxinIndex.ToxinIndexSla27 = field.Newfloat64(tableName, "toxin_index_sla27")
+	_slaughterToxinIndex.ToxinIndexSla28 = field.Newfloat64(tableName, "toxin_index_sla28")
+	_slaughterToxinIndex.ToxinIndexSla29 = field.Newfloat64(tableName, "toxin_index_sla29")
+	_slaughterToxinIndex.ToxinIndexSla30 = field.Newfloat64(tableName, "toxin_index_sla30")
+	_slaughterToxinIndex.ToxinIndexSla31 = field.Newfloat64(tableName, "toxin_index_sla31")
+	_slaughterToxinIndex.ToxinIndexSla32 = field.Newfloat64(tableName, "toxin_index_sla32")
+	_slaughterToxinIndex.ToxinIndexSla33 = field.Newfloat64(tableName, "toxin_index_sla33")
+	_slaughterToxinIndex.ToxinIndexSla34 = field.Newfloat64(tableName, "toxin_index_sla34")
+	_slaughterToxinIndex.ToxinIndexSla35 = field.Newfloat64(tableName, "toxin_index_sla35")
+	_slaughterToxinIndex.ToxinIndexSla36 = field.Newfloat64(tableName, "toxin_index_sla36")
+	_slaughterToxinIndex.ToxinIndexSla37 = field.Newfloat64(tableName, "toxin_index_sla37")
+	_slaughterToxinIndex.ToxinIndexSla38 = field.Newfloat64(tableName, "toxin_index_sla38")
+	_slaughterToxinIndex.ToxinIndexSla39 = field.Newfloat64(tableName, "toxin_index_sla39")
+	_slaughterToxinIndex.ToxinIndexSla40 = field.Newfloat64(tableName, "toxin_index_sla40")
+	_slaughterToxinIndex.ToxinIndexSla41 = field.Newfloat64(tableName, "toxin_index_sla41")
+	_slaughterToxinIndex.ToxinIndexSla42 = field.Newfloat64(tableName, "toxin_index_sla42")
+	_slaughterToxinIndex.ToxinIndexSla43 = field.Newfloat64(tableName, "toxin_index_sla43")
+	_slaughterToxinIndex.ToxinIndexSla44 = field.Newfloat64(tableName, "toxin_index_sla44")
+	_slaughterToxinIndex.ToxinIndexSla45 = field.Newfloat64(tableName, "toxin_index_sla45")
+	_slaughterToxinIndex.ToxinIndexSla46 = field.Newfloat64(tableName, "toxin_index_sla46")
+	_slaughterToxinIndex.ToxinIndexSla47 = field.Newfloat64(tableName, "toxin_index_sla47")
 	_slaughterToxinIndex.SlaughterWaterToxinIndex = slaughterToxinIndexHasOneSlaughterWaterToxinIndex{
 		db: db.Session(&gorm.Session{}),
 
@@ -98,53 +98,53 @@ type slaughterToxinIndex struct {
 	UpdatedAt                  field.Time
 	DeletedAt                  field.Field
 	SlaughterWaterQualityMonID field.Uint
-	ToxinIndexSla1             field.Float32
-	ToxinIndexSla2             field.Float32
-	ToxinIndexSla3             field.Float32
-	ToxinIndexSla4             field.Float32
-	ToxinIndexSla5             field.Float32
-	ToxinIndexSla6             field.Float32
-	ToxinIndexSla7             field.Float32
-	ToxinIndexSla8             field.Float32
-	ToxinIndexSla9             field.Float32
-	ToxinIndexSla10            field.Float32
-	ToxinIndexSla11            field.Float32
-	ToxinIndexSla12            field.Float32
-	ToxinIndexSla13            field.Float32
-	ToxinIndexSla14            field.Float32
-	ToxinIndexSla15            field.Float32
-	ToxinIndexSla16            field.Float32
-	ToxinIndexSla17            field.Float32
-	ToxinIndexSla18            field.Float32
-	ToxinIndexSla19            field.Float32
-	ToxinIndexSla20            field.Float32
-	ToxinIndexSla21            field.Float32
-	ToxinIndexSla22            field.Float32
-	ToxinIndexSla23            field.Float32
-	ToxinIndexSla24            field.Float32
-	ToxinIndexSla25            field.Float32
-	ToxinIndexSla26            field.Float32
-	ToxinIndexSla27            field.Float32
-	ToxinIndexSla28            field.Float32
-	ToxinIndexSla29            field.Float32
-	ToxinIndexSla30            field.Float32
-	ToxinIndexSla31            field.Float32
-	ToxinIndexSla32            field.Float32
-	ToxinIndexSla33            field.Float32
-	ToxinIndexSla34            field.Float32
-	ToxinIndexSla35            field.Float32
-	ToxinIndexSla36            field.Float32
-	ToxinIndexSla37            field.Float32
-	ToxinIndexSla38            field.Float32
-	ToxinIndexSla39            field.Float32
-	ToxinIndexSla40            field.Float32
-	ToxinIndexSla41            field.Float32
-	ToxinIndexSla42            field.Float32
-	ToxinIndexSla43            field.Float32
-	ToxinIndexSla44            field.Float32
-	ToxinIndexSla45            field.Float32
-	ToxinIndexSla46            field.Float32
-	ToxinIndexSla47            field.Float32
+	ToxinIndexSla1             field.float64
+	ToxinIndexSla2             field.float64
+	ToxinIndexSla3             field.float64
+	ToxinIndexSla4             field.float64
+	ToxinIndexSla5             field.float64
+	ToxinIndexSla6             field.float64
+	ToxinIndexSla7             field.float64
+	ToxinIndexSla8             field.float64
+	ToxinIndexSla9             field.float64
+	ToxinIndexSla10            field.float64
+	ToxinIndexSla11            field.float64
+	ToxinIndexSla12            field.float64
+	ToxinIndexSla13            field.float64
+	ToxinIndexSla14            field.float64
+	ToxinIndexSla15            field.float64
+	ToxinIndexSla16            field.float64
+	ToxinIndexSla17            field.float64
+	ToxinIndexSla18            field.float64
+	ToxinIndexSla19            field.float64
+	ToxinIndexSla20            field.float64
+	ToxinIndexSla21            field.float64
+	ToxinIndexSla22            field.float64
+	ToxinIndexSla23            field.float64
+	ToxinIndexSla24            field.float64
+	ToxinIndexSla25            field.float64
+	ToxinIndexSla26            field.float64
+	ToxinIndexSla27            field.float64
+	ToxinIndexSla28            field.float64
+	ToxinIndexSla29            field.float64
+	ToxinIndexSla30            field.float64
+	ToxinIndexSla31            field.float64
+	ToxinIndexSla32            field.float64
+	ToxinIndexSla33            field.float64
+	ToxinIndexSla34            field.float64
+	ToxinIndexSla35            field.float64
+	ToxinIndexSla36            field.float64
+	ToxinIndexSla37            field.float64
+	ToxinIndexSla38            field.float64
+	ToxinIndexSla39            field.float64
+	ToxinIndexSla40            field.float64
+	ToxinIndexSla41            field.float64
+	ToxinIndexSla42            field.float64
+	ToxinIndexSla43            field.float64
+	ToxinIndexSla44            field.float64
+	ToxinIndexSla45            field.float64
+	ToxinIndexSla46            field.float64
+	ToxinIndexSla47            field.float64
 	SlaughterWaterToxinIndex   slaughterToxinIndexHasOneSlaughterWaterToxinIndex
 
 	fieldMap map[string]field.Expr
@@ -167,53 +167,53 @@ func (s *slaughterToxinIndex) updateTableName(table string) *slaughterToxinIndex
 	s.UpdatedAt = field.NewTime(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
 	s.SlaughterWaterQualityMonID = field.NewUint(table, "slaughter_water_quality_mon_id")
-	s.ToxinIndexSla1 = field.NewFloat32(table, "toxin_index_sla1")
-	s.ToxinIndexSla2 = field.NewFloat32(table, "toxin_index_sla2")
-	s.ToxinIndexSla3 = field.NewFloat32(table, "toxin_index_sla3")
-	s.ToxinIndexSla4 = field.NewFloat32(table, "toxin_index_sla4")
-	s.ToxinIndexSla5 = field.NewFloat32(table, "toxin_index_sla5")
-	s.ToxinIndexSla6 = field.NewFloat32(table, "toxin_index_sla6")
-	s.ToxinIndexSla7 = field.NewFloat32(table, "toxin_index_sla7")
-	s.ToxinIndexSla8 = field.NewFloat32(table, "toxin_index_sla8")
-	s.ToxinIndexSla9 = field.NewFloat32(table, "toxin_index_sla9")
-	s.ToxinIndexSla10 = field.NewFloat32(table, "toxin_index_sla10")
-	s.ToxinIndexSla11 = field.NewFloat32(table, "toxin_index_sla11")
-	s.ToxinIndexSla12 = field.NewFloat32(table, "toxin_index_sla12")
-	s.ToxinIndexSla13 = field.NewFloat32(table, "toxin_index_sla13")
-	s.ToxinIndexSla14 = field.NewFloat32(table, "toxin_index_sla14")
-	s.ToxinIndexSla15 = field.NewFloat32(table, "toxin_index_sla15")
-	s.ToxinIndexSla16 = field.NewFloat32(table, "toxin_index_sla16")
-	s.ToxinIndexSla17 = field.NewFloat32(table, "toxin_index_sla17")
-	s.ToxinIndexSla18 = field.NewFloat32(table, "toxin_index_sla18")
-	s.ToxinIndexSla19 = field.NewFloat32(table, "toxin_index_sla19")
-	s.ToxinIndexSla20 = field.NewFloat32(table, "toxin_index_sla20")
-	s.ToxinIndexSla21 = field.NewFloat32(table, "toxin_index_sla21")
-	s.ToxinIndexSla22 = field.NewFloat32(table, "toxin_index_sla22")
-	s.ToxinIndexSla23 = field.NewFloat32(table, "toxin_index_sla23")
-	s.ToxinIndexSla24 = field.NewFloat32(table, "toxin_index_sla24")
-	s.ToxinIndexSla25 = field.NewFloat32(table, "toxin_index_sla25")
-	s.ToxinIndexSla26 = field.NewFloat32(table, "toxin_index_sla26")
-	s.ToxinIndexSla27 = field.NewFloat32(table, "toxin_index_sla27")
-	s.ToxinIndexSla28 = field.NewFloat32(table, "toxin_index_sla28")
-	s.ToxinIndexSla29 = field.NewFloat32(table, "toxin_index_sla29")
-	s.ToxinIndexSla30 = field.NewFloat32(table, "toxin_index_sla30")
-	s.ToxinIndexSla31 = field.NewFloat32(table, "toxin_index_sla31")
-	s.ToxinIndexSla32 = field.NewFloat32(table, "toxin_index_sla32")
-	s.ToxinIndexSla33 = field.NewFloat32(table, "toxin_index_sla33")
-	s.ToxinIndexSla34 = field.NewFloat32(table, "toxin_index_sla34")
-	s.ToxinIndexSla35 = field.NewFloat32(table, "toxin_index_sla35")
-	s.ToxinIndexSla36 = field.NewFloat32(table, "toxin_index_sla36")
-	s.ToxinIndexSla37 = field.NewFloat32(table, "toxin_index_sla37")
-	s.ToxinIndexSla38 = field.NewFloat32(table, "toxin_index_sla38")
-	s.ToxinIndexSla39 = field.NewFloat32(table, "toxin_index_sla39")
-	s.ToxinIndexSla40 = field.NewFloat32(table, "toxin_index_sla40")
-	s.ToxinIndexSla41 = field.NewFloat32(table, "toxin_index_sla41")
-	s.ToxinIndexSla42 = field.NewFloat32(table, "toxin_index_sla42")
-	s.ToxinIndexSla43 = field.NewFloat32(table, "toxin_index_sla43")
-	s.ToxinIndexSla44 = field.NewFloat32(table, "toxin_index_sla44")
-	s.ToxinIndexSla45 = field.NewFloat32(table, "toxin_index_sla45")
-	s.ToxinIndexSla46 = field.NewFloat32(table, "toxin_index_sla46")
-	s.ToxinIndexSla47 = field.NewFloat32(table, "toxin_index_sla47")
+	s.ToxinIndexSla1 = field.Newfloat64(table, "toxin_index_sla1")
+	s.ToxinIndexSla2 = field.Newfloat64(table, "toxin_index_sla2")
+	s.ToxinIndexSla3 = field.Newfloat64(table, "toxin_index_sla3")
+	s.ToxinIndexSla4 = field.Newfloat64(table, "toxin_index_sla4")
+	s.ToxinIndexSla5 = field.Newfloat64(table, "toxin_index_sla5")
+	s.ToxinIndexSla6 = field.Newfloat64(table, "toxin_index_sla6")
+	s.ToxinIndexSla7 = field.Newfloat64(table, "toxin_index_sla7")
+	s.ToxinIndexSla8 = field.Newfloat64(table, "toxin_index_sla8")
+	s.ToxinIndexSla9 = field.Newfloat64(table, "toxin_index_sla9")
+	s.ToxinIndexSla10 = field.Newfloat64(table, "toxin_index_sla10")
+	s.ToxinIndexSla11 = field.Newfloat64(table, "toxin_index_sla11")
+	s.ToxinIndexSla12 = field.Newfloat64(table, "toxin_index_sla12")
+	s.ToxinIndexSla13 = field.Newfloat64(table, "toxin_index_sla13")
+	s.ToxinIndexSla14 = field.Newfloat64(table, "toxin_index_sla14")
+	s.ToxinIndexSla15 = field.Newfloat64(table, "toxin_index_sla15")
+	s.ToxinIndexSla16 = field.Newfloat64(table, "toxin_index_sla16")
+	s.ToxinIndexSla17 = field.Newfloat64(table, "toxin_index_sla17")
+	s.ToxinIndexSla18 = field.Newfloat64(table, "toxin_index_sla18")
+	s.ToxinIndexSla19 = field.Newfloat64(table, "toxin_index_sla19")
+	s.ToxinIndexSla20 = field.Newfloat64(table, "toxin_index_sla20")
+	s.ToxinIndexSla21 = field.Newfloat64(table, "toxin_index_sla21")
+	s.ToxinIndexSla22 = field.Newfloat64(table, "toxin_index_sla22")
+	s.ToxinIndexSla23 = field.Newfloat64(table, "toxin_index_sla23")
+	s.ToxinIndexSla24 = field.Newfloat64(table, "toxin_index_sla24")
+	s.ToxinIndexSla25 = field.Newfloat64(table, "toxin_index_sla25")
+	s.ToxinIndexSla26 = field.Newfloat64(table, "toxin_index_sla26")
+	s.ToxinIndexSla27 = field.Newfloat64(table, "toxin_index_sla27")
+	s.ToxinIndexSla28 = field.Newfloat64(table, "toxin_index_sla28")
+	s.ToxinIndexSla29 = field.Newfloat64(table, "toxin_index_sla29")
+	s.ToxinIndexSla30 = field.Newfloat64(table, "toxin_index_sla30")
+	s.ToxinIndexSla31 = field.Newfloat64(table, "toxin_index_sla31")
+	s.ToxinIndexSla32 = field.Newfloat64(table, "toxin_index_sla32")
+	s.ToxinIndexSla33 = field.Newfloat64(table, "toxin_index_sla33")
+	s.ToxinIndexSla34 = field.Newfloat64(table, "toxin_index_sla34")
+	s.ToxinIndexSla35 = field.Newfloat64(table, "toxin_index_sla35")
+	s.ToxinIndexSla36 = field.Newfloat64(table, "toxin_index_sla36")
+	s.ToxinIndexSla37 = field.Newfloat64(table, "toxin_index_sla37")
+	s.ToxinIndexSla38 = field.Newfloat64(table, "toxin_index_sla38")
+	s.ToxinIndexSla39 = field.Newfloat64(table, "toxin_index_sla39")
+	s.ToxinIndexSla40 = field.Newfloat64(table, "toxin_index_sla40")
+	s.ToxinIndexSla41 = field.Newfloat64(table, "toxin_index_sla41")
+	s.ToxinIndexSla42 = field.Newfloat64(table, "toxin_index_sla42")
+	s.ToxinIndexSla43 = field.Newfloat64(table, "toxin_index_sla43")
+	s.ToxinIndexSla44 = field.Newfloat64(table, "toxin_index_sla44")
+	s.ToxinIndexSla45 = field.Newfloat64(table, "toxin_index_sla45")
+	s.ToxinIndexSla46 = field.Newfloat64(table, "toxin_index_sla46")
+	s.ToxinIndexSla47 = field.Newfloat64(table, "toxin_index_sla47")
 
 	s.fillFieldMap()
 
