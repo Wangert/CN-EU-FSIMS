@@ -9,7 +9,7 @@ client:
 organizations:
   Org1:
     mspid: Org1MSP
-    cryptoPath: conf/fabric_organizations/peerOrganizations/org1/users/{userName}@org1/msp
+    cryptoPath: ../conf/fabric_organizations/peerOrganizations/org1/users/{userName}@org1/msp
     peers:
       - peer0.org1
     certificateAuthorities:
@@ -19,11 +19,11 @@ organizations:
         #        key:
         #          path: /usr/local/src/fabric-network-v1/organizations/peerOrganizations/org1/users/Admin@org1/msp/keystore/c021c3289f87c2dc6fbe3e9320102eb395d32807d2792a6bdba8c370b076c360_sk
         cert:
-          path: conf/fabric_organizations/peerOrganizations/org1/users/Admin@org1/msp/signcerts/cert.pem
+          path: ../conf/fabric_organizations/peerOrganizations/org1/users/Admin@org1/msp/signcerts/cert.pem
 
   Org2:
     mspid: Org2MSP
-    cryptoPath: conf/fabric_organizations/peerOrganizations/org2/users/{userName}@org2/msp
+    cryptoPath: ../conf/fabric_organizations/peerOrganizations/org2/users/{userName}@org2/msp
 
     peers:
       - peer0.org2
@@ -35,20 +35,20 @@ organizations:
         #        key:
         #          path: /usr/local/src/fabric-network-v1/organizations/peerOrganizations/org2/users/Admin@org2/msp/keystore/b52130a0811453ed847249c8b3c2656bea5aec367a0c739200fe7292f068baca_sk
         cert:
-          path: conf/fabric_organizations/peerOrganizations/org2/users/Admin@org2/msp/signcerts/cert.pem
+          path: ../conf/fabric_organizations/peerOrganizations/org2/users/Admin@org2/msp/signcerts/cert.pem
 
   Orderer:
     mspid: OrdererMSP
-    cryptoPath: conf/fabric_organizations/ordererOrganizations/orderer/msp
+    cryptoPath: ../conf/fabric_organizations/ordererOrganizations/orderer/msp
     users:
       Admin:
         cert:
-          path: conf/fabric_organizations/ordererOrganizations/orderer/users/Admin@orderer/msp/signcerts/cert.pem
+          path: ../conf/fabric_organizations/ordererOrganizations/orderer/users/Admin@orderer/msp/signcerts/cert.pem
 peers:
   peer0.org1:
     url: grpcs://peer0.org1:7051
     tlsCACerts:
-      path: conf/fabric_organizations/peerOrganizations/org1/peers/peer0.org1/tls/ca.crt
+      path: ../conf/fabric_organizations/peerOrganizations/org1/peers/peer0.org1/tls/ca.crt
 
     grpcOptions:
       ssl-target-name-override: peer0.org1
@@ -56,7 +56,7 @@ peers:
   peer0.org2:
     url: grpcs://peer0.org2:7051
     tlsCACerts:
-      path: conf/fabric_organizations/peerOrganizations/org2/peers/peer0.org2/tls/ca.crt
+      path: ../conf/fabric_organizations/peerOrganizations/org2/peers/peer0.org2/tls/ca.crt
 
     grpcOptions:
       ssl-target-name-override: peer0.org2
@@ -66,7 +66,7 @@ certificateAuthorities:
     url: grpcs://caOrg1:7053
     caName: ca-org1
     tlsCACerts:
-      path: conf/fabric_organizations/peerOrganizations/org1/msp/cacerts/localhost-7053.pem
+      path: ../conf/fabric_organizations/peerOrganizations/org1/msp/cacerts/localhost-7053.pem
 
     httpOptions:
       verify: false
