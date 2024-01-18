@@ -302,13 +302,17 @@ func GetPackageHouses(c *gin.Context) {
 func GetTransportVehicles(c *gin.Context) {
 	glog.Info("################## Get All Transport Vehicles ##################")
 
-	res, err := service.GetTransportVehicles()
+	vehicles, count, err := service.GetTransportVehicles()
 	if err != nil {
 		glog.Errorln("query all transport vehicles error!")
 		response.MakeFail(c, http.StatusBadRequest, "query all transport vehicles error")
 		return
 	}
 
+	res := response.ResTransportVehicles{
+		TVs:   vehicles,
+		Count: count,
+	}
 	glog.Info("query all transport vehicles successful")
 	response.MakeSuccess(c, http.StatusOK, res)
 	return

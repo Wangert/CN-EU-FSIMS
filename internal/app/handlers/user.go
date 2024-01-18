@@ -35,6 +35,37 @@ func QueryPastureTrashFifteenDays(c *gin.Context) {
 	return
 }
 
+func QueryEndFeedCow(c *gin.Context) {
+	glog.Info("###Total number of feed end cows")
+	count, err := service.QueryEndFeedCow()
+	if err != nil {
+		glog.Errorln("Query feed end cows error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "query cow failure!")
+	}
+	response.MakeSuccess(c, http.StatusOK, count)
+	return
+}
+
+func QueryEndBatches(c *gin.Context) {
+	glog.Info("###Total number of end batches###")
+	count, err := service.QueryBatchesEnd()
+	if err != nil {
+		glog.Errorln("Query number of batches error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "query batches failure!")
+	}
+	response.MakeSuccess(c, http.StatusOK, count)
+	return
+}
+func QueryEndSlaCow(c *gin.Context) {
+	glog.Info("###Total number of slaughter end cows###")
+	count, err := service.QueryEndSlaCow()
+	if err != nil {
+		glog.Errorln("Query slaughter end cows error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "query cow failure!")
+	}
+	response.MakeSuccess(c, http.StatusOK, count)
+	return
+}
 func QuerySlaughterFifteenDays(c *gin.Context) {
 	var req request.ReqTrashFifteenDays
 	if err := c.ShouldBind(&req); err != nil {
