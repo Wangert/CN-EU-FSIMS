@@ -43,11 +43,36 @@ const (
 	INIT_PASSWORD = "Fsims123456!"
 )
 
+func QueryEndFeedCow() (int64, error) {
+	q := query.Q.Cow
+	count, err := q.WithContext(context.Background()).Where(q.State.Neq(1)).Where(q.State.Neq(2)).Count()
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+func QueryEndSlaCow() (int64, error) {
+	q := query.Q.Cow
+	count, err := q.WithContext(context.Background()).Where(q.State.Neq(1)).Where(q.State.Neq(2)).Where(q.State.Neq(3)).Count()
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+func QueryBatchesEnd() (int64, error) {
+	q := query.Q.TransportBatch
+	count, err := q.WithContext(context.Background()).Where(q.State.Eq(END_STATE_BATCH_TRANS)).Count()
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
 func QuerySlaughterTrashFifteenDays(r *request.ReqTrashFifteenDays) ([]slaughter.AllSlaughtersTrashDisposalInfo, int64, error) {
 	startTime := time.Unix(r.StartTimeStamp, 0).Truncate(24 * time.Hour).UTC()
 	endTime := time.Unix(r.EndTimeStamp, 0).Truncate(24 * time.Hour).UTC()
-	fmt.Println("startTime", startTime)
-	fmt.Println("endTime", endTime)
 	q1 := query.Q.AllSlaughtersTrashDisposal
 	res1, err := q1.WithContext(context.Background()).Where(q1.TimeStamp.Between(startTime, endTime)).Find()
 	if err != nil {

@@ -24,7 +24,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.GET("blockchain/blockByHeight", handlers.QueryBlockByHeight)
 		user.GET("blockchain/blockByHash", handlers.QueryBlockByHash)
 		user.GET("blockchain/ledgerinfo", handlers.GetLedgerInfo)
-		user.GET("blockchain/latestblock", handlers.GetLastestBlock)
+		user.GET("blockchain/latestblock", handlers.GetLastestBlock) //区块链高度
 		user.GET("getnotificationcount", handlers.GetNotificationCount)
 		user.GET("getnotification", handlers.GetNotification)
 		user.POST("readnotification", handlers.ReadNotification)
@@ -58,6 +58,10 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.GET("all_trash_perday", handlers.QuerySlaAndPasTrashPerDay)
 		user.GET("all_pasture_trash_fifteen_days", handlers.QueryPastureTrashFifteenDays)
 		user.GET("all_slaughter_trash_fifteen_days", handlers.QuerySlaughterFifteenDays)
+
+		user.GET("num_end_feed_cow", handlers.QueryEndFeedCow)
+		user.GET("num_end_sla_cow", handlers.QueryEndSlaCow)
+		user.GET("num_end_batches", handlers.QueryEndBatches)
 	}
 
 	// admin router group
@@ -103,12 +107,6 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		admin.POST("endslaughterbatch", handlers.EndSlaughter)
 		admin.POST("sendtopackage", handlers.SendToPackage)
 	}
-
-	// industrial chain group
-	//ic := fsims.Group("/industrial", middlewares.JwtAuth(), middlewares.CheckPermission())
-	//{
-	//	ic.GET("all", handlers.AllIndustrialChains)
-	//}
 
 	//operator create procedure
 	op := fsims.Group("/operator", middlewares.JwtAuth(), middlewares.CheckPermissionAndType())
