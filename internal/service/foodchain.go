@@ -9,88 +9,173 @@ import (
 	"errors"
 )
 
-func QueryProductsByPid(pid string, ptype int) (*response.ResProductsInfo, error) {
+func QueryProductsByPid(pid string, ptype int, nextpid string) (*response.ResProductsInfo, error) {
 
-	switch ptype {
-	case PASTURE_TYPE:
-		q := query.Q.FeedingBatch
-		batch, err := q.WithContext(context.Background()).Where(q.PID.Eq(pid)).Preload(q.Cows).First()
-		if err != nil {
-			return nil, err
+	if nextpid != "" {
+		switch ptype {
+		case PASTURE_TYPE:
+			q := query.Q.SlaughterBatch
+			batch, err := q.WithContext(context.Background()).Where(q.PID.Eq(nextpid)).First()
+			if err != nil {
+				return nil, err
+			}
+
+			cow, err := query.Cow.WithContext(context.Background()).Where(query.Cow.Number.Eq(batch.CowNumber)).First()
+			if err != nil {
+				return nil, err
+			}
+
+			cowsInfo := []product.CowInfo{product.ToCowInfo(cow)}
+			return &response.ResProductsInfo{CowsInfo: cowsInfo}, nil
+
+		case SLAUGHTER_TYPE:
+			q := query.PackageBatch
+			batch, err := q.WithContext(context.Background()).Where(q.PID.Eq(nextpid)).First()
+			if err != nil {
+				return nil, err
+			}
+
+			slaughterProduct, err := query.SlaughterProduct.WithContext(context.Background()).
+				Where(query.SlaughterProduct.Number.Eq(batch.ProductNumber)).First()
+			if err != nil {
+				return nil, err
+			}
+
+			spsInfo := []product.SlaughterProductInfo{product.ToSlaughterProductInfo(slaughterProduct)}
+
+			return &response.ResProductsInfo{SlaughterProductsInfo: spsInfo}, nil
+		case PACKAGE_TYPE:
+			q1 := query.PackageProductAndTransportPIDMap
+			m, err := q1.WithContext(context.Background()).Where(q1.TransportPID.Eq(nextpid)).First()
+			if err != nil {
+				return nil, err
+			}
+
+			q2 := query.PackageProduct
+			pp, err := q2.WithContext(context.Background()).Where(q2.Number.Eq(m.PackageProductNumber)).First()
+
+			ppsInfo := []product.PackageProductInfo{product.ToPackageProductInfo(pp)}
+
+			return &response.ResProductsInfo{PackageProductsInfo: ppsInfo}, nil
+		case COLDCHAIN_TRANSPORT_TYPE:
+			q1 := query.PackageProductAndTransportPIDMap
+			m, err := q1.WithContext(context.Background()).Where(q1.TransportPID.Eq(pid)).First()
+			if err != nil {
+				return nil, err
+			}
+
+			q2 := query.PackageProduct
+			packProduct, err := q2.WithContext(context.Background()).Where(q2.Number.Eq(m.PackageProductNumber)).First()
+			if err != nil {
+				return nil, err
+			}
+
+			q3 := query.TransportBatch
+			batch, err := q3.WithContext(context.Background()).Where(q3.BatchNumber.Eq(*packProduct.TransportBatchNumber)).First()
+			if err != nil {
+				return nil, err
+			}
+
+			q4 := query.Mall
+			mall, err := q4.WithContext(context.Background()).Where(q4.Number.Eq(batch.MallNumber)).First()
+			if err != nil {
+				return nil, err
+			}
+
+			ccInfo := response.ColdchainInfo{
+				TVNumber:   batch.TVNumber,
+				MallNumber: batch.MallNumber,
+				MallName:   mall.Name,
+			}
+
+			return &response.ResProductsInfo{ColdchainInfo: &ccInfo}, nil
+		default:
+			return nil, errors.New("type is error")
 		}
+	} else if nextpid == "" {
+		switch ptype {
+		case PASTURE_TYPE:
+			q := query.Q.FeedingBatch
+			batch, err := q.WithContext(context.Background()).Where(q.PID.Eq(pid)).Preload(q.Cows).First()
+			if err != nil {
+				return nil, err
+			}
 
-		cowsInfo := make([]product.CowInfo, len(batch.Cows))
-		for i, cow := range batch.Cows {
-			cowsInfo[i] = product.ToCowInfo(&cow)
+			cowsInfo := make([]product.CowInfo, len(batch.Cows))
+			for i, cow := range batch.Cows {
+				cowsInfo[i] = product.ToCowInfo(&cow)
+			}
+
+			return &response.ResProductsInfo{CowsInfo: cowsInfo}, nil
+
+		case SLAUGHTER_TYPE:
+			q := query.SlaughterBatch
+			batch, err := q.WithContext(context.Background()).Where(q.PID.Eq(pid)).Preload(q.Products).First()
+			if err != nil {
+				return nil, err
+			}
+
+			psInfo := make([]product.SlaughterProductInfo, len(batch.Products))
+			for i, slaughterProduct := range batch.Products {
+				psInfo[i] = product.ToSlaughterProductInfo(&slaughterProduct)
+			}
+
+			return &response.ResProductsInfo{SlaughterProductsInfo: psInfo}, nil
+		case PACKAGE_TYPE:
+			q1 := query.PackageBatch
+			batch, err := q1.WithContext(context.Background()).Where(q1.PID.Eq(pid)).First()
+			if err != nil {
+				return nil, err
+			}
+
+			q2 := query.PackageProduct
+			pp, err := q2.WithContext(context.Background()).Where(q2.BatchNumber.Eq(batch.BatchNumber)).Find()
+
+			psInfo := make([]product.PackageProductInfo, len(pp))
+
+			for i, p := range pp {
+				psInfo[i] = product.ToPackageProductInfo(p)
+			}
+
+			return &response.ResProductsInfo{PackageProductsInfo: psInfo}, nil
+		case COLDCHAIN_TRANSPORT_TYPE:
+			q1 := query.PackageProductAndTransportPIDMap
+			m, err := q1.WithContext(context.Background()).Where(q1.TransportPID.Eq(pid)).First()
+			if err != nil {
+				return nil, err
+			}
+
+			q2 := query.PackageProduct
+			packProduct, err := q2.WithContext(context.Background()).Where(q2.Number.Eq(m.PackageProductNumber)).First()
+			if err != nil {
+				return nil, err
+			}
+
+			q3 := query.TransportBatch
+			batch, err := q3.WithContext(context.Background()).Where(q3.BatchNumber.Eq(*packProduct.TransportBatchNumber)).First()
+			if err != nil {
+				return nil, err
+			}
+
+			q4 := query.Mall
+			mall, err := q4.WithContext(context.Background()).Where(q4.Number.Eq(batch.MallNumber)).First()
+			if err != nil {
+				return nil, err
+			}
+
+			ccInfo := response.ColdchainInfo{
+				TVNumber:   batch.TVNumber,
+				MallNumber: batch.MallNumber,
+				MallName:   mall.Name,
+			}
+
+			return &response.ResProductsInfo{ColdchainInfo: &ccInfo}, nil
+		default:
+			return nil, errors.New("type is error")
 		}
-
-		return &response.ResProductsInfo{CowsInfo: cowsInfo}, nil
-
-	case SLAUGHTER_TYPE:
-		q := query.SlaughterBatch
-		batch, err := q.WithContext(context.Background()).Where(q.PID.Eq(pid)).Preload(q.Products).First()
-		if err != nil {
-			return nil, err
-		}
-
-		psInfo := make([]product.SlaughterProductInfo, len(batch.Products))
-		for i, slaughterProduct := range batch.Products {
-			psInfo[i] = product.ToSlaughterProductInfo(&slaughterProduct)
-		}
-
-		return &response.ResProductsInfo{SlaughterProductsInfo: psInfo}, nil
-	case PACKAGE_TYPE:
-		q1 := query.PackageBatch
-		batch, err := q1.WithContext(context.Background()).Where(q1.PID.Eq(pid)).First()
-		if err != nil {
-			return nil, err
-		}
-
-		q2 := query.PackageProduct
-		pp, err := q2.WithContext(context.Background()).Where(q2.BatchNumber.Eq(batch.BatchNumber)).Find()
-
-		psInfo := make([]product.PackageProductInfo, len(pp))
-
-		for i, p := range pp {
-			psInfo[i] = product.ToPackageProductInfo(p)
-		}
-
-		return &response.ResProductsInfo{PackageProductsInfo: psInfo}, nil
-	case COLDCHAIN_TRANSPORT_TYPE:
-		q1 := query.PackageProductAndTransportPIDMap
-		m, err := q1.WithContext(context.Background()).Where(q1.TransportPID.Eq(pid)).First()
-		if err != nil {
-			return nil, err
-		}
-
-		q2 := query.PackageProduct
-		packProduct, err := q2.WithContext(context.Background()).Where(q2.Number.Eq(m.PackageProductNumber)).First()
-		if err != nil {
-			return nil, err
-		}
-
-		q3 := query.TransportBatch
-		batch, err := q3.WithContext(context.Background()).Where(q3.BatchNumber.Eq(*packProduct.TransportBatchNumber)).First()
-		if err != nil {
-			return nil, err
-		}
-
-		q4 := query.Mall
-		mall, err := q4.WithContext(context.Background()).Where(q4.Number.Eq(batch.MallNumber)).First()
-		if err != nil {
-			return nil, err
-		}
-
-		ccInfo := response.ColdchainInfo{
-			TVNumber:   batch.TVNumber,
-			MallNumber: batch.MallNumber,
-			MallName:   mall.Name,
-		}
-
-		return &response.ResProductsInfo{ColdchainInfo: &ccInfo}, nil
-	default:
-		return nil, errors.New("type is error")
 	}
+
+	return nil, errors.New("last_flag is error")
 }
 
 func QueryAllFoodchains() ([]models.Foodchain, int64, int64, error) {

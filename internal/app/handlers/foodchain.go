@@ -52,6 +52,7 @@ func GetPidInfo(c *gin.Context) {
 func GetProductsByPid(c *gin.Context) {
 	pid := c.Query("pid")
 	ptypeStr := c.Query("type")
+	nextpid := c.Query("next_pid")
 
 	ptype, err := strconv.Atoi(ptypeStr)
 	if err != nil {
@@ -59,7 +60,7 @@ func GetProductsByPid(c *gin.Context) {
 		return
 	}
 
-	res, err := service.QueryProductsByPid(pid, ptype)
+	res, err := service.QueryProductsByPid(pid, ptype, nextpid)
 	if err != nil {
 		response.MakeFail(c, http.StatusBadRequest, "query products by pid error!")
 		return
