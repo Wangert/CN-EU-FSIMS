@@ -33,7 +33,7 @@ type TransportBatchInfo struct {
 
 func ToTransportBatchInfo(batch *TransportBatch) TransportBatchInfo {
 	startTime := ""
-	if batch.EndTime != nil {
+	if batch.StartTime != nil {
 		startTime = batch.StartTime.Format("2006-01-02 15:04:05")
 	}
 	endTime := ""

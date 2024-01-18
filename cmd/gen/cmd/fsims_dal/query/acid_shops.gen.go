@@ -62,20 +62,20 @@ type acidShop struct {
 	DeletedAt    field.Field
 	HouseNumber  field.String
 	TimeRecordAt field.Time
-	AcidShop1    field.Float32
-	AcidShop2    field.Float32
-	AcidShop3    field.Float32
-	AcidShop4    field.Float32
-	AcidShop5    field.Float32
-	AcidShop6    field.Float32
-	AcidShop7    field.Float32
-	AcidShop8    field.Float32
-	AcidShop9    field.Float32
-	AcidShop10   field.Float32
-	AcidShop11   field.Float32
-	AcidShop12   field.Float32
-	AcidShop13   field.Float32
-	AcidShop14   field.Float32
+	AcidShop1    field.Float64
+	AcidShop2    field.Float64
+	AcidShop3    field.Float64
+	AcidShop4    field.Float64
+	AcidShop5    field.Float64
+	AcidShop6    field.Float64
+	AcidShop7    field.Float64
+	AcidShop8    field.Float64
+	AcidShop9    field.Float64
+	AcidShop10   field.String
+	AcidShop11   field.String
+	AcidShop12   field.String
+	AcidShop13   field.String
+	AcidShop14   field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -98,20 +98,20 @@ func (a *acidShop) updateTableName(table string) *acidShop {
 	a.DeletedAt = field.NewField(table, "deleted_at")
 	a.HouseNumber = field.NewString(table, "house_number")
 	a.TimeRecordAt = field.NewTime(table, "time_record_at")
-	a.AcidShop1 = field.NewFloat32(table, "acid_shop1")
-	a.AcidShop2 = field.NewFloat32(table, "acid_shop2")
-	a.AcidShop3 = field.NewFloat32(table, "acid_shop3")
-	a.AcidShop4 = field.NewFloat32(table, "acid_shop4")
-	a.AcidShop5 = field.NewFloat32(table, "acid_shop5")
-	a.AcidShop6 = field.NewFloat32(table, "acid_shop6")
-	a.AcidShop7 = field.NewFloat32(table, "acid_shop7")
-	a.AcidShop8 = field.NewFloat32(table, "acid_shop8")
-	a.AcidShop9 = field.NewFloat32(table, "acid_shop9")
-	a.AcidShop10 = field.NewFloat32(table, "acid_shop10")
-	a.AcidShop11 = field.NewFloat32(table, "acid_shop11")
-	a.AcidShop12 = field.NewFloat32(table, "acid_shop12")
-	a.AcidShop13 = field.NewFloat32(table, "acid_shop13")
-	a.AcidShop14 = field.NewFloat32(table, "acid_shop14")
+	a.AcidShop1 = field.NewFloat64(table, "acid_shop1")
+	a.AcidShop2 = field.NewFloat64(table, "acid_shop2")
+	a.AcidShop3 = field.NewFloat64(table, "acid_shop3")
+	a.AcidShop4 = field.NewFloat64(table, "acid_shop4")
+	a.AcidShop5 = field.NewFloat64(table, "acid_shop5")
+	a.AcidShop6 = field.NewFloat64(table, "acid_shop6")
+	a.AcidShop7 = field.NewFloat64(table, "acid_shop7")
+	a.AcidShop8 = field.NewFloat64(table, "acid_shop8")
+	a.AcidShop9 = field.NewFloat64(table, "acid_shop9")
+	a.AcidShop10 = field.NewString(table, "acid_shop10")
+	a.AcidShop11 = field.NewString(table, "acid_shop11")
+	a.AcidShop12 = field.NewString(table, "acid_shop12")
+	a.AcidShop13 = field.NewString(table, "acid_shop13")
+	a.AcidShop14 = field.NewString(table, "acid_shop14")
 
 	a.fillFieldMap()
 
