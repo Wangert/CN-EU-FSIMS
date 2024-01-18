@@ -10,6 +10,19 @@ import (
 	"github.com/golang/glog"
 )
 
+func GetFoodchainByProductNumber(c *gin.Context) {
+	number := c.Query("product_number")
+
+	res, err := service.QueryFoodchainByProductNumber(number)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "query food chain by product number error!")
+		return
+	}
+
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
 func GetAllFoodchains(c *gin.Context) {
 	fcs, totalCount, completedCount, err := service.QueryAllFoodchains()
 	if err != nil {

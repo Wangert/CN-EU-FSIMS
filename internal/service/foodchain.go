@@ -9,6 +9,131 @@ import (
 	"errors"
 )
 
+func QueryFoodchainByProductNumber(productNumber string) (*models.Foodchain, error) {
+	fc := models.Foodchain{
+		Checkcode:            "",
+		CurrentProductNumber: productNumber,
+		CurrentLastProcedure: "",
+		PasturePID:           "",
+		SlaughterPID:         "",
+		PackagePID:           "",
+		ColdchainPID:         "",
+	}
+
+	ptype := GetProcedureTypeByName(productNumber)
+
+	switch ptype {
+	case PASTURE_TYPE:
+		cow, err := query.Cow.WithContext(context.Background()).Where(query.Cow.Number.Eq(productNumber)).First()
+		if err != nil {
+			return nil, err
+		}
+		feedingBatch, err := query.Q.FeedingBatch.WithContext(context.Background()).Where(query.FeedingBatch.BatchNumber.Eq(*cow.BatchNumber)).First()
+		if err != nil {
+			return nil, err
+		}
+
+		p, err := query.Q.Procedure.WithContext(context.Background()).Where(query.Procedure.PID.Eq(feedingBatch.PID)).First()
+		if err != nil {
+			return nil, err
+		}
+
+		fc.Checkcode = p.CheckCode
+		fc.CurrentLastProcedure = "pasture"
+		fc.PasturePID = feedingBatch.PID
+	case SLAUGHTER_TYPE:
+		slaProduct, err := query.SlaughterProduct.WithContext(context.Background()).Where(query.SlaughterProduct.Number.Eq(productNumber)).First()
+		if err != nil {
+			return nil, err
+		}
+
+		slaBatch, err := query.Q.SlaughterBatch.WithContext(context.Background()).Where(query.SlaughterBatch.BatchNumber.Eq(slaProduct.BatchNumber)).First()
+		if err != nil {
+			return nil, err
+		}
+		slaughterPID := slaBatch.PID
+
+		p, err := query.Q.Procedure.WithContext(context.Background()).Where(query.Procedure.PID.Eq(slaughterPID)).First()
+		if err != nil {
+			return nil, err
+		}
+		checkcode := p.CheckCode
+		pasturePID := p.PrePID
+
+		fc.Checkcode = checkcode
+		fc.CurrentLastProcedure = "slaughter"
+		fc.PasturePID = pasturePID
+		fc.SlaughterPID = slaughterPID
+
+	case PACKAGE_TYPE:
+		packProduct, err := query.PackageProduct.WithContext(context.Background()).Where(query.PackageProduct.Number.Eq(productNumber)).First()
+		if err != nil {
+			return nil, err
+		}
+
+		packageBatch, err := query.Q.PackageBatch.WithContext(context.Background()).Where(query.PackageBatch.BatchNumber.Eq(packProduct.BatchNumber)).First()
+		if err != nil {
+			return nil, err
+		}
+		packagePID := packageBatch.PID
+
+		p, err := query.Q.Procedure.WithContext(context.Background()).Where(query.Procedure.PID.Eq(packagePID)).First()
+		if err != nil {
+			return nil, err
+		}
+
+		checkcode := p.CheckCode
+		slaughterPID := p.PrePID
+
+		p, err = query.Q.Procedure.WithContext(context.Background()).Where(query.Procedure.PID.Eq(slaughterPID)).First()
+		if err != nil {
+			return nil, err
+		}
+
+		pasturePID := p.PrePID
+
+		fc.Checkcode = checkcode
+		fc.CurrentLastProcedure = "package"
+		fc.PasturePID = pasturePID
+		fc.SlaughterPID = slaughterPID
+		fc.PackagePID = packagePID
+	case SELL_TYPE:
+		good, err := query.MallGood.WithContext(context.Background()).Where(query.MallGood.Number.Eq(productNumber)).First()
+		if err != nil {
+			return nil, err
+		}
+
+		p, err := query.Q.Procedure.WithContext(context.Background()).Where(query.Procedure.PID.Eq(*good.FinalPID)).First()
+		if err != nil {
+			return nil, err
+		}
+		packagePID := p.PrePID
+
+		p, err = query.Q.Procedure.WithContext(context.Background()).Where(query.Procedure.PID.Eq(packagePID)).First()
+		if err != nil {
+			return nil, err
+		}
+		slaughterPID := p.PrePID
+
+		p, err = query.Q.Procedure.WithContext(context.Background()).Where(query.Procedure.PID.Eq(slaughterPID)).First()
+		if err != nil {
+			return nil, err
+		}
+		pasturePID := p.PrePID
+
+		fc.Checkcode = p.CheckCode
+		fc.CurrentLastProcedure = "end"
+		fc.PasturePID = pasturePID
+		fc.SlaughterPID = slaughterPID
+		fc.PackagePID = packagePID
+		fc.ColdchainPID = p.PID
+	default:
+		return nil, errors.New("procedure type error")
+	}
+
+	return &fc, nil
+}
+
 func QueryProductsByPid(pid string, ptype int, nextpid string) (*response.ResProductsInfo, error) {
 
 	if nextpid != "" {

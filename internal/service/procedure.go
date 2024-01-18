@@ -14,6 +14,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/golang/glog"
@@ -132,6 +133,20 @@ func AddProcedure(rcp request.ReqCreateProcedure) error {
 		return err
 	}
 	return nil
+}
+
+func GetProcedureTypeByName(productName string) int {
+	if strings.HasPrefix(productName, COW_NUMBER_PREFIX) {
+		return PASTURE_TYPE
+	} else if strings.HasPrefix(productName, SLAUGHTER_PRODUCT_PREFIX) {
+		return SLAUGHTER_TYPE
+	} else if strings.HasPrefix(productName, PACKAGE_PRODUCT_PREFIX) {
+		return PACKAGE_TYPE
+	} else if strings.HasPrefix(productName, MALL_GOOD_PREFIX) {
+		return SELL_TYPE
+	}
+
+	return 0
 }
 
 //func AddTransportProcedure(rcp request.TransportStart) error {
