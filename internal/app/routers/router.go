@@ -32,6 +32,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.GET("foodchains", handlers.GetAllFoodchains)
 		user.GET("pidinfo", handlers.GetPidInfo)
 		user.GET("productsbypid", handlers.GetProductsByPid)
+		user.GET("searchfoodchain", handlers.GetFoodchainByProductNumber)
 
 		//查询牧场数据
 		user.GET("/query/sensor/heavymetal", handlers.QueryFeedHeavyMetalData)
