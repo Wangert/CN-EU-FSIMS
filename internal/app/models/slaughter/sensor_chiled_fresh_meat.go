@@ -140,9 +140,11 @@ func ToChiledFreshIndexInfo(index *ChiledFreshIndex) ChiledFreshIndexInfo {
 		Gps1: index.SlaughterGps.Gps1,
 		Gps2: index.SlaughterGps.Gps2,
 	}
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := index.TimeRecordAt.In(loc)
 
 	return ChiledFreshIndexInfo{
-		TimeRecordAt:        index.TimeRecordAt.Format("2006-01-02 15:04:05"),
+		TimeRecordAt:        time.Format("2006-01-02 15:04:05"),
 		SlaughterPaGerm:     germ,
 		SlaughterOtherIndex: otherIndex,
 		SlaughterDrugsResi:  resi,

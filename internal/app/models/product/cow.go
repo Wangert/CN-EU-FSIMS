@@ -1,8 +1,9 @@
 package product
 
 import (
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type Cow struct {
@@ -39,8 +40,11 @@ func ToCowInfo(cow *Cow) CowInfo {
 	}
 
 	et := ""
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+
 	if cow.EntryTime != nil {
-		et = cow.EntryTime.Format("2006-01-02 15:04:05")
+		time := cow.EntryTime.In(loc)
+		et = time.Format("2006-01-02 15:04:05")
 	}
 
 	return CowInfo{

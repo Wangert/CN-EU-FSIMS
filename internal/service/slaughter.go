@@ -811,6 +811,7 @@ func SendToPackage(r *request.ReqSendToPackage) error {
 	}
 
 	// 新增package receive record
+	currentTime := time.Now()
 	prr := warehouse.PackageReceiveRecord{
 		ProductNumber: r.ProductNumber,
 		PID:           pid,
@@ -818,7 +819,7 @@ func SendToPackage(r *request.ReqSendToPackage) error {
 		SourceName:    shinfo.Name,
 		Operator:      r.Operator,
 		State:         INIT_STATE_REC_PAC,
-		ReceiveTime:   time.Now(),
+		ReceiveTime:   &currentTime,
 		ConfirmTime:   nil,
 		PacNumber:     r.PackageHouseNumber,
 	}

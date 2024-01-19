@@ -64,7 +64,7 @@ type ReqAddPastureWaterRecord struct {
 }
 
 type ReqAddPastureBuffer struct {
-	HouseNumber string  `json:"houseNumber"`
+	HouseNumber string  `json:"house_number"`
 	TimeStamp   int64   `json:"time_stamp"`
 	Buffer1     float64 `json:"buffer_1"`  //NH3氨气
 	Buffer2     float64 `json:"buffer_2"`  //H2S硫化氢

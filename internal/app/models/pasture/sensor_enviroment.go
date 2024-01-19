@@ -43,8 +43,10 @@ type PastureBufferInfo struct {
 }
 
 func ToPastureBufferInfo(bu *PastureBuffer) PastureBufferInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := bu.TimeRecordAt.In(loc)
 	return PastureBufferInfo{
-		TimeRecordAt: bu.TimeRecordAt.Format("2006-01-02 15:04:05"),
+		TimeRecordAt: time.Format("2006-01-02 15:04:05"),
 		HouseNumber:  bu.HouseNumber,
 		Buffer1:      bu.Buffer1,
 		Buffer2:      bu.Buffer2,
@@ -98,8 +100,10 @@ type PastureAreaInfo struct {
 }
 
 func ToPastureAreaInfo(ar *PastureArea) PastureAreaInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := ar.TimeRecordAt.In(loc)
 	return PastureAreaInfo{
-		TimeRecordAt: ar.TimeRecordAt.Format("2006-01-02 15:04:05"),
+		TimeRecordAt: time.Format("2006-01-02 15:04:05"),
 		HouseNumber:  ar.HouseNumber,
 		CattleFarm1:  ar.CattleFarm1,
 		CattleFarm2:  ar.CattleFarm2,
@@ -153,8 +157,10 @@ type CowHouseInfo struct {
 }
 
 func ToCowHouseInfo(ch *CowHouse) CowHouseInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := ch.TimeRecordAt.In(loc)
 	return CowHouseInfo{
-		TimeRecordAt: ch.TimeRecordAt.Format("2006-01-02 15:04:05"),
+		TimeRecordAt: time.Format("2006-01-02 15:04:05"),
 		HouseNumber:  ch.HouseNumber,
 		CowHouse1:    ch.CowHouse1,
 		CowHouse2:    ch.CowHouse2,
@@ -196,8 +202,10 @@ type PastureBasicEnvironmentInfo struct {
 }
 
 func ToPastureBasicEnvironmentInfo(be *PastureBasicEnvironment) PastureBasicEnvironmentInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := be.TimeRecordAt.In(loc)
 	return PastureBasicEnvironmentInfo{
-		TimeRecordAt: be.TimeRecordAt.Format("2006-01-02 15:04:05"),
+		TimeRecordAt: time.Format("2006-01-02 15:04:05"),
 		HouseNumber:  be.HouseNumber,
 		Environment1: be.Environment1,
 		Environment2: be.Environment2,
@@ -237,8 +245,10 @@ type PasturePaddingRequireInfo struct {
 }
 
 func ToPasturePaddingRequireInfo(pr *PasturePaddingRequire) PasturePaddingRequireInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := pr.TimeRecordAt.In(loc)
 	return PasturePaddingRequireInfo{
-		TimeRecordAt:    pr.TimeRecordAt.Format("2006-01-02 15:04:05"),
+		TimeRecordAt:    time.Format("2006-01-02 15:04:05"),
 		HouseNumber:     pr.HouseNumber,
 		PaddingRequire1: pr.PaddingRequire1,
 		PaddingRequire2: pr.PaddingRequire2,
@@ -282,8 +292,10 @@ type PastureWastedWaterIndexInfo struct {
 }
 
 func ToPastureWastedWaterIndexInfo(ww *PastureWastedWaterIndex) PastureWastedWaterIndexInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := ww.TimeRecordAt.In(loc)
 	return PastureWastedWaterIndexInfo{
-		TimeRecordAt:      ww.TimeRecordAt.Format("2006-01-02 15:04:05"),
+		TimeRecordAt:      time.Format("2006-01-02 15:04:05"),
 		HouseNumber:       ww.HouseNumber,
 		WastedWaterIndex1: ww.WastedWaterIndex1,
 		WastedWaterIndex2: ww.WastedWaterIndex2,
@@ -316,8 +328,10 @@ type PastureDisinfectionRecordInfo struct {
 }
 
 func ToPastureDisinfectionRecordInfo(dr *PastureDisinfectionRecord) PastureDisinfectionRecordInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := dr.TimeRecordAt.In(loc)
 	return PastureDisinfectionRecordInfo{
-		TimeRecordAt:   dr.TimeRecordAt.Format("2006-01-02 15:04:05"),
+		TimeRecordAt:   time.Format("2006-01-02 15:04:05"),
 		HouseNumber:    dr.HouseNumber,
 		FarmDisRecord1: dr.FarmDisRecord1,
 		FarmDisRecord2: dr.FarmDisRecord2,

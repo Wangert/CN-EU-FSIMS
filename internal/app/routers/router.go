@@ -49,6 +49,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.GET("/query/sensor/disinfectionrecord", handlers.QueryPastureDisinfectionRecordData)
 
 		//查询屠宰数据
+		user.GET("/query/sensor/precoolshop", handlers.QueryPreCoolShopData)
 		user.GET("/query/sensor/slashop", handlers.QuerySlaughterShopData)
 		user.GET("/query/sensor/divshop", handlers.QueryDivisionShopData)
 		user.GET("/query/sensor/acidshop", handlers.QueryAcidShopData)
@@ -63,6 +64,12 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.GET("num_end_feed_cow", handlers.QueryEndFeedCow)
 		user.GET("num_end_sla_cow", handlers.QueryEndSlaCow)
 		user.GET("num_end_batches", handlers.QueryEndBatches)
+		user.GET("transportvehicles", handlers.GetTransportVehicles)
+		user.GET("packagehouses", handlers.GetPackageHouses)
+		user.GET("pastures", handlers.GetPastures)
+		// user.GET("slaughterhouses", handlers.GetSlaughterHouses)
+		user.GET("searchtv", handlers.SearchTransportVehicles)
+		user.GET("searchusers", handlers.SearchUsers)
 	}
 
 	// admin router group

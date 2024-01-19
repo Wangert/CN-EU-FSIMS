@@ -69,9 +69,12 @@ type SlaughterLightRecordInfo struct {
 }
 
 func ToStaUniInfo(uni *StaUni) StaUniInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := uni.TimeRecordAt.In(loc)
+
 	return StaUniInfo{
 		HouseNumber:  uni.HouseNumber,
-		TimeRecordAt: uni.TimeRecordAt.Format("2006-01-02 15:04:05"),
+		TimeRecordAt: time.Format("2006-01-02 15:04:05"),
 		StaUni1:      uni.StaUni1,
 		StaUni2:      uni.StaUni2,
 		StaUni3:      uni.StaUni3,
@@ -90,9 +93,11 @@ func ToStaUniInfo(uni *StaUni) StaUniInfo {
 }
 
 func ToSlaEnvLigRecInfo(rec *SlaughterLightRecord) SlaughterLightRecordInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := rec.TimeRecordAt.In(loc)
 	return SlaughterLightRecordInfo{
 		HouseNumber:   rec.HouseNumber,
-		TimeRecordAt:  rec.TimeRecordAt.Format("2006-01-02 15:04:05"),
+		TimeRecordAt:  time.Format("2006-01-02 15:04:05"),
 		SlaEnvLigRec1: rec.SlaEnvLigRec1,
 		SlaEnvLigRec2: rec.SlaEnvLigRec2,
 		SlaEnvLigRec3: rec.SlaEnvLigRec3,

@@ -1,8 +1,9 @@
 package pasture
 
 import (
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type PastureFeedHeavyMetal struct {
@@ -73,8 +74,10 @@ type PastureFeedHeavyMetalInfo struct {
 }
 
 func ToPastureFeedHeavyMetalInfo(hm *PastureFeedHeavyMetal) PastureFeedHeavyMetalInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := hm.TimeRecordAt.In(loc)
 	return PastureFeedHeavyMetalInfo{
-		TimeRecordAt:      hm.TimeRecordAt.Format("2006-01-02 15:04:05"),
+		TimeRecordAt:      time.Format("2006-01-02 15:04:05"),
 		HouseNumber:       hm.HouseNumber,
 		PastureFeedAsInfo: ToPastureFeedAsInfo(&hm.PastureFeedAs),
 		PastureFeedPbInfo: ToPastureFeedPbInfo(&hm.PastureFeedPb),

@@ -225,8 +225,10 @@ type PackShopInfo struct {
 }
 
 func ToPreCoolShopInfo(shop *PreCoolShop) PreCoolShopInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := shop.TimeRecordAt.In(loc)
 	return PreCoolShopInfo{
-		TimeRecordAt: shop.TimeRecordAt.Format("2006-01-02 15:04:05"),
+		TimeRecordAt: time.Format("2006-01-02 15:04:05"),
 		PreCoolShop1: shop.PreCoolShop1,
 		PreCoolShop2: shop.PreCoolShop2,
 		PreCoolShop3: shop.PreCoolShop3,
@@ -234,8 +236,10 @@ func ToPreCoolShopInfo(shop *PreCoolShop) PreCoolShopInfo {
 }
 
 func ToSlaShopInfo(shop *SlaShop) SlaShopInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := shop.TimeRecordAt.In(loc)
 	return SlaShopInfo{
-		TimeRecordAt: shop.TimeRecordAt.Format("2006-01-02 15:04:05"),
+		TimeRecordAt: time.Format("2006-01-02 15:04:05"),
 		SlaShop1:     shop.SlaShop1,
 		SlaShop2:     shop.SlaShop2,
 		SlaShop3:     shop.SlaShop3,
@@ -254,8 +258,10 @@ func ToSlaShopInfo(shop *SlaShop) SlaShopInfo {
 }
 
 func ToDivShopInfo(shop *DivShop) DivShopInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := shop.TimeRecordAt.In(loc)
 	return DivShopInfo{
-		TimeRecordAt: shop.TimeRecordAt.Format("2006-01-02 15:04:05"),
+		TimeRecordAt: time.Format("2006-01-02 15:04:05"),
 		DivShop1:     shop.DivShop1,
 		DivShop2:     shop.DivShop2,
 		DivShop3:     shop.DivShop3,
@@ -274,8 +280,10 @@ func ToDivShopInfo(shop *DivShop) DivShopInfo {
 }
 
 func ToAcidShopInfo(shop *AcidShop) AcidShopInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := shop.TimeRecordAt.In(loc)
 	return AcidShopInfo{
-		TimeRecordAt: shop.TimeRecordAt.Format("2006-01-02 15:04:05"),
+		TimeRecordAt: time.Format("2006-01-02 15:04:05"),
 		AcidShop1:    shop.AcidShop1,
 		AcidShop2:    shop.AcidShop2,
 		AcidShop3:    shop.AcidShop3,
@@ -294,8 +302,10 @@ func ToAcidShopInfo(shop *AcidShop) AcidShopInfo {
 }
 
 func ToFroShopInfo(shop *FroShop) FroShopInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := shop.TimeRecordAt.In(loc)
 	return FroShopInfo{
-		TimeRecordAt: shop.TimeRecordAt.Format("2006-01-02 15:04:05"),
+		TimeRecordAt: time.Format("2006-01-02 15:04:05"),
 		FroShop1:     shop.FroShop1,
 		FroShop2:     shop.FroShop2,
 		FroShop3:     shop.FroShop3,

@@ -212,6 +212,7 @@ func QueryPastureFeedHeavyMetal(r *request.ReqPastureSensorData) ([]pasture.Past
 
 	startTime := time.Unix(r.StartTimestamp, 0).UTC().Local()
 	endTime := time.Unix(r.EndTimestamp, 0).UTC().Local()
+	glog.Info("test:", startTime)
 
 	q := query.Q.PastureFeedHeavyMetal
 	results, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(r.HouseNumber)).

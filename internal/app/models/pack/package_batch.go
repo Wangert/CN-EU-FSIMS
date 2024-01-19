@@ -32,12 +32,16 @@ type PackageBatchInfo struct {
 
 func ToPackageBatchInfo(batch *PackageBatch) PackageBatchInfo {
 	startTime := ""
-	if batch.EndTime != nil {
-		startTime = batch.StartTime.Format("2006-01-02 15:04:05")
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+
+	if batch.StartTime != nil {
+		stime := batch.StartTime.In(loc)
+		startTime = stime.Format("2006-01-02 15:04:05")
 	}
 	endTime := ""
 	if batch.EndTime != nil {
-		endTime = batch.EndTime.Format("2006-01-02 15:04:05")
+		etime := batch.EndTime.In(loc)
+		endTime = etime.Format("2006-01-02 15:04:05")
 	}
 	return PackageBatchInfo{
 		BatchNumber:   batch.BatchNumber,

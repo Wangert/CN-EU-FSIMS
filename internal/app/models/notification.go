@@ -34,13 +34,16 @@ type NotificationInfo struct {
 }
 
 func ToNotificationInfo(data *Notification) NotificationInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	eventtime := data.EventTime.In(loc)
+	noticetime := data.CreatedAt.In(loc)
 	return NotificationInfo{
 		ID:         int(data.ID),
 		Source:     data.Source,
 		Content:    data.Content,
 		UUID:       data.UUID,
-		EventTime:  data.EventTime.Format("2006-01-02 15:04:05"),
-		NoticeTime: data.CreatedAt.Format("2006-01-02 15:04:05"),
+		EventTime:  eventtime.Format("2006-01-02 15:04:05"),
+		NoticeTime: noticetime.Format("2006-01-02 15:04:05"),
 		EventType:  data.EventType,
 		Affected:   data.Affected,
 		Proposal:   data.Proposal,

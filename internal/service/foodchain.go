@@ -7,6 +7,7 @@ import (
 	"CN-EU-FSIMS/internal/app/models/query"
 	"context"
 	"errors"
+	"time"
 )
 
 func QueryFoodchainByProductNumber(productNumber string) (*models.Foodchain, error) {
@@ -468,8 +469,11 @@ func QueryPidInfo(pid string) (string, string, string, string, error) {
 	if err != nil {
 		return "", "", "", "", err
 	}
-	starttime := starttimestamp.Format("2006-01-02 15:04:05")
-	endtime := endtimestamp.Format("2006-01-02 15:04:05")
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	stime := starttimestamp.In(loc)
+	etime := endtimestamp.In(loc)
+	starttime := stime.Format("2006-01-02 15:04:05")
+	endtime := etime.Format("2006-01-02 15:04:05")
 	address := user.Company
 	housenumber := user.HouseNumber
 	return starttime, endtime, address, housenumber, nil

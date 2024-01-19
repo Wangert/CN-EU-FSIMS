@@ -33,12 +33,16 @@ type TransportBatchInfo struct {
 
 func ToTransportBatchInfo(batch *TransportBatch) TransportBatchInfo {
 	startTime := ""
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+
 	if batch.StartTime != nil {
-		startTime = batch.StartTime.Format("2006-01-02 15:04:05")
+		stime := batch.StartTime.In(loc)
+		startTime = stime.Format("2006-01-02 15:04:05")
 	}
 	endTime := ""
 	if batch.EndTime != nil {
-		endTime = batch.EndTime.Format("2006-01-02 15:04:05")
+		etime := batch.EndTime.In(loc)
+		endTime = etime.Format("2006-01-02 15:04:05")
 	}
 	return TransportBatchInfo{
 		BatchNumber: batch.BatchNumber,

@@ -21,32 +21,42 @@ type FeedingBatch struct {
 }
 
 type FeedingBatchInfo struct {
-	BatchNumber string        `json:"batch_number"`
-	HouseNumber string        `json:"house_number"`
-	State       int           `json:"state"`
-	PID         string        `json:"pid"`
-	Worker      string        `json:"worker"`
-	Cows        []product.Cow `json:"cows"`
-	StartTime   string        `json:"start_time"`
-	EndTime     string        `json:"end_time"`
+	BatchNumber string            `json:"batch_number"`
+	HouseNumber string            `json:"house_number"`
+	State       int               `json:"state"`
+	PID         string            `json:"pid"`
+	Worker      string            `json:"worker"`
+	Cows        []product.CowInfo `json:"cows"`
+	StartTime   string            `json:"start_time"`
+	EndTime     string            `json:"end_time"`
 }
 
 func ToFeedingBatchInfo(batch *FeedingBatch) FeedingBatchInfo {
 	startTime := ""
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+
 	if batch.StartTime != nil {
-		startTime = batch.StartTime.Format("2006-01-02 15:04:05")
+		stime := batch.StartTime.In(loc)
+		startTime = stime.Format("2006-01-02 15:04:05")
 	}
 	endTime := ""
 	if batch.EndTime != nil {
-		endTime = batch.EndTime.Format("2006-01-02 15:04:05")
+		etime := batch.EndTime.In(loc)
+		endTime = etime.Format("2006-01-02 15:04:05")
 	}
+	var cows []product.CowInfo
+	for i, _ := range batch.Cows {
+		// records[i] = pasture.ToFeedingBatchInfo(fb)
+		cows = append(cows, product.ToCowInfo(&batch.Cows[i]))
+	}
+
 	return FeedingBatchInfo{
 		BatchNumber: batch.BatchNumber,
 		HouseNumber: batch.HouseNumber,
 		State:       batch.State,
 		PID:         batch.PID,
 		Worker:      batch.Worker,
-		Cows:        batch.Cows,
+		Cows:        cows,
 		StartTime:   startTime,
 		EndTime:     endTime,
 	}

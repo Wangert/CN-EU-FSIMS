@@ -74,8 +74,10 @@ type AllPasturesTrashDisposalInfo struct {
 }
 
 func ToAllPasturesTrashDisposalInfo(pa *AllPasturesTrashDisposal) AllPasturesTrashDisposalInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := pa.TimeStamp.In(loc)
 	return AllPasturesTrashDisposalInfo{
-		TimeStamp:                     pa.TimeStamp.Format("2006-01-02 15:04:05"),
+		TimeStamp:                     time.Format("2006-01-02 15:04:05"),
 		OdorPasturesTrashDisposal1:    pa.OdorPasturesTrashDisposal1,
 		OdorPasturesTrashDisposal2:    pa.OdorPasturesTrashDisposal2,
 		OdorPasturesTrashDisposal3:    pa.OdorPasturesTrashDisposal3,
