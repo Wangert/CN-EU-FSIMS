@@ -1,6 +1,7 @@
 package service
 
 import (
+	"CN-EU-FSIMS/cmd/img_dal/remote_query"
 	"CN-EU-FSIMS/database/mysql"
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/models"
@@ -9,8 +10,11 @@ import (
 	"CN-EU-FSIMS/internal/app/models/slaughter"
 	"CN-EU-FSIMS/utils/crypto"
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"math"
+	"strconv"
 
 	"gorm.io/gorm"
 	"time"
@@ -543,4 +547,94 @@ func CheckPastureTrashIsExisted(t time.Time) (bool, error) {
 		return false, nil
 	}
 	return true, nil
+}
+
+func GetCleanImage() ([]models.UploadImgsInfo, int64, error) {
+	q := remote_query.Q.UploadImgs
+	infos, err := q.WithContext(context.Background()).Find()
+	if err != nil {
+		return nil, 0, err
+	}
+	if len(infos) == 0 {
+		return nil, 0, nil
+	}
+	count, err := q.WithContext(context.Background()).Count()
+	images := make([]models.UploadImgsInfo, count)
+	for i, info := range infos {
+		images[i] = models.ToUploadImgsInfo(info)
+	}
+	return images, count, nil
+}
+
+func GetSlPrediction(parameter *request.ReqSlPrediction) (float64, error) {
+	e := math.E
+	q := remote_query.Q.Spectra
+	r, err := q.WithContext(context.Background()).Where(q.Id.Eq(parameter.Id)).Find()
+	if err != nil {
+		return 0.0, err
+	}
+	if len(r) == 0 {
+		return 0.0, err
+	}
+	d := r[0].Data
+	j, err := d.MarshalJSON()
+	if err != nil {
+		return 0.0, err
+	}
+	data := string(j)
+
+	//将json字符串进行解析
+	var result map[string]interface{}
+	if err := json.Unmarshal([]byte(data), &result); err != nil {
+		fmt.Println("Error parsing JSON:", err)
+		return 0.0, err
+	}
+
+	//开始计算
+	x, y, z, k := result["826.63"], result["938.11"], result["1270.93"], result["1319.24"]
+	lam := GetLambda(parameter.Temperature)
+	u := GetMuMax(parameter.Temperature)
+	no, ok := GetNo(x, y, z, k)
+	if !ok {
+		return 0.0, nil
+	}
+
+	part1 := (9.763 - no) / u * e
+	part2 := math.Log(-math.Log((7.34-no)/(9.763-no))) - 1
+	SL := lam - part1*part2
+	return SL, nil
+}
+
+func GetLambda(t float64) float64 {
+	return math.Pow(0.01381*t+0.12459, -2)
+}
+
+func GetMuMax(t float64) float64 {
+	return math.Pow(0.01684*t+0.14215, -2)
+}
+
+func GetNo(x, y, z, k interface{}) (float64, bool) {
+	//return 6.017 - 0.027*x + 0.025*y + 0.029*z - 0.027*k
+	xf, ok1 := transform(x)
+	yf, ok2 := transform(y)
+	zf, ok3 := transform(z)
+	kf, ok4 := transform(k)
+	if !ok1 || !ok2 || !ok3 || !ok4 {
+		return 0.0, false
+	}
+	return 6.017 - 0.027*xf + 0.025*yf + 0.029*zf - 0.027*kf, true
+}
+
+func transform(p interface{}) (float64, bool) {
+	strx, ok := p.(string)
+	if !ok {
+		fmt.Println("Value is not a string")
+		return 0.0, false
+	}
+	floatValue, err := strconv.ParseFloat(strx, 64) // 64表示解析为float64
+	if err != nil {
+		fmt.Printf("Error parsing string to float64: %v\n", err)
+		return 0.0, false
+	}
+	return floatValue, true
 }

@@ -6,6 +6,9 @@ import (
 	"CN-EU-FSIMS/internal/app/models/slaughter"
 )
 
+type ResSL struct {
+	Sl float64 `json:"sl"`
+}
 type ResUsers struct {
 	Users []models.UserInfo `json:"users"`
 	Count int64             `json:"count"`
@@ -41,4 +44,9 @@ type ResPastureTrashDisposalFifteenDays struct {
 type ResSlaughterDisposalFifteenDays struct {
 	Count                    int64                                      `json:"count"`
 	SlaughterDisposalRecords []slaughter.AllSlaughtersTrashDisposalInfo `json:"slaughter_disposal_records"`
+}
+
+type ResCleanImages struct {
+	Count  int64                   `json:"count"`
+	Images []models.UploadImgsInfo `json:"images"`
 }

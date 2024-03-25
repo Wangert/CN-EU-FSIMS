@@ -19,6 +19,8 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 
 	user := fsims.Group("/user")
 	{
+		user.GET("get_clean_degree", handlers.GetCleanDegree)
+		user.GET("getSL", handlers.GetSlByTemperature)
 		user.POST("register", handlers.Register)
 		user.POST("login", handlers.Login)
 		user.GET("blockchain/blockByHeight", handlers.QueryBlockByHeight)

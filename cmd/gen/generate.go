@@ -10,11 +10,8 @@ import (
 	"CN-EU-FSIMS/internal/app/models/sell"
 	"CN-EU-FSIMS/internal/app/models/slaughter"
 	"CN-EU-FSIMS/internal/app/models/warehouse"
-	"CN-EU-FSIMS/internal/config"
 	"fmt"
 
-	"github.com/golang/glog"
-	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
 	"gorm.io/gorm"
@@ -84,30 +81,30 @@ func generateModelAndQueryWithDB(dsn string, dbName string) {
 	g.Execute()
 }
 
-func main() {
-	err := config.InitConfig(GLOBALCONFIGPATH)
-	if err != nil {
-		glog.Error(err)
-		panic(err)
-	}
-
-	username := viper.GetString("mysql.username")
-	password := viper.GetString("mysql.password")
-	ipAddr := viper.GetString("mysql.ip_addr")
-	port := viper.GetString("mysql.port")
-	database := viper.GetString("mysql.database")
-
-	mysqlDsn := username + ":" + password + "@tcp(" + ipAddr + ":" + port + ")/" + database + "?charset=utf8mb4&parseTime=True"
-
-	if database == "" {
-		database = "default_dal"
-	} else {
-		database = database + "_dal"
-	}
-
-	if mysqlDsn != "" {
-		generateModelAndQueryWithDB(mysqlDsn, database)
-	} else {
-		generateModelAndQueryWithDB(DEFAULTDSN, database)
-	}
-}
+//func main() {
+//	err := config.InitConfig(GLOBALCONFIGPATH)
+//	if err != nil {
+//		glog.Error(err)
+//		panic(err)
+//	}
+//
+//	username := viper.GetString("mysql.username")
+//	password := viper.GetString("mysql.password")
+//	ipAddr := viper.GetString("mysql.ip_addr")
+//	port := viper.GetString("mysql.port")
+//	database := viper.GetString("mysql.database")
+//
+//	mysqlDsn := username + ":" + password + "@tcp(" + ipAddr + ":" + port + ")/" + database + "?charset=utf8mb4&parseTime=True"
+//
+//	if database == "" {
+//		database = "default_dal"
+//	} else {
+//		database = database + "_dal"
+//	}
+//
+//	if mysqlDsn != "" {
+//		generateModelAndQueryWithDB(mysqlDsn, database)
+//	} else {
+//		generateModelAndQueryWithDB(DEFAULTDSN, database)
+//	}
+//}

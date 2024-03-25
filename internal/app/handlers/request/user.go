@@ -40,3 +40,12 @@ type ReqTrashFifteenDays struct {
 	StartTimeStamp int64 `json:"start_time_stamp" form:"start_time_stamp"`
 	EndTimeStamp   int64 `json:"end_time_stamp" form:"end_time_stamp"`
 }
+
+type ReqSlPrediction struct {
+	Id          uint    `json:"id" form:"id"`
+	Temperature float64 `json:"temperature" form:"temperature"`
+}
+
+type ReqCleanImage struct {
+	Id uint `json:"id" form:"id"`
+}

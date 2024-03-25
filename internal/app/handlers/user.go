@@ -325,8 +325,6 @@ func DeleteUser(c *gin.Context) {
 		response.MakeFail(c, http.StatusBadRequest, "Delete a user error")
 		return
 	}
-	fmt.Println(a.Account)
-	fmt.Println(a.Type)
 	err := service.DeleteFsimUser(&a)
 	if err != nil {
 		response.MakeFail(c, http.StatusBadRequest, "The user information delete error!")
@@ -334,6 +332,40 @@ func DeleteUser(c *gin.Context) {
 	}
 	glog.Info("delete fsims user successful")
 	response.MakeSuccess(c, http.StatusOK, "successfully delete the user!")
+}
+
+func GetSlByTemperature(c *gin.Context) {
+	glog.Info("##################SL Prediction#################")
+	var a request.ReqSlPrediction
+	if err := c.ShouldBind(&a); err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "Get SL prediction error!")
+		return
+	}
+	sl, err := service.GetSlPrediction(&a)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "Failed to predict sl")
+		return
+	}
+	resSl := response.ResSL{
+		Sl: sl,
+	}
+	response.MakeSuccess(c, http.StatusOK, resSl)
+
+}
+
+func GetCleanDegree(c *gin.Context) {
+	glog.Info("##################UploadImages#################")
+	images, count, err := service.GetCleanImage()
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "Failed to query clean images")
+		return
+	}
+	res := response.ResCleanImages{
+		Count:  count,
+		Images: images,
+	}
+	response.MakeSuccess(c, http.StatusOK, res)
+
 }
 
 //func UserNotification(c *gin.Context) {

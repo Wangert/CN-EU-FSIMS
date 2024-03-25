@@ -1,0 +1,6 @@
+mysql:
+  username: sdau
+  password: ZhongOu_sdau0318
+  ip_addr: 182.92.99.82
+  port: 3306
+  database: img
