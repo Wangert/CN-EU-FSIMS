@@ -25,6 +25,13 @@ sensor_db:
   port: 3306
   database: fsims_sensor
 
+img_db:
+  username: sdau
+  password: ZhongOu_sdau0318
+  ip_addr: 182.92.99.82
+  port: 3306
+  database: img
+
 jwt:
   # token 过期时间 单位：秒
   timeout: 3600

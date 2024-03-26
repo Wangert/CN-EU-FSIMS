@@ -59,6 +59,10 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.GET("/query/allsensor", handlers.GetAllSensors)
 		user.GET("/query/sensor/data", handlers.GetSensorDataByDeviceCode)
 		user.GET("/query/sensor/latestdata", handlers.GetLatestSensorDataByDeviceCode)
+
+		user.GET("/query/spectras", handlers.GetAllSpectralData)
+		user.GET("/query/imgs", handlers.GetImgAndClass)
+		user.POST("/shelflife/forecast", handlers.ShelfLifeForecast)
 	}
 
 	// admin router group

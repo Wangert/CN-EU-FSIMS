@@ -3,10 +3,23 @@ package test
 import (
 	"CN-EU-FSIMS/internal/app/models/pasture"
 	"CN-EU-FSIMS/utils"
+	"encoding/json"
 	"fmt"
 	"testing"
 	"time"
 )
+
+func TestJsonToMap(t *testing.T) {
+	data := "{\"497.90\": \"448.33\", \"500.34\": \"414.00\"}"
+	var result map[string]interface{}
+	if err := json.Unmarshal([]byte(data), &result); err != nil {
+		fmt.Println("Error parsing JSON:", err)
+		return
+	}
+
+	fmt.Println("result:", result)
+	return
+}
 
 func TestStructToMap(t *testing.T) {
 	heavyMetal := pasture.PastureFeedHeavyMetal{
