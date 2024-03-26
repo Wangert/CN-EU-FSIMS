@@ -4,6 +4,7 @@ import (
 	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/config"
 	"fmt"
+
 	"github.com/golang/glog"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
@@ -12,7 +13,7 @@ import (
 )
 
 const DEFAULTDSN = "root:root@tcp(127.0.0.1:3306)/fsims?charset=utf8mb4&parseTime=True"
-const GLOBALCONFIGPATH = "conf/config.yaml"
+const GLOBALCONFIGPATH = "../../../conf/config.yaml"
 
 func generateSensorModelAndQueryWithDB(dsn string, dbName string) {
 	db, err := gorm.Open(mysql.Open(dsn))
