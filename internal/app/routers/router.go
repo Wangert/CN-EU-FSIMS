@@ -54,6 +54,11 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.GET("/query/sensor/waterquality", handlers.QuerySlaughterWaterQualityData)
 		user.GET("/query/staffuniform", handlers.QuerySlaughterStaffUniformData)
 		user.GET("/query/light", handlers.QuerySlaughterLightRecord)
+
+		//传感器数据
+		user.GET("/query/allsensor", handlers.GetAllSensors)
+		user.GET("/query/sensor/data", handlers.GetSensorDataByDeviceCode)
+		user.GET("/query/sensor/latestdata", handlers.GetLatestSensorDataByDeviceCode)
 	}
 
 	// admin router group
