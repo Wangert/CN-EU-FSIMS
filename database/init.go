@@ -8,4 +8,5 @@ import (
 func InitDB() {
 	mysql.Init(common.CONFIG_PATH)
 	mysql.InitSensorDB(common.CONFIG_PATH)
+	mysql.InitImgDB(common.CONFIG_PATH)
 }
