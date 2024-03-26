@@ -1,7 +1,7 @@
 package main
 
 import (
-	"CN-EU-FSIMS/database/mysql"
+	"CN-EU-FSIMS/database"
 	"CN-EU-FSIMS/fabric"
 	"CN-EU-FSIMS/internal/app/middlewares"
 	"CN-EU-FSIMS/internal/app/routers"
@@ -28,7 +28,7 @@ func main() {
 		panic("init config error: " + err.Error())
 	}
 	// 初始化mysql
-	mysql.Init(common.CONFIG_PATH)
+	database.InitDB()
 
 	// 初始化fabric sdk client
 	fabric.InitFabricSDKClient()

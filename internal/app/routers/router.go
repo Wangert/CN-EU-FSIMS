@@ -70,6 +70,11 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		// user.GET("slaughterhouses", handlers.GetSlaughterHouses)
 		user.GET("searchtv", handlers.SearchTransportVehicles)
 		user.GET("searchusers", handlers.SearchUsers)
+
+		//传感器数据
+		user.GET("/query/allsensor", handlers.GetAllSensors)
+		user.GET("/query/sensor/data", handlers.GetSensorDataByDeviceCode)
+		user.GET("/query/sensor/latestdata", handlers.GetLatestSensorDataByDeviceCode)
 	}
 
 	// admin router group
