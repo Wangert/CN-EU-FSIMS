@@ -59,6 +59,11 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.GET("/query/allsensor", handlers.GetAllSensors)
 		user.GET("/query/sensor/data", handlers.GetSensorDataByDeviceCode)
 		user.GET("/query/sensor/latestdata", handlers.GetLatestSensorDataByDeviceCode)
+		user.GET("/query/isensor/temps", handlers.GetTemperaturesForAllIndependentPoints)
+		user.GET("/query/bsensor/temps", handlers.GetTemperaturesForAllBarnPoints)
+		user.GET("/query/bsensor/co2s", handlers.GetCO2sForAllBarnPoints)
+		user.GET("/query/bsensor/humidities", handlers.GetHumiditiesForAllBarnPoints)
+		user.GET("/query/bsensor/dewpoints", handlers.GetDewpointsForAllBarnPoints)
 
 		user.GET("/query/spectras", handlers.GetAllSpectralData)
 		user.GET("/query/imgs", handlers.GetImgAndClass)
