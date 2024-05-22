@@ -2,21 +2,21 @@ runmode: debug # 开发模式, debug, release, test
 
 server:
   ip_addr: 127.0.0.1
-  port: 8000
-
-mysql:
- username: sdau
- password: ZhongOu_sdau0318
- ip_addr: 182.92.99.82
- port: 3306
- database: fsims
+  port: 8081
 
 # mysql:
-#   username: dbadmin
-#   password: dqzgslb+1S
-#   ip_addr: 10.176.35.60
-#   port: 3306
-#   database: fsims
+#  username: sdau
+#  password: ZhongOu_sdau0318
+#  ip_addr: 182.92.99.82
+#  port: 3306
+#  database: fsims
+
+mysql:
+  username: dbadmin
+  password: dqzgslb+1S
+  ip_addr: 10.176.35.60
+  port: 3306
+  database: fsims
 
 sensor_db:
   username: sdau
