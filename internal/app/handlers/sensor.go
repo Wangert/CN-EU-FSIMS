@@ -8,6 +8,86 @@ import (
 	"net/http"
 )
 
+func GetDewpointsForAllBarnPoints(c *gin.Context) {
+	glog.Info("################## GetDewpointsForAllBarnPoints ##################")
+
+	res, err := service.GetDewpointsForAllBarnPoints()
+
+	if err != nil {
+		glog.Errorln("get dewpoints for all barn points error!")
+		response.MakeFail(c, http.StatusBadRequest, "get dewpoints for all barn points error")
+		return
+	}
+
+	glog.Info("get dewpoints for all barn points successful")
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func GetHumiditiesForAllBarnPoints(c *gin.Context) {
+	glog.Info("################## GetHumiditiesForAllBarnPoints ##################")
+
+	res, err := service.GetHumiditiesForAllBarnPoints()
+
+	if err != nil {
+		glog.Errorln("get humidities for all barn points error!")
+		response.MakeFail(c, http.StatusBadRequest, "get humidities for all barn points error")
+		return
+	}
+
+	glog.Info("get humidities for all barn points successful")
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func GetCO2sForAllBarnPoints(c *gin.Context) {
+	glog.Info("################## GetCO2sForAllBarnPoints ##################")
+
+	res, err := service.GetCO2sForAllBarnPoints()
+
+	if err != nil {
+		glog.Errorln("get co2s for all barn points error!")
+		response.MakeFail(c, http.StatusBadRequest, "get co2s for all barn points error")
+		return
+	}
+
+	glog.Info("get co2s for all barn points successful")
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func GetTemperaturesForAllBarnPoints(c *gin.Context) {
+	glog.Info("################## GetTemperaturesForAllBarnPoints ##################")
+
+	res, err := service.GetTemperaturesForAllBarnPoints()
+
+	if err != nil {
+		glog.Errorln("get temperatures for all barn points error!")
+		response.MakeFail(c, http.StatusBadRequest, "get temperatures for all barn points error")
+		return
+	}
+
+	glog.Info("get temperatures for all barn points successful")
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func GetTemperaturesForAllIndependentPoints(c *gin.Context) {
+	glog.Info("################## GetTemperaturesForAllIndependentPoints ##################")
+
+	res, err := service.GetTemperaturesForAllIndependentPoints()
+
+	if err != nil {
+		glog.Errorln("get temperatures for all independent points error!")
+		response.MakeFail(c, http.StatusBadRequest, "get temperatures for all independent points error")
+		return
+	}
+
+	glog.Info("get temperatures for all independent points successful")
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
 func GetAllSensors(c *gin.Context) {
 	glog.Info("################## GetSensors ##################")
 
