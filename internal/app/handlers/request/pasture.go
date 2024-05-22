@@ -57,7 +57,7 @@ type ReqAddPastureFeedCass struct {
 
 type ReqAddPastureWaterRecord struct {
 	HouseNumber string                        `json:"house_number"` //时间记录
-	RecordAt    int64                         `json:"recordAt"`
+	RecordAt    int64                         `json:"record_at"`
 	OapGci      pasture.PastureOapGciInfo     `json:"oap_gci"`     //感官性状和一般化学指标
 	ToxIndex    pasture.PastureToxIndexInfo   `json:"tox_index"`   //毒理性指标
 	MicroIndex  pasture.PastureMicroIndexInfo `json:"micro_index"` //微生物指标
