@@ -42,11 +42,11 @@ type uploadImg struct {
 	uploadImgDo uploadImgDo
 
 	ALL        field.Asterisk
-	ID         field.Int32
-	Filename   field.String
-	Result     field.String
-	Source     field.String
-	UploadTime field.Time
+	ID         field.Int32  // 自增主键
+	Filename   field.String // 文件名
+	Result     field.String // 结果
+	Source     field.String // 图片路径
+	UploadTime field.Time   // 上传时间
 
 	fieldMap map[string]field.Expr
 }
