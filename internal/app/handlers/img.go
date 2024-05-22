@@ -28,3 +28,23 @@ func GetImgAndClass(c *gin.Context) {
 	response.MakeSuccess(c, http.StatusOK, res)
 	return
 }
+
+func GetLymphNodes(c *gin.Context) {
+	glog.Info("################## GetImgAndClass ##################")
+
+	imgs, count, err := service.GetAllLymphNodes()
+	if err != nil {
+		glog.Errorln("get all lymph nodes error!")
+		response.MakeFail(c, http.StatusBadRequest, "get all lymph nodes error")
+		return
+	}
+
+	res := response.ResLymphNodes{
+		Imgs:  imgs,
+		Count: count,
+	}
+
+	glog.Info("get all lymph nodes successful")
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}

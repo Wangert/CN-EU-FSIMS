@@ -83,6 +83,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 
 		user.GET("/query/spectras", handlers.GetAllSpectralData)
 		user.GET("/query/imgs", handlers.GetImgAndClass)
+		user.GET("/query/lymphnode", handlers.GetLymphNodes)
 		user.POST("/shelflife/forecast", handlers.ShelfLifeForecast)
 	}
 

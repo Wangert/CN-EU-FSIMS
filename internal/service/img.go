@@ -22,3 +22,19 @@ func GetAllImgs() ([]models.UploadImg, int64, error) {
 
 	return imgs, count, nil
 }
+
+func GetAllLymphNodes() ([]models.LymphNode, int64, error) {
+	q := imgquery.LymphNode
+	ims, err := q.WithContext(context.Background()).Find()
+	if err != nil {
+		return []models.LymphNode{}, 0, err
+	}
+	count, err := q.WithContext(context.Background()).Count()
+
+	imgs := make([]models.LymphNode, count)
+	for i, im := range ims {
+		imgs[i] = models.LymphNode(*im)
+	}
+
+	return imgs, count, nil
+}

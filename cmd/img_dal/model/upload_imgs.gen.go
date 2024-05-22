@@ -12,11 +12,11 @@ const TableNameUploadImg = "upload_imgs"
 
 // UploadImg mapped from table <upload_imgs>
 type UploadImg struct {
-	ID         int32     `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
-	Filename   string    `gorm:"column:filename;not null" json:"filename"`
-	Result     string    `gorm:"column:result;not null" json:"result"`
-	Source     string    `gorm:"column:source;not null" json:"source"`
-	UploadTime time.Time `gorm:"column:upload_time;default:CURRENT_TIMESTAMP" json:"upload_time"`
+	ID         int32     `gorm:"column:id;primaryKey;autoIncrement:true;comment:自增主键" json:"id"`               // 自增主键
+	Filename   string    `gorm:"column:filename;not null;comment:文件名" json:"filename"`                         // 文件名
+	Result     string    `gorm:"column:result;not null;comment:结果" json:"result"`                              // 结果
+	Source     string    `gorm:"column:source;not null;comment:图片路径" json:"source"`                            // 图片路径
+	UploadTime time.Time `gorm:"column:upload_time;default:CURRENT_TIMESTAMP;comment:上传时间" json:"upload_time"` // 上传时间
 }
 
 // TableName UploadImg's table name

@@ -17,12 +17,14 @@ import (
 
 var (
 	Q         = new(Query)
+	LymphNode *lymphNode
 	Spectra   *spectra
 	UploadImg *uploadImg
 )
 
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
+	LymphNode = &Q.LymphNode
 	Spectra = &Q.Spectra
 	UploadImg = &Q.UploadImg
 }
@@ -30,6 +32,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
 		db:        db,
+		LymphNode: newLymphNode(db, opts...),
 		Spectra:   newSpectra(db, opts...),
 		UploadImg: newUploadImg(db, opts...),
 	}
@@ -38,6 +41,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 type Query struct {
 	db *gorm.DB
 
+	LymphNode lymphNode
 	Spectra   spectra
 	UploadImg uploadImg
 }
@@ -47,6 +51,7 @@ func (q *Query) Available() bool { return q.db != nil }
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
 		db:        db,
+		LymphNode: q.LymphNode.clone(db),
 		Spectra:   q.Spectra.clone(db),
 		UploadImg: q.UploadImg.clone(db),
 	}
@@ -63,18 +68,21 @@ func (q *Query) WriteDB() *Query {
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
 		db:        db,
+		LymphNode: q.LymphNode.replaceDB(db),
 		Spectra:   q.Spectra.replaceDB(db),
 		UploadImg: q.UploadImg.replaceDB(db),
 	}
 }
 
 type queryCtx struct {
+	LymphNode ILymphNodeDo
 	Spectra   ISpectraDo
 	UploadImg IUploadImgDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
+		LymphNode: q.LymphNode.WithContext(ctx),
 		Spectra:   q.Spectra.WithContext(ctx),
 		UploadImg: q.UploadImg.WithContext(ctx),
 	}
