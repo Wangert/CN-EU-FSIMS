@@ -626,3 +626,27 @@ func GetCowList(c *gin.Context) {
 	response.MakeSuccess(c, http.StatusOK, cows)
 	return
 }
+
+func GetCowListOnDay(c *gin.Context) {
+	glog.Info("################## FSIMS Get Cow On the Day ##################")
+	house_number := c.Query("house_number")
+	cows, err := service.GetCowListOnDay(house_number)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "get cow list on the day error!")
+		return
+	}
+	response.MakeSuccess(c, http.StatusOK, cows)
+	return
+}
+
+func GetLeaveCowListOnDay(c *gin.Context) {
+	glog.Info("################## FSIMS Get Leave Cow On the Day ##################")
+	house_number := c.Query("house_number")
+	cows, err := service.GetLeaveCowListOnDay(house_number)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "get leave cow list on the day error!")
+		return
+	}
+	response.MakeSuccess(c, http.StatusOK, cows)
+	return
+}
