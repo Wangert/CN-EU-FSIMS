@@ -829,7 +829,7 @@ func UploadPastureWaterRecord(r *request.ReqAddPastureWaterRecord) error {
 func GetLeaveCowListOnDay(pastureHouseNum string) (int64, error) {
 	q := query.Q.SlaughterReceiveRecord
 
-	startOfDay := time.Now().Truncate(24 * time.Hour)
+	startOfDay := time.Now().UTC().Truncate(24 * time.Hour)
 	endOfDay := startOfDay.Add(24 * time.Hour)
 	count, err := q.WithContext(context.Background()).Where(q.SourceNumber.Eq(pastureHouseNum)).Where(q.CreatedAt.Between(startOfDay, endOfDay)).Count()
 	if err != nil {
@@ -1154,7 +1154,7 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 func GetCowListOnDay(house_number string) ([]product.Cow, error) {
 	q := query.Cow
 
-	startOfDay := time.Now().Truncate(24 * time.Hour)
+	startOfDay := time.Now().UTC().Truncate(24 * time.Hour)
 	endOfDay := startOfDay.Add(24 * time.Hour)
 
 	cows, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(house_number)).Where(q.EntryTime.Between(startOfDay, endOfDay)).Find()
