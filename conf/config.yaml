@@ -1,7 +1,7 @@
 runmode: debug # 开发模式, debug, release, test
 
 server:
-  ip_addr: 127.0.0.1
+  ip_addr: 10.177.40.87
   port: 8081
 
 # mysql:
