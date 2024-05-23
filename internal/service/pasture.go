@@ -825,6 +825,19 @@ func UploadPastureWaterRecord(r *request.ReqAddPastureWaterRecord) error {
 	return nil
 }
 
+func GetLeaveCowListOnDay(pastureHouseNum string) (int64, error) {
+	q := query.Q.SlaughterReceiveRecord
+
+	startOfDay := time.Now().Truncate(24 * time.Hour)
+	endOfDay := startOfDay.Add(24 * time.Hour)
+	count, err := q.WithContext(context.Background()).Where(q.SourceNumber.Eq(pastureHouseNum)).Where(q.CreatedAt.Between(startOfDay, endOfDay)).Count()
+	if err != nil {
+		return 0, err
+	}
+
+	return count, nil
+}
+
 func SendToSlaughter(r *request.ReqSendToSlaughter) error {
 	var err error
 	tx := query.Q.Begin()
@@ -1135,6 +1148,23 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 	}
 
 	return bNum, nil
+}
+
+func GetCowListOnDay(house_number string) ([]product.Cow, error) {
+	q := query.Cow
+
+	startOfDay := time.Now().Truncate(24 * time.Hour)
+	endOfDay := startOfDay.Add(24 * time.Hour)
+
+	cows, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(house_number)).Where(q.EntryTime.Between(startOfDay, endOfDay)).Find()
+	if err != nil {
+		return nil, err
+	}
+	var cowsRes []product.Cow
+	for i, _ := range cows {
+		cowsRes = append(cowsRes, *cows[i])
+	}
+	return cowsRes, nil
 }
 
 func GetCowList(house_number string) ([]product.Cow, error) {

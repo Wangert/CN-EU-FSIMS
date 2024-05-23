@@ -141,6 +141,8 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		pop.GET("getfeedingrecords", handlers.GetFeedingRecords)
 		pop.GET("searchhouse", handlers.GetUserHouse)
 		pop.GET("getcow", handlers.GetCowList)
+		pop.GET("getcowonday", handlers.GetCowListOnDay)
+		pop.GET("getleavecowonday", handlers.GetLeaveCowListOnDay)
 		//pop.POST("commitproc", handlers.CommitPastureProcedure)
 		//pop.POST("inwarehouse", handlers.PastureInWarehouse)
 		//pop.POST("sendtonext", handlers.SendToSlaughter)
