@@ -1,8 +1,9 @@
 package pasture
 
 import (
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type PastureFeedMycotoxins struct {
@@ -64,8 +65,10 @@ type PastureFeedMycotoxinsInfo struct {
 }
 
 func ToPastureFeedMycotoxinsInfo(mc *PastureFeedMycotoxins) PastureFeedMycotoxinsInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := mc.TimeRecordAt.In(loc)
 	return PastureFeedMycotoxinsInfo{
-		TimeRecordAt: mc.TimeRecordAt.Format("2006-01-02 15:04:05"),
+		TimeRecordAt: time.Format("2006-01-02 15:04:05"),
 		HouseNumber:  mc.HouseNumber,
 		Afb1:         ToAfb1Info(&mc.Afb1),
 		Don:          ToDonInfo(&mc.Don),

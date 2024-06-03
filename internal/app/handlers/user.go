@@ -13,7 +13,81 @@ import (
 	"github.com/golang/glog"
 )
 
-func QueryTrashPerDay(c *gin.Context) {
+func QueryPastureTrashFifteenDays(c *gin.Context) {
+	var req request.ReqTrashFifteenDays
+	if err := c.ShouldBind(&req); err != nil {
+		glog.Errorln("Query trash error")
+		response.MakeFail(c, http.StatusNotAcceptable, "query trash failure!")
+		return
+	}
+
+	infos, count, err := service.QueryPastureTrashFifteenDays(&req)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "query pasture trash disposal fifteen days error!")
+		return
+	}
+
+	res := response.ResPastureTrashDisposalFifteenDays{
+		Count:                  count,
+		PastureDisposalRecords: infos,
+	}
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+
+func QueryEndFeedCow(c *gin.Context) {
+	glog.Info("###Total number of feed end cows")
+	count, err := service.QueryEndFeedCow()
+	if err != nil {
+		glog.Errorln("Query feed end cows error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "query cow failure!")
+	}
+	response.MakeSuccess(c, http.StatusOK, count)
+	return
+}
+
+func QueryEndBatches(c *gin.Context) {
+	glog.Info("###Total number of end batches###")
+	count, err := service.QueryBatchesEnd()
+	if err != nil {
+		glog.Errorln("Query number of batches error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "query batches failure!")
+	}
+	response.MakeSuccess(c, http.StatusOK, count)
+	return
+}
+func QueryEndSlaCow(c *gin.Context) {
+	glog.Info("###Total number of slaughter end cows###")
+	count, err := service.QueryEndSlaCow()
+	if err != nil {
+		glog.Errorln("Query slaughter end cows error!")
+		response.MakeFail(c, http.StatusNotAcceptable, "query cow failure!")
+	}
+	response.MakeSuccess(c, http.StatusOK, count)
+	return
+}
+func QuerySlaughterFifteenDays(c *gin.Context) {
+	var req request.ReqTrashFifteenDays
+	if err := c.ShouldBind(&req); err != nil {
+		glog.Errorln("Query trash error")
+		response.MakeFail(c, http.StatusNotAcceptable, "query trash failure!")
+		return
+	}
+
+	infos, count, err := service.QuerySlaughterTrashFifteenDays(&req)
+	if err != nil {
+		response.MakeFail(c, http.StatusBadRequest, "query slaughter trash disposal fifteen days error!")
+		return
+	}
+
+	res := response.ResSlaughterDisposalFifteenDays{
+		Count:                    count,
+		SlaughterDisposalRecords: infos,
+	}
+	response.MakeSuccess(c, http.StatusOK, res)
+	return
+}
+func QuerySlaAndPasTrashPerDay(c *gin.Context) {
 	var r request.ReqTrashPerDay
 	if err := c.ShouldBind(&r); err != nil {
 		glog.Errorln("Query trash error")
@@ -21,11 +95,33 @@ func QueryTrashPerDay(c *gin.Context) {
 		return
 	}
 
-	//查询垃圾处理信息
-	glog.Info("query trash disposal info")
-	//res, err := service.
+	fmt.Println(r.TimeStamp)
+	info, err := service.QueryTrashPerDay(&r)
+	if err != nil {
+		glog.Errorln("Query trash error")
+		response.MakeFail(c, http.StatusNotAcceptable, "query trash failure!")
+		return
+	}
 
+	res := response.ResSlaAndPasTrashPeyDay{
+		OdorSlaAndPasTrashPeyDay1:    info.TrashDisposalPerDayOdorInfo1,
+		OdorSlaAndPasTrashPeyDay2:    info.TrashDisposalPerDayOdorInfo2,
+		OdorSlaAndPasTrashPeyDay3:    info.TrashDisposalPerDayOdorInfo3,
+		OdorSlaAndPasTrashPeyDay4:    info.TrashDisposalPerDayOdorInfo4,
+		ResidueSlaAndPasTrashPeyDay1: info.TrashDisposalPerDayResidueInfo1,
+		ResidueSlaAndPasTrashPeyDay2: info.TrashDisposalPerDayResidueInfo2,
+		ResidueSlaAndPasTrashPeyDay3: info.TrashDisposalPerDayResidueInfo3,
+		ResidueSlaAndPasTrashPeyDay4: info.TrashDisposalPerDayResidueInfo4,
+		WaterSlaAndPasTrashPeyDay1:   info.TrashDisposalPerDayWaterInfo1,
+		WaterSlaAndPasTrashPeyDay2:   info.TrashDisposalPerDayWaterInfo2,
+		WaterSlaAndPasTrashPeyDay3:   info.TrashDisposalPerDayWaterInfo3,
+		WaterSlaAndPasTrashPeyDay4:   info.TrashDisposalPerDayWaterInfo4,
+	}
+	//查询垃圾处理信息
+	glog.Info("query trash disposal info successfully")
+	response.MakeSuccess(c, http.StatusOK, res)
 }
+
 func Register(c *gin.Context) {
 	glog.Info("################## FSIMS User Register ##################")
 
@@ -92,8 +188,9 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	fmt.Println(reqLogin.Account)
 	reqPwdHash := crypto.CalculateSHA256(reqLogin.Password, service.PASSWORD_SALT)
-	uuid, pwdHash, usertype, err := service.QueryFsimsUserUuidAndPwdHash(reqLogin.Account)
+	uuid, pwdHash, housenumber, usertype, err := service.QueryFsimsUserUuidAndPwdHash(reqLogin.Account)
 	if err != nil {
 		glog.Errorln("query fsims password hash error!")
 		response.MakeFail(c, http.StatusBadRequest, err.Error())
@@ -119,9 +216,10 @@ func Login(c *gin.Context) {
 	glog.Infoln("token:", token)
 	glog.Infoln("type", usertype)
 	resLogin := response.ResLogin{
-		UUID:     uuid,
-		Token:    token,
-		UserType: usertype,
+		UUID:        uuid,
+		Token:       token,
+		UserType:    usertype,
+		HouseNumber: housenumber,
 	}
 	response.MakeSuccess(c, http.StatusOK, resLogin)
 }

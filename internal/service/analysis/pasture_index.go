@@ -4,6 +4,7 @@ import (
 	"CN-EU-FSIMS/internal/app/models/pasture"
 	"CN-EU-FSIMS/internal/app/models/slaughter"
 	"CN-EU-FSIMS/utils"
+	"fmt"
 )
 
 // 判断牧场饲料重金属危害
@@ -218,6 +219,7 @@ func JudgeHarmForSlaughterProcedure(record *slaughter.SlaughterProcedureMonitori
 
 // 判断屠宰场预冷车间危害
 func JudgeHarmForSlaughterPreCoolShop(record *slaughter.PreCoolShop) ([]string, int, error) {
+	fmt.Println("000000000000000000000000000000000000000000000000000000")
 	indexMap := map[string]interface{}{}
 	recordMap, err := utils.StructToMap(record)
 	if err != nil {
@@ -226,11 +228,13 @@ func JudgeHarmForSlaughterPreCoolShop(record *slaughter.PreCoolShop) ([]string, 
 	indexMap = utils.FlattenMap(recordMap)
 
 	abnormalList := make([]string, 0)
+	fmt.Println("111111111111111111111111111111111111111111111111111")
 	for k, v := range SlaughterPreCoolShopUpperBounds {
 		if v < indexMap[k].(float64) {
 			abnormalList = append(abnormalList, k)
 		}
 	}
+	fmt.Println("22222222222222222222222222222222222222222222222222")
 
 	for k, v := range SlaughterPreCoolShopLowerBounds {
 		if v > indexMap[k].(float64) {
@@ -248,8 +252,8 @@ func JudgeHarmForSlaughterSlaShop(record *slaughter.SlaShop) ([]string, int, err
 	if err != nil {
 		return nil, 0, err
 	}
-	indexMap = utils.FlattenMap(recordMap)
 
+	indexMap = utils.FlattenMap(recordMap)
 	abnormalList := make([]string, 0)
 	for k, v := range SlaughterSlaShopUpperBounds {
 		if v < indexMap[k].(float64) {
@@ -262,7 +266,6 @@ func JudgeHarmForSlaughterSlaShop(record *slaughter.SlaShop) ([]string, int, err
 			abnormalList = append(abnormalList, k)
 		}
 	}
-
 	return abnormalList, len(abnormalList), nil
 }
 

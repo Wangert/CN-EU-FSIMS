@@ -212,6 +212,7 @@ func QueryPastureFeedHeavyMetal(r *request.ReqPastureSensorData) ([]pasture.Past
 
 	startTime := time.Unix(r.StartTimestamp, 0).UTC().Local()
 	endTime := time.Unix(r.EndTimestamp, 0).UTC().Local()
+	glog.Info("test:", startTime)
 
 	q := query.Q.PastureFeedHeavyMetal
 	results, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(r.HouseNumber)).
@@ -477,7 +478,7 @@ func UploadPastureOdorPollutantsPerDay(r *request.ReqPastureOdorPollutantsPerDay
 			return err
 		}
 	} else {
-		result, err := qall.WithContext(context.Background()).UpdateSimple(qall.OdorPasturesTrashDisposal1.Add(r.PastureOdorPollutantsPerDay1), qall.OdorPasturesTrashDisposal2.Add(r.PastureOdorPollutantsPerDay2),
+		result, err := qall.WithContext(context.Background()).Where(qall.TimeStamp.Eq(t)).UpdateSimple(qall.OdorPasturesTrashDisposal1.Add(r.PastureOdorPollutantsPerDay1), qall.OdorPasturesTrashDisposal2.Add(r.PastureOdorPollutantsPerDay2),
 			qall.OdorPasturesTrashDisposal3.Add(r.PastureOdorPollutantsPerDay3), qall.OdorPasturesTrashDisposal4.Add(r.PastureOdorPollutantsPerDay4))
 		if err != nil {
 			return err
@@ -532,7 +533,7 @@ func UploadPastureWasteWaterPerDay(r *request.ReqPastureWasteWaterPerDay) error 
 		}
 	} else {
 		//更新总表信息
-		result, _ := qall.WithContext(context.Background()).UpdateSimple(qall.WaterPasturesTrashDisposal1.Add(r.ReqPastureWasteWaterPerDay1),
+		result, _ := qall.WithContext(context.Background()).Where(qall.TimeStamp.Eq(t)).UpdateSimple(qall.WaterPasturesTrashDisposal1.Add(r.ReqPastureWasteWaterPerDay1),
 			qall.WaterPasturesTrashDisposal2.Add(r.ReqPastureWasteWaterPerDay2), qall.WaterPasturesTrashDisposal3.Add(r.ReqPastureWasteWaterPerDay3))
 		if result.RowsAffected == 0 {
 			return errors.New("No match was found!")
@@ -828,7 +829,7 @@ func UploadPastureWaterRecord(r *request.ReqAddPastureWaterRecord) error {
 func GetLeaveCowListOnDay(pastureHouseNum string) (int64, error) {
 	q := query.Q.SlaughterReceiveRecord
 
-	startOfDay := time.Now().Truncate(24 * time.Hour)
+	startOfDay := time.Now().UTC().Truncate(24 * time.Hour)
 	endOfDay := startOfDay.Add(24 * time.Hour)
 	count, err := q.WithContext(context.Background()).Where(q.SourceNumber.Eq(pastureHouseNum)).Where(q.CreatedAt.Between(startOfDay, endOfDay)).Count()
 	if err != nil {

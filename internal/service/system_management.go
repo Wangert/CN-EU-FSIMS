@@ -227,18 +227,19 @@ func GetPackageHouses() ([]models.House, int64, error) {
 	return houses, int64(count), nil
 }
 
-func GetTransportVehicles() ([]coldchain.TransportVehicleInfo, error) {
+func GetTransportVehicles() ([]coldchain.TransportVehicleInfo, int64, error) {
 	tvs, err := query.TransportVehicle.WithContext(context.Background()).Find()
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 
+	count := len(tvs)
 	res := make([]coldchain.TransportVehicleInfo, len(tvs))
 	for i, tv := range tvs {
 		res[i] = coldchain.ToTransportVehicleInfo(tv)
 	}
 
-	return res, nil
+	return res, int64(count), nil
 }
 
 func GetMall(num string) (string, error) {

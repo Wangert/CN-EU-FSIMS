@@ -4,9 +4,10 @@ import (
 	"CN-EU-FSIMS/internal/app/handlers/request"
 	"CN-EU-FSIMS/internal/app/handlers/response"
 	"CN-EU-FSIMS/internal/service"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
-	"net/http"
 )
 
 func ShelfLifeForecast(c *gin.Context) {
@@ -16,7 +17,7 @@ func ShelfLifeForecast(c *gin.Context) {
 		response.MakeFail(c, http.StatusBadRequest, "Shelf life forecast failure")
 		return
 	}
-
+	glog.Info("r:", r)
 	/*data, err := service.GetOneSpectralData()
 	if err != nil {
 		response.MakeFail(c, http.StatusBadRequest, "Shelf life forecast failure")

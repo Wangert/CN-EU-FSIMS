@@ -5,11 +5,12 @@ import (
 	"CN-EU-FSIMS/internal/app/models"
 	"CN-EU-FSIMS/internal/app/models/sensorquery"
 	"context"
+	"time"
 )
 
 const (
 	IPOINTLIMIT = 100
-	BARNLIMIT   = 100
+	BARNLIMIT   = 40
 )
 
 func GetDewpointsForAllBarnPoints() (response.ResSensorsDewpoint, error) {
@@ -326,8 +327,10 @@ func queryTemps(ssd []*models.SensorData) []string {
 func queryTimePoints(ssd []*models.SensorData) []string {
 	count := len(ssd)
 	timePoints := make([]string, count)
+	loc, _ := time.LoadLocation("Asia/Shanghai")
 	for i, data := range ssd {
-		timePoint := data.TimeStamp.Format("15:04")
+		timestamp := data.TimeStamp.In(loc)
+		timePoint := timestamp.Format("15:04")
 		timePoints[count-i-1] = timePoint
 	}
 

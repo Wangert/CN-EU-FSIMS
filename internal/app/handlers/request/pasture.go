@@ -51,7 +51,7 @@ type ReqAddPastureFeedCass struct {
 	RecordAt    int64                `json:"record_at"`
 	Afb1        pasture.Afb1Info     `json:"afb_1"`       //黄曲霉毒素B1
 	Don         pasture.DonInfo      `json:"don"`         //玉米赤霉烯酮
-	T2toxin     pasture.T2toxinInfo  `json:"t_2_toxin"`   //脱氧雪腐镰刀菌烯醇（呕吐毒素）
+	T2toxin     pasture.T2toxinInfo  `json:"t2Toxin"`     //脱氧雪腐镰刀菌烯醇（呕吐毒素）
 	T2VomZea    pasture.T2VomZeaInfo `json:"t_2_vom_zea"` //T-2毒素 伏马毒素 赭曲霉毒素A
 }
 
@@ -64,7 +64,7 @@ type ReqAddPastureWaterRecord struct {
 }
 
 type ReqAddPastureBuffer struct {
-	HouseNumber string  `json:"houseNumber"`
+	HouseNumber string  `json:"house_number"`
 	TimeStamp   int64   `json:"time_stamp"`
 	Buffer1     float64 `json:"buffer_1"`  //NH3氨气
 	Buffer2     float64 `json:"buffer_2"`  //H2S硫化氢

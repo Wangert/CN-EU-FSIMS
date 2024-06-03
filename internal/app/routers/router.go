@@ -24,7 +24,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.GET("blockchain/blockByHeight", handlers.QueryBlockByHeight)
 		user.GET("blockchain/blockByHash", handlers.QueryBlockByHash)
 		user.GET("blockchain/ledgerinfo", handlers.GetLedgerInfo)
-		user.GET("blockchain/latestblock", handlers.GetLastestBlock)
+		user.GET("blockchain/latestblock", handlers.GetLastestBlock) //区块链高度
 		user.GET("getnotificationcount", handlers.GetNotificationCount)
 		user.GET("getnotification", handlers.GetNotification)
 		user.POST("readnotification", handlers.ReadNotification)
@@ -32,6 +32,8 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.GET("foodchains", handlers.GetAllFoodchains)
 		user.GET("pidinfo", handlers.GetPidInfo)
 		user.GET("productsbypid", handlers.GetProductsByPid)
+		user.GET("verify", handlers.VerifyWithCheckcode)
+		user.GET("slaughterhouses", handlers.GetSlaughterHouses)
 		user.GET("searchfoodchain", handlers.GetFoodchainByProductNumber)
 
 		//查询牧场数据
@@ -47,6 +49,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.GET("/query/sensor/disinfectionrecord", handlers.QueryPastureDisinfectionRecordData)
 
 		//查询屠宰数据
+		user.GET("/query/sensor/precoolshop", handlers.QueryPreCoolShopData)
 		user.GET("/query/sensor/slashop", handlers.QuerySlaughterShopData)
 		user.GET("/query/sensor/divshop", handlers.QueryDivisionShopData)
 		user.GET("/query/sensor/acidshop", handlers.QueryAcidShopData)
@@ -54,6 +57,19 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		user.GET("/query/sensor/waterquality", handlers.QuerySlaughterWaterQualityData)
 		user.GET("/query/staffuniform", handlers.QuerySlaughterStaffUniformData)
 		user.GET("/query/light", handlers.QuerySlaughterLightRecord)
+		user.GET("all_trash_perday", handlers.QuerySlaAndPasTrashPerDay)
+		user.GET("all_pasture_trash_fifteen_days", handlers.QueryPastureTrashFifteenDays)
+		user.GET("all_slaughter_trash_fifteen_days", handlers.QuerySlaughterFifteenDays)
+
+		user.GET("num_end_feed_cow", handlers.QueryEndFeedCow)
+		user.GET("num_end_sla_cow", handlers.QueryEndSlaCow)
+		user.GET("num_end_batches", handlers.QueryEndBatches)
+		user.GET("transportvehicles", handlers.GetTransportVehicles)
+		user.GET("packagehouses", handlers.GetPackageHouses)
+		user.GET("pastures", handlers.GetPastures)
+		// user.GET("slaughterhouses", handlers.GetSlaughterHouses)
+		user.GET("searchtv", handlers.SearchTransportVehicles)
+		user.GET("searchusers", handlers.SearchUsers)
 
 		//传感器数据
 		user.GET("/query/allsensor", handlers.GetAllSensors)
@@ -67,6 +83,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 
 		user.GET("/query/spectras", handlers.GetAllSpectralData)
 		user.GET("/query/imgs", handlers.GetImgAndClass)
+		user.GET("/query/lymphnode", handlers.GetLymphNodes)
 		user.POST("/shelflife/forecast", handlers.ShelfLifeForecast)
 	}
 
@@ -113,12 +130,6 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		admin.POST("endslaughterbatch", handlers.EndSlaughter)
 		admin.POST("sendtopackage", handlers.SendToPackage)
 	}
-
-	// industrial chain group
-	//ic := fsims.Group("/industrial", middlewares.JwtAuth(), middlewares.CheckPermission())
-	//{
-	//	ic.GET("all", handlers.AllIndustrialChains)
-	//}
 
 	//operator create procedure
 	op := fsims.Group("/operator", middlewares.JwtAuth(), middlewares.CheckPermissionAndType())
@@ -232,6 +243,7 @@ func Load(e *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		sop.POST("/upload/slaughterwasteresidue", handlers.UploadSlaughterWasteResiduePerDay)
 		sop.POST("/upload/slaughterwasteodor", handlers.UploadSlaughterOdorPollutantsPerDay)
 		sop.POST("/upload/slaughterwastewater", handlers.UploadSlaughterWasteWaterPerDay)
+
 	}
 
 	//packoperator router group

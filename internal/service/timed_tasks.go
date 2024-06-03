@@ -6,6 +6,7 @@ import (
 	"CN-EU-FSIMS/internal/service/analysis"
 	"CN-EU-FSIMS/utils"
 	"context"
+	"fmt"
 
 	"time"
 
@@ -111,7 +112,6 @@ func NewAllTimedTasks() []TimedTask {
 			if err != nil {
 				glog.Errorln(err)
 			}
-
 			err = SlaughterSlaShopMonitoring(currentTime)
 			if err != nil {
 				glog.Errorln(err)
@@ -429,9 +429,11 @@ func SlaughterSlaShopMonitoring(currentTime time.Time) error {
 	for _, record := range records {
 		// 识别危害指标
 		abnormalList, abnormalCount, err := analysis.JudgeHarmForSlaughterSlaShop(record)
+		fmt.Println("下一行代码报错")
 		if err != nil {
 			return err
 		}
+		fmt.Println("上一行代码报错")
 
 		riskLevel := analysis.RiskLevel(abnormalCount)
 

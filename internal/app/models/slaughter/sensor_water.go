@@ -388,9 +388,11 @@ func ToSlaughterToxinIndexInfo(index *SlaughterToxinIndex) SlaughterToxinIndexIn
 }
 
 func ToSlaughterWaterQualityMonInfo(mon *SlaughterWaterQualityMon) SlaughterWaterQualityMonInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := mon.TimeRecordAt.In(loc)
 	return SlaughterWaterQualityMonInfo{
 		HouseNumber:              mon.HouseNumber,
-		TimeRecordAt:             mon.TimeRecordAt.Format("2006-01-02 15:04:05"),
+		TimeRecordAt:             time.Format("2006-01-02 15:04:05"),
 		SlaughterWaterMicroIndex: ToSlaughterWaterMicroIndexInfo(&mon.SlaughterWaterMicroIndex),
 		OapGciSla:                ToOapGciSlaInfo(&mon.OapGciSla),
 		ToxinIndexSla:            ToSlaughterToxinIndexInfo(&mon.ToxinIndexSla),

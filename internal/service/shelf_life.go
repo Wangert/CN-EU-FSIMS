@@ -6,9 +6,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/golang/glog"
 	"math"
 	"strconv"
+
+	"github.com/golang/glog"
 )
 
 const T = 4
@@ -65,7 +66,7 @@ func ShelfLifeForecast(data string) (float64, error) {
 	part1 := (9.763 - no) / u * math.E
 	part2 := math.Log(-math.Log((7.34-no)/(9.763-no))) - 1
 	SL := lam - part1*part2
-	return SL, nil
+	return math.Round(SL), nil
 }
 
 func GetLambda(t float64) float64 {

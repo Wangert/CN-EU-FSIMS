@@ -1,8 +1,9 @@
 package pasture
 
 import (
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type PastureWaterRecord struct {
@@ -174,8 +175,10 @@ func ToPastureMicroIndexInfo(mii *PastureMicroIndex) PastureMicroIndexInfo {
 }
 
 func ToPastureWaterRecordInfo(wr *PastureWaterRecord) PastureWaterRecordInfo {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	time := wr.TimeRecordAt.In(loc)
 	return PastureWaterRecordInfo{
-		TimeRecordAt: wr.TimeRecordAt.Format("2006-01-02 15:04:05"),
+		TimeRecordAt: time.Format("2006-01-02 15:04:05"),
 		HouseNumber:  wr.HouseNumber,
 		OapGci:       ToPastureOapGciInfo(&wr.OapGci),
 		ToxIndex:     ToPastureToxIndexInfo(&wr.ToxIndex),
