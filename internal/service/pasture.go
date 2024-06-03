@@ -1153,7 +1153,7 @@ func NewFeedingBatch(r *request.ReqNewFeedingBatch) (string, error) {
 func GetCowListOnDay(house_number string) ([]product.Cow, error) {
 	q := query.Cow
 
-	startOfDay := time.Now().Truncate(24 * time.Hour)
+	startOfDay := time.Now().UTC().Truncate(24 * time.Hour)
 	endOfDay := startOfDay.Add(24 * time.Hour)
 
 	cows, err := q.WithContext(context.Background()).Where(q.HouseNumber.Eq(house_number)).Where(q.EntryTime.Between(startOfDay, endOfDay)).Find()

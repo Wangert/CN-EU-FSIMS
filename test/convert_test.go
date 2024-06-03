@@ -17,6 +17,14 @@ func TestJsonToMap(t *testing.T) {
 		return
 	}
 
+	key := []byte{29, 101, 210, 41, 171, 63, 54, 84, 203, 21, 129, 2, 170, 84, 213, 156, 188, 119, 229, 250, 149, 143, 221, 37, 20, 33, 60, 146, 254, 245, 237, 74}
+	fmt.Println("key:", string(key))
+
+	//startOfDay := time.Now().UTC().Truncate(24 * time.Hour)
+	//endOfDay := startOfDay.Add(24 * time.Hour)
+	//
+	//fmt.Println("start:", startOfDay, "--- end:", endOfDay)
+
 	fmt.Println("result:", result)
 	return
 }
