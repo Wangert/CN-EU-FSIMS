@@ -25,6 +25,7 @@ type Block struct {
 type Transaction struct {
 	TransactionActionList []*TransactionAction `json:"transactionActionList"` //
 }
+
 type TransactionAction struct {
 	TxId         string   `json:"txId"`         //
 	BlockNum     uint64   `json:"blockNum"`     //
