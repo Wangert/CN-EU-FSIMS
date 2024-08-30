@@ -13,18 +13,18 @@ type SmartContract struct {
 
 type DemoData struct {
 	RequestID string `json:"request_id"`
-	Value     []byte `json:"value"`
+	Value     string `json:"value"`
 }
 
 func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) error {
 	dd1 := DemoData{
 		RequestID: "0000",
-		Value:     []byte("Hello World"),
+		Value:     "Hello World",
 	}
 
 	dd2 := DemoData{
 		RequestID: "1111",
-		Value:     []byte("Hello World Aloong"),
+		Value:     "Hello World Aloong",
 	}
 
 	dds := []DemoData{dd1, dd2}
@@ -54,7 +54,7 @@ func (dd *SmartContract) StoreRequestOperation(ctx contractapi.TransactionContex
 	}
 	operation := DemoData{
 		RequestID: requestID,
-		Value:     []byte(value),
+		Value:     value,
 	}
 
 	// 将 RequestOperation 实例序列化为 JSON
@@ -88,17 +88,6 @@ func (dd *SmartContract) QueryData(ctx contractapi.TransactionContextInterface, 
 	}
 
 	return &operation, nil
-}
-
-func (dd *SmartContract) QueryDataBytes(ctx contractapi.TransactionContextInterface, requestID string) ([]byte, error) {
-	operationAsBytes, err := ctx.GetStub().GetState(requestID)
-	if err != nil {
-		return nil, fmt.Errorf("failed to read from world state: %v", err)
-	}
-	if operationAsBytes == nil {
-		return nil, fmt.Errorf("request operation %s does not exist", requestID)
-	}
-	return operationAsBytes, nil
 }
 
 func (dd *SmartContract) RequestDataExists(ctx contractapi.TransactionContextInterface, requestID string) (bool, error) {
@@ -136,4 +125,14 @@ func (dd *SmartContract) GetAllAssets(ctx contractapi.TransactionContextInterfac
 		assets = append(assets, &asset)
 	}
 	return assets, nil
+}
+
+func main() {
+	ddChainCode, err := contractapi.NewChaincode(&SmartContract{})
+	if err != nil {
+		fmt.Printf("Error creating new Smart Contract: %v\n", err)
+	}
+	if err := ddChainCode.Start(); err != nil {
+		fmt.Printf("Error starting new Smart Contract: %v\n", err)
+	}
 }
